@@ -1,0 +1,7 @@
+*.pyc
+.idea/
+TODO
+VirtualEnvironment27-32/
+VirtualEnvironment36-32/
+__pycache__/
+pyecobee_db*
