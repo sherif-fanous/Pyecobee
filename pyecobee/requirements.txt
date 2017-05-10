@@ -1,0 +1,4 @@
+enum34>=1.1.6; python_version < '3.4'
+pytz>=2017.2
+requests>=2.13.0
+six>=1.10.0
