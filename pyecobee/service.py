@@ -66,8 +66,8 @@ class EcobeeService(object):
         :param authorization_token: Credentials to be used to retrieve the initial access_token and refresh_token
         :param access_token: Credentials to be used in all requests  
         :param refresh_token: Credentials to be used to refresh access_token and refresh_token
-        :param access_token_expires_on: When the access token expires on in UTC
-        :param refresh_token_expires_on: When the refresh token expires on in UTC
+        :param access_token_expires_on: When the access token expires on in UTC time
+        :param refresh_token_expires_on: When the refresh token expires on in UTC time
         :param scope: Scope the application requests from the user. Valid values: Scope.SMART_READ, 
         Scope.SMART_WRITE, and Scope.EMS
         """
