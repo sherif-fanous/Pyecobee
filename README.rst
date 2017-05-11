@@ -277,6 +277,7 @@ The ecobee API specifies that all tokens issued must be stored by the applicatio
         pyecobee_db[ecobee_service.thermostat_name] = ecobee_service
         pyecobee_db.close()
 
+
     def refresh_tokens(ecobee_service):
         token_response = ecobee_service.refresh_tokens()
         logger.debug('TokenResponse returned from ecobee_service.refresh_tokens():\n{0}'.format(token_response.pretty_format()))
