@@ -10,7 +10,7 @@ setup(
     long_description=readme,
     url='https://github.com/sfanous/Pyecobee',
     author='Sherif Fanous',
-    author_email='sherif.fanous@gmail.com',
+    author_email='pyecobee_support@gmail.com',
     license='MIT',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
