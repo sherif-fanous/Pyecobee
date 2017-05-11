@@ -1,7 +1,8 @@
 *.pyc
 .idea/
 TODO
-VirtualEnvironment27-32/
-VirtualEnvironment36-32/
+build/
+dist/
 __pycache__/
 pyecobee_db*
+pyecobee.egg-info
