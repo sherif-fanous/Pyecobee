@@ -76,6 +76,15 @@ from .objects.utility import Utility
 from .objects.version import Version
 from .objects.weather import Weather
 from .objects.weather_forecast import WeatherForecast
+from .response import Response
+from .response import AuthorizeResponse
+from .response import ErrorResponse
+from .response import MeterReportResponse
+from .response import RuntimeReportResponse
+from .response import ThermostatResponse
+from .response import ThermostatSummaryResponse
+from .response import TokensResponse
+from .response import UpdateThermostatResponse
 from .service import EcobeeService
 
 try:  # Python 2.X
