@@ -7,6 +7,7 @@ from datetime import timedelta
 
 import pytz
 import requests
+import six
 from six import reraise as raise_
 
 from . import utilities
@@ -47,8 +48,8 @@ class EcobeeService(object):
     METER_REPORT_URL = 'https://api.ecobee.com/1/meterReport'
     RUNTIME_REPORT_URL = 'https://api.ecobee.com/1/runtimeReport'
 
-    BEFORE_TIME_BEGAN_DATE_TIME = datetime.strptime('2008-01-02 00:00:00 +0000', '%Y-%m-%d %H:%M:%S %z')
-    END_OF_TIME_DATE_TIME = datetime.strptime('2035-01-01 00:00:00 +0000', '%Y-%m-%d %H:%M:%S %z')
+    BEFORE_TIME_BEGAN_DATE_TIME = pytz.utc.localize(datetime(2008, 1, 2, 0, 0, 0))
+    END_OF_TIME_DATE_TIME = pytz.utc.localize(datetime(2035, 1, 1, 0, 0, 0))
 
     MINIMUM_COOLING_TEMPERATURE = -10
     MAXIMUM_COOLING_TEMPERATURE = 120
@@ -71,8 +72,8 @@ class EcobeeService(object):
         :param scope: Scope the application requests from the user. Valid values: Scope.SMART_READ, 
         Scope.SMART_WRITE, and Scope.EMS
         """
-        if not isinstance(application_key, str):
-            raise TypeError('application_key must be an instance of {0}'.format(str))
+        if not isinstance(application_key, six.string_types):
+            raise TypeError('application_key must be an instance of {0}'.format(six.string_types))
         if len(application_key) != 32:
             raise ValueError('application_key must be a 32 alphanumeric string')
 
@@ -160,8 +161,8 @@ class EcobeeService(object):
         :raises TypeError: If response_type is not a string
         :raises ValueError: If response_type is not set to "ecobeePin"
         """
-        if not isinstance(response_type, str):
-            raise TypeError('response_type must be an instance of {0}'.format(str))
+        if not isinstance(response_type, six.string_types):
+            raise TypeError('response_type must be an instance of {0}'.format(six.string_types))
         if response_type != 'ecobeePin':
             raise ValueError('response_type must be "ecobeePin"')
 
@@ -190,8 +191,8 @@ class EcobeeService(object):
         :raises TypeError: If grant_type is not a string
         :raises ValueError: If grant_type is not set to "ecobeePin"
         """
-        if not isinstance(grant_type, str):
-            raise TypeError('grant_type must be an instance of {0}'.format(str))
+        if not isinstance(grant_type, six.string_types):
+            raise TypeError('grant_type must be an instance of {0}'.format(six.string_types))
         if grant_type != 'ecobeePin':
             raise ValueError('grant_type must be "ecobeePin"')
 
@@ -225,8 +226,8 @@ class EcobeeService(object):
         :raises TypeError: If grant_type is not a string
         :raises ValueError: If grant_type is not set to "refresh_token"
         """
-        if not isinstance(grant_type, str):
-            raise TypeError('grant_type must be an instance of {0}'.format(str))
+        if not isinstance(grant_type, six.string_types):
+            raise TypeError('grant_type must be an instance of {0}'.format(six.string_types))
         if grant_type != 'refresh_token':
             raise ValueError('grant_type must be "refresh_token"')
 
@@ -415,8 +416,8 @@ class EcobeeService(object):
             raise ValueError('end_date_time must be later than start_date_time')
         if (end_date_time - start_date_time).days > 31:
             raise ValueError('Duration between start_date_time and end_date_time must not be more than 31 days')
-        if not isinstance(meters, str):
-            raise TypeError('meters must be an instance of {0}'.format(str))
+        if not isinstance(meters, six.string_types):
+            raise TypeError('meters must be an instance of {0}'.format(six.string_types))
         if not all(meter == 'energy' for meter in meters.split(',')):
             raise ValueError('meters must be a CSV string of "energy"')
         if len(selection.selection_match.split(',')) != len(meters.split(',')):
@@ -500,8 +501,8 @@ class EcobeeService(object):
             raise ValueError('end_date_time must be later than start_date_time')
         if (end_date_time - start_date_time).days > 31:
             raise ValueError('Duration between start_date_time and end_date_time must not be more than 31 days')
-        if not isinstance(columns, str):
-            raise TypeError('columns must be an instance of {0}'.format(str))
+        if not isinstance(columns, six.string_types):
+            raise TypeError('columns must be an instance of {0}'.format(six.string_types))
         if not isinstance(include_sensors, bool):
             raise TypeError('include_sensors must be an instance of {0}'.format(bool))
 
@@ -544,10 +545,10 @@ class EcobeeService(object):
         :raises TypeError: If thermostat_identifier is not a string, ack_ref is not a string, ack_type is not a 
         member of AckType, remind_me_later is not a boolean, or selection is not an instance of Selection
         """
-        if not isinstance(thermostat_identifier, str):
-            raise TypeError('thermostat_identifier must be an instance of {0}'.format(str))
-        if not isinstance(ack_ref, str):
-            raise TypeError('ack_ref must be an instance of {0}'.format(str))
+        if not isinstance(thermostat_identifier, six.string_types):
+            raise TypeError('thermostat_identifier must be an instance of {0}'.format(six.string_types))
+        if not isinstance(ack_ref, six.string_types):
+            raise TypeError('ack_ref must be an instance of {0}'.format(six.string_types))
         if not isinstance(ack_type, AckType):
             raise TypeError('ack_type must be an instance of {0}'.format(AckType))
         if not isinstance(remind_me_later, bool):
@@ -593,8 +594,8 @@ class EcobeeService(object):
         are later than 2035-01-01 00:00:00 +0000, start_date_time is later than end_date_time, end_date_time is None 
         while hold_type is HoldType.DATE_TIME, or hold_hours is None while hold_type is HoldType.HOLD_HOURS
         """
-        if not isinstance(plug_name, str):
-            raise TypeError('plug_name must be an instance of {0}'.format(str))
+        if not isinstance(plug_name, six.string_types):
+            raise TypeError('plug_name must be an instance of {0}'.format(six.string_types))
         if not isinstance(plug_state, PlugState):
             raise TypeError('plug_state must be an instance of {0}'.format(PlugState))
         if start_date_time is not None:
@@ -678,13 +679,13 @@ class EcobeeService(object):
         :raises TypeError: If name is not a string, cool_hold_temp is not a real number, heat_hold_temp is not a real
         number, start_date_time is not a datetime, end_date_time is not a datetime, fan_mode is not a member of FanMode,
         fan_min_on_time is not an integer, or selection is not an instance of Selection
-        :raises ValueError: If cool_hold_temp is lower than -10°F, cool_hold_temp is higher than 120°F, 
-        heat_hold_temp is lower than 45°F, heat_hold_temp is higher than 120°F, start/end date_times are earlier than 
+        :raises ValueError: If cool_hold_temp is lower than -10F, cool_hold_temp is higher than 120F, 
+        heat_hold_temp is lower than 45F, heat_hold_temp is higher than 120F, start/end date_times are earlier than 
         2008-01-02 00:00:00 +0000, start/end date_times are later than 2035-01-01 00:00:00 +0000, start_date_time is 
         later than end_date_time, or fan_min_on_time is less than 0 or greater than 60
         """
-        if not isinstance(name, str):
-            raise TypeError('name must be an instance of {0}'.format(str))
+        if not isinstance(name, six.string_types):
+            raise TypeError('name must be an instance of {0}'.format(six.string_types))
         if not isinstance(cool_hold_temp, numbers.Real):
             raise TypeError('cool_hold_temp must be an instance of {0}'.format(numbers.Real))
         if not (EcobeeService.MINIMUM_COOLING_TEMPERATURE <= cool_hold_temp <=
@@ -765,8 +766,8 @@ class EcobeeService(object):
         :raises EcobeeRequestsException: If an exception is raised by the underlying requests module
         :raises TypeError: If name is not a string, or selection is not an instance of Selection
         """
-        if not isinstance(name, str):
-            raise TypeError('name must be an instance of {0}'.format(str))
+        if not isinstance(name, six.string_types):
+            raise TypeError('name must be an instance of {0}'.format(six.string_types))
         if not isinstance(selection, Selection):
             raise TypeError('selection must be an instance of {0}'.format(Selection))
 
@@ -844,8 +845,8 @@ class EcobeeService(object):
         :raises EcobeeRequestsException: If an exception is raised by the underlying requests module
         :raises TypeError: If text is not a string, or selection is not an instance of Selection
         """
-        if not isinstance(text, str):
-            raise TypeError('text must be an instance of {0}'.format(str))
+        if not isinstance(text, six.string_types):
+            raise TypeError('text must be an instance of {0}'.format(six.string_types))
         if not isinstance(selection, Selection):
             raise TypeError('selection must be an instance of {0}'.format(Selection))
 
@@ -886,8 +887,8 @@ class EcobeeService(object):
         :raises TypeError: If cool_hold_temp is not a real, heat_hold_temp is not a real, hold_climate_ref is not a 
         string, start_date_time is not a datetime, end_date_time is not a datetime, hold_type is not a member 
         of HoldType, hold_hours is not an integer, or selection is not an instance of Selection
-        :raises ValueError: If cool_hold_temp is lower than -10°F, cool_hold_temp is higher than 120°F, 
-        heat_hold_temp is lower than 45°F, heat_hold_temp is higher than 120°F, cool_hold_temp, heat_hold_temp, 
+        :raises ValueError: If cool_hold_temp is lower than -10F, cool_hold_temp is higher than 120F, 
+        heat_hold_temp is lower than 45F, heat_hold_temp is higher than 120F, cool_hold_temp, heat_hold_temp, 
         and hold_climate_ref are None, hold_climate_ref is None and either cool_hold_temp or heat_hold_temp are None, 
         start/end date_times are earlier than 2008-01-02 00:00:00 +0000, start/end date_times are later than 
         2035-01-01 00:00:00 +0000, start_date_time is later than end_date_time, end_date_time is None while hold_type 
@@ -907,8 +908,8 @@ class EcobeeService(object):
                         EcobeeService.MAXIMUM_HEATING_TEMPERATURE):
                 raise ValueError('heat_hold_temp must be between {0}F and {1}F'.format(
                     EcobeeService.MINIMUM_HEATING_TEMPERATURE, EcobeeService.MAXIMUM_HEATING_TEMPERATURE))
-        if hold_climate_ref is not None and not isinstance(hold_climate_ref, str):
-            raise TypeError('hold_climate_ref must be an instance of {0}'.format(str))
+        if hold_climate_ref is not None and not isinstance(hold_climate_ref, six.string_types):
+            raise TypeError('hold_climate_ref must be an instance of {0}'.format(six.string_types))
         if cool_hold_temp is None and heat_hold_temp is None and hold_climate_ref is None:
             raise ValueError('cool_hold_temp, heat_hold_temp, and hold_climate_ref must not all be None. Either '
                              'cool_hold_temp and heat_hold_temp must not be None or hold_climate_ref must not be None')
@@ -1085,14 +1086,14 @@ class EcobeeService(object):
         or selection is not an instance of Selection
         :raises ValueError: If name has a length greater than 32
         """
-        if not isinstance(name, str):
-            raise TypeError('name must be an instance of {0}'.format(str))
+        if not isinstance(name, six.string_types):
+            raise TypeError('name must be an instance of {0}'.format(six.string_types))
         if len(name) > 32:
             raise ValueError('name maximum length must not be greater than 32')
-        if not isinstance(device_id, str):
-            raise TypeError('device_id must be an instance of {0}'.format(str))
-        if not isinstance(sensor_id, str):
-            raise TypeError('sensor_id must be an instance of {0}'.format(str))
+        if not isinstance(device_id, six.string_types):
+            raise TypeError('device_id must be an instance of {0}'.format(six.string_types))
+        if not isinstance(sensor_id, six.string_types):
+            raise TypeError('sensor_id must be an instance of {0}'.format(six.string_types))
         if not isinstance(selection, Selection):
             raise TypeError('selection must be an instance of {0}'.format(Selection))
 
