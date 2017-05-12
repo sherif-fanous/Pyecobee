@@ -4,6 +4,7 @@ Pyecobee: A Python implementation of the `ecobee API <https://www.ecobee.com/hom
 **Warning:** Pyecobee has been tested with an ecobee Smart Si. Though the following functions have not been tested I
 believe they should work find (Please create an `issue <https://github.com/sfanous/Pyecobee/issues>`_ if any of them
 is failing:
+
 - controlPlug: I don't own an ecobee smart plug and so couldn't test this function
 - resetPreferences: I didn't want to wipe my thermostat while creating this module
 - setOccupied: Can only be used by an EMS thermostat
