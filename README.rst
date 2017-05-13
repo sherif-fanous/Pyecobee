@@ -3,7 +3,7 @@ Pyecobee: A Python implementation of the `ecobee API <https://www.ecobee.com/hom
 
 **Warning:** Pyecobee has been tested with an ecobee Smart Si. Though the following functions have not been tested I
 believe they should work find (Please create an `issue <https://github.com/sfanous/Pyecobee/issues>`_ if any of them
-is failing:
+is failing):
 
 - controlPlug: I don't own an ecobee smart plug and so couldn't test this function
 - resetPreferences: I didn't want to wipe my thermostat while creating this module
@@ -223,10 +223,10 @@ Set Hold
     eastern = timezone('US/Eastern')
     update_thermostat_response = ecobee_service.set_hold(hold_climate_ref='away',
                                                          start_date_time=eastern.localize(datetime(
-                                                             2017, 05, 10, 13, 0, 0),
+                                                             2017, 5, 10, 13, 0, 0),
                                                              is_dst=True),
                                                          end_date_time=eastern.localize(datetime(
-                                                             2017, 05, 10, 14, 0, 0),
+                                                             2017, 5, 10, 14, 0, 0),
                                                              is_dst=True),
                                                          hold_type=HoldType.DATE_TIME)
     logger.info(update_thermostat_response.pretty_format())
@@ -237,7 +237,7 @@ Set Hold
     eastern = timezone('US/Eastern')
     update_thermostat_response = ecobee_service.set_hold(hold_climate_ref='away',
                                                          start_date_time=eastern.localize(datetime(
-                                                             2017, 05, 10, 13, 0, 0),
+                                                             2017, 5, 10, 13, 0, 0),
                                                              is_dst=True),
                                                          hold_type=HoldType.HOLD_HOURS,
                                                          hold_hours=1)
@@ -307,10 +307,10 @@ Meter Report
     selection = Selection(selection_type=SelectionType.THERMOSTATS.value, selection_match=thermostat.identifier)
     meter_report_response = ecobee_service.request_meter_report(selection,
                                                                 start_date_time=eastern.localize(datetime(
-                                                                    2017, 04, 01, 0, 0, 0),
+                                                                    2017, 4, 1, 0, 0, 0),
                                                                     is_dst=True),
                                                                 end_date_time=eastern.localize(datetime(
-                                                                    2017, 04, 02, 0, 0, 0),
+                                                                    2017, 4, 2, 0, 0, 0),
                                                                     is_dst=True))
     logger.info(meter_report_response.pretty_format())
     assert meter_report_response.status.code == 0, 'Failure while executing request_meter_report:\n{0}'.format(
@@ -325,10 +325,10 @@ Runtime Report
     selection = Selection(selection_type=SelectionType.THERMOSTATS.value, selection_match=thermostat.identifier)
     runtime_report_response = ecobee_service.request_runtime_report(selection,
                                                                     start_date_time=eastern.localize(datetime(
-                                                                        2017, 05, 01, 0, 0, 0),
+                                                                        2017, 5, 1, 0, 0, 0),
                                                                         is_dst=True),
                                                                     end_date_time=eastern.localize(datetime(
-                                                                        2017, 05, 02, 0, 0, 0),
+                                                                        2017, 5, 2, 0, 0, 0),
                                                                         is_dst=True),
                                                                     columns='auxHeat1,auxHeat2,auxHeat3,compCool1,'
                                                                             'compCool2,compHeat1,compHeat2,'
@@ -451,7 +451,7 @@ Any EcobeeService method that accepts a datetime object as an argument expects t
     from pytz import timezone
 
     eastern = timezone('US/Eastern')
-    start_date_time=eastern.localize(datetime(2017, 05, 01, 10, 0, 0), is_dst=True) # 2017/05/01 10:00:00 -0400
+    start_date_time=eastern.localize(datetime(2017, 5, 1, 10, 0, 0), is_dst=True) # 2017/05/01 10:00:00 -0400
 
 The method will then either use the passed in datetime object as is, or convert it to its UTC time equivalent depending on the requirements of the ecobee API request being executed.
 
