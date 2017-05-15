@@ -174,6 +174,14 @@ class RemoteSensorType(Enum):
     THERMOSTAT = 'thermostat'
 
 
+class ReportJobStatus(Enum):
+    CANCELLED = 'cancelled'
+    COMPLETED = 'completed'
+    ERROR = 'error'
+    PROCESSING = 'processing'
+    QUEUED = 'queued'
+
+
 class Scope(Enum):
     EMS = 'ems'
     SMART_READ = 'smartRead'
