@@ -65,7 +65,7 @@ class Selection(EcobeeObject):
                           'include_version': 'boolean', 'include_security_settings': 'boolean',
                           'include_sensors': 'boolean'}
 
-    def __init__(self, selection_type, selection_match, include_runtime=None, include_extended_runtime=None,
+    def __init__(self, selection_type, selection_match=None, include_runtime=None, include_extended_runtime=None,
                  include_electricity=None, include_settings=None, include_location=None, include_program=None,
                  include_events=None, include_device=None, include_technician=None, include_utility=None,
                  include_management=None, include_alerts=None, include_reminders=None, include_weather=None,
