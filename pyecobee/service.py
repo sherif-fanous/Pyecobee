@@ -722,7 +722,7 @@ class EcobeeService(object):
             raise TypeError('fan_mode must be an instance of {0}'.format(FanMode))
         if not isinstance(fan_min_on_time, int):
             raise TypeError('fan_min_on_time must be an instance of {0}'.format(int))
-        if fan_min_on_time not in range(0, 61):
+        if fan_min_on_time not in list(range(0, 61)):
             raise ValueError('fan_min_on_time must be between 0 and 60')
         if not isinstance(selection, Selection):
             raise TypeError('selection must be an instance of {0}'.format(Selection))
