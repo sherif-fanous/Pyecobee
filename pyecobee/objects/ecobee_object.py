@@ -1,8 +1,8 @@
 class EcobeeObject(object):
-    def pretty_format(self, indent=2, level=0):
+    def pretty_format(self, indent=2, level=0, sort_attributes=True):
         pretty_formatted = ['{0}(\n'.format(self.__class__.__name__)]
         level = level + 1
-        for (i, attribute_name) in enumerate(self.__slots__):
+        for (i, attribute_name) in enumerate(sorted(self.__slots__) if sort_attributes else self.__slots__):
             if i:
                 pretty_formatted.append(',\n')
             if isinstance(getattr(self, attribute_name), list):
@@ -14,7 +14,9 @@ class EcobeeObject(object):
                         pretty_formatted.append(',\n')
                     if hasattr(list_entry, 'pretty_format'):
                         pretty_formatted.append('{0}{1}'.format(' ' * (indent * level),
-                                                                list_entry.pretty_format(indent, level)))
+                                                                list_entry.pretty_format(indent,
+                                                                                         level,
+                                                                                         sort_attributes)))
                     else:
                         if isinstance(list_entry, list):
                             pretty_formatted.append('{0}[\n'.format(' ' * (indent * level)))
@@ -37,8 +39,10 @@ class EcobeeObject(object):
                 pretty_formatted.append(' ' * (indent * level))
                 if hasattr(getattr(self, attribute_name), 'pretty_format'):
                     pretty_formatted.append('{0}={1!s}'.format(self.attribute_name_map[attribute_name[1:]],
-                                                               getattr(self, attribute_name).pretty_format(indent,
-                                                                                                           level)))
+                                                               getattr(self, attribute_name).pretty_format(
+                                                                   indent,
+                                                                   level,
+                                                                   sort_attributes)))
                 else:
                     pretty_formatted.append('{0}={1!s}'.format(self.attribute_name_map[attribute_name[1:]],
                                                                getattr(self, attribute_name)))
