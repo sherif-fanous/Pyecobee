@@ -17,6 +17,7 @@ from .enumerations import Owner
 from .enumerations import PlugState
 from .enumerations import RemoteSensorCapabilityType
 from .enumerations import RemoteSensorType
+from .enumerations import ReportJobStatus
 from .enumerations import Scope
 from .enumerations import SelectionType
 from .enumerations import SensorType
@@ -59,6 +60,7 @@ from .objects.page import Page
 from .objects.program import Program
 from .objects.remote_sensor import RemoteSensor
 from .objects.remote_sensor_capability import RemoteSensorCapability
+from .objects.report_job import ReportJob
 from .objects.runtime import Runtime
 from .objects.runtime_report import RuntimeReport
 from .objects.runtime_sensor_metadata import RuntimeSensorMetadata
@@ -78,14 +80,23 @@ from .objects.weather import Weather
 from .objects.weather_forecast import WeatherForecast
 from .response import Response
 from .response import AuthorizeResponse
+from .response import CreateRuntimeReportJobResponse
 from .response import ErrorResponse
-from .response import MeterReportResponse
-from .response import RuntimeReportResponse
+from .response import GroupsResponse
+from .response import IssueDemandResponsesResponse
+from .response import ListDemandResponsesResponse
+from .response import ListHierarchySetsResponse
+from .response import ListHierarchyUsersResponse
+from .response import ListRuntimeReportJobStatusResponse
+from .response import MeterReportsResponse
+from .response import RuntimeReportsResponse
+from .response import StatusResponse
 from .response import ThermostatResponse
-from .response import ThermostatSummaryResponse
+from .response import ThermostatsSummaryResponse
 from .response import TokensResponse
-from .response import UpdateThermostatResponse
 from .service import EcobeeService
+from .utilities import dictionary_to_object
+from .utilities import object_to_dictionary
 
 try:  # Python 2.X
     from logging import NullHandler
