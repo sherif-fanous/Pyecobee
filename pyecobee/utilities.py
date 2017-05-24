@@ -30,6 +30,7 @@ from .objects.page import Page
 from .objects.program import Program
 from .objects.remote_sensor import RemoteSensor
 from .objects.remote_sensor_capability import RemoteSensorCapability
+from .objects.report_job import ReportJob
 from .objects.runtime import Runtime
 from .objects.runtime_report import RuntimeReport
 from .objects.runtime_sensor_metadata import RuntimeSensorMetadata
@@ -48,13 +49,20 @@ from .objects.version import Version
 from .objects.weather import Weather
 from .objects.weather_forecast import WeatherForecast
 from .response import AuthorizeResponse
+from .response import CreateRuntimeReportJobResponse
 from .response import ErrorResponse
-from .response import MeterReportResponse
-from .response import RuntimeReportResponse
+from .response import GroupsResponse
+from .response import IssueDemandResponsesResponse
+from .response import ListDemandResponsesResponse
+from .response import ListHierarchySetsResponse
+from .response import ListHierarchyUsersResponse
+from .response import ListRuntimeReportJobStatusResponse
+from .response import MeterReportsResponse
+from .response import RuntimeReportsResponse
+from .response import StatusResponse
 from .response import ThermostatResponse
-from .response import ThermostatSummaryResponse
+from .response import ThermostatsSummaryResponse
 from .response import TokensResponse
-from .response import UpdateThermostatResponse
 
 
 def dictionary_to_object(data, property_type, response_properties, parent_classes=[], indent=0, is_top_level=False):
@@ -186,8 +194,12 @@ def object_to_dictionary(object_, class_):
             if isinstance(attribute_value, list):
                 dictionary[object_.__class__.__name__][class_.attribute_name_map[attribute_name[1:]]] = []
                 for entry in attribute_value:
-                    dictionary[object_.__class__.__name__][class_.attribute_name_map[attribute_name[1:]]].append(
-                        object_to_dictionary(entry, type(entry)))
+                    if hasattr(entry, '__slots__'):
+                        dictionary[object_.__class__.__name__][class_.attribute_name_map[attribute_name[1:]]].append(
+                            object_to_dictionary(entry, type(entry)))
+                    else:
+                        dictionary[object_.__class__.__name__][class_.attribute_name_map[attribute_name[1:]]].append(
+                            entry)
             else:
                 try:
                     getattr(sys.modules[__name__], type(attribute_value).__name__)
