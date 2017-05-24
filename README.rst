@@ -894,7 +894,7 @@ All access tokens must be refreshed periodically. Access tokens expire 3600 seco
 refreshed. There are two patterns to refresh the access token.
 
 Pro-active
-^^^^^^^^^^
+----------
 - Get the current date/time in UTC
 - Compare the current date/time to the date/time on which the access and refresh token are due to expire
 - Re-authorize app if the current date/time is later than the refresh token expiry date/time
@@ -910,7 +910,7 @@ Pro-active
             token_response = ecobee_service.refresh_tokens()
 
 Reactive
-^^^^^^^^
+--------
 The ecobee API returns status code 14 to indicate that a request was attempted using an expired access token. All
 non-successful ecobee API responses are wrapped into the EcobeeApiException. The following code snippet demonstrates
 how to refresh an expired access token
@@ -950,8 +950,7 @@ Your code should be prepared to handle the following Exceptions
 
 - **EcobeeApiException**: Raised if a request results in an ecobee API error response
 - **EcobeeAuthorizationException**: Raised if a request results in a standard or extended OAuth error response
-- **EcobeeRequestsException**: Raised if a request results in an exception being raised by the underlying requests
-module
+- **EcobeeRequestsException**: Raised if a request results in an exception being raised by the underlying requests module
 - **EcobeeHttpException**: Raised if a request results in any other HTTP error
 
 The aforementioned Exceptions are all subclasses of **EcobeeException**
