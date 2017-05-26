@@ -36,6 +36,7 @@ from .objects.climate import Climate
 from .objects.demand_management import DemandManagement
 from .objects.demand_response import DemandResponse
 from .objects.device import Device
+from .objects.ecobee_object import EcobeeObject
 from .objects.electricity import Electricity
 from .objects.electricity_device import ElectricityDevice
 from .objects.electricity_tier import ElectricityTier
