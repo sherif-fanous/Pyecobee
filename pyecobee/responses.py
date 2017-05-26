@@ -1,9 +1,9 @@
-class Response(object):
+class EcobeeResponse(object):
     def pretty_format(self, indent=2, level=0, sort_attributes=True):
         """
         Pretty format a response object
-        
-        :param indent: The amount of indentation added for each recursive level 
+
+        :param indent: The amount of indentation added for each recursive level
         :param level: The recursion level
         :param sort_attributes: Whether to sort the attributes or not
         :return: six.text_type (This is unicode() in Python 2 and str in Python 3)
@@ -69,7 +69,7 @@ class Response(object):
              attribute_name in self.__slots__]) + ')'
 
 
-class StatusResponse(Response):
+class EcobeeStatusResponse(EcobeeResponse):
     __slots__ = ['_status']
 
     attribute_name_map = {'status': 'status'}
@@ -78,7 +78,7 @@ class StatusResponse(Response):
 
     def __init__(self, status):
         """
-        Construct a StatusResponse instance
+        Construct a EcobeeStatusResponse instance
 
         :param status: The api response code
         """
@@ -87,15 +87,15 @@ class StatusResponse(Response):
     @property
     def status(self):
         """
-        Gets the status attribute of this StatusResponse instance.
+        Gets the status attribute of this EcobeeStatusResponse instance.
 
-        :return: The value of the status attribute of this StatusResponse instance.
+        :return: The value of the status attribute of this EcobeeStatusResponse instance.
         :rtype: Status
         """
         return self._status
 
 
-class AuthorizeResponse(Response):
+class EcobeeAuthorizeResponse(EcobeeResponse):
     __slots__ = ['_ecobee_pin', '_code', '_scope', '_expires_in', '_interval']
 
     attribute_name_map = {'ecobee_pin': 'ecobeePin', 'ecobeePin': 'ecobee_pin', 'code': 'code', 'scope': 'scope',
@@ -106,8 +106,8 @@ class AuthorizeResponse(Response):
 
     def __init__(self, ecobee_pin, code, scope, expires_in, interval):
         """
-        Construct an AuthorizeResponse instance
-        
+        Construct an EcobeeAuthorizeResponse instance
+
         :param ecobee_pin: The PIN a user enters in the web portal
         :param code: The authorization token needed to request the access and refresh tokens
         :param scope: The requested Scope from the original request
@@ -123,9 +123,9 @@ class AuthorizeResponse(Response):
     @property
     def ecobee_pin(self):
         """
-        Gets the ecobee_pin attribute of this AuthorizeResponse instance.
+        Gets the ecobee_pin attribute of this EcobeeAuthorizeResponse instance.
 
-        :return: The value of the ecobee_pin attribute of this AuthorizeResponse instance.
+        :return: The value of the ecobee_pin attribute of this EcobeeAuthorizeResponse instance.
         :rtype: six.text_type (This is unicode() in Python 2 and str in Python 3)
         """
         return self._ecobee_pin
@@ -133,9 +133,9 @@ class AuthorizeResponse(Response):
     @property
     def code(self):
         """
-        Gets the code attribute of this AuthorizeResponse instance.
+        Gets the code attribute of this EcobeeAuthorizeResponse instance.
 
-        :return: The value of the code attribute of this AuthorizeResponse instance.
+        :return: The value of the code attribute of this EcobeeAuthorizeResponse instance.
         :rtype: six.text_type (This is unicode() in Python 2 and str in Python 3)
         """
         return self._code
@@ -143,9 +143,9 @@ class AuthorizeResponse(Response):
     @property
     def scope(self):
         """
-        Gets the scope attribute of this AuthorizeResponse instance.
+        Gets the scope attribute of this EcobeeAuthorizeResponse instance.
 
-        :return: The value of the scope attribute of this AuthorizeResponse instance.
+        :return: The value of the scope attribute of this EcobeeAuthorizeResponse instance.
         :rtype: six.text_type (This is unicode() in Python 2 and str in Python 3)
         """
         return self._scope
@@ -153,9 +153,9 @@ class AuthorizeResponse(Response):
     @property
     def expires_in(self):
         """
-        Gets the expires_in attribute of this AuthorizeResponse instance.
+        Gets the expires_in attribute of this EcobeeAuthorizeResponse instance.
 
-        :return: The value of the expires_in attribute of this AuthorizeResponse instance.
+        :return: The value of the expires_in attribute of this EcobeeAuthorizeResponse instance.
         :rtype: int
         """
         return self._expires_in
@@ -163,15 +163,15 @@ class AuthorizeResponse(Response):
     @property
     def interval(self):
         """
-        Gets the interval attribute of this AuthorizeResponse instance.
+        Gets the interval attribute of this EcobeeAuthorizeResponse instance.
 
-        :return: The value of the interval attribute of this AuthorizeResponse instance.
+        :return: The value of the interval attribute of this EcobeeAuthorizeResponse instance.
         :rtype: int
         """
         return self._interval
 
 
-class CreateRuntimeReportJobResponse(StatusResponse):
+class EcobeeCreateRuntimeReportJobResponse(EcobeeStatusResponse):
     __slots__ = ['_job_id', '_job_status', '_status']
 
     attribute_name_map = {'job_id': 'jobId', 'jobId': 'job_id', 'job_status': 'jobStatus', 'jobStatus': 'job_status',
@@ -181,7 +181,7 @@ class CreateRuntimeReportJobResponse(StatusResponse):
 
     def __init__(self, job_id, job_status, status):
         """
-        Construct a CreateRuntimeReportJobResponse instance
+        Construct a EcobeeCreateRuntimeReportJobResponse instance
 
         :param job_id: The generated id for the created runtime report job
         :param job_status: The status of the created runtime report job
@@ -189,14 +189,14 @@ class CreateRuntimeReportJobResponse(StatusResponse):
         """
         self._job_id = job_id
         self._job_status = job_status
-        StatusResponse.__init__(self, status)
+        EcobeeStatusResponse.__init__(self, status)
 
     @property
     def job_id(self):
         """
-        Gets the job_id attribute of this CreateRuntimeReportJobResponse instance.
+        Gets the job_id attribute of this EcobeeCreateRuntimeReportJobResponse instance.
 
-        :return: The value of the job_id attribute of this CreateRuntimeReportJobResponse instance.
+        :return: The value of the job_id attribute of this EcobeeCreateRuntimeReportJobResponse instance.
         :rtype: six.text_type (This is unicode() in Python 2 and str in Python 3)
         """
         return self._job_id
@@ -204,15 +204,15 @@ class CreateRuntimeReportJobResponse(StatusResponse):
     @property
     def job_status(self):
         """
-        Gets the job_status attribute of this CreateRuntimeReportJobResponse instance.
+        Gets the job_status attribute of this EcobeeCreateRuntimeReportJobResponse instance.
 
-        :return: The value of the job_status attribute of this CreateRuntimeReportJobResponse instance.
+        :return: The value of the job_status attribute of this EcobeeCreateRuntimeReportJobResponse instance.
         :rtype: six.text_type (This is unicode() in Python 2 and str in Python 3)
         """
         return self._job_status
 
 
-class ErrorResponse(Response):
+class EcobeeErrorResponse(EcobeeResponse):
     __slots__ = ['_error', '_error_description', '_error_uri']
 
     attribute_name_map = {'error': 'error', 'error_description': 'error_description', 'error_uri': 'error_uri'}
@@ -221,8 +221,8 @@ class ErrorResponse(Response):
 
     def __init__(self, error, error_description, error_uri):
         """
-        Construct an ErrorResponse instance
-        
+        Construct an EcobeeErrorResponse instance
+
         :param error: The error type
         :param error_description: The description of the error
         :param error_uri: The URI of the error
@@ -234,9 +234,9 @@ class ErrorResponse(Response):
     @property
     def error(self):
         """
-        Gets the error attribute of this ErrorResponse instance.
+        Gets the error attribute of this EcobeeErrorResponse instance.
 
-        :return: The value of the error attribute of this ErrorResponse instance.
+        :return: The value of the error attribute of this EcobeeErrorResponse instance.
         :rtype: six.text_type (This is unicode() in Python 2 and str in Python 3)
         """
         return self._error
@@ -244,9 +244,9 @@ class ErrorResponse(Response):
     @property
     def error_description(self):
         """
-        Gets the error_description attribute of this ErrorResponse instance.
+        Gets the error_description attribute of this EcobeeErrorResponse instance.
 
-        :return: The value of the error_description attribute of this ErrorResponse instance.
+        :return: The value of the error_description attribute of this EcobeeErrorResponse instance.
         :rtype: six.text_type (This is unicode() in Python 2 and str in Python 3)
         """
         return self._error_description
@@ -254,15 +254,15 @@ class ErrorResponse(Response):
     @property
     def error_uri(self):
         """
-        Gets the error_uri attribute of this ErrorResponse instance.
+        Gets the error_uri attribute of this EcobeeErrorResponse instance.
 
-        :return: The value of the error_uri attribute of this ErrorResponse instance.
+        :return: The value of the error_uri attribute of this EcobeeErrorResponse instance.
         :rtype: six.text_type (This is unicode() in Python 2 and str in Python 3)
         """
         return self._error_uri
 
 
-class GroupsResponse(StatusResponse):
+class EcobeeGroupsResponse(EcobeeStatusResponse):
     __slots__ = ['_groups', '_status']
 
     attribute_name_map = {'groups': 'groups', 'status': 'status'}
@@ -271,26 +271,26 @@ class GroupsResponse(StatusResponse):
 
     def __init__(self, groups, status):
         """
-        Construct a GroupsResponse instance
+        Construct a EcobeeGroupsResponse instance
 
         :param groups: The list of Groups returned by the request
         :param status: The api response code
         """
         self._groups = groups
-        StatusResponse.__init__(self, status)
+        EcobeeStatusResponse.__init__(self, status)
 
     @property
     def groups(self):
         """
-        Gets the groups attribute of this GroupsResponse instance.
+        Gets the groups attribute of this EcobeeGroupsResponse instance.
 
-        :return: The value of the groups attribute of this GroupsResponse instance.
+        :return: The value of the groups attribute of this EcobeeGroupsResponse instance.
         :rtype: List[Group]
         """
         return self._groups
 
 
-class IssueDemandResponsesResponse(StatusResponse):
+class EcobeeIssueDemandResponsesResponse(EcobeeStatusResponse):
     __slots__ = ['_demand_response_ref', '_status']
 
     attribute_name_map = {'demand_response_ref': 'demandResponseRef', 'demandResponseRef': 'demand_response_ref',
@@ -300,26 +300,26 @@ class IssueDemandResponsesResponse(StatusResponse):
 
     def __init__(self, demand_response_ref, status):
         """
-        Construct a IssueDemandResponsesResponse instance
+        Construct a EcobeeIssueDemandResponsesResponse instance
 
         :param demand_response_ref: The unique demand response reference ID
         :param status: The api response code
         """
         self._demand_response_ref = demand_response_ref
-        StatusResponse.__init__(self, status)
+        EcobeeStatusResponse.__init__(self, status)
 
     @property
     def demand_response_ref(self):
         """
-        Gets the demand_response_ref attribute of this IssueDemandResponsesResponse instance.
+        Gets the demand_response_ref attribute of this EcobeeIssueDemandResponsesResponse instance.
 
-        :return: The value of the demand_response_ref attribute of this IssueDemandResponsesResponse instance.
+        :return: The value of the demand_response_ref attribute of this EcobeeIssueDemandResponsesResponse instance.
         :rtype: six.text_type (This is unicode() in Python 2 and str in Python 3)
         """
         return self._demand_response_ref
 
 
-class ListDemandResponsesResponse(StatusResponse):
+class EcobeeListDemandResponsesResponse(EcobeeStatusResponse):
     __slots__ = ['_demand_response_list', '_status']
 
     attribute_name_map = {'demand_response_list': 'drList', 'drList': 'demand_response_list', 'status': 'status'}
@@ -328,26 +328,26 @@ class ListDemandResponsesResponse(StatusResponse):
 
     def __init__(self, demand_response_list, status):
         """
-        Construct a ListDemandResponsesResponse instance
+        Construct a EcobeeListDemandResponsesResponse instance
 
         :param demand_response_list: The list of demand responses which have not yet expired
         :param status: The api response code
         """
         self._demand_response_list = demand_response_list
-        StatusResponse.__init__(self, status)
+        EcobeeStatusResponse.__init__(self, status)
 
     @property
     def demand_response_list(self):
         """
-        Gets the demand_response_list attribute of this ListDemandResponsesResponse instance.
+        Gets the demand_response_list attribute of this EcobeeListDemandResponsesResponse instance.
 
-        :return: The value of the demand_response_list attribute of this ListDemandResponsesResponse instance.
+        :return: The value of the demand_response_list attribute of this EcobeeListDemandResponsesResponse instance.
         :rtype: List[DemandResponse]
         """
         return self._demand_response_list
 
 
-class ListHierarchySetsResponse(StatusResponse):
+class EcobeeListHierarchySetsResponse(EcobeeStatusResponse):
     __slots__ = ['_sets', '_status']
 
     attribute_name_map = {'sets': 'sets', 'status': 'status'}
@@ -356,26 +356,26 @@ class ListHierarchySetsResponse(StatusResponse):
 
     def __init__(self, sets, status):
         """
-        Construct a ListHierarchySetsResponse instance
+        Construct a EcobeeListHierarchySetsResponse instance
 
         :param sets: The list of hierarchy management sets
         :param status: The api response code
         """
         self._sets = sets
-        StatusResponse.__init__(self, status)
+        EcobeeStatusResponse.__init__(self, status)
 
     @property
     def sets(self):
         """
-        Gets the sets attribute of this ListHierarchySetsResponse instance.
+        Gets the sets attribute of this EcobeeListHierarchySetsResponse instance.
 
-        :return: The value of the sets attribute of this ListHierarchySetsResponse instance.
+        :return: The value of the sets attribute of this EcobeeListHierarchySetsResponse instance.
         :rtype: List[HierarchySet]
         """
         return self._sets
 
 
-class ListHierarchyUsersResponse(StatusResponse):
+class EcobeeListHierarchyUsersResponse(EcobeeStatusResponse):
     __slots__ = ['_users', '_privileges', '_status']
 
     attribute_name_map = {'users': 'users', 'privileges': 'privileges', 'status': 'status'}
@@ -385,7 +385,7 @@ class ListHierarchyUsersResponse(StatusResponse):
 
     def __init__(self, users, status, privileges=None):
         """
-        Construct a ListHierarchyUsersResponse instance
+        Construct a EcobeeListHierarchyUsersResponse instance
 
         :param users: The list of users in the company
         :param privileges: List of hierarchy privileges if requested
@@ -393,14 +393,14 @@ class ListHierarchyUsersResponse(StatusResponse):
         """
         self._users = users
         self._privileges = privileges
-        StatusResponse.__init__(self, status)
+        EcobeeStatusResponse.__init__(self, status)
 
     @property
     def users(self):
         """
-        Gets the users attribute of this ListHierarchyUsersResponse instance.
+        Gets the users attribute of this EcobeeListHierarchyUsersResponse instance.
 
-        :return: The value of the users attribute of this ListHierarchyUsersResponse instance.
+        :return: The value of the users attribute of this EcobeeListHierarchyUsersResponse instance.
         :rtype: List[HierarchyUser]
         """
         return self._users
@@ -408,15 +408,15 @@ class ListHierarchyUsersResponse(StatusResponse):
     @property
     def privileges(self):
         """
-        Gets the privileges attribute of this ListHierarchyUsersResponse instance.
+        Gets the privileges attribute of this EcobeeListHierarchyUsersResponse instance.
 
-        :return: The value of the privileges attribute of this ListHierarchyUsersResponse instance.
+        :return: The value of the privileges attribute of this EcobeeListHierarchyUsersResponse instance.
         :rtype: List[HierarchyPrivilege]
         """
         return self._privileges
 
 
-class ListRuntimeReportJobStatusResponse(StatusResponse):
+class EcobeeListRuntimeReportJobStatusResponse(EcobeeStatusResponse):
     __slots__ = ['_jobs', '_status']
 
     attribute_name_map = {'jobs': 'jobs', 'status': 'status'}
@@ -425,26 +425,26 @@ class ListRuntimeReportJobStatusResponse(StatusResponse):
 
     def __init__(self, jobs, status):
         """
-        Construct a ListRuntimeReportJobStatusResponse instance
+        Construct a EcobeeListRuntimeReportJobStatusResponse instance
 
         :param jobs: The list of report jobs for the corresponding request
         :param status: The api response code
         """
         self._jobs = jobs
-        StatusResponse.__init__(self, status)
+        EcobeeStatusResponse.__init__(self, status)
 
     @property
     def jobs(self):
         """
-        Gets the jobs attribute of this ListRuntimeReportJobStatusResponse instance.
+        Gets the jobs attribute of this EcobeeListRuntimeReportJobStatusResponse instance.
 
-        :return: The value of the jobs attribute of this ListRuntimeReportJobStatusResponse instance.
+        :return: The value of the jobs attribute of this EcobeeListRuntimeReportJobStatusResponse instance.
         :rtype: List[ReportJob]
         """
         return self._jobs
 
 
-class MeterReportsResponse(StatusResponse):
+class EcobeeMeterReportsResponse(EcobeeStatusResponse):
     __slots__ = ['_report_list', '_status']
 
     attribute_name_map = {'report_list': 'reportList', 'reportList': 'report_list', 'status': 'status'}
@@ -453,26 +453,26 @@ class MeterReportsResponse(StatusResponse):
 
     def __init__(self, report_list, status):
         """
-        Construct a MeterReportsResponse instance
-        
+        Construct a EcobeeMeterReportsResponse instance
+
         :param report_list: A list of thermostat meter reports
         :param status: The api response code
         """
         self._report_list = report_list
-        StatusResponse.__init__(self, status)
+        EcobeeStatusResponse.__init__(self, status)
 
     @property
     def report_list(self):
         """
-        Gets the report_list attribute of this MeterReportsResponse instance.
+        Gets the report_list attribute of this EcobeeMeterReportsResponse instance.
 
-        :return: The value of the report_list attribute of this MeterReportsResponse instance.
+        :return: The value of the report_list attribute of this EcobeeMeterReportsResponse instance.
         :rtype: List[MeterReport]
         """
         return self._report_list
 
 
-class RuntimeReportsResponse(StatusResponse):
+class EcobeeRuntimeReportsResponse(EcobeeStatusResponse):
     __slots__ = ['_start_date', '_start_interval', '_end_date', '_end_interval', '_columns', '_report_list',
                  '_sensor_list', '_status']
 
@@ -488,8 +488,8 @@ class RuntimeReportsResponse(StatusResponse):
 
     def __init__(self, start_date, start_interval, end_date, end_interval, columns, report_list, sensor_list, status):
         """
-        Construct a RuntimeReportsResponse instance
-        
+        Construct a EcobeeRuntimeReportsResponse instance
+
         :param start_date: The report UTC start date
         :param start_interval: The report start interval
         :param end_date: The report UTC end date
@@ -506,14 +506,14 @@ class RuntimeReportsResponse(StatusResponse):
         self._columns = columns
         self._report_list = report_list
         self._sensor_list = sensor_list
-        StatusResponse.__init__(self, status)
+        EcobeeStatusResponse.__init__(self, status)
 
     @property
     def start_date(self):
         """
-        Gets the start_date attribute of this RuntimeReportsResponse instance.
+        Gets the start_date attribute of this EcobeeRuntimeReportsResponse instance.
 
-        :return: The value of the start_date attribute of this RuntimeReportsResponse instance.
+        :return: The value of the start_date attribute of this EcobeeRuntimeReportsResponse instance.
         :rtype: six.text_type (This is unicode() in Python 2 and str in Python 3)
         """
         return self._start_date
@@ -521,9 +521,9 @@ class RuntimeReportsResponse(StatusResponse):
     @property
     def start_interval(self):
         """
-        Gets the start_interval attribute of this RuntimeReportsResponse instance.
+        Gets the start_interval attribute of this EcobeeRuntimeReportsResponse instance.
 
-        :return: The value of the start_interval attribute of this RuntimeReportsResponse instance.
+        :return: The value of the start_interval attribute of this EcobeeRuntimeReportsResponse instance.
         :rtype: int
         """
         return self._start_interval
@@ -531,9 +531,9 @@ class RuntimeReportsResponse(StatusResponse):
     @property
     def end_date(self):
         """
-        Gets the end_date attribute of this RuntimeReportsResponse instance.
+        Gets the end_date attribute of this EcobeeRuntimeReportsResponse instance.
 
-        :return: The value of the end_date attribute of this RuntimeReportsResponse instance.
+        :return: The value of the end_date attribute of this EcobeeRuntimeReportsResponse instance.
         :rtype: six.text_type (This is unicode() in Python 2 and str in Python 3)
         """
         return self._end_date
@@ -541,9 +541,9 @@ class RuntimeReportsResponse(StatusResponse):
     @property
     def end_interval(self):
         """
-        Gets the end_interval attribute of this RuntimeReportsResponse instance.
+        Gets the end_interval attribute of this EcobeeRuntimeReportsResponse instance.
 
-        :return: The value of the end_interval attribute of this RuntimeReportsResponse instance.
+        :return: The value of the end_interval attribute of this EcobeeRuntimeReportsResponse instance.
         :rtype: int
         """
         return self._end_interval
@@ -551,9 +551,9 @@ class RuntimeReportsResponse(StatusResponse):
     @property
     def columns(self):
         """
-        Gets the columns attribute of this RuntimeReportsResponse instance.
+        Gets the columns attribute of this EcobeeRuntimeReportsResponse instance.
 
-        :return: The value of the columns attribute of this RuntimeReportsResponse instance.
+        :return: The value of the columns attribute of this EcobeeRuntimeReportsResponse instance.
         :rtype: six.text_type (This is unicode() in Python 2 and str in Python 3)
         """
         return self._columns
@@ -561,9 +561,9 @@ class RuntimeReportsResponse(StatusResponse):
     @property
     def report_list(self):
         """
-        Gets the report_list attribute of this RuntimeReportsResponse instance.
+        Gets the report_list attribute of this EcobeeRuntimeReportsResponse instance.
 
-        :return: The value of the report_list attribute of this RuntimeReportsResponse instance.
+        :return: The value of the report_list attribute of this EcobeeRuntimeReportsResponse instance.
         :rtype: List[RuntimeReport]
         """
         return self._report_list
@@ -571,15 +571,15 @@ class RuntimeReportsResponse(StatusResponse):
     @property
     def sensor_list(self):
         """
-        Gets the report_list attribute of this RuntimeReportsResponse instance.
+        Gets the report_list attribute of this EcobeeRuntimeReportsResponse instance.
 
-        :return: The value of the report_list attribute of this RuntimeReportsResponse instance.
+        :return: The value of the report_list attribute of this EcobeeRuntimeReportsResponse instance.
         :rtype: List[RuntimeSensorReport]
         """
         return self._sensor_list
 
 
-class ThermostatResponse(StatusResponse):
+class EcobeeThermostatResponse(EcobeeStatusResponse):
     __slots__ = ['_page', '_thermostat_list', '_status']
 
     attribute_name_map = {'page': 'page', 'thermostat_list': 'thermostatList', 'thermostatList': 'thermostat_list',
@@ -589,22 +589,22 @@ class ThermostatResponse(StatusResponse):
 
     def __init__(self, page, thermostat_list, status):
         """
-        Construct a ThermostatResponse instance
-        
+        Construct a EcobeeThermostatResponse instance
+
         :param page: The page information for the response
         :param thermostat_list: The list of thermostats returned by the request
         :param status: The api response code
         """
         self._page = page
         self._thermostat_list = thermostat_list
-        StatusResponse.__init__(self, status)
+        EcobeeStatusResponse.__init__(self, status)
 
     @property
     def page(self):
         """
-        Gets the page attribute of this ThermostatResponse instance.
+        Gets the page attribute of this EcobeeThermostatResponse instance.
 
-        :return: The value of the page attribute of this ThermostatResponse instance.
+        :return: The value of the page attribute of this EcobeeThermostatResponse instance.
         :rtype: Page
         """
         return self._page
@@ -612,15 +612,15 @@ class ThermostatResponse(StatusResponse):
     @property
     def thermostat_list(self):
         """
-        Gets the thermostat_list attribute of this ThermostatResponse instance.
+        Gets the thermostat_list attribute of this EcobeeThermostatResponse instance.
 
-        :return: The value of the thermostat_list attribute of this ThermostatResponse instance.
+        :return: The value of the thermostat_list attribute of this EcobeeThermostatResponse instance.
         :rtype: List[Thermostat]
         """
         return self._thermostat_list
 
 
-class ThermostatsSummaryResponse(StatusResponse):
+class EcobeeThermostatsSummaryResponse(EcobeeStatusResponse):
     __slots__ = ['_revision_list', '_thermostat_count', '_status_list', '_status']
 
     attribute_name_map = {'revision_list': 'revisionList', 'revisionList': 'revision_list',
@@ -633,8 +633,8 @@ class ThermostatsSummaryResponse(StatusResponse):
 
     def __init__(self, revision_list, thermostat_count, status_list, status):
         """
-        Construct a ThermostatsSummaryResponse instance
-        
+        Construct a EcobeeThermostatsSummaryResponse instance
+
         :param revision_list: The list of CSV revision values
         :param thermostat_count: Number of thermostats listed in the Revision List
         :param status_list: The list of CSV status values
@@ -643,14 +643,14 @@ class ThermostatsSummaryResponse(StatusResponse):
         self._revision_list = revision_list
         self._thermostat_count = thermostat_count
         self._status_list = status_list
-        StatusResponse.__init__(self, status)
+        EcobeeStatusResponse.__init__(self, status)
 
     @property
     def revision_list(self):
         """
-        Gets the revision_list attribute of this ThermostatsSummaryResponse instance.
+        Gets the revision_list attribute of this EcobeeThermostatsSummaryResponse instance.
 
-        :return: The value of the revision_list attribute of this ThermostatsSummaryResponse instance.
+        :return: The value of the revision_list attribute of this EcobeeThermostatsSummaryResponse instance.
         :rtype: List[six.text_type] (This is List[unicode()] in Python 2 and List[str] in Python 3)
         """
         return self._revision_list
@@ -658,9 +658,9 @@ class ThermostatsSummaryResponse(StatusResponse):
     @property
     def thermostat_count(self):
         """
-        Gets the thermostat_count attribute of this ThermostatsSummaryResponse instance.
+        Gets the thermostat_count attribute of this EcobeeThermostatsSummaryResponse instance.
 
-        :return: The value of the thermostat_count attribute of this ThermostatsSummaryResponse instance.
+        :return: The value of the thermostat_count attribute of this EcobeeThermostatsSummaryResponse instance.
         :rtype: int
         """
         return self._thermostat_count
@@ -668,15 +668,15 @@ class ThermostatsSummaryResponse(StatusResponse):
     @property
     def status_list(self):
         """
-        Gets the status_list attribute of this ThermostatsSummaryResponse instance.
+        Gets the status_list attribute of this EcobeeThermostatsSummaryResponse instance.
 
-        :return: The value of the status_list attribute of this ThermostatsSummaryResponse instance.
+        :return: The value of the status_list attribute of this EcobeeThermostatsSummaryResponse instance.
         :rtype: List[six.text_type] (This is List[unicode()] in Python 2 and List[str] in Python 3)
         """
         return self._status_list
 
 
-class TokensResponse(Response):
+class EcobeeTokensResponse(EcobeeResponse):
     __slots__ = ['_access_token', '_token_type', '_expires_in', '_refresh_token', '_scope']
 
     attribute_name_map = {'access_token': 'access_token', 'token_type': 'token_type', 'expires_in': 'expires_in',
@@ -687,8 +687,8 @@ class TokensResponse(Response):
 
     def __init__(self, access_token, token_type, expires_in, refresh_token, scope):
         """
-        Construct a TokensResponse instance
-        
+        Construct a EcobeeTokensResponse instance
+
         :param access_token: The token to be used to encapsulate the authorization scope and credentials
         :param token_type: Type of token
         :param expires_in: The number of minutes until the PIN expires
@@ -704,9 +704,9 @@ class TokensResponse(Response):
     @property
     def access_token(self):
         """
-        Gets the access_token attribute of this TokensResponse instance.
+        Gets the access_token attribute of this EcobeeTokensResponse instance.
 
-        :return: The value of the access_token attribute of this TokensResponse instance.
+        :return: The value of the access_token attribute of this EcobeeTokensResponse instance.
         :rtype: six.text_type (This is unicode() in Python 2 and str in Python 3)
         """
         return self._access_token
@@ -714,9 +714,9 @@ class TokensResponse(Response):
     @property
     def token_type(self):
         """
-        Gets the token_type attribute of this TokensResponse instance.
+        Gets the token_type attribute of this EcobeeTokensResponse instance.
 
-        :return: The value of the token_type attribute of this TokensResponse instance.
+        :return: The value of the token_type attribute of this EcobeeTokensResponse instance.
         :rtype: six.text_type (This is unicode() in Python 2 and str in Python 3)
         """
         return self._token_type
@@ -724,9 +724,9 @@ class TokensResponse(Response):
     @property
     def expires_in(self):
         """
-        Gets the expires_in attribute of this TokensResponse instance.
+        Gets the expires_in attribute of this EcobeeTokensResponse instance.
 
-        :return: The value of the expires_in attribute of this TokensResponse instance.
+        :return: The value of the expires_in attribute of this EcobeeTokensResponse instance.
         :rtype: int
         """
         return self._expires_in
@@ -734,9 +734,9 @@ class TokensResponse(Response):
     @property
     def refresh_token(self):
         """
-        Gets the refresh_token attribute of this TokensResponse instance.
+        Gets the refresh_token attribute of this EcobeeTokensResponse instance.
 
-        :return: The value of the refresh_token attribute of this TokensResponse instance.
+        :return: The value of the refresh_token attribute of this EcobeeTokensResponse instance.
         :rtype: six.text_type (This is unicode() in Python 2 and str in Python 3)
         """
         return self._refresh_token
@@ -744,9 +744,9 @@ class TokensResponse(Response):
     @property
     def scope(self):
         """
-        Gets the scope attribute of this TokensResponse instance.
+        Gets the scope attribute of this EcobeeTokensResponse instance.
 
-        :return: The value of the scope attribute of this TokensResponse instance.
+        :return: The value of the scope attribute of this EcobeeTokensResponse instance.
         :rtype: six.text_type (This is unicode() in Python 2 and str in Python 3)
         """
         return self._scope

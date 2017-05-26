@@ -48,21 +48,21 @@ from .objects.utility import Utility
 from .objects.version import Version
 from .objects.weather import Weather
 from .objects.weather_forecast import WeatherForecast
-from .response import AuthorizeResponse
-from .response import CreateRuntimeReportJobResponse
-from .response import ErrorResponse
-from .response import GroupsResponse
-from .response import IssueDemandResponsesResponse
-from .response import ListDemandResponsesResponse
-from .response import ListHierarchySetsResponse
-from .response import ListHierarchyUsersResponse
-from .response import ListRuntimeReportJobStatusResponse
-from .response import MeterReportsResponse
-from .response import RuntimeReportsResponse
-from .response import StatusResponse
-from .response import ThermostatResponse
-from .response import ThermostatsSummaryResponse
-from .response import TokensResponse
+from .responses import EcobeeAuthorizeResponse
+from .responses import EcobeeCreateRuntimeReportJobResponse
+from .responses import EcobeeErrorResponse
+from .responses import EcobeeGroupsResponse
+from .responses import EcobeeIssueDemandResponsesResponse
+from .responses import EcobeeListDemandResponsesResponse
+from .responses import EcobeeListHierarchySetsResponse
+from .responses import EcobeeListHierarchyUsersResponse
+from .responses import EcobeeListRuntimeReportJobStatusResponse
+from .responses import EcobeeMeterReportsResponse
+from .responses import EcobeeRuntimeReportsResponse
+from .responses import EcobeeStatusResponse
+from .responses import EcobeeThermostatResponse
+from .responses import EcobeeThermostatsSummaryResponse
+from .responses import EcobeeTokensResponse
 
 
 def dictionary_to_object(data, property_type, response_properties, parent_classes=[], indent=0, is_top_level=False):
