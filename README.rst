@@ -849,7 +849,7 @@ Thermostat Functions
 A successful invocation of any function returns an EcobeeStatusResponse instance
 
 EcobeeStatusResponse Class Diagram
-""""""""""""""""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/db56f013eb88a64287e45652f7b14a063cf501fb/EcobeeStatusResponse.svg
 
 Send Message
