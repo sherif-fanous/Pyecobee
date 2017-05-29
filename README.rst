@@ -1,6 +1,10 @@
 Pyecobee: A Python implementation of the `ecobee API <https://www.ecobee.com/home/developer/api/introduction/index.shtml>`_
 ===========================================================================================================================
 
+Introduction
+============
+Pyecobee is a simple, elegant, and object oriented implementation of the ecobee API in Python. It is compatible with Python 2.6/2.7/3.3/3.4/3.5/3.6
+
 **Warning:** Pyecobee has been tested with an ecobee Smart Si. Though the following methods have not been tested I
 believe they should work find. Please create an `issue <https://github.com/sfanous/Pyecobee/issues>`_ or even better
 create a `pull request <https://github.com/sfanous/Pyecobee/pull/new/master>`_ if you encounter an issue with any of
@@ -35,32 +39,14 @@ them.
     - list_runtime_report_job_status
     - cancel_runtime_report_job
 
-Introduction
-============
-Pyecobee is a simple, elegant, and object oriented implementation of the ecobee API in Python. It is compatible with Python 2.6/2.7/3.3/3.4/3.5/3.6
-
-Whereas JSON notation is used for serialization/deserialization of request/response objects sent to and from the ecobee API, Pyecobee's interface is based on core Python data types and user defined objects instead. Pyecobee handles the serialization of Python objects into JSON request objects and deserialization of JSON response objects into Python objects thus completely alleviating the developer's need to create/parse JSON objects.
-
 **Disclaimer:** Any ecobee API Keys, Authorization/Access/Refresh Tokens used in the following examples are fake.
 
-JSON response from an authorize request
----------------------------------------
-
-.. code-block:: python
-
-    authorize_response = {
-       "ecobeePin": "bv29",
-       "code": "uiNQok9Uhy5iScG4gncCAilcFUMK0zWT",
-       "scope": "smartWrite",
-       "expires_in": 9,
-       "interval": 30
-    }
-
-    pin = authorize_response['ecobeePin']
-    code = authorize_response['code']
-    scope = authorize_response['scope']
-    expires_in = authorize_response['expires_in']
-    interval = authorize_response['interval']
+JSON Vs Objects
+===============
+Whereas JSON notation is used for the serialization/deserialization of request/response objects sent to and from the
+ecobee API, Pyecobee's interface is based on core Python data types and user defined objects instead. Pyecobee
+handles the serialization of Python objects into JSON request objects and deserialization of JSON response objects
+into Python objects thus completely alleviating the developer's need to create/parse JSON objects.
 
 Pyecobee response from an authorize request
 -------------------------------------------
@@ -73,26 +59,6 @@ Pyecobee response from an authorize request
     scope = authorize_response.scope
     expires_in = authorize_response.expires_in
     interval = authorize_response.interval
-
-Moreover, all Pyecobee user defined objects implement __repr__, __str__, and a pretty_format method.
-
-.. code-block:: python
-
-    >>> repr(authorize_response)
-    AuthorizeResponse(ecobee_pin='bv29', code='uiNQok9Uhy5iScG4gncCAilcFUMK0zWT', scope='smartWrite', expires_in=9, interval=30)
-
-    >>> str(authorize_response)
-    AuthorizeResponse(ecobeePin=bv29, code=uiNQok9Uhy5iScG4gncCAilcFUMK0zWT, scope=smartWrite, expires_in=9, interval=30)
-
-    >>> authorize_response.pretty_format()
-    AuthorizeResponse(
-      ecobeePin=bv29,
-      code=uiNQok9Uhy5iScG4gncCAilcFUMK0zWT,
-      scope=smartWrite,
-      expires_in=9,
-      interval=30
-    )
-
 
 Installation
 ============
@@ -116,13 +82,38 @@ Pyecobee comes with extensive documentation. Use dir and help to explore all the
 
 General usage
 =============
-The **EcobeeService** class provides the ecobee API implementation. To use Pyecobee follow these steps
+The **EcobeeService** class provides the ecobee API implementation.
+
+EcobeeService Class Diagram
+---------------------------
+.. image:: https://cdn.rawgit.com/sfanous/33688c4e0db84fc062f56ee1b7ffe444/raw/216366455a9e200c278583c42e3b64c28d2b886b/EcobeeService.svg
+
+To use Pyecobee follow these steps
 
 - Import the modules
 - Instantiate an EcobeeService object
 - Complete the authorization sequence if required (authorize + request_tokens)
 - Refresh tokens if required (refresh_tokens)
 - Invoke the needed ecobee API requests/functions
+
+All Pyecobee user defined objects overload __repr__, __str__, and implement a pretty_format method.
+
+.. code-block:: python
+
+    >>> repr(authorize_response)
+    AuthorizeResponse(ecobee_pin='bv29', code='uiNQok9Uhy5iScG4gncCAilcFUMK0zWT', scope='smartWrite', expires_in=9, interval=30)
+
+    >>> str(authorize_response)
+    AuthorizeResponse(ecobeePin=bv29, code=uiNQok9Uhy5iScG4gncCAilcFUMK0zWT, scope=smartWrite, expires_in=9, interval=30)
+
+    >>> authorize_response.pretty_format()
+    AuthorizeResponse(
+      ecobeePin=bv29,
+      code=uiNQok9Uhy5iScG4gncCAilcFUMK0zWT,
+      scope=smartWrite,
+      expires_in=9,
+      interval=30
+    )
 
 Import the modules
 ------------------
@@ -149,6 +140,12 @@ Authorize
     logger.info(authorize_response.pretty_format())
     logger.info('Authorization Token => {0}'.format(ecobee_service.authorization_token))
 
+A successful invocation of authorize() returns an EcobeeAuthorizeResponse instance
+
+EcobeeAuthorizeResponse Class Diagram
+"""""""""""""""""""""""""""""""""""""
+.. image:: https://cdn.rawgit.com/sfanous/4263de2c38a41c2023234932ba6dd8c4/raw/ff067f69ad160ced5ea10602b6ac57f562be98f4/EcobeeAuthorizeResponse.svg
+
 Request Tokens
 ^^^^^^^^^^^^^^
 
@@ -164,6 +161,12 @@ Request Tokens
                                                      ecobee_service.access_token_expires_on,
                                                      ecobee_service.refresh_token,
                                                      ecobee_service.refresh_token_expires_on))
+
+A successful invocation of request_tokens() returns an EcobeeTokenResponse instance
+
+EcobeeTokenResponse Class Diagram
+"""""""""""""""""""""""""""""""""
+.. image:: https://cdn.rawgit.com/sfanous/61c4e7fe3bbcae96b237da1cfcc2fa63/raw/350ca74d19e01d2852c37b54ac48459bf6916745/EcobeeTokensResponse.svg
 
 Refresh Tokens
 ^^^^^^^^^^^^^^
@@ -181,6 +184,12 @@ Refresh Tokens
                                                      ecobee_service.refresh_token,
                                                      ecobee_service.refresh_token_expires_on))
 
+A successful invocation of refresh_tokens() returns an EcobeeTokenResponse instance
+
+EcobeeTokenResponse Class Diagram
+"""""""""""""""""""""""""""""""""
+.. image:: https://cdn.rawgit.com/sfanous/61c4e7fe3bbcae96b237da1cfcc2fa63/raw/350ca74d19e01d2852c37b54ac48459bf6916745/EcobeeTokensResponse.svg
+
 Thermostat Requests
 --------------------
 Request Thermostat Summary
@@ -193,6 +202,12 @@ Request Thermostat Summary
             selection_match='',
             include_equipment_status=True))
     logger.info(thermostat_summary_response.pretty_format())
+
+A successful invocation of request_thermostats_summary() returns an EcobeeThermostatsSummaryResponse instance
+
+EcobeeThermostatsSummaryResponse Class Diagram
+""""""""""""""""""""""""""""""""""""""""""""""
+.. image:: https://cdn.rawgit.com/sfanous/957474de7596100c37aab58dcfe81a1a/raw/1e5c8a5b1143f163dd8ee81f314e92d247be361f/EcobeeThermostatsSummaryResponse.svg
 
 Request Thermostats
 ^^^^^^^^^^^^^^^^^^^
@@ -212,6 +227,12 @@ Request Thermostats
     logger.info(thermostat_response.pretty_format())
     assert thermostat_response.status.code == 0, 'Failure while executing request_thermostats:\n{0}'.format(
         thermostat_response.pretty_format())
+
+A successful invocation of request_thermostats() returns an EcobeeThermostatResponse instance
+
+EcobeeThermostatResponse Class Diagram
+""""""""""""""""""""""""""""""""""""""
+.. image:: https://cdn.rawgit.com/sfanous/a674640718e63fdb2f1cb5ed9c2f2466/raw/b69664237635ce914f39f397c29899af408079a6/EcobeeThermostatResponse.svg
 
 Update Thermostat
 ^^^^^^^^^^^^^^^^^
@@ -233,6 +254,12 @@ Update Thermostat
     assert update_thermostat_response.status.code == 0, 'Failure while executing update_thermostats:\n{0}'.format(
         update_thermostat_response.pretty_format())
 
+A successful invocation of update_thermostats() returns an EcobeeStatusResponse instance
+
+EcobeeStatusResponse Class Diagram
+""""""""""""""""""""""""""""""""""
+.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/db56f013eb88a64287e45652f7b14a063cf501fb/EcobeeStatusResponse.svg
+
 Report Requests
 ---------------
 Meter Report
@@ -250,6 +277,12 @@ Meter Report
     logger.info(meter_report_response.pretty_format())
     assert meter_report_response.status.code == 0, 'Failure while executing request_meter_reports:\n{0}'.format(
         meter_report_response.pretty_format())
+
+A successful invocation of request_meter_reports() returns an EcobeeMeterReportsResponse instance
+
+EcobeeMeterReportsResponse Class Diagram
+""""""""""""""""""""""""""""""""""""""""
+.. image:: https://cdn.rawgit.com/sfanous/6abbae0f9c85d75304557d306b8777e6/raw/8b9e6c33d2b609b9112a8369b5ef397082cf45d4/EcobeeMeterReportsResponse.svg
 
 Runtime Report
 ^^^^^^^^^^^^^^
@@ -271,6 +304,12 @@ Runtime Report
     assert runtime_report_response.status.code == 0, 'Failure while executing request_runtime_reports:\n{0}'.format(
         runtime_report_response.pretty_format())
 
+A successful invocation of request_runtime_reports() returns an EcobeeRuntimeReportsResponse instance
+
+EcobeeRuntimeReportsResponse Class Diagram
+""""""""""""""""""""""""""""""""""""""""""
+.. image:: https://cdn.rawgit.com/sfanous/5816b010e7207d756984805521015ba0/raw/e219e0d91ffe1196f1e731cd54ec91c638455deb/EcobeeRuntimeReportsResponse.svg
+
 Group Requests
 --------------
 Request Groups
@@ -284,6 +323,12 @@ Request Groups
     logger.info(group_response.pretty_format())
     assert group_response.status.code == 0, 'Failure while executing request_groups:\n{0}'.format(
         group_response.pretty_format())
+
+A successful invocation of request_groups() returns an EcobeeGroupsResponse instance
+
+EcobeeGroupsResponse Class Diagram
+""""""""""""""""""""""""""""""""""
+.. image:: https://cdn.rawgit.com/sfanous/72918aca65419a8edecbb263623738a1/raw/398f60d6eba507f0072dfbc684cc2b015028179b/EcobeeGroupsResponse.svg
 
 Update Groups
 ^^^^^^^^^^^^^
@@ -337,6 +382,12 @@ Update Groups
     assert group_response.status.code == 0, 'Failure while executing update_groups:\n{0}'.format(
         group_response.pretty_format())
 
+A successful invocation of request_groups() returns an EcobeeGroupsResponse instance
+
+EcobeeGroupsResponse Class Diagram
+""""""""""""""""""""""""""""""""""
+.. image:: https://cdn.rawgit.com/sfanous/72918aca65419a8edecbb263623738a1/raw/398f60d6eba507f0072dfbc684cc2b015028179b/EcobeeGroupsResponse.svg
+
 Hierarchy Set Requests
 ----------------------
 List Hierarchy Sets
@@ -352,6 +403,12 @@ List Hierarchy Sets
     assert list_hierarchy_sets_response.status.code == 0, 'Failure while executing list_hierarchy_sets:\n{0}'.format(
         list_hierarchy_sets_response.pretty_format())
 
+A successful invocation of list_hierarchy_sets() returns an EcobeeListHierarchySetsResponse instance
+
+EcobeeListHierarchySetsResponse Class Diagram
+"""""""""""""""""""""""""""""""""""""""""""""
+.. image:: https://cdn.rawgit.com/sfanous/a68c63860b11e4b1c51193a6cbd2f817/raw/de90f47ce357c85e58559d73bd59bee1892057ed/EcobeeListHierarchySetsResponse.svg
+
 Add Hierarchy Set
 ^^^^^^^^^^^^^^^^^
 
@@ -363,6 +420,12 @@ Add Hierarchy Set
     assert add_hierarchy_set_response.status.code == 0, 'Failure while executing add_hierarchy_set:\n{0}'.format(
         add_hierarchy_set_response.pretty_format())
 
+A successful invocation of add_hierarchy_set() returns an EcobeeStatusResponse instance
+
+EcobeeStatusResponse Class Diagram
+""""""""""""""""""""""""""""""""""
+.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/db56f013eb88a64287e45652f7b14a063cf501fb/EcobeeStatusResponse.svg
+
 Remove Hierarchy Set
 ^^^^^^^^^^^^^^^^^^^^
 
@@ -372,6 +435,12 @@ Remove Hierarchy Set
     logger.info(remove_hierarchy_set_response.pretty_format())
     assert remove_hierarchy_set_response.status.code == 0, 'Failure while executing remove_hierarchy_set:\n{0}'.format(
         remove_hierarchy_set_response.pretty_format())
+
+A successful invocation of remove_hierarchy_set() returns an EcobeeStatusResponse instance
+
+EcobeeStatusResponse Class Diagram
+""""""""""""""""""""""""""""""""""
+.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/db56f013eb88a64287e45652f7b14a063cf501fb/EcobeeStatusResponse.svg
 
 Rename Hierarchy Set
 ^^^^^^^^^^^^^^^^^^^^
@@ -384,6 +453,12 @@ Rename Hierarchy Set
     assert rename_hierarchy_set_response.status.code == 0, 'Failure while executing rename_hierarchy_set:\n{0}'.format(
         rename_hierarchy_set_response.pretty_format())
 
+A successful invocation of rename_hierarchy_set() returns an EcobeeStatusResponse instance
+
+EcobeeStatusResponse Class Diagram
+""""""""""""""""""""""""""""""""""
+.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/db56f013eb88a64287e45652f7b14a063cf501fb/EcobeeStatusResponse.svg
+
 Move Hierarchy Set
 ^^^^^^^^^^^^^^^^^^
 
@@ -394,6 +469,12 @@ Move Hierarchy Set
     logger.info(move_hierarchy_set_response.pretty_format())
     assert move_hierarchy_set_response.status.code == 0, 'Failure while executing move_hierarchy_set:\n{0}'.format(
         move_hierarchy_set_response.pretty_format())
+
+A successful invocation of move_hierarchy_set() returns an EcobeeStatusResponse instance
+
+EcobeeStatusResponse Class Diagram
+""""""""""""""""""""""""""""""""""
+.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/db56f013eb88a64287e45652f7b14a063cf501fb/EcobeeStatusResponse.svg
 
 Hierarchy User Requests
 -----------------------
@@ -408,6 +489,12 @@ List Hierarchy Users
     logger.info(list_hierarchy_users_response.pretty_format())
     assert list_hierarchy_users_response.status.code == 0, 'Failure while executing list_hierarchy_users:\n{0}'.format(
         list_hierarchy_users_response.pretty_format())
+
+A successful invocation of list_hierarchy_users() returns an EcobeeListHierarchyUsersResponse instance
+
+EcobeeListHierarchyUsersResponse Class Diagram
+""""""""""""""""""""""""""""""""""""""""""""""
+.. image:: https://cdn.rawgit.com/sfanous/6ab4920c897067424001148f881a1591/raw/acdbe370a54dc50b56515f4797c782e30a0d4fd8/EcobeeListHierarchyUsersResponse.svg
 
 Add Hierarchy Users
 ^^^^^^^^^^^^^^^^^^^
@@ -438,6 +525,12 @@ Add Hierarchy Users
             'Failure while executing add_hierarchy_users:\n{0}'.format(
              add_hierarchy_users_response.pretty_format()))
 
+A successful invocation of add_hierarchy_users() returns an EcobeeStatusResponse instance
+
+EcobeeStatusResponse Class Diagram
+""""""""""""""""""""""""""""""""""
+.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/db56f013eb88a64287e45652f7b14a063cf501fb/EcobeeStatusResponse.svg
+
 Remove Hierarchy Users
 ^^^^^^^^^^^^^^^^^^^^^^
 
@@ -455,6 +548,12 @@ Remove Hierarchy Users
         'Failure while executing remove_hierarchy_users:\n{0}'.format(
             remove_hierarchy_users_response.pretty_format()))
 
+A successful invocation of remove_hierarchy_users() returns an EcobeeStatusResponse instance
+
+EcobeeStatusResponse Class Diagram
+""""""""""""""""""""""""""""""""""
+.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/db56f013eb88a64287e45652f7b14a063cf501fb/EcobeeStatusResponse.svg
+
 Unregister Hierarchy Users
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -470,6 +569,12 @@ Unregister Hierarchy Users
     assert unregister_hierarchy_users_response.status.code == 0, (
         'Failure while executing unregister_hierarchy_users_response:\n{0}'.format(
             unregister_hierarchy_users_response.pretty_format()))
+
+A successful invocation of unregister_hierarchy_users() returns an EcobeeStatusResponse instance
+
+EcobeeStatusResponse Class Diagram
+""""""""""""""""""""""""""""""""""
+.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/db56f013eb88a64287e45652f7b14a063cf501fb/EcobeeStatusResponse.svg
 
 Update Hierarchy Users
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -502,6 +607,12 @@ Update Hierarchy Users
         'Failure while executing update_hierarchy_users_response:\n{0}'.format(
             update_hierarchy_users_response.pretty_format()))
 
+A successful invocation of update_hierarchy_users() returns an EcobeeStatusResponse instance
+
+EcobeeStatusResponse Class Diagram
+""""""""""""""""""""""""""""""""""
+.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/db56f013eb88a64287e45652f7b14a063cf501fb/EcobeeStatusResponse.svg
+
 Hierarchy Thermostat Requests
 -----------------------------
 Register Thermostat
@@ -518,6 +629,12 @@ Register Thermostat
         'Failure while executing register_hierarchy_thermostats_response:\n{0}'.format(
             register_hierarchy_thermostats_response.pretty_format()))
 
+A successful invocation of register_hierarchy_thermostats() returns an EcobeeStatusResponse instance
+
+EcobeeStatusResponse Class Diagram
+""""""""""""""""""""""""""""""""""
+.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/db56f013eb88a64287e45652f7b14a063cf501fb/EcobeeStatusResponse.svg
+
 Unregister Thermostat
 ^^^^^^^^^^^^^^^^^^^^^
 
@@ -529,6 +646,12 @@ Unregister Thermostat
     assert unregister_hierarchy_thermostats_response.status.code == 0, (
         'Failure while executing unregister_hierarchy_thermostats_response:\n{0}'.format(
             unregister_hierarchy_thermostats_response.pretty_format()))
+
+A successful invocation of unregister_hierarchy_thermostats() returns an EcobeeStatusResponse instance
+
+EcobeeStatusResponse Class Diagram
+""""""""""""""""""""""""""""""""""
+.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/db56f013eb88a64287e45652f7b14a063cf501fb/EcobeeStatusResponse.svg
 
 Move Thermostat
 ^^^^^^^^^^^^^^^
@@ -544,6 +667,12 @@ Move Thermostat
         'Failure while executing move_hierarchy_thermostats_response:\n{0}'.format(
             move_hierarchy_thermostats_response.pretty_format()))
 
+A successful invocation of move_hierarchy_thermostats() returns an EcobeeStatusResponse instance
+
+EcobeeStatusResponse Class Diagram
+""""""""""""""""""""""""""""""""""
+.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/db56f013eb88a64287e45652f7b14a063cf501fb/EcobeeStatusResponse.svg
+
 Assign Thermostat
 ^^^^^^^^^^^^^^^^^
 
@@ -557,6 +686,11 @@ Assign Thermostat
         'Failure while executing assign_hierarchy_thermostats_response:\n{0}'.format(
             assign_hierarchy_thermostats_response.pretty_format()))
 
+A successful invocation of assign_hierarchy_thermostats() returns an EcobeeStatusResponse instance
+
+EcobeeStatusResponse Class Diagram
+""""""""""""""""""""""""""""""""""
+.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/db56f013eb88a64287e45652f7b14a063cf501fb/EcobeeStatusResponse.svg
 
 Utility Requests
 ----------------
@@ -571,6 +705,11 @@ List Demand Responses
         'Failure while executing list_demand_responses_response:\n{0}'.format(
             list_demand_responses_response.pretty_format()))
 
+A successful invocation of list_demand_responses() returns an EcobeeListDemandResponsesResponse instance
+
+EcobeeListDemandResponsesResponse Class Diagram
+"""""""""""""""""""""""""""""""""""""""""""""""
+.. image:: https://cdn.rawgit.com/sfanous/c60426de08616e85843dd7528956c204/raw/dbfd645ac49d4db5750c7a88698bbc5a3ba0e09c/EcobeeListDemandResponsesResponse.svg
 
 Issue Demand Response
 ^^^^^^^^^^^^^^^^^^^^^
@@ -599,6 +738,11 @@ Issue Demand Response
         'Failure while executing issue_demand_response_response:\n{0}'.format(
             issue_demand_response_response.pretty_format()))
 
+A successful invocation of issue_demand_response() returns an EcobeeIssueDemandResponsesResponse instance
+
+EcobeeIssueDemandResponsesResponse Class Diagram
+""""""""""""""""""""""""""""""""""""""""""""""""
+.. image:: https://cdn.rawgit.com/sfanous/7b8cc714ba9fb7d00e6ad70dc2fdc618/raw/30c32230fc580d4f9f437985f325c9994682c585/EcobeeIssueDemandResponsesResponse.svg
 
 Cancel Demand Response
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -612,6 +756,11 @@ Cancel Demand Response
         'Failure while executing cancel_demand_response_response:\n{0}'.format(
             cancel_demand_response_response.pretty_format()))
 
+A successful invocation of cancel_demand_response() returns an EcobeeStatusResponse instance
+
+EcobeeStatusResponse Class Diagram
+""""""""""""""""""""""""""""""""""
+.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/db56f013eb88a64287e45652f7b14a063cf501fb/EcobeeStatusResponse.svg
 
 Issue Demand Management
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -655,6 +804,12 @@ Create Runtime Report Job
         'Failure while executing create_runtime_report_job_response:\n{0}'.format(
             create_runtime_report_job_response.pretty_format()))
 
+A successful invocation of create_runtime_report_job() returns an EcobeeCreateRuntimeReportJobResponse instance
+
+EcobeeCreateRuntimeReportJobResponse Class Diagram
+""""""""""""""""""""""""""""""""""""""""""""""""""
+.. image:: https://cdn.rawgit.com/sfanous/e19e2d2e529a780baad57d91bbc74d3a/raw/a9347aa590d37c5f71f9ea6bbfffc068ae75ae18/EcobeeCreateRuntimeReportJobResponse.svg
+
 List Runtime Report Job Status
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -665,6 +820,12 @@ List Runtime Report Job Status
     assert list_runtime_report_job_status_response.status.code == 0, (
         'Failure while executing list_runtime_report_job_status_response:\n{0}'.format(
             list_runtime_report_job_status_response.pretty_format()))
+
+A successful invocation of list_runtime_report_job_status() returns an EcobeeListRuntimeReportJobStatusResponse instance
+
+EcobeeListRuntimeReportJobStatusResponse Class Diagram
+""""""""""""""""""""""""""""""""""""""""""""""""""""""
+.. image:: https://cdn.rawgit.com/sfanous/45e7a445e3f643be0439438d0b66821e/raw/68f8b9b0902b2b204a126561c3eba39a7c729fb5/EcobeeListRuntimeReportJobStatusResponse.svg
 
 Cancel Runtime Report Job
 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -677,8 +838,20 @@ Cancel Runtime Report Job
         'Failure while executing cancel_runtime_report_response:\n{0}'.format(
             cancel_runtime_report_response.pretty_format()))
 
+A successful invocation of cancel_runtime_report_job() returns an EcobeeStatusResponse instance
+
+EcobeeStatusResponse Class Diagram
+""""""""""""""""""""""""""""""""""
+.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/db56f013eb88a64287e45652f7b14a063cf501fb/EcobeeStatusResponse.svg
+
 Thermostat Functions
 --------------------
+A successful invocation of any function returns an EcobeeStatusResponse instance
+
+EcobeeStatusResponse Class Diagram
+""""""""""""""""""""""""""""""""""
+.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/db56f013eb88a64287e45652f7b14a063cf501fb/EcobeeStatusResponse.svg
+
 Send Message
 ^^^^^^^^^^^^
 
@@ -953,4 +1126,6 @@ Your code should be prepared to handle the following Exceptions
 - **EcobeeRequestsException**: Raised if a request results in an exception being raised by the underlying requests module
 - **EcobeeHttpException**: Raised if a request results in any other HTTP error
 
-The aforementioned Exceptions are all subclasses of **EcobeeException**
+Ecobee Exceptions Class Diagram
+-------------------------------
+.. image:: https://cdn.rawgit.com/sfanous/58a8e5b281b6e40035fb80b097154fc8/raw/a4eac7a59545ffd76414781b35afdf5d5fc07a2e/EcobeeExceptions.svg
