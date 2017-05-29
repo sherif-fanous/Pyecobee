@@ -78,6 +78,11 @@ class EcobeeService(object):
     MINIMUM_HEATING_TEMPERATURE = 45
     MAXIMUM_HEATING_TEMPERATURE = 120
 
+    attribute_type_map = {'thermostat_name': 'six.text_type', 'application_key': 'six.text_type',
+                          'authorization_token': 'six.text_type', 'access_token': 'six.text_type',
+                          'refresh_token': 'six.text_type', 'access_token_expires_on': 'datetime',
+                          'refresh_token_expires_on': 'datetime', 'scope': 'Scope'}
+
     def __init__(self, thermostat_name, application_key, authorization_token=None,
                  access_token=None, refresh_token=None, access_token_expires_on=None,
                  refresh_token_expires_on=None, scope=Scope.SMART_WRITE):
