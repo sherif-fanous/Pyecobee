@@ -5,7 +5,7 @@ with open('README.rst', 'r') as f:
 
 setup(
     name='pyecobee',
-    version='1.1.1',
+    version='1.2.0',
     description='A Python implementation of the ecobee API',
     long_description=readme,
     url='https://github.com/sfanous/Pyecobee',
