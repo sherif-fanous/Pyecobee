@@ -13,6 +13,7 @@ import six
 from six import reraise as raise_
 
 from . import utilities
+from .ecobee_object import EcobeeObject
 from .enumerations import AckType
 from .enumerations import FanMode
 from .enumerations import HoldType
@@ -52,7 +53,7 @@ from .responses import EcobeeTokensResponse
 logger = logging.getLogger(__name__)
 
 
-class EcobeeService(object):
+class EcobeeService(EcobeeObject):
     __slots__ = ['_thermostat_name', '_application_key', '_authorization_token', '_access_token', '_refresh_token',
                  '_access_token_expires_on', '_refresh_token_expires_on', '_scope']
 
@@ -77,6 +78,13 @@ class EcobeeService(object):
     MAXIMUM_COOLING_TEMPERATURE = 120
     MINIMUM_HEATING_TEMPERATURE = 45
     MAXIMUM_HEATING_TEMPERATURE = 120
+
+    attribute_name_map = {'thermostat_name': 'thermostat_name', 'application_key': 'application_key',
+                          'authorization_token': 'authorization_token',
+                          'access_token': 'access_token', 'refresh_token': 'refresh_token',
+                          'access_token_expires_on': 'access_token_expires_on',
+                          'refresh_token_expires_on': 'refresh_token_expires_on',
+                          'scope': 'scope'}
 
     attribute_type_map = {'thermostat_name': 'six.text_type', 'application_key': 'six.text_type',
                           'authorization_token': 'six.text_type', 'access_token': 'six.text_type',
@@ -112,16 +120,6 @@ class EcobeeService(object):
         self._access_token_expires_on = access_token_expires_on
         self._refresh_token_expires_on = refresh_token_expires_on
         self._scope = scope
-
-    def __repr__(self):
-        return '{0}('.format(self.__class__.__name__) + ', '.join(
-            ['{0}={1!r}'.format(attribute_name[1:], getattr(self, attribute_name)) for attribute_name in
-             self.__slots__]) + ')'
-
-    def __str__(self):
-        return '{0}('.format(self.__class__.__name__) + ', '.join(
-            ['_{0}={1!s}'.format(attribute_name[1:], getattr(self, attribute_name)) for attribute_name in
-             self.__slots__]) + ')'
 
     @staticmethod
     def __process_http_response(response, response_class):
