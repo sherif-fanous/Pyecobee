@@ -86,7 +86,7 @@ The **EcobeeService** class provides the ecobee API implementation.
 
 EcobeeService Class Diagram
 ---------------------------
-.. image:: https://cdn.rawgit.com/sfanous/33688c4e0db84fc062f56ee1b7ffe444/raw/216366455a9e200c278583c42e3b64c28d2b886b/EcobeeService.svg
+.. image:: https://cdn.rawgit.com/sfanous/33688c4e0db84fc062f56ee1b7ffe444/raw/e326991a1e94c24fa4257d3f431cb72d87f72f88/EcobeeService.svg
 
 To use Pyecobee follow these steps
 
@@ -144,7 +144,7 @@ A successful invocation of authorize() returns an EcobeeAuthorizeResponse instan
 
 EcobeeAuthorizeResponse Class Diagram
 """""""""""""""""""""""""""""""""""""
-.. image:: https://cdn.rawgit.com/sfanous/4263de2c38a41c2023234932ba6dd8c4/raw/ff067f69ad160ced5ea10602b6ac57f562be98f4/EcobeeAuthorizeResponse.svg
+.. image:: https://cdn.rawgit.com/sfanous/4263de2c38a41c2023234932ba6dd8c4/raw/f7f6a4d3e0366e63b885ab75ab70e636bafb6b85/EcobeeAuthorizeResponse.svg
 
 Request Tokens
 ^^^^^^^^^^^^^^
@@ -166,7 +166,7 @@ A successful invocation of request_tokens() returns an EcobeeTokenResponse insta
 
 EcobeeTokenResponse Class Diagram
 """""""""""""""""""""""""""""""""
-.. image:: https://cdn.rawgit.com/sfanous/61c4e7fe3bbcae96b237da1cfcc2fa63/raw/350ca74d19e01d2852c37b54ac48459bf6916745/EcobeeTokensResponse.svg
+.. image:: https://cdn.rawgit.com/sfanous/61c4e7fe3bbcae96b237da1cfcc2fa63/raw/9fb0946f15ae6482c912e8e39e842c6fbf8a005c/EcobeeTokensResponse.svg
 
 Refresh Tokens
 ^^^^^^^^^^^^^^
@@ -188,7 +188,7 @@ A successful invocation of refresh_tokens() returns an EcobeeTokenResponse insta
 
 EcobeeTokenResponse Class Diagram
 """""""""""""""""""""""""""""""""
-.. image:: https://cdn.rawgit.com/sfanous/61c4e7fe3bbcae96b237da1cfcc2fa63/raw/350ca74d19e01d2852c37b54ac48459bf6916745/EcobeeTokensResponse.svg
+.. image:: https://cdn.rawgit.com/sfanous/61c4e7fe3bbcae96b237da1cfcc2fa63/raw/9fb0946f15ae6482c912e8e39e842c6fbf8a005c/EcobeeTokensResponse.svg
 
 Thermostat Requests
 --------------------
@@ -207,7 +207,7 @@ A successful invocation of request_thermostats_summary() returns an EcobeeThermo
 
 EcobeeThermostatsSummaryResponse Class Diagram
 """"""""""""""""""""""""""""""""""""""""""""""
-.. image:: https://cdn.rawgit.com/sfanous/957474de7596100c37aab58dcfe81a1a/raw/1e5c8a5b1143f163dd8ee81f314e92d247be361f/EcobeeThermostatsSummaryResponse.svg
+.. image:: https://cdn.rawgit.com/sfanous/957474de7596100c37aab58dcfe81a1a/raw/dbcaf31ff65c9f8a83430208c9d3ec70e68b1adc/EcobeeThermostatsSummaryResponse.svg
 
 Request Thermostats
 ^^^^^^^^^^^^^^^^^^^
@@ -232,7 +232,7 @@ A successful invocation of request_thermostats() returns an EcobeeThermostatResp
 
 EcobeeThermostatResponse Class Diagram
 """"""""""""""""""""""""""""""""""""""
-.. image:: https://cdn.rawgit.com/sfanous/a674640718e63fdb2f1cb5ed9c2f2466/raw/b69664237635ce914f39f397c29899af408079a6/EcobeeThermostatResponse.svg
+.. image:: https://cdn.rawgit.com/sfanous/a674640718e63fdb2f1cb5ed9c2f2466/raw/e0170a69fd411aa96a11141460267c86e73dbdc4/EcobeeThermostatResponse.svg
 
 Update Thermostat
 ^^^^^^^^^^^^^^^^^
@@ -258,7 +258,7 @@ A successful invocation of update_thermostats() returns an EcobeeStatusResponse 
 
 EcobeeStatusResponse Class Diagram
 """"""""""""""""""""""""""""""""""
-.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/db56f013eb88a64287e45652f7b14a063cf501fb/EcobeeStatusResponse.svg
+.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/6e4cde3b61892873e6ad1b4fdc3666549847a0cb/EcobeeStatusResponse.svg
 
 Report Requests
 ---------------
@@ -282,7 +282,7 @@ A successful invocation of request_meter_reports() returns an EcobeeMeterReports
 
 EcobeeMeterReportsResponse Class Diagram
 """"""""""""""""""""""""""""""""""""""""
-.. image:: https://cdn.rawgit.com/sfanous/6abbae0f9c85d75304557d306b8777e6/raw/8b9e6c33d2b609b9112a8369b5ef397082cf45d4/EcobeeMeterReportsResponse.svg
+.. image:: https://cdn.rawgit.com/sfanous/6abbae0f9c85d75304557d306b8777e6/raw/065ad2d8ad5668619168e38e349718515b7b6b40/EcobeeMeterReportsResponse.svg
 
 Runtime Report
 ^^^^^^^^^^^^^^
@@ -308,7 +308,7 @@ A successful invocation of request_runtime_reports() returns an EcobeeRuntimeRep
 
 EcobeeRuntimeReportsResponse Class Diagram
 """"""""""""""""""""""""""""""""""""""""""
-.. image:: https://cdn.rawgit.com/sfanous/5816b010e7207d756984805521015ba0/raw/e219e0d91ffe1196f1e731cd54ec91c638455deb/EcobeeRuntimeReportsResponse.svg
+.. image:: https://cdn.rawgit.com/sfanous/5816b010e7207d756984805521015ba0/raw/265c877c837e2f7d7ba72d408aaf2cb86d01a9d7/EcobeeRuntimeReportsResponse.svg
 
 Group Requests
 --------------
@@ -328,7 +328,7 @@ A successful invocation of request_groups() returns an EcobeeGroupsResponse inst
 
 EcobeeGroupsResponse Class Diagram
 """"""""""""""""""""""""""""""""""
-.. image:: https://cdn.rawgit.com/sfanous/72918aca65419a8edecbb263623738a1/raw/398f60d6eba507f0072dfbc684cc2b015028179b/EcobeeGroupsResponse.svg
+.. image:: https://cdn.rawgit.com/sfanous/72918aca65419a8edecbb263623738a1/raw/1a358aca16e51106843d488608bc7b125c2d4cbb/EcobeeGroupsResponse.svg
 
 Update Groups
 ^^^^^^^^^^^^^
@@ -386,7 +386,7 @@ A successful invocation of request_groups() returns an EcobeeGroupsResponse inst
 
 EcobeeGroupsResponse Class Diagram
 """"""""""""""""""""""""""""""""""
-.. image:: https://cdn.rawgit.com/sfanous/72918aca65419a8edecbb263623738a1/raw/398f60d6eba507f0072dfbc684cc2b015028179b/EcobeeGroupsResponse.svg
+.. image:: https://cdn.rawgit.com/sfanous/72918aca65419a8edecbb263623738a1/raw/1a358aca16e51106843d488608bc7b125c2d4cbb/EcobeeGroupsResponse.svg
 
 Hierarchy Set Requests
 ----------------------
@@ -407,7 +407,7 @@ A successful invocation of list_hierarchy_sets() returns an EcobeeListHierarchyS
 
 EcobeeListHierarchySetsResponse Class Diagram
 """""""""""""""""""""""""""""""""""""""""""""
-.. image:: https://cdn.rawgit.com/sfanous/a68c63860b11e4b1c51193a6cbd2f817/raw/de90f47ce357c85e58559d73bd59bee1892057ed/EcobeeListHierarchySetsResponse.svg
+.. image:: https://cdn.rawgit.com/sfanous/a68c63860b11e4b1c51193a6cbd2f817/raw/0ea759fb251dd078096ff3cc61970a3604591daf/EcobeeListHierarchySetsResponse.svg
 
 Add Hierarchy Set
 ^^^^^^^^^^^^^^^^^
@@ -424,7 +424,7 @@ A successful invocation of add_hierarchy_set() returns an EcobeeStatusResponse i
 
 EcobeeStatusResponse Class Diagram
 """"""""""""""""""""""""""""""""""
-.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/db56f013eb88a64287e45652f7b14a063cf501fb/EcobeeStatusResponse.svg
+.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/6e4cde3b61892873e6ad1b4fdc3666549847a0cb/EcobeeStatusResponse.svg
 
 Remove Hierarchy Set
 ^^^^^^^^^^^^^^^^^^^^
@@ -440,7 +440,7 @@ A successful invocation of remove_hierarchy_set() returns an EcobeeStatusRespons
 
 EcobeeStatusResponse Class Diagram
 """"""""""""""""""""""""""""""""""
-.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/db56f013eb88a64287e45652f7b14a063cf501fb/EcobeeStatusResponse.svg
+.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/6e4cde3b61892873e6ad1b4fdc3666549847a0cb/EcobeeStatusResponse.svg
 
 Rename Hierarchy Set
 ^^^^^^^^^^^^^^^^^^^^
@@ -457,7 +457,7 @@ A successful invocation of rename_hierarchy_set() returns an EcobeeStatusRespons
 
 EcobeeStatusResponse Class Diagram
 """"""""""""""""""""""""""""""""""
-.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/db56f013eb88a64287e45652f7b14a063cf501fb/EcobeeStatusResponse.svg
+.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/6e4cde3b61892873e6ad1b4fdc3666549847a0cb/EcobeeStatusResponse.svg
 
 Move Hierarchy Set
 ^^^^^^^^^^^^^^^^^^
@@ -474,7 +474,7 @@ A successful invocation of move_hierarchy_set() returns an EcobeeStatusResponse 
 
 EcobeeStatusResponse Class Diagram
 """"""""""""""""""""""""""""""""""
-.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/db56f013eb88a64287e45652f7b14a063cf501fb/EcobeeStatusResponse.svg
+.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/6e4cde3b61892873e6ad1b4fdc3666549847a0cb/EcobeeStatusResponse.svg
 
 Hierarchy User Requests
 -----------------------
@@ -494,7 +494,7 @@ A successful invocation of list_hierarchy_users() returns an EcobeeListHierarchy
 
 EcobeeListHierarchyUsersResponse Class Diagram
 """"""""""""""""""""""""""""""""""""""""""""""
-.. image:: https://cdn.rawgit.com/sfanous/6ab4920c897067424001148f881a1591/raw/acdbe370a54dc50b56515f4797c782e30a0d4fd8/EcobeeListHierarchyUsersResponse.svg
+.. image:: https://cdn.rawgit.com/sfanous/6ab4920c897067424001148f881a1591/raw/d33891c963ffa44fd9e0edb4c0a20841c975a1a3/EcobeeListHierarchyUsersResponse.svg
 
 Add Hierarchy Users
 ^^^^^^^^^^^^^^^^^^^
@@ -529,7 +529,7 @@ A successful invocation of add_hierarchy_users() returns an EcobeeStatusResponse
 
 EcobeeStatusResponse Class Diagram
 """"""""""""""""""""""""""""""""""
-.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/db56f013eb88a64287e45652f7b14a063cf501fb/EcobeeStatusResponse.svg
+.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/6e4cde3b61892873e6ad1b4fdc3666549847a0cb/EcobeeStatusResponse.svg
 
 Remove Hierarchy Users
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -552,7 +552,7 @@ A successful invocation of remove_hierarchy_users() returns an EcobeeStatusRespo
 
 EcobeeStatusResponse Class Diagram
 """"""""""""""""""""""""""""""""""
-.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/db56f013eb88a64287e45652f7b14a063cf501fb/EcobeeStatusResponse.svg
+.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/6e4cde3b61892873e6ad1b4fdc3666549847a0cb/EcobeeStatusResponse.svg
 
 Unregister Hierarchy Users
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -574,7 +574,7 @@ A successful invocation of unregister_hierarchy_users() returns an EcobeeStatusR
 
 EcobeeStatusResponse Class Diagram
 """"""""""""""""""""""""""""""""""
-.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/db56f013eb88a64287e45652f7b14a063cf501fb/EcobeeStatusResponse.svg
+.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/6e4cde3b61892873e6ad1b4fdc3666549847a0cb/EcobeeStatusResponse.svg
 
 Update Hierarchy Users
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -611,7 +611,7 @@ A successful invocation of update_hierarchy_users() returns an EcobeeStatusRespo
 
 EcobeeStatusResponse Class Diagram
 """"""""""""""""""""""""""""""""""
-.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/db56f013eb88a64287e45652f7b14a063cf501fb/EcobeeStatusResponse.svg
+.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/6e4cde3b61892873e6ad1b4fdc3666549847a0cb/EcobeeStatusResponse.svg
 
 Hierarchy Thermostat Requests
 -----------------------------
@@ -633,7 +633,7 @@ A successful invocation of register_hierarchy_thermostats() returns an EcobeeSta
 
 EcobeeStatusResponse Class Diagram
 """"""""""""""""""""""""""""""""""
-.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/db56f013eb88a64287e45652f7b14a063cf501fb/EcobeeStatusResponse.svg
+.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/6e4cde3b61892873e6ad1b4fdc3666549847a0cb/EcobeeStatusResponse.svg
 
 Unregister Thermostat
 ^^^^^^^^^^^^^^^^^^^^^
@@ -651,7 +651,7 @@ A successful invocation of unregister_hierarchy_thermostats() returns an EcobeeS
 
 EcobeeStatusResponse Class Diagram
 """"""""""""""""""""""""""""""""""
-.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/db56f013eb88a64287e45652f7b14a063cf501fb/EcobeeStatusResponse.svg
+.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/6e4cde3b61892873e6ad1b4fdc3666549847a0cb/EcobeeStatusResponse.svg
 
 Move Thermostat
 ^^^^^^^^^^^^^^^
@@ -671,7 +671,7 @@ A successful invocation of move_hierarchy_thermostats() returns an EcobeeStatusR
 
 EcobeeStatusResponse Class Diagram
 """"""""""""""""""""""""""""""""""
-.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/db56f013eb88a64287e45652f7b14a063cf501fb/EcobeeStatusResponse.svg
+.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/6e4cde3b61892873e6ad1b4fdc3666549847a0cb/EcobeeStatusResponse.svg
 
 Assign Thermostat
 ^^^^^^^^^^^^^^^^^
@@ -690,7 +690,7 @@ A successful invocation of assign_hierarchy_thermostats() returns an EcobeeStatu
 
 EcobeeStatusResponse Class Diagram
 """"""""""""""""""""""""""""""""""
-.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/db56f013eb88a64287e45652f7b14a063cf501fb/EcobeeStatusResponse.svg
+.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/6e4cde3b61892873e6ad1b4fdc3666549847a0cb/EcobeeStatusResponse.svg
 
 Utility Requests
 ----------------
@@ -709,7 +709,7 @@ A successful invocation of list_demand_responses() returns an EcobeeListDemandRe
 
 EcobeeListDemandResponsesResponse Class Diagram
 """""""""""""""""""""""""""""""""""""""""""""""
-.. image:: https://cdn.rawgit.com/sfanous/c60426de08616e85843dd7528956c204/raw/dbfd645ac49d4db5750c7a88698bbc5a3ba0e09c/EcobeeListDemandResponsesResponse.svg
+.. image:: https://cdn.rawgit.com/sfanous/c60426de08616e85843dd7528956c204/raw/b3e31484b10c67e7ff40072742363dc39fa6c90b/EcobeeListDemandResponsesResponse.svg
 
 Issue Demand Response
 ^^^^^^^^^^^^^^^^^^^^^
@@ -742,7 +742,7 @@ A successful invocation of issue_demand_response() returns an EcobeeIssueDemandR
 
 EcobeeIssueDemandResponsesResponse Class Diagram
 """"""""""""""""""""""""""""""""""""""""""""""""
-.. image:: https://cdn.rawgit.com/sfanous/7b8cc714ba9fb7d00e6ad70dc2fdc618/raw/30c32230fc580d4f9f437985f325c9994682c585/EcobeeIssueDemandResponsesResponse.svg
+.. image:: https://cdn.rawgit.com/sfanous/7b8cc714ba9fb7d00e6ad70dc2fdc618/raw/620921a940758748cbe7b9172919af0ccd815d80/EcobeeIssueDemandResponsesResponse.svg
 
 Cancel Demand Response
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -760,7 +760,7 @@ A successful invocation of cancel_demand_response() returns an EcobeeStatusRespo
 
 EcobeeStatusResponse Class Diagram
 """"""""""""""""""""""""""""""""""
-.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/db56f013eb88a64287e45652f7b14a063cf501fb/EcobeeStatusResponse.svg
+.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/6e4cde3b61892873e6ad1b4fdc3666549847a0cb/EcobeeStatusResponse.svg
 
 Issue Demand Management
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -808,7 +808,7 @@ A successful invocation of create_runtime_report_job() returns an EcobeeCreateRu
 
 EcobeeCreateRuntimeReportJobResponse Class Diagram
 """"""""""""""""""""""""""""""""""""""""""""""""""
-.. image:: https://cdn.rawgit.com/sfanous/e19e2d2e529a780baad57d91bbc74d3a/raw/a9347aa590d37c5f71f9ea6bbfffc068ae75ae18/EcobeeCreateRuntimeReportJobResponse.svg
+.. image:: https://cdn.rawgit.com/sfanous/e19e2d2e529a780baad57d91bbc74d3a/raw/a34f5f7a1e31c42f0d94d750b8c69c7082a950cf/EcobeeCreateRuntimeReportJobResponse.svg
 
 List Runtime Report Job Status
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -825,7 +825,7 @@ A successful invocation of list_runtime_report_job_status() returns an EcobeeLis
 
 EcobeeListRuntimeReportJobStatusResponse Class Diagram
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
-.. image:: https://cdn.rawgit.com/sfanous/45e7a445e3f643be0439438d0b66821e/raw/68f8b9b0902b2b204a126561c3eba39a7c729fb5/EcobeeListRuntimeReportJobStatusResponse.svg
+.. image:: https://cdn.rawgit.com/sfanous/45e7a445e3f643be0439438d0b66821e/raw/09ba1c3912bc9ac9b7413b4e068cb45bba32b802/EcobeeListRuntimeReportJobStatusResponse.svg
 
 Cancel Runtime Report Job
 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -842,7 +842,7 @@ A successful invocation of cancel_runtime_report_job() returns an EcobeeStatusRe
 
 EcobeeStatusResponse Class Diagram
 """"""""""""""""""""""""""""""""""
-.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/db56f013eb88a64287e45652f7b14a063cf501fb/EcobeeStatusResponse.svg
+.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/6e4cde3b61892873e6ad1b4fdc3666549847a0cb/EcobeeStatusResponse.svg
 
 Thermostat Functions
 --------------------
@@ -850,7 +850,7 @@ A successful invocation of any function returns an EcobeeStatusResponse instance
 
 EcobeeStatusResponse Class Diagram
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/db56f013eb88a64287e45652f7b14a063cf501fb/EcobeeStatusResponse.svg
+.. image:: https://cdn.rawgit.com/sfanous/ce50523143e93b25d0ac9954aded53e5/raw/6e4cde3b61892873e6ad1b4fdc3666549847a0cb/EcobeeStatusResponse.svg
 
 Send Message
 ^^^^^^^^^^^^
@@ -1128,4 +1128,4 @@ Your code should be prepared to handle the following Exceptions
 
 Ecobee Exceptions Class Diagram
 -------------------------------
-.. image:: https://cdn.rawgit.com/sfanous/58a8e5b281b6e40035fb80b097154fc8/raw/a4eac7a59545ffd76414781b35afdf5d5fc07a2e/EcobeeExceptions.svg
+.. image:: https://cdn.rawgit.com/sfanous/58a8e5b281b6e40035fb80b097154fc8/raw/3766a676ccc2942bc9a18c1d0dc0a284683f1b39/EcobeeExceptions.svg
