@@ -1,5 +1,13 @@
 class EcobeeObject(object):
     def pretty_format(self, indent=2, level=0, sort_attributes=True):
+        """
+        Pretty format a response object
+
+        :param indent: The amount of indentation added for each recursive level
+        :param level: The recursion level
+        :param sort_attributes: Whether to sort the attributes or not
+        :return: six.text_type (This is unicode() in Python 2 and str in Python 3)
+        """
         pretty_formatted = ['{0}(\n'.format(self.__class__.__name__)]
         level = level + 1
         for (i, attribute_name) in enumerate(sorted(self.__slots__) if sort_attributes else self.__slots__):

@@ -1,7 +1,7 @@
 """
 This module is home to the Location class
 """
-from .ecobee_object import EcobeeObject
+from pyecobee.ecobee_object import EcobeeObject
 
 
 class Location(EcobeeObject):

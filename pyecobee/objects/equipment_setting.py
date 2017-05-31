@@ -1,7 +1,7 @@
 """
 This module is home to the EquipmentSetting class
 """
-from .ecobee_object import EcobeeObject
+from pyecobee.ecobee_object import EcobeeObject
 
 
 class EquipmentSetting(EcobeeObject):

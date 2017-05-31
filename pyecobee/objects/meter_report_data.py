@@ -1,7 +1,7 @@
 """
 This module is home to the MeterReportData class
 """
-from .ecobee_object import EcobeeObject
+from pyecobee.ecobee_object import EcobeeObject
 
 
 class MeterReportData(EcobeeObject):

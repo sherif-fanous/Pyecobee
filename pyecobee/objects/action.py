@@ -1,7 +1,7 @@
 """
 This module is home to the Action class
 """
-from .ecobee_object import EcobeeObject
+from pyecobee.ecobee_object import EcobeeObject
 
 
 class Action(EcobeeObject):
