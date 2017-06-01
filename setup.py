@@ -3,7 +3,7 @@ from setuptools import setup
 with open('README.rst', 'r') as f:
     readme = f.read()
 
-with open('HISTORY.rst', 'r', 'utf-8') as f:
+with open('HISTORY.rst', 'r') as f:
     history = f.read()
 
 setup(
