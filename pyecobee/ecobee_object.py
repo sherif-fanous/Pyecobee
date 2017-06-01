@@ -1,4 +1,12 @@
+from itertools import chain
+
+
 class EcobeeObject(object):
+    __slots__ = []
+
+    def slots(self):
+        return chain.from_iterable(getattr(cls, '__slots__', []) for cls in type(self).__mro__)
+
     def pretty_format(self, indent=2, level=0, sort_attributes=True):
         """
         Pretty format a response object
@@ -10,7 +18,7 @@ class EcobeeObject(object):
         """
         pretty_formatted = ['{0}(\n'.format(self.__class__.__name__)]
         level = level + 1
-        for (i, attribute_name) in enumerate(sorted(self.__slots__) if sort_attributes else self.__slots__):
+        for (i, attribute_name) in enumerate(sorted(self.slots()) if sort_attributes else self.slots()):
             if i:
                 pretty_formatted.append(',\n')
             if isinstance(getattr(self, attribute_name), list):
@@ -61,9 +69,9 @@ class EcobeeObject(object):
     def __repr__(self):
         return '{0}('.format(self.__class__.__name__) + ', '.join(
             ['{0}={1!r}'.format(attribute_name[1:], getattr(self, attribute_name)) for attribute_name in
-             self.__slots__]) + ')'
+             self.slots()]) + ')'
 
     def __str__(self):
         return '{0}('.format(self.__class__.__name__) + ', '.join(
             ['{0}={1!s}'.format(type(self).attribute_name_map[attribute_name[1:]], getattr(self, attribute_name)) for
-             attribute_name in self.__slots__]) + ')'
+             attribute_name in self.slots()]) + ')'
