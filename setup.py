@@ -3,11 +3,14 @@ from setuptools import setup
 with open('README.rst', 'r') as f:
     readme = f.read()
 
+with open('HISTORY.rst', 'r', 'utf-8') as f:
+    history = f.read()
+
 setup(
     name='pyecobee',
     version='1.2.1',
     description='A Python implementation of the ecobee API',
-    long_description=readme,
+    long_description=readme + '\n\n' + history,
     url='https://github.com/sfanous/Pyecobee',
     author='Sherif Fanous',
     author_email='pyecobee_support@gmail.com',
