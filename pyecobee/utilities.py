@@ -188,7 +188,7 @@ def dictionary_to_object(data, property_type, response_properties, parent_classe
 
 def object_to_dictionary(object_, class_):
     dictionary = {object_.__class__.__name__: {}}
-    for attribute_name in object_.__slots__:
+    for attribute_name in object_.slots():
         attribute_value = getattr(object_, attribute_name)
         if attribute_value is not None:
             if isinstance(attribute_value, list):
