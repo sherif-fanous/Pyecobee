@@ -104,7 +104,7 @@ class EcobeeAuthorizeResponse(EcobeeObject):
 
 
 class EcobeeCreateRuntimeReportJobResponse(EcobeeStatusResponse):
-    __slots__ = ['_job_id', '_job_status', '_status']
+    __slots__ = ['_job_id', '_job_status']
 
     attribute_name_map = {'job_id': 'jobId', 'jobId': 'job_id', 'job_status': 'jobStatus', 'jobStatus': 'job_status',
                           'status': 'status'}
@@ -195,7 +195,7 @@ class EcobeeErrorResponse(EcobeeObject):
 
 
 class EcobeeGroupsResponse(EcobeeStatusResponse):
-    __slots__ = ['_groups', '_status']
+    __slots__ = ['_groups']
 
     attribute_name_map = {'groups': 'groups', 'status': 'status'}
 
@@ -223,7 +223,7 @@ class EcobeeGroupsResponse(EcobeeStatusResponse):
 
 
 class EcobeeIssueDemandResponsesResponse(EcobeeStatusResponse):
-    __slots__ = ['_demand_response_ref', '_status']
+    __slots__ = ['_demand_response_ref']
 
     attribute_name_map = {'demand_response_ref': 'demandResponseRef', 'demandResponseRef': 'demand_response_ref',
                           'status': 'status'}
@@ -252,7 +252,7 @@ class EcobeeIssueDemandResponsesResponse(EcobeeStatusResponse):
 
 
 class EcobeeListDemandResponsesResponse(EcobeeStatusResponse):
-    __slots__ = ['_demand_response_list', '_status']
+    __slots__ = ['_demand_response_list']
 
     attribute_name_map = {'demand_response_list': 'drList', 'drList': 'demand_response_list', 'status': 'status'}
 
@@ -280,7 +280,7 @@ class EcobeeListDemandResponsesResponse(EcobeeStatusResponse):
 
 
 class EcobeeListHierarchySetsResponse(EcobeeStatusResponse):
-    __slots__ = ['_sets', '_status']
+    __slots__ = ['_sets']
 
     attribute_name_map = {'sets': 'sets', 'status': 'status'}
 
@@ -308,7 +308,7 @@ class EcobeeListHierarchySetsResponse(EcobeeStatusResponse):
 
 
 class EcobeeListHierarchyUsersResponse(EcobeeStatusResponse):
-    __slots__ = ['_users', '_privileges', '_status']
+    __slots__ = ['_users', '_privileges']
 
     attribute_name_map = {'users': 'users', 'privileges': 'privileges', 'status': 'status'}
 
@@ -349,7 +349,7 @@ class EcobeeListHierarchyUsersResponse(EcobeeStatusResponse):
 
 
 class EcobeeListRuntimeReportJobStatusResponse(EcobeeStatusResponse):
-    __slots__ = ['_jobs', '_status']
+    __slots__ = ['_jobs']
 
     attribute_name_map = {'jobs': 'jobs', 'status': 'status'}
 
@@ -377,7 +377,7 @@ class EcobeeListRuntimeReportJobStatusResponse(EcobeeStatusResponse):
 
 
 class EcobeeMeterReportsResponse(EcobeeStatusResponse):
-    __slots__ = ['_report_list', '_status']
+    __slots__ = ['_report_list']
 
     attribute_name_map = {'report_list': 'reportList', 'reportList': 'report_list', 'status': 'status'}
 
@@ -406,7 +406,7 @@ class EcobeeMeterReportsResponse(EcobeeStatusResponse):
 
 class EcobeeRuntimeReportsResponse(EcobeeStatusResponse):
     __slots__ = ['_start_date', '_start_interval', '_end_date', '_end_interval', '_columns', '_report_list',
-                 '_sensor_list', '_status']
+                 '_sensor_list']
 
     attribute_name_map = {'start_date': 'startDate', 'startDate': 'start_date', 'start_interval': 'startInterval',
                           'startInterval': 'start_interval', 'end_date': 'endDate', 'endDate': 'end_date',
@@ -512,7 +512,7 @@ class EcobeeRuntimeReportsResponse(EcobeeStatusResponse):
 
 
 class EcobeeThermostatResponse(EcobeeStatusResponse):
-    __slots__ = ['_page', '_thermostat_list', '_status']
+    __slots__ = ['_page', '_thermostat_list']
 
     attribute_name_map = {'page': 'page', 'thermostat_list': 'thermostatList', 'thermostatList': 'thermostat_list',
                           'status': 'status'}
@@ -553,7 +553,7 @@ class EcobeeThermostatResponse(EcobeeStatusResponse):
 
 
 class EcobeeThermostatsSummaryResponse(EcobeeStatusResponse):
-    __slots__ = ['_revision_list', '_thermostat_count', '_status_list', '_status']
+    __slots__ = ['_revision_list', '_thermostat_count', '_status_list']
 
     attribute_name_map = {'revision_list': 'revisionList', 'revisionList': 'revision_list',
                           'thermostat_count': 'thermostatCount', 'thermostatCount': 'thermostat_count',
