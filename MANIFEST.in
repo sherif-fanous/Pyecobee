@@ -1,2 +1,3 @@
 # Include the MIT license file
 include LICENSE
+include HISTORY.rst
