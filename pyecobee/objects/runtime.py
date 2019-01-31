@@ -19,7 +19,8 @@ class Runtime(EcobeeObject):
    """
     __slots__ = ['_runtime_rev', '_connected', '_first_connected', '_connect_date_time', '_disconnect_date_time',
                  '_last_modified', '_last_status_modified', '_runtime_date', '_runtime_interval', '_actual_temperature',
-                 '_actual_humidity', '_desired_heat', '_desired_cool', '_desired_humidity', '_desired_dehumidity',
+                 '_actual_humidity', '_raw_temperature', '_show_icon_mode',
+                 '_desired_heat', '_desired_cool', '_desired_humidity', '_desired_dehumidity',
                  '_desired_fan_mode', '_desired_heat_range', '_desired_cool_range']
 
     attribute_name_map = {'runtime_rev': 'runtimeRev', 'runtimeRev': 'runtime_rev', 'connected': 'connected',
@@ -32,6 +33,8 @@ class Runtime(EcobeeObject):
                           'runtime_interval': 'runtimeInterval', 'runtimeInterval': 'runtime_interval',
                           'actual_temperature': 'actualTemperature', 'actualTemperature': 'actual_temperature',
                           'actual_humidity': 'actualHumidity', 'actualHumidity': 'actual_humidity',
+                          'raw_temperature': 'rawTemperature', 'rawTemperature': 'raw_temperature',
+                          'show_icon_mode': 'showIconMode', 'showIconMode': 'show_icon_mode',
                           'desired_heat': 'desiredHeat', 'desiredHeat': 'desired_heat', 'desired_cool': 'desiredCool',
                           'desiredCool': 'desired_cool', 'desired_humidity': 'desiredHumidity',
                           'desiredHumidity': 'desired_humidity', 'desired_dehumidity': 'desiredDehumidity',
@@ -44,13 +47,15 @@ class Runtime(EcobeeObject):
                           'connect_date_time': 'six.text_type', 'disconnect_date_time': 'six.text_type',
                           'last_modified': 'six.text_type', 'last_status_modified': 'six.text_type',
                           'runtime_date': 'six.text_type', 'runtime_interval': 'int', 'actual_temperature': 'int',
-                          'actual_humidity': 'int', 'desired_heat': 'int', 'desired_cool': 'int',
+                          'actual_humidity': 'int', 'raw_temperature': 'int', 'show_icon_mode': 'int',
+                          'desired_heat': 'int', 'desired_cool': 'int',
                           'desired_humidity': 'int', 'desired_dehumidity': 'int', 'desired_fan_mode': 'six.text_type',
                           'desired_heat_range': 'List[int]', 'desired_cool_range': 'List[int]'}
 
     def __init__(self, runtime_rev=None, connected=None, first_connected=None, connect_date_time=None,
                  disconnect_date_time=None, last_modified=None, last_status_modified=None, runtime_date=None,
-                 runtime_interval=None, actual_temperature=None, actual_humidity=None, desired_heat=None,
+                 runtime_interval=None, actual_temperature=None, actual_humidity=None, raw_temperature=None,
+                 show_icon_mode=None, desired_heat=None,
                  desired_cool=None, desired_humidity=None, desired_dehumidity=None, desired_fan_mode=None,
                  desired_heat_range=None, desired_cool_range=None):
         """
@@ -67,6 +72,8 @@ class Runtime(EcobeeObject):
         self._runtime_interval = runtime_interval
         self._actual_temperature = actual_temperature
         self._actual_humidity = actual_humidity
+        self._raw_temperature = raw_temperature
+        self._show_icon_mode = show_icon_mode
         self._desired_heat = desired_heat
         self._desired_cool = desired_cool
         self._desired_humidity = desired_humidity
@@ -202,6 +209,28 @@ class Runtime(EcobeeObject):
         """
 
         return self._actual_temperature
+
+    @property
+    def raw_temperature(self):
+        """
+        Gets the raw_temperature attribute of this Runtime instance.
+
+        :return: The value of the raw_temperature attribute of this Runtime instance.
+        :rtype: int
+        """
+
+        return self._raw_temperature
+
+    @property
+    def show_icon_mode(self):
+        """
+        Gets the show_icon_mode attribute of this Runtime instance.
+
+        :return: The value of the show_icon_mode attribute of this Runtime instance.
+        :rtype: int
+        """
+
+        return self._show_icon_mode
 
     @property
     def actual_humidity(self):
