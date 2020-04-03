@@ -20,7 +20,8 @@ class EcobeeApiException(EcobeeException):
 
 
 class EcobeeAuthorizationException(EcobeeException):
-    attribute_type_map = {'error': 'six.text_type', 'error_description': 'six.text_type', 'error_uri': 'six.text_type'}
+    attribute_type_map = {'error': 'six.text_type', 'error_description': 'six.text_type',
+                          'error_uri': 'six.text_type'}
 
     def __init__(self, message, error, error_description, error_uri):
         super(EcobeeAuthorizationException, self).__init__(message)

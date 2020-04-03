@@ -97,8 +97,7 @@ from pyecobee.responses import EcobeeThermostatResponse
 from pyecobee.responses import EcobeeThermostatsSummaryResponse
 from pyecobee.responses import EcobeeTokensResponse
 from pyecobee.service import EcobeeService
-from pyecobee.utilities import dictionary_to_object
-from pyecobee.utilities import object_to_dictionary
+from pyecobee.utilities import Utilities
 
 try:  # Python 2.X
     from logging import NullHandler

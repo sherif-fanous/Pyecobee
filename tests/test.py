@@ -115,7 +115,7 @@ def test_request_thermostats_summary(ecobee_service):
 def test_request_thermostats_all(ecobee_service):
     logger.info('Requesting Thermostats (All Data)')
     selection = Selection(selection_type=SelectionType.REGISTERED.value, selection_match='', include_alerts=True,
-                          include_audio=True, include_energy=True,
+                          include_audio=True, include_energy=False,
                           include_device=True, include_electricity=True, include_equipment_status=True,
                           include_events=True, include_extended_runtime=True, include_house_details=True,
                           include_location=True, include_management=True, include_notification_settings=True,
@@ -471,12 +471,14 @@ def main():
         # message = 'Hello Pyecobee_{0}.{1}'.format(python_version[0], python_version[1])
         # test_send_message(ecobee_service, message)
         #
-        # test_set_hold(ecobee_service)
+        test_set_hold(ecobee_service)
+
+        input('Check hold')
         #
         # fan_min_on_time = 15
         # test_update_thermosats(ecobee_service, fan_min_on_time)
         #
-        thermostat = test_request_thermostats_all(ecobee_service)
+        # thermostat = test_request_thermostats_all(ecobee_service)
         #
         # events = [event for event in thermostat.events if event.name == vacation_name]
         # assert events, 'Failure while asserting create_vacation'
@@ -488,7 +490,7 @@ def main():
         #
         # test_delete_vacation(ecobee_service, vacation_name)
         # test_acknowledge(ecobee_service, thermostat, alerts[0])
-        # test_resume_program(ecobee_service)
+        test_resume_program(ecobee_service)
         #
         # thermostat = test_request_thermostats_all(ecobee_service)
         # events = [event for event in thermostat.events if event.name == vacation_name]
@@ -497,7 +499,7 @@ def main():
         # alerts = [alert for alert in thermostat.alerts if alert.text == message]
         # assert not alerts, 'Failure while asserting acknowledge.'
         #
-        test_request_thermostats_summary(ecobee_service)
+        # test_request_thermostats_summary(ecobee_service)
         # test_request_meter_reports(ecobee_service, thermostat)
         # test_runtime_reports(ecobee_service, thermostat)
         #

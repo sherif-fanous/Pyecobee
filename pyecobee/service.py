@@ -1,8 +1,6 @@
 import json
 import logging
 import numbers
-import sys
-import traceback
 from datetime import date
 from datetime import datetime
 from datetime import timedelta
@@ -11,43 +9,36 @@ import pytz
 import requests
 import six
 
-from . import utilities
-from .ecobee_object import EcobeeObject
-from .enumerations import AckType
-from .enumerations import FanMode
-from .enumerations import HoldType
-from .enumerations import PlugState
-from .enumerations import Scope
-from .enumerations import SelectionType
-from .exceptions import EcobeeApiException
-from .exceptions import EcobeeAuthorizationException
-from .exceptions import EcobeeException
-from .exceptions import EcobeeHttpException
-from .exceptions import EcobeeRequestsException
-from .objects.demand_management import DemandManagement
-from .objects.demand_response import DemandResponse
-from .objects.function import Function
-from .objects.group import Group
-from .objects.hierarchy_privilege import HierarchyPrivilege
-from .objects.hierarchy_user import HierarchyUser
-from .objects.selection import Selection
-from .objects.status import Status
-from .objects.thermostat import Thermostat
-from .responses import EcobeeAuthorizeResponse
-from .responses import EcobeeCreateRuntimeReportJobResponse
-from .responses import EcobeeErrorResponse
-from .responses import EcobeeGroupsResponse
-from .responses import EcobeeIssueDemandResponsesResponse
-from .responses import EcobeeListDemandResponsesResponse
-from .responses import EcobeeListHierarchySetsResponse
-from .responses import EcobeeListHierarchyUsersResponse
-from .responses import EcobeeListRuntimeReportJobStatusResponse
-from .responses import EcobeeMeterReportsResponse
-from .responses import EcobeeRuntimeReportsResponse
-from .responses import EcobeeStatusResponse
-from .responses import EcobeeThermostatResponse
-from .responses import EcobeeThermostatsSummaryResponse
-from .responses import EcobeeTokensResponse
+from pyecobee.ecobee_object import EcobeeObject
+from pyecobee.enumerations import AckType
+from pyecobee.enumerations import FanMode
+from pyecobee.enumerations import HoldType
+from pyecobee.enumerations import PlugState
+from pyecobee.enumerations import Scope
+from pyecobee.enumerations import SelectionType
+from pyecobee.objects.demand_management import DemandManagement
+from pyecobee.objects.demand_response import DemandResponse
+from pyecobee.objects.function import Function
+from pyecobee.objects.group import Group
+from pyecobee.objects.hierarchy_privilege import HierarchyPrivilege
+from pyecobee.objects.hierarchy_user import HierarchyUser
+from pyecobee.objects.selection import Selection
+from pyecobee.objects.thermostat import Thermostat
+from pyecobee.responses import EcobeeAuthorizeResponse
+from pyecobee.responses import EcobeeCreateRuntimeReportJobResponse
+from pyecobee.responses import EcobeeGroupsResponse
+from pyecobee.responses import EcobeeIssueDemandResponsesResponse
+from pyecobee.responses import EcobeeListDemandResponsesResponse
+from pyecobee.responses import EcobeeListHierarchySetsResponse
+from pyecobee.responses import EcobeeListHierarchyUsersResponse
+from pyecobee.responses import EcobeeListRuntimeReportJobStatusResponse
+from pyecobee.responses import EcobeeMeterReportsResponse
+from pyecobee.responses import EcobeeRuntimeReportsResponse
+from pyecobee.responses import EcobeeStatusResponse
+from pyecobee.responses import EcobeeThermostatResponse
+from pyecobee.responses import EcobeeThermostatsSummaryResponse
+from pyecobee.responses import EcobeeTokensResponse
+from pyecobee.utilities import Utilities
 
 logger = logging.getLogger(__name__)
 
@@ -126,108 +117,6 @@ class EcobeeService(EcobeeObject):
         self._refresh_token_expires_on = refresh_token_expires_on
         self._scope = scope
 
-    @staticmethod
-    def __process_http_response(response, response_class):
-        if response.status_code == requests.codes.ok:
-            response_object = utilities.dictionary_to_object({response_class.__name__: response.json()},
-                                                             {response_class.__name__: response_class},
-                                                             {response_class.__name__: None},
-                                                             is_top_level=True)
-            if logger.getEffectiveLevel() >= logging.DEBUG:
-                message_to_log = 'EcobeeResponse:\n' \
-                                 '[JSON]\n' \
-                                 '======\n' \
-                                 '{0}\n' \
-                                 '\n' \
-                                 '[Object]\n' \
-                                 '========\n' \
-                                 '{1}'.format(json.dumps(response.json(), sort_keys=True, indent=2),
-                                              response_object.pretty_format())
-                logger.debug(message_to_log.strip())
-            return response_object
-        else:
-            try:
-                if 'error' in response.json():
-                    error_response = utilities.dictionary_to_object({'EcobeeErrorResponse': response.json()},
-                                                                    {'EcobeeErrorResponse': EcobeeErrorResponse},
-                                                                    {'EcobeeErrorResponse': None},
-                                                                    is_top_level=True)
-                    raise EcobeeAuthorizationException('ecobee authorization error encountered for URL => {0}\n'
-                                                       'HTTP error code => {1}\n'
-                                                       'Error type => {2}\n'
-                                                       'Error description => {3}\n'
-                                                       'Error URI => {4}'.format(response.request.url,
-                                                                                 response.status_code,
-                                                                                 error_response.error,
-                                                                                 error_response.error_description,
-                                                                                 error_response.error_uri),
-                                                       error_response.error,
-                                                       error_response.error_description,
-                                                       error_response.error_uri)
-                elif 'status' in response.json():
-                    status = utilities.dictionary_to_object({'Status': response.json()['status']},
-                                                            {'Status': Status},
-                                                            {'Status': None},
-                                                            is_top_level=True)
-                    raise EcobeeApiException('ecobee API error encountered for URL => {0}\n'
-                                             'HTTP error code => {1}\n'
-                                             'Status code => {2}\n'
-                                             'Status message => {3}'.format(response.request.url,
-                                                                            response.status_code,
-                                                                            status.code,
-                                                                            status.message),
-                                             status.code,
-                                             status.message)
-                else:
-                    raise EcobeeHttpException('HTTP error encountered for URL => {0}\n'
-                                              'HTTP error code => {1}'.format(response.request.url,
-                                                                              response.status_code))
-            except EcobeeException as ecobee_exception:
-                logger.exception('{0} raised:\n'.format(type(ecobee_exception).__name__), exc_info=True)
-                raise
-
-    @staticmethod
-    def __make_http_request(requests_http_method, url, headers=None, params=None, json_=None, timeout=5):
-        try:
-            logger.debug('Request\n'
-                         '[Method]\n'
-                         '========\n{0}\n\n'
-                         '[URL]\n'
-                         '=====\n{1}\n'
-                         '{2}{3}{4}'.format(requests_http_method.__name__.upper(),
-                                            url,
-                                            '\n'
-                                            '[Query Parameters]\n'
-                                            '==================\n{0}\n'.format('\n'.join(
-                                                ['{0:32} => {1!s}'.format(key, params[key])
-                                                 for key in sorted(params)])) if params is not None
-                                            else '',
-                                            '\n'
-                                            '[Headers]\n'
-                                            '=========\n{0}\n'.format(
-                                                '\n'.join(
-                                                    ['{0:32} => {1!s}'.format(header, headers[header])
-                                                     for header in sorted(headers)])) if headers is not None
-                                            else '',
-                                            '\n'
-                                            '[JSON]\n'
-                                            '======\n{0}\n'.format(
-                                                json.dumps(json_,
-                                                           sort_keys=True,
-                                                           indent=2)) if json_ is not None
-                                            else '').strip())
-
-            return requests_http_method(url,
-                                        headers=headers,
-                                        params=params,
-                                        json=json_,
-                                        timeout=timeout)
-        except requests.exceptions.RequestException:
-            (type_, value_, traceback_) = sys.exc_info()
-            logger.error('\n'.join(traceback.format_exception(type_, value_, traceback_)))
-
-            six.reraise(EcobeeRequestsException, value_, traceback_)
-
     def authorize(self, response_type='ecobeePin', timeout=5):
         """
         The authorize method allows a 3rd party application to obtain an authorization code and a 4 byte alphabetic
@@ -250,14 +139,16 @@ class EcobeeService(EcobeeObject):
         if response_type != 'ecobeePin':
             raise ValueError('response_type must be "ecobeePin"')
 
-        response = EcobeeService.__make_http_request(requests.get,
-                                                     EcobeeService.AUTHORIZE_URL,
-                                                     params={'client_id': self._application_key,
-                                                             'response_type': response_type,
-                                                             'scope': self._scope.value},
-                                                     timeout=timeout)
-        authorize_response = EcobeeService.__process_http_response(response, EcobeeAuthorizeResponse)
+        response = Utilities.make_http_request(requests.get,
+                                               EcobeeService.AUTHORIZE_URL,
+                                               params={'client_id': self._application_key,
+                                                       'response_type': response_type,
+                                                       'scope': self._scope.value},
+                                               timeout=timeout)
+        authorize_response = Utilities.process_http_response(response, EcobeeAuthorizeResponse)
+
         self._authorization_token = authorize_response.code
+
         return authorize_response
 
     def request_tokens(self, grant_type='ecobeePin', timeout=5):
@@ -281,17 +172,19 @@ class EcobeeService(EcobeeObject):
             raise ValueError('grant_type must be "ecobeePin"')
 
         now_utc = datetime.now(pytz.utc)
-        response = EcobeeService.__make_http_request(requests.post,
-                                                     EcobeeService.TOKENS_URL,
-                                                     params={'client_id': self._application_key,
-                                                             'code': self._authorization_token,
-                                                             'grant_type': grant_type},
-                                                     timeout=timeout)
-        tokens_response = EcobeeService.__process_http_response(response, EcobeeTokensResponse)
+        response = Utilities.make_http_request(requests.post,
+                                               EcobeeService.TOKENS_URL,
+                                               params={'client_id': self._application_key,
+                                                       'code': self._authorization_token,
+                                                       'grant_type': grant_type},
+                                               timeout=timeout)
+        tokens_response = Utilities.process_http_response(response, EcobeeTokensResponse)
+
         self._access_token = tokens_response.access_token
         self._access_token_expires_on = now_utc + timedelta(seconds=tokens_response.expires_in)
         self._refresh_token = tokens_response.refresh_token
         self._refresh_token_expires_on = now_utc + timedelta(days=365)
+
         return tokens_response
 
     def refresh_tokens(self, grant_type='refresh_token', timeout=5):
@@ -316,17 +209,19 @@ class EcobeeService(EcobeeObject):
             raise ValueError('grant_type must be "refresh_token"')
 
         now_utc = datetime.now(pytz.utc)
-        response = EcobeeService.__make_http_request(requests.post,
-                                                     EcobeeService.TOKENS_URL,
-                                                     params={'client_id': self._application_key,
-                                                             'code': self._refresh_token,
-                                                             'grant_type': grant_type},
-                                                     timeout=timeout)
-        tokens_response = EcobeeService.__process_http_response(response, EcobeeTokensResponse)
+        response = Utilities.make_http_request(requests.post,
+                                               EcobeeService.TOKENS_URL,
+                                               params={'client_id': self._application_key,
+                                                       'code': self._refresh_token,
+                                                       'grant_type': grant_type},
+                                               timeout=timeout)
+        tokens_response = Utilities.process_http_response(response, EcobeeTokensResponse)
+
         self._access_token = tokens_response.access_token
         self._access_token_expires_on = now_utc + timedelta(seconds=tokens_response.expires_in)
         self._refresh_token = tokens_response.refresh_token
         self._refresh_token_expires_on = now_utc + timedelta(days=365)
+
         return tokens_response
 
     def request_thermostats_summary(self, selection, timeout=5):
@@ -353,15 +248,17 @@ class EcobeeService(EcobeeObject):
         if not isinstance(selection, Selection):
             raise TypeError('selection must be an instance of {0}'.format(Selection))
 
-        dictionary = {'selection': utilities.object_to_dictionary(selection, type(selection))}
-        response = EcobeeService.__make_http_request(requests.get,
-                                                     EcobeeService.THERMOSTAT_SUMMARY_URL,
-                                                     headers={'Authorization': 'Bearer {0}'.format(
-                                                         self._access_token),
-                                                              'Content-Type': 'application/json;charset=UTF-8'},
-                                                     params={'json': json.dumps(dictionary, sort_keys=True, indent=2)},
-                                                     timeout=timeout)
-        return EcobeeService.__process_http_response(response, EcobeeThermostatsSummaryResponse)
+        dictionary = {'selection': Utilities.object_to_dictionary(selection, type(selection))}
+
+        response = Utilities.make_http_request(requests.get,
+                                               EcobeeService.THERMOSTAT_SUMMARY_URL,
+                                               headers={'Authorization': 'Bearer {0}'.format(
+                                                   self._access_token),
+                                                   'Content-Type': 'application/json;charset=UTF-8'},
+                                               params={'json': json.dumps(dictionary, sort_keys=True, indent=2)},
+                                               timeout=timeout)
+
+        return Utilities.process_http_response(response, EcobeeThermostatsSummaryResponse)
 
     def request_thermostats(self, selection, timeout=5):
         """
@@ -382,15 +279,17 @@ class EcobeeService(EcobeeObject):
         if not isinstance(selection, Selection):
             raise TypeError('selection must be an instance of {0}'.format(Selection))
 
-        dictionary = {'selection': utilities.object_to_dictionary(selection, type(selection))}
-        response = EcobeeService.__make_http_request(requests.get,
-                                                     EcobeeService.THERMOSTAT_URL,
-                                                     headers={'Authorization': 'Bearer {0}'.format(
-                                                         self._access_token),
-                                                              'Content-Type': 'application/json;charset=UTF-8'},
-                                                     params={'json': json.dumps(dictionary, sort_keys=True, indent=2)},
-                                                     timeout=timeout)
-        return EcobeeService.__process_http_response(response, EcobeeThermostatResponse)
+        dictionary = {'selection': Utilities.object_to_dictionary(selection, type(selection))}
+
+        response = Utilities.make_http_request(requests.get,
+                                               EcobeeService.THERMOSTAT_URL,
+                                               headers={'Authorization': 'Bearer {0}'.format(
+                                                   self._access_token),
+                                                   'Content-Type': 'application/json;charset=UTF-8'},
+                                               params={'json': json.dumps(dictionary, sort_keys=True, indent=2)},
+                                               timeout=timeout)
+
+        return Utilities.process_http_response(response, EcobeeThermostatResponse)
 
     def update_thermostats(self, selection, thermostat=None, functions=None, timeout=5):
         """
@@ -432,22 +331,24 @@ class EcobeeService(EcobeeObject):
                 if not isinstance(function_, Function):
                     raise TypeError('All members of functions must be a an instance of {0}'.format(Function))
 
-        dictionary = {'selection': utilities.object_to_dictionary(selection, type(selection))}
-        if thermostat:
-            dictionary['thermostat'] = utilities.object_to_dictionary(thermostat, type(thermostat))
-        if functions:
-            dictionary['functions'] = [utilities.object_to_dictionary(function_, type(function_)) for function_ in
+        dictionary = {'selection': Utilities.object_to_dictionary(selection, type(selection))}
+
+        if thermostat is not None:
+            dictionary['thermostat'] = Utilities.object_to_dictionary(thermostat, type(thermostat))
+        if functions is not None:
+            dictionary['functions'] = [Utilities.object_to_dictionary(function_, type(function_)) for function_ in
                                        functions]
 
-        response = EcobeeService.__make_http_request(requests.post,
-                                                     EcobeeService.THERMOSTAT_URL,
-                                                     headers={'Authorization': 'Bearer {0}'.format(
-                                                         self._access_token),
-                                                              'Content-Type': 'application/json;charset=UTF-8'},
-                                                     params={'format': 'json'},
-                                                     json_=dictionary,
-                                                     timeout=timeout)
-        return EcobeeService.__process_http_response(response, EcobeeStatusResponse)
+        response = Utilities.make_http_request(requests.post,
+                                               EcobeeService.THERMOSTAT_URL,
+                                               headers={'Authorization': 'Bearer {0}'.format(
+                                                   self._access_token),
+                                                   'Content-Type': 'application/json;charset=UTF-8'},
+                                               params={'format': 'json'},
+                                               json_=dictionary,
+                                               timeout=timeout)
+
+        return Utilities.process_http_response(response, EcobeeStatusResponse)
 
     def request_meter_reports(self, selection, start_date_time, end_date_time, meters='energy', timeout=5):
         """
@@ -482,7 +383,8 @@ class EcobeeService(EcobeeObject):
         if not isinstance(selection, Selection):
             raise TypeError('selection must be an instance of {0}'.format(Selection))
         if selection.selection_type != SelectionType.THERMOSTATS.value:
-            raise ValueError('selection.selection_type must be set to {0}'.format(SelectionType.THERMOSTATS.value))
+            raise ValueError('selection.selection_type must be set to {0}'.format(
+                SelectionType.THERMOSTATS.value))
         if len(selection.selection_match.split(',')) > 25:
             raise ValueError('selection must not specify more than 25 thermostats')
         if not isinstance(start_date_time, datetime):
@@ -504,7 +406,8 @@ class EcobeeService(EcobeeObject):
         if start_date_time >= end_date_time:
             raise ValueError('end_date_time must be later than start_date_time')
         if (end_date_time - start_date_time).days > 31:
-            raise ValueError('Duration between start_date_time and end_date_time must not be more than 31 days')
+            raise ValueError('Duration between start_date_time and end_date_time must not be more than 31 '
+                             'days')
         if not isinstance(meters, six.string_types):
             raise TypeError('meters must be an instance of {0}'.format(six.string_types))
         if not all(meter == 'energy' for meter in meters.split(',')):
@@ -516,7 +419,7 @@ class EcobeeService(EcobeeObject):
         start_date_time = start_date_time.astimezone(utc)
         end_date_time = end_date_time.astimezone(utc)
 
-        dictionary = {'selection': utilities.object_to_dictionary(selection, type(selection)),
+        dictionary = {'selection': Utilities.object_to_dictionary(selection, type(selection)),
                       'startDate': '{0}-{1:02}-{2:02}'.format(start_date_time.year,
                                                               start_date_time.month,
                                                               start_date_time.day),
@@ -527,17 +430,24 @@ class EcobeeService(EcobeeObject):
                       'endInterval': end_date_time.hour * 12 + (end_date_time.minute // 5),
                       'meters': meters
                       }
-        response = EcobeeService.__make_http_request(requests.get,
-                                                     EcobeeService.METER_REPORT_URL,
-                                                     headers={'Authorization': 'Bearer {0}'.format(
-                                                         self._access_token),
-                                                              'Content-Type': 'application/json;charset=UTF-8'},
-                                                     params={'format': 'json',
-                                                             'body': json.dumps(dictionary, sort_keys=True, indent=2)},
-                                                     timeout=timeout)
-        return EcobeeService.__process_http_response(response, EcobeeMeterReportsResponse)
 
-    def request_runtime_reports(self, selection, start_date_time, end_date_time, columns, include_sensors=False,
+        response = Utilities.make_http_request(requests.get,
+                                               EcobeeService.METER_REPORT_URL,
+                                               headers={'Authorization': 'Bearer {0}'.format(
+                                                   self._access_token),
+                                                   'Content-Type': 'application/json;charset=UTF-8'},
+                                               params={'format': 'json',
+                                                       'body': json.dumps(dictionary, sort_keys=True, indent=2)},
+                                               timeout=timeout)
+
+        return Utilities.process_http_response(response, EcobeeMeterReportsResponse)
+
+    def request_runtime_reports(self,
+                                selection,
+                                start_date_time,
+                                end_date_time,
+                                columns,
+                                include_sensors=False,
                                 timeout=5):
         """
         The request_runtime_reports request is limited to retrieving information for up to 25 thermostats with a
@@ -591,7 +501,8 @@ class EcobeeService(EcobeeObject):
         if start_date_time >= end_date_time:
             raise ValueError('end_date_time must be later than start_date_time')
         if (end_date_time - start_date_time).days > 31:
-            raise ValueError('Duration between start_date_time and end_date_time must not be more than 31 days')
+            raise ValueError('Duration between start_date_time and end_date_time must not be more than 31 '
+                             'days')
         if not isinstance(columns, six.string_types):
             raise TypeError('columns must be an instance of {0}'.format(six.string_types))
         if not isinstance(include_sensors, bool):
@@ -601,7 +512,7 @@ class EcobeeService(EcobeeObject):
         start_date_time = start_date_time.astimezone(utc)
         end_date_time = end_date_time.astimezone(utc)
 
-        dictionary = {'selection': utilities.object_to_dictionary(selection, type(selection)),
+        dictionary = {'selection': Utilities.object_to_dictionary(selection, type(selection)),
                       'startDate': '{0}-{1:02}-{2:02}'.format(start_date_time.year, start_date_time.month,
                                                               start_date_time.day),
                       'startInterval': (start_date_time.hour * 12) + (start_date_time.minute // 5),
@@ -612,15 +523,17 @@ class EcobeeService(EcobeeObject):
                       'columns': columns,
                       'includeSensors': include_sensors
                       }
-        response = EcobeeService.__make_http_request(requests.get,
-                                                     EcobeeService.RUNTIME_REPORT_URL,
-                                                     headers={'Authorization': 'Bearer {0}'.format(
-                                                         self._access_token),
-                                                              'Content-Type': 'application/json;charset=UTF-8'},
-                                                     params={'format': 'json',
-                                                             'body': json.dumps(dictionary, sort_keys=True, indent=2)},
-                                                     timeout=timeout)
-        return EcobeeService.__process_http_response(response, EcobeeRuntimeReportsResponse)
+
+        response = Utilities.make_http_request(requests.get,
+                                               EcobeeService.RUNTIME_REPORT_URL,
+                                               headers={'Authorization': 'Bearer {0}'.format(
+                                                   self._access_token),
+                                                   'Content-Type': 'application/json;charset=UTF-8'},
+                                               params={'format': 'json',
+                                                       'body': json.dumps(dictionary, sort_keys=True, indent=2)},
+                                               timeout=timeout)
+
+        return Utilities.process_http_response(response, EcobeeRuntimeReportsResponse)
 
     def request_groups(self, selection, timeout=5):
         """
@@ -641,16 +554,18 @@ class EcobeeService(EcobeeObject):
         if selection.selection_type != SelectionType.REGISTERED.value:
             raise ValueError('selection.selection_type must be set to {0}'.format(SelectionType.REGISTERED.value))
 
-        dictionary = {'selection': utilities.object_to_dictionary(selection, type(selection))}
-        response = EcobeeService.__make_http_request(requests.get,
-                                                     EcobeeService.GROUP_URL,
-                                                     headers={'Authorization': 'Bearer {0}'.format(
-                                                         self._access_token),
-                                                              'Content-Type': 'application/json;charset=UTF-8'},
-                                                     params={'format': 'json',
-                                                             'body': json.dumps(dictionary, sort_keys=True, indent=2)},
-                                                     timeout=timeout)
-        return EcobeeService.__process_http_response(response, EcobeeGroupsResponse)
+        dictionary = {'selection': Utilities.object_to_dictionary(selection, type(selection))}
+
+        response = Utilities.make_http_request(requests.get,
+                                               EcobeeService.GROUP_URL,
+                                               headers={'Authorization': 'Bearer {0}'.format(
+                                                   self._access_token),
+                                                   'Content-Type': 'application/json;charset=UTF-8'},
+                                               params={'format': 'json',
+                                                       'body': json.dumps(dictionary, sort_keys=True, indent=2)},
+                                               timeout=timeout)
+
+        return Utilities.process_http_response(response, EcobeeGroupsResponse)
 
     def update_groups(self, selection, groups, timeout=5):
         """
@@ -674,20 +589,25 @@ class EcobeeService(EcobeeObject):
             if not isinstance(group, Group):
                 raise TypeError('All members of groups must be a an instance of {0}'.format(Group))
 
-        dictionary = {'selection': utilities.object_to_dictionary(selection, type(selection)),
-                      'groups': [utilities.object_to_dictionary(group, type(group)) for group in groups]}
+        dictionary = {'selection': Utilities.object_to_dictionary(selection, type(selection)),
+                      'groups': [Utilities.object_to_dictionary(group, type(group)) for group in groups]}
 
-        response = EcobeeService.__make_http_request(requests.post,
-                                                     EcobeeService.GROUP_URL,
-                                                     headers={'Authorization': 'Bearer {0}'.format(
-                                                         self._access_token),
-                                                              'Content-Type': 'application/json;charset=UTF-8'},
-                                                     params={'format': 'json'},
-                                                     json_=dictionary,
-                                                     timeout=timeout)
-        return EcobeeService.__process_http_response(response, EcobeeGroupsResponse)
+        response = Utilities.make_http_request(requests.post,
+                                               EcobeeService.GROUP_URL,
+                                               headers={'Authorization': 'Bearer {0}'.format(
+                                                   self._access_token),
+                                                   'Content-Type': 'application/json;charset=UTF-8'},
+                                               params={'format': 'json'},
+                                               json_=dictionary,
+                                               timeout=timeout)
 
-    def list_hierarchy_sets(self, set_path, recursive=False, include_privileges=False, include_thermostats=False,
+        return Utilities.process_http_response(response, EcobeeGroupsResponse)
+
+    def list_hierarchy_sets(self,
+                            set_path,
+                            recursive=False,
+                            include_privileges=False,
+                            include_thermostats=False,
                             timeout=5):
         """
         The list_hierarchy_sets method returns the management set hierarchy either at a single node depth and its
@@ -721,15 +641,16 @@ class EcobeeService(EcobeeObject):
                       'includePrivileges': include_privileges,
                       'includeThermostats': include_thermostats}
 
-        response = EcobeeService.__make_http_request(requests.get,
-                                                     EcobeeService.HIERARCHY_SET_URL,
-                                                     headers={'Authorization': 'Bearer {0}'.format(
-                                                         self._access_token),
-                                                              'Content-Type': 'application/json;charset=UTF-8'},
-                                                     params={'format': 'json',
-                                                             'body': json.dumps(dictionary, sort_keys=True, indent=2)},
-                                                     timeout=timeout)
-        return EcobeeService.__process_http_response(response, EcobeeListHierarchySetsResponse)
+        response = Utilities.make_http_request(requests.get,
+                                               EcobeeService.HIERARCHY_SET_URL,
+                                               headers={'Authorization': 'Bearer {0}'.format(
+                                                   self._access_token),
+                                                   'Content-Type': 'application/json;charset=UTF-8'},
+                                               params={'format': 'json',
+                                                       'body': json.dumps(dictionary, sort_keys=True, indent=2)},
+                                               timeout=timeout)
+
+        return Utilities.process_http_response(response, EcobeeListHierarchySetsResponse)
 
     def list_hierarchy_users(self, set_path, recursive=False, include_privileges=False, timeout=5):
         """
@@ -758,15 +679,16 @@ class EcobeeService(EcobeeObject):
                       'recursive': recursive,
                       'includePrivileges': include_privileges}
 
-        response = EcobeeService.__make_http_request(requests.get,
-                                                     EcobeeService.HIERARCHY_USER_URL,
-                                                     headers={'Authorization': 'Bearer {0}'.format(
-                                                         self._access_token),
-                                                              'Content-Type': 'application/json;charset=UTF-8'},
-                                                     params={'format': 'json',
-                                                             'body': json.dumps(dictionary, sort_keys=True, indent=2)},
-                                                     timeout=timeout)
-        return EcobeeService.__process_http_response(response, EcobeeListHierarchyUsersResponse)
+        response = Utilities.make_http_request(requests.get,
+                                               EcobeeService.HIERARCHY_USER_URL,
+                                               headers={'Authorization': 'Bearer {0}'.format(
+                                                   self._access_token),
+                                                   'Content-Type': 'application/json;charset=UTF-8'},
+                                               params={'format': 'json',
+                                                       'body': json.dumps(dictionary, sort_keys=True, indent=2)},
+                                               timeout=timeout)
+
+        return Utilities.process_http_response(response, EcobeeListHierarchyUsersResponse)
 
     def add_hierarchy_set(self, set_name, parent_path, timeout=5):
         """
@@ -790,15 +712,16 @@ class EcobeeService(EcobeeObject):
                       'setName': set_name,
                       'parentPath': parent_path}
 
-        response = EcobeeService.__make_http_request(requests.post,
-                                                     EcobeeService.HIERARCHY_SET_URL,
-                                                     headers={'Authorization': 'Bearer {0}'.format(
-                                                         self._access_token),
-                                                              'Content-Type': 'application/json;charset=UTF-8'},
-                                                     params={'format': 'json'},
-                                                     json_=dictionary,
-                                                     timeout=timeout)
-        return EcobeeService.__process_http_response(response, EcobeeStatusResponse)
+        response = Utilities.make_http_request(requests.post,
+                                               EcobeeService.HIERARCHY_SET_URL,
+                                               headers={'Authorization': 'Bearer {0}'.format(
+                                                   self._access_token),
+                                                   'Content-Type': 'application/json;charset=UTF-8'},
+                                               params={'format': 'json'},
+                                               json_=dictionary,
+                                               timeout=timeout)
+
+        return Utilities.process_http_response(response, EcobeeStatusResponse)
 
     def remove_hierarchy_set(self, set_path, timeout=5):
         """
@@ -817,15 +740,17 @@ class EcobeeService(EcobeeObject):
 
         dictionary = {'operation': 'remove',
                       'setPath': set_path}
-        response = EcobeeService.__make_http_request(requests.post,
-                                                     EcobeeService.HIERARCHY_SET_URL,
-                                                     headers={'Authorization': 'Bearer {0}'.format(
-                                                         self._access_token),
-                                                              'Content-Type': 'application/json;charset=UTF-8'},
-                                                     params={'format': 'json'},
-                                                     json_=dictionary,
-                                                     timeout=timeout)
-        return EcobeeService.__process_http_response(response, EcobeeStatusResponse)
+
+        response = Utilities.make_http_request(requests.post,
+                                               EcobeeService.HIERARCHY_SET_URL,
+                                               headers={'Authorization': 'Bearer {0}'.format(
+                                                   self._access_token),
+                                                   'Content-Type': 'application/json;charset=UTF-8'},
+                                               params={'format': 'json'},
+                                               json_=dictionary,
+                                               timeout=timeout)
+
+        return Utilities.process_http_response(response, EcobeeStatusResponse)
 
     def rename_hierarchy_set(self, set_path, new_name, timeout=5):
         """
@@ -848,15 +773,17 @@ class EcobeeService(EcobeeObject):
         dictionary = {'operation': 'rename',
                       'setPath': set_path,
                       'newName': new_name}
-        response = EcobeeService.__make_http_request(requests.post,
-                                                     EcobeeService.HIERARCHY_SET_URL,
-                                                     headers={'Authorization': 'Bearer {0}'.format(
-                                                         self._access_token),
-                                                              'Content-Type': 'application/json;charset=UTF-8'},
-                                                     params={'format': 'json'},
-                                                     json_=dictionary,
-                                                     timeout=timeout)
-        return EcobeeService.__process_http_response(response, EcobeeStatusResponse)
+
+        response = Utilities.make_http_request(requests.post,
+                                               EcobeeService.HIERARCHY_SET_URL,
+                                               headers={'Authorization': 'Bearer {0}'.format(
+                                                   self._access_token),
+                                                   'Content-Type': 'application/json;charset=UTF-8'},
+                                               params={'format': 'json'},
+                                               json_=dictionary,
+                                               timeout=timeout)
+
+        return Utilities.process_http_response(response, EcobeeStatusResponse)
 
     def move_hierarchy_set(self, set_path, to_path, timeout=5):
         """
@@ -880,15 +807,17 @@ class EcobeeService(EcobeeObject):
         dictionary = {'operation': 'move',
                       'setPath': set_path,
                       'toPath': to_path}
-        response = EcobeeService.__make_http_request(requests.post,
-                                                     EcobeeService.HIERARCHY_SET_URL,
-                                                     headers={'Authorization': 'Bearer {0}'.format(
-                                                         self._access_token),
-                                                              'Content-Type': 'application/json;charset=UTF-8'},
-                                                     params={'format': 'json'},
-                                                     json_=dictionary,
-                                                     timeout=timeout)
-        return EcobeeService.__process_http_response(response, EcobeeStatusResponse)
+
+        response = Utilities.make_http_request(requests.post,
+                                               EcobeeService.HIERARCHY_SET_URL,
+                                               headers={'Authorization': 'Bearer {0}'.format(
+                                                   self._access_token),
+                                                   'Content-Type': 'application/json;charset=UTF-8'},
+                                               params={'format': 'json'},
+                                               json_=dictionary,
+                                               timeout=timeout)
+
+        return Utilities.process_http_response(response, EcobeeStatusResponse)
 
     def add_hierarchy_users(self, users, privileges=None, timeout=5):
         """
@@ -924,19 +853,21 @@ class EcobeeService(EcobeeObject):
                         HierarchyPrivilege))
 
         dictionary = {'operation': 'add',
-                      'users': [utilities.object_to_dictionary(user, type(user)) for user in users]}
-        if privileges:
-            dictionary['privileges'] = [utilities.object_to_dictionary(privilege, type(privilege)) for privilege in
+                      'users': [Utilities.object_to_dictionary(user, type(user)) for user in users]}
+
+        if privileges is not None:
+            dictionary['privileges'] = [Utilities.object_to_dictionary(privilege, type(privilege)) for privilege in
                                         privileges]
-        response = EcobeeService.__make_http_request(requests.post,
-                                                     EcobeeService.HIERARCHY_USER_URL,
-                                                     headers={'Authorization': 'Bearer {0}'.format(
-                                                         self._access_token),
-                                                              'Content-Type': 'application/json;charset=UTF-8'},
-                                                     params={'format': 'json'},
-                                                     json_=dictionary,
-                                                     timeout=timeout)
-        return EcobeeService.__process_http_response(response, EcobeeStatusResponse)
+        response = Utilities.make_http_request(requests.post,
+                                               EcobeeService.HIERARCHY_USER_URL,
+                                               headers={'Authorization': 'Bearer {0}'.format(
+                                                   self._access_token),
+                                                   'Content-Type': 'application/json;charset=UTF-8'},
+                                               params={'format': 'json'},
+                                               json_=dictionary,
+                                               timeout=timeout)
+
+        return Utilities.process_http_response(response, EcobeeStatusResponse)
 
     def remove_hierarchy_users(self, set_path, users, timeout=5):
         """
@@ -963,16 +894,18 @@ class EcobeeService(EcobeeObject):
 
         dictionary = {'operation': 'remove',
                       'setPath': set_path,
-                      'users': [utilities.object_to_dictionary(user, type(user)) for user in users]}
-        response = EcobeeService.__make_http_request(requests.post,
-                                                     EcobeeService.HIERARCHY_USER_URL,
-                                                     headers={'Authorization': 'Bearer {0}'.format(
-                                                         self._access_token),
-                                                              'Content-Type': 'application/json;charset=UTF-8'},
-                                                     params={'format': 'json'},
-                                                     json_=dictionary,
-                                                     timeout=timeout)
-        return EcobeeService.__process_http_response(response, EcobeeStatusResponse)
+                      'users': [Utilities.object_to_dictionary(user, type(user)) for user in users]}
+
+        response = Utilities.make_http_request(requests.post,
+                                               EcobeeService.HIERARCHY_USER_URL,
+                                               headers={'Authorization': 'Bearer {0}'.format(
+                                                   self._access_token),
+                                                   'Content-Type': 'application/json;charset=UTF-8'},
+                                               params={'format': 'json'},
+                                               json_=dictionary,
+                                               timeout=timeout)
+
+        return Utilities.process_http_response(response, EcobeeStatusResponse)
 
     def unregister_hierarchy_users(self, users, timeout=5):
         """
@@ -994,16 +927,18 @@ class EcobeeService(EcobeeObject):
                 raise TypeError('All members of users must be a an instance of {0}'.format(HierarchyUser))
 
         dictionary = {'operation': 'unregister',
-                      'users': [utilities.object_to_dictionary(user, type(user)) for user in users]}
-        response = EcobeeService.__make_http_request(requests.post,
-                                                     EcobeeService.HIERARCHY_USER_URL,
-                                                     headers={'Authorization': 'Bearer {0}'.format(
-                                                         self._access_token),
-                                                              'Content-Type': 'application/json;charset=UTF-8'},
-                                                     params={'format': 'json'},
-                                                     json_=dictionary,
-                                                     timeout=timeout)
-        return EcobeeService.__process_http_response(response, EcobeeStatusResponse)
+                      'users': [Utilities.object_to_dictionary(user, type(user)) for user in users]}
+
+        response = Utilities.make_http_request(requests.post,
+                                               EcobeeService.HIERARCHY_USER_URL,
+                                               headers={'Authorization': 'Bearer {0}'.format(
+                                                   self._access_token),
+                                                   'Content-Type': 'application/json;charset=UTF-8'},
+                                               params={'format': 'json'},
+                                               json_=dictionary,
+                                               timeout=timeout)
+
+        return Utilities.process_http_response(response, EcobeeStatusResponse)
 
     def update_hierarchy_users(self, users=None, privileges=None, timeout=5):
         """
@@ -1038,20 +973,22 @@ class EcobeeService(EcobeeObject):
             raise ValueError('Either users must not be None or privileges must not be None')
 
         dictionary = {'operation': 'update'}
+
         if users is not None:
-            dictionary['users'] = [utilities.object_to_dictionary(user, type(user)) for user in users]
+            dictionary['users'] = [Utilities.object_to_dictionary(user, type(user)) for user in users]
         if privileges is not None:
-            dictionary['privileges'] = [utilities.object_to_dictionary(privilege, type(privilege)) for privilege in
-                                        privileges]
-        response = EcobeeService.__make_http_request(requests.post,
-                                                     EcobeeService.HIERARCHY_USER_URL,
-                                                     headers={'Authorization': 'Bearer {0}'.format(
-                                                         self._access_token),
-                                                              'Content-Type': 'application/json;charset=UTF-8'},
-                                                     params={'format': 'json'},
-                                                     json_=dictionary,
-                                                     timeout=timeout)
-        return EcobeeService.__process_http_response(response, EcobeeStatusResponse)
+            dictionary['privileges'] = [Utilities.object_to_dictionary(privilege, type(privilege))
+                                        for privilege in privileges]
+        response = Utilities.make_http_request(requests.post,
+                                               EcobeeService.HIERARCHY_USER_URL,
+                                               headers={'Authorization': 'Bearer {0}'.format(
+                                                   self._access_token),
+                                                   'Content-Type': 'application/json;charset=UTF-8'},
+                                               params={'format': 'json'},
+                                               json_=dictionary,
+                                               timeout=timeout)
+
+        return Utilities.process_http_response(response, EcobeeStatusResponse)
 
     def register_hierarchy_thermostats(self, thermostats, set_path=None, timeout=5):
         """
@@ -1075,17 +1012,20 @@ class EcobeeService(EcobeeObject):
 
         dictionary = {'operation': 'register',
                       'thermostats': thermostats}
+
         if set_path is not None:
             dictionary['setPath'] = set_path
-        response = EcobeeService.__make_http_request(requests.post,
-                                                     EcobeeService.HIERARCHY_THERMOSTAT_URL,
-                                                     headers={'Authorization': 'Bearer {0}'.format(
-                                                         self._access_token),
-                                                              'Content-Type': 'application/json;charset=UTF-8'},
-                                                     params={'format': 'json'},
-                                                     json_=dictionary,
-                                                     timeout=timeout)
-        return EcobeeService.__process_http_response(response, EcobeeStatusResponse)
+
+        response = Utilities.make_http_request(requests.post,
+                                               EcobeeService.HIERARCHY_THERMOSTAT_URL,
+                                               headers={'Authorization': 'Bearer {0}'.format(
+                                                   self._access_token),
+                                                   'Content-Type': 'application/json;charset=UTF-8'},
+                                               params={'format': 'json'},
+                                               json_=dictionary,
+                                               timeout=timeout)
+
+        return Utilities.process_http_response(response, EcobeeStatusResponse)
 
     def unregister_hierarchy_thermostats(self, thermostats, timeout=5):
         """
@@ -1105,15 +1045,17 @@ class EcobeeService(EcobeeObject):
 
         dictionary = {'operation': 'unregister',
                       'thermostats': thermostats}
-        response = EcobeeService.__make_http_request(requests.post,
-                                                     EcobeeService.HIERARCHY_THERMOSTAT_URL,
-                                                     headers={'Authorization': 'Bearer {0}'.format(
-                                                         self._access_token),
-                                                              'Content-Type': 'application/json;charset=UTF-8'},
-                                                     params={'format': 'json'},
-                                                     json_=dictionary,
-                                                     timeout=timeout)
-        return EcobeeService.__process_http_response(response, EcobeeStatusResponse)
+
+        response = Utilities.make_http_request(requests.post,
+                                               EcobeeService.HIERARCHY_THERMOSTAT_URL,
+                                               headers={'Authorization': 'Bearer {0}'.format(
+                                                   self._access_token),
+                                                   'Content-Type': 'application/json;charset=UTF-8'},
+                                               params={'format': 'json'},
+                                               json_=dictionary,
+                                               timeout=timeout)
+
+        return Utilities.process_http_response(response, EcobeeStatusResponse)
 
     def move_hierarchy_thermostats(self, set_path, to_path, thermostats=None, timeout=5):
         """
@@ -1141,17 +1083,20 @@ class EcobeeService(EcobeeObject):
         dictionary = {'operation': 'move',
                       'setPath': set_path,
                       'toPath': to_path}
+
         if thermostats is not None:
             dictionary['thermostats'] = thermostats
-        response = EcobeeService.__make_http_request(requests.post,
-                                                     EcobeeService.HIERARCHY_THERMOSTAT_URL,
-                                                     headers={'Authorization': 'Bearer {0}'.format(
-                                                         self._access_token),
-                                                              'Content-Type': 'application/json;charset=UTF-8'},
-                                                     params={'format': 'json'},
-                                                     json_=dictionary,
-                                                     timeout=timeout)
-        return EcobeeService.__process_http_response(response, EcobeeStatusResponse)
+
+        response = Utilities.make_http_request(requests.post,
+                                               EcobeeService.HIERARCHY_THERMOSTAT_URL,
+                                               headers={'Authorization': 'Bearer {0}'.format(
+                                                   self._access_token),
+                                                   'Content-Type': 'application/json;charset=UTF-8'},
+                                               params={'format': 'json'},
+                                               json_=dictionary,
+                                               timeout=timeout)
+
+        return Utilities.process_http_response(response, EcobeeStatusResponse)
 
     def assign_hierarchy_thermostats(self, set_path, thermostats, timeout=5):
         """
@@ -1175,15 +1120,17 @@ class EcobeeService(EcobeeObject):
         dictionary = {'operation': 'assign',
                       'setPath': set_path,
                       'thermostats': thermostats}
-        response = EcobeeService.__make_http_request(requests.post,
-                                                     EcobeeService.HIERARCHY_THERMOSTAT_URL,
-                                                     headers={'Authorization': 'Bearer {0}'.format(
-                                                         self._access_token),
-                                                              'Content-Type': 'application/json;charset=UTF-8'},
-                                                     params={'format': 'json'},
-                                                     json_=dictionary,
-                                                     timeout=timeout)
-        return EcobeeService.__process_http_response(response, EcobeeStatusResponse)
+
+        response = Utilities.make_http_request(requests.post,
+                                               EcobeeService.HIERARCHY_THERMOSTAT_URL,
+                                               headers={'Authorization': 'Bearer {0}'.format(
+                                                   self._access_token),
+                                                   'Content-Type': 'application/json;charset=UTF-8'},
+                                               params={'format': 'json'},
+                                               json_=dictionary,
+                                               timeout=timeout)
+
+        return Utilities.process_http_response(response, EcobeeStatusResponse)
 
     def list_demand_responses(self, timeout=5):
         """
@@ -1197,15 +1144,17 @@ class EcobeeService(EcobeeObject):
         :raises EcobeeRequestsException: If an exception is raised by the underlying requests module
         """
         dictionary = {'operation': 'list'}
-        response = EcobeeService.__make_http_request(requests.get,
-                                                     EcobeeService.DEMAND_RESPONSE_URL,
-                                                     headers={'Authorization': 'Bearer {0}'.format(
-                                                         self._access_token),
-                                                              'Content-Type': 'application/json;charset=UTF-8'},
-                                                     params={'format': 'json',
-                                                             'body': json.dumps(dictionary, sort_keys=True, indent=2)},
-                                                     timeout=timeout)
-        return EcobeeService.__process_http_response(response, EcobeeListDemandResponsesResponse)
+
+        response = Utilities.make_http_request(requests.get,
+                                               EcobeeService.DEMAND_RESPONSE_URL,
+                                               headers={'Authorization': 'Bearer {0}'.format(
+                                                   self._access_token),
+                                                   'Content-Type': 'application/json;charset=UTF-8'},
+                                               params={'format': 'json',
+                                                       'body': json.dumps(dictionary, sort_keys=True, indent=2)},
+                                               timeout=timeout)
+
+        return Utilities.process_http_response(response, EcobeeListDemandResponsesResponse)
 
     def issue_demand_response(self, selection, demand_response, timeout=5):
         """
@@ -1227,18 +1176,21 @@ class EcobeeService(EcobeeObject):
             raise TypeError('selection must be an instance of {0}'.format(Selection))
         if not isinstance(demand_response, DemandResponse):
             raise TypeError('demand_response must be an instance of {0}'.format(DemandResponse))
-        dictionary = {'selection': utilities.object_to_dictionary(selection, type(selection)),
+
+        dictionary = {'selection': Utilities.object_to_dictionary(selection, type(selection)),
                       'operation': 'create',
-                      'demandResponse': utilities.object_to_dictionary(demand_response, type(demand_response))}
-        response = EcobeeService.__make_http_request(requests.post,
-                                                     EcobeeService.DEMAND_RESPONSE_URL,
-                                                     headers={'Authorization': 'Bearer {0}'.format(
-                                                         self._access_token),
-                                                              'Content-Type': 'application/json;charset=UTF-8'},
-                                                     params={'format': 'json'},
-                                                     json_=dictionary,
-                                                     timeout=timeout)
-        return EcobeeService.__process_http_response(response, EcobeeIssueDemandResponsesResponse)
+                      'demandResponse': Utilities.object_to_dictionary(demand_response, type(demand_response))}
+
+        response = Utilities.make_http_request(requests.post,
+                                               EcobeeService.DEMAND_RESPONSE_URL,
+                                               headers={'Authorization': 'Bearer {0}'.format(
+                                                   self._access_token),
+                                                   'Content-Type': 'application/json;charset=UTF-8'},
+                                               params={'format': 'json'},
+                                               json_=dictionary,
+                                               timeout=timeout)
+
+        return Utilities.process_http_response(response, EcobeeIssueDemandResponsesResponse)
 
     def cancel_demand_response(self, demand_response_ref, timeout=5):
         """
@@ -1255,16 +1207,19 @@ class EcobeeService(EcobeeObject):
         """
         if not isinstance(demand_response_ref, six.text_type):
             raise TypeError('demand_response_ref must be an instance of {0}'.format(six.text_type))
+
         dictionary = {'operation': 'cancel', 'demandResponse': {'demandResponseRef': demand_response_ref}}
-        response = EcobeeService.__make_http_request(requests.post,
-                                                     EcobeeService.DEMAND_RESPONSE_URL,
-                                                     headers={'Authorization': 'Bearer {0}'.format(
-                                                         self._access_token),
-                                                              'Content-Type': 'application/json;charset=UTF-8'},
-                                                     params={'format': 'json'},
-                                                     json_=dictionary,
-                                                     timeout=timeout)
-        return EcobeeService.__process_http_response(response, EcobeeStatusResponse)
+
+        response = Utilities.make_http_request(requests.post,
+                                               EcobeeService.DEMAND_RESPONSE_URL,
+                                               headers={'Authorization': 'Bearer {0}'.format(
+                                                   self._access_token),
+                                                   'Content-Type': 'application/json;charset=UTF-8'},
+                                               params={'format': 'json'},
+                                               json_=dictionary,
+                                               timeout=timeout)
+
+        return Utilities.process_http_response(response, EcobeeStatusResponse)
 
     def issue_demand_managements(self, selection, demand_managements, timeout=5):
         """
@@ -1292,18 +1247,20 @@ class EcobeeService(EcobeeObject):
                 raise TypeError('All members of demand_managements must be a an instance of {0}'.format(
                     DemandManagement))
 
-        dictionary = {'selection': utilities.object_to_dictionary(selection, type(selection)),
-                      'dmList': [utilities.object_to_dictionary(demand_management, type(demand_management)) for
-                                 demand_management in demand_managements]}
-        response = EcobeeService.__make_http_request(requests.post,
-                                                     EcobeeService.DEMAND_MANAGEMENT_URL,
-                                                     headers={'Authorization': 'Bearer {0}'.format(
-                                                         self._access_token),
-                                                              'Content-Type': 'application/json;charset=UTF-8'},
-                                                     params={'format': 'json'},
-                                                     json_=dictionary,
-                                                     timeout=timeout)
-        return EcobeeService.__process_http_response(response, EcobeeStatusResponse)
+        dictionary = {'selection': Utilities.object_to_dictionary(selection, type(selection)),
+                      'dmList': [Utilities.object_to_dictionary(demand_management, type(demand_management))
+                                 for demand_management in demand_managements]}
+
+        response = Utilities.make_http_request(requests.post,
+                                               EcobeeService.DEMAND_MANAGEMENT_URL,
+                                               headers={'Authorization': 'Bearer {0}'.format(
+                                                   self._access_token),
+                                                   'Content-Type': 'application/json;charset=UTF-8'},
+                                               params={'format': 'json'},
+                                               json_=dictionary,
+                                               timeout=timeout)
+
+        return Utilities.process_http_response(response, EcobeeStatusResponse)
 
     def create_runtime_report_job(self, selection, start_date, end_date, columns, include_sensors=False, timeout=5):
         """
@@ -1358,20 +1315,22 @@ class EcobeeService(EcobeeObject):
         if not isinstance(include_sensors, bool):
             raise TypeError('include_sensors must be an instance of {0}'.format(bool))
 
-        dictionary = {'selection': utilities.object_to_dictionary(selection, type(selection)),
+        dictionary = {'selection': Utilities.object_to_dictionary(selection, type(selection)),
                       'startDate': '{0}-{1:02}-{2:02}'.format(start_date.year, start_date.month, start_date.day),
                       'endDate': '{0}-{1:02}-{2:02}'.format(end_date.year, end_date.month, end_date.day),
                       'columns': columns,
                       'includeSensors': include_sensors}
-        response = EcobeeService.__make_http_request(requests.post,
-                                                     '{0}/create'.format(EcobeeService.RUNTIME_REPORT_JOB_URL),
-                                                     headers={'Authorization': 'Bearer {0}'.format(
-                                                         self._access_token),
-                                                              'Content-Type': 'application/json;charset=UTF-8'},
-                                                     params={'format': 'json'},
-                                                     json_=dictionary,
-                                                     timeout=timeout)
-        return EcobeeService.__process_http_response(response, EcobeeCreateRuntimeReportJobResponse)
+
+        response = Utilities.make_http_request(requests.post,
+                                               '{0}/create'.format(EcobeeService.RUNTIME_REPORT_JOB_URL),
+                                               headers={'Authorization': 'Bearer {0}'.format(
+                                                   self._access_token),
+                                                   'Content-Type': 'application/json;charset=UTF-8'},
+                                               params={'format': 'json'},
+                                               json_=dictionary,
+                                               timeout=timeout)
+
+        return Utilities.process_http_response(response, EcobeeCreateRuntimeReportJobResponse)
 
     def list_runtime_report_job_status(self, job_id=None, timeout=5):
         """
@@ -1391,17 +1350,20 @@ class EcobeeService(EcobeeObject):
                 raise TypeError('job_id must be an instance of {0}'.format(six.text_type))
 
         dictionary = {}
-        if job_id:
+
+        if job_id is not None:
             dictionary['jobId'] = job_id
-        response = EcobeeService.__make_http_request(requests.post,
-                                                     '{0}/status'.format(EcobeeService.RUNTIME_REPORT_JOB_URL),
-                                                     headers={'Authorization': 'Bearer {0}'.format(
-                                                         self._access_token),
-                                                              'Content-Type': 'application/json;charset=UTF-8'},
-                                                     params={'format': 'json',
-                                                             'body': json.dumps(dictionary, sort_keys=True, indent=2)},
-                                                     timeout=timeout)
-        return EcobeeService.__process_http_response(response, EcobeeListRuntimeReportJobStatusResponse)
+
+        response = Utilities.make_http_request(requests.post,
+                                               '{0}/status'.format(EcobeeService.RUNTIME_REPORT_JOB_URL),
+                                               headers={'Authorization': 'Bearer {0}'.format(
+                                                   self._access_token),
+                                                   'Content-Type': 'application/json;charset=UTF-8'},
+                                               params={'format': 'json',
+                                                       'body': json.dumps(dictionary, sort_keys=True, indent=2)},
+                                               timeout=timeout)
+
+        return Utilities.process_http_response(response, EcobeeListRuntimeReportJobStatusResponse)
 
     def cancel_runtime_report_job(self, job_id, timeout=5):
         """
@@ -1421,15 +1383,17 @@ class EcobeeService(EcobeeObject):
             raise TypeError('job_id must be an instance of {0}'.format(six.text_type))
 
         dictionary = {'jobId': job_id}
-        response = EcobeeService.__make_http_request(requests.post,
-                                                     '{0}/cancel'.format(EcobeeService.RUNTIME_REPORT_JOB_URL),
-                                                     headers={'Authorization': 'Bearer {0}'.format(
-                                                         self._access_token),
-                                                              'Content-Type': 'application/json;charset=UTF-8'},
-                                                     params={'format': 'json'},
-                                                     json_=dictionary,
-                                                     timeout=timeout)
-        return EcobeeService.__process_http_response(response, EcobeeStatusResponse)
+
+        response = Utilities.make_http_request(requests.post,
+                                               '{0}/cancel'.format(EcobeeService.RUNTIME_REPORT_JOB_URL),
+                                               headers={'Authorization': 'Bearer {0}'.format(
+                                                   self._access_token),
+                                                   'Content-Type': 'application/json;charset=UTF-8'},
+                                               params={'format': 'json'},
+                                               json_=dictionary,
+                                               timeout=timeout)
+
+        return Utilities.process_http_response(response, EcobeeStatusResponse)
 
     def acknowledge(self,
                     thermostat_identifier,
@@ -1545,20 +1509,22 @@ class EcobeeService(EcobeeObject):
             raise TypeError('selection must be an instance of {0}'.format(Selection))
 
         control_plug_parameters = {'plugName': plug_name, 'plugState': plug_state.value, 'holdType': hold_type.value}
-        if start_date_time:
+
+        if start_date_time is not None:
             control_plug_parameters['startDate'] = '{0}-{1:02}-{2:02}'.format(start_date_time.year,
                                                                               start_date_time.month,
                                                                               start_date_time.day)
             control_plug_parameters['startTime'] = '{0:02}:{1:02}:{2:02}'.format(start_date_time.hour,
                                                                                  start_date_time.minute,
                                                                                  start_date_time.second)
-        if end_date_time:
+
+        if end_date_time is not None:
             control_plug_parameters['endDate'] = '{0}-{1:02}-{2:02}'.format(end_date_time.year, end_date_time.month,
                                                                             end_date_time.day)
             control_plug_parameters['endTime'] = '{0:02}:{1:02}:{2:02}'.format(end_date_time.hour,
                                                                                end_date_time.minute,
                                                                                end_date_time.second)
-        if hold_hours:
+        if hold_hours is not None:
             control_plug_parameters['holdHours'] = hold_hours
 
         return self.update_thermostats(selection,
@@ -1652,14 +1618,16 @@ class EcobeeService(EcobeeObject):
         create_vacation_parameters = {'name': name, 'coolHoldTemp': int(cool_hold_temp * 10),
                                       'heatHoldTemp': int(heat_hold_temp * 10), 'fan': fan_mode.value,
                                       'fanMinOnTime': str(fan_min_on_time)}
-        if start_date_time:
+
+        if start_date_time is not None:
             create_vacation_parameters['startDate'] = '{0}-{1:02}-{2:02}'.format(start_date_time.year,
                                                                                  start_date_time.month,
                                                                                  start_date_time.day)
             create_vacation_parameters['startTime'] = '{0:02}:{1:02}:{2:02}'.format(start_date_time.hour,
                                                                                     start_date_time.minute,
                                                                                     start_date_time.second)
-        if end_date_time:
+
+        if end_date_time is not None:
             create_vacation_parameters['endDate'] = '{0}-{1:02}-{2:02}'.format(end_date_time.year,
                                                                                end_date_time.month,
                                                                                end_date_time.day)
@@ -1786,8 +1754,8 @@ class EcobeeService(EcobeeObject):
                                        timeout=timeout)
 
     def set_hold(self,
-                 cool_hold_temp,
-                 heat_hold_temp,
+                 cool_hold_temp=None,
+                 heat_hold_temp=None,
                  hold_climate_ref=None,
                  start_date_time=None,
                  end_date_time=None,
@@ -1883,24 +1851,30 @@ class EcobeeService(EcobeeObject):
             raise TypeError('selection must be an instance of {0}'.format(Selection))
 
         set_hold_parameters = {'holdType': hold_type.value}
-        if cool_hold_temp:
+
+        if cool_hold_temp is not None:
             set_hold_parameters['coolHoldTemp'] = int(cool_hold_temp * 10)
-        if heat_hold_temp:
+
+        if heat_hold_temp is not None:
             set_hold_parameters['heatHoldTemp'] = int(heat_hold_temp * 10)
-        if hold_climate_ref:
+
+        if hold_climate_ref is not None:
             set_hold_parameters['holdClimateRef'] = hold_climate_ref
-        if start_date_time:
+
+        if start_date_time is not None:
             set_hold_parameters['startDate'] = '{0}-{1:02}-{2:02}'.format(start_date_time.year,
                                                                           start_date_time.month, start_date_time.day)
             set_hold_parameters['startTime'] = '{0:02}:{1:02}:{2:02}'.format(start_date_time.hour,
                                                                              start_date_time.minute,
                                                                              start_date_time.second)
-        if end_date_time:
+
+        if end_date_time is not None:
             set_hold_parameters['endDate'] = '{0}-{1:02}-{2:02}'.format(end_date_time.year,
                                                                         end_date_time.month, end_date_time.day)
             set_hold_parameters['endTime'] = '{0:02}:{1:02}:{2:02}'.format(end_date_time.hour, end_date_time.minute,
                                                                            end_date_time.second)
-        if hold_hours:
+
+        if hold_hours is not None:
             set_hold_parameters['holdHours'] = hold_hours
 
         return self.update_thermostats(selection,
@@ -1981,20 +1955,23 @@ class EcobeeService(EcobeeObject):
             raise TypeError('selection must be an instance of {0}'.format(Selection))
 
         set_occupied_parameters = {'occupied': occupied, 'holdType': hold_type.value}
-        if start_date_time:
+
+        if start_date_time is not None:
             set_occupied_parameters['startDate'] = '{0}-{1:02}-{2:02}'.format(start_date_time.year,
                                                                               start_date_time.month,
                                                                               start_date_time.day)
             set_occupied_parameters['startTime'] = '{0:02}:{1:02}:{2:02}'.format(start_date_time.hour,
                                                                                  start_date_time.minute,
                                                                                  start_date_time.second)
-        if end_date_time:
+
+        if end_date_time is not None:
             set_occupied_parameters['endDate'] = '{0}-{1:02}-{2:02}'.format(end_date_time.year, end_date_time.month,
                                                                             end_date_time.day)
             set_occupied_parameters['endTime'] = '{0:02}:{1:02}:{2:02}'.format(end_date_time.hour,
                                                                                end_date_time.minute,
                                                                                end_date_time.second)
-        if hold_hours:
+
+        if hold_hours is not None:
             set_occupied_parameters['holdHours'] = hold_hours
 
         return self.update_thermostats(selection,
