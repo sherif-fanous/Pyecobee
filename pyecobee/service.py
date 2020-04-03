@@ -1563,7 +1563,7 @@ class EcobeeService(EcobeeObject):
 
         return self.update_thermostats(selection,
                                        thermostat=None,
-                                       functions=[Function(type_='controlPlug',
+                                       functions=[Function(type='controlPlug',
                                                            params=control_plug_parameters)],
                                        timeout=timeout)
 
@@ -1669,7 +1669,7 @@ class EcobeeService(EcobeeObject):
 
         return self.update_thermostats(selection,
                                        thermostat=None,
-                                       functions=[Function(type_='createVacation',
+                                       functions=[Function(type='createVacation',
                                                            params=create_vacation_parameters)],
                                        timeout=timeout)
 
@@ -1697,7 +1697,7 @@ class EcobeeService(EcobeeObject):
 
         return self.update_thermostats(selection,
                                        thermostat=None,
-                                       functions=[Function(type_='deleteVacation',
+                                       functions=[Function(type='deleteVacation',
                                                            params={'name': name})],
                                        timeout=timeout)
 
@@ -1724,7 +1724,7 @@ class EcobeeService(EcobeeObject):
 
         return self.update_thermostats(selection,
                                        thermostat=None,
-                                       functions=[Function(type_='resetPreferences')],
+                                       functions=[Function(type='resetPreferences')],
                                        timeout=timeout)
 
     def resume_program(self,
@@ -1753,7 +1753,7 @@ class EcobeeService(EcobeeObject):
 
         return self.update_thermostats(selection,
                                        thermostat=None,
-                                       functions=[Function(type_='resumeProgram',
+                                       functions=[Function(type='resumeProgram',
                                                            params={'resumeAll': resume_all})],
                                        timeout=timeout)
 
@@ -1781,7 +1781,7 @@ class EcobeeService(EcobeeObject):
 
         return self.update_thermostats(selection,
                                        thermostat=None,
-                                       functions=[Function(type_='sendMessage',
+                                       functions=[Function(type='sendMessage',
                                                            params={'text': text})],
                                        timeout=timeout)
 
@@ -1905,7 +1905,7 @@ class EcobeeService(EcobeeObject):
 
         return self.update_thermostats(selection,
                                        thermostat=None,
-                                       functions=[Function(type_='setHold',
+                                       functions=[Function(type='setHold',
                                                            params=set_hold_parameters)],
                                        timeout=timeout)
 
@@ -1999,7 +1999,7 @@ class EcobeeService(EcobeeObject):
 
         return self.update_thermostats(selection,
                                        thermostat=None,
-                                       functions=[Function(type_='setOccupied',
+                                       functions=[Function(type='setOccupied',
                                                            params=set_occupied_parameters)],
                                        timeout=timeout)
 
@@ -2026,7 +2026,7 @@ class EcobeeService(EcobeeObject):
 
         return self.update_thermostats(selection,
                                        thermostat=None,
-                                       functions=[Function(type_='unlinkVoiceEngine',
+                                       functions=[Function(type='unlinkVoiceEngine',
                                                            params={'engineName': engine_name})],
                                        timeout=timeout)
 
@@ -2071,7 +2071,7 @@ class EcobeeService(EcobeeObject):
 
         return self.update_thermostats(selection,
                                        thermostat=None,
-                                       functions=[Function(type_='updateSensor',
+                                       functions=[Function(type='updateSensor',
                                                            params={'name': name,
                                                                    'deviceId': device_id,
                                                                    'sensorId': sensor_id})],
