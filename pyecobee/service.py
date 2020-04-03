@@ -1467,7 +1467,7 @@ class EcobeeService(EcobeeObject):
 
         return self.update_thermostats(selection,
                                        thermostat=None,
-                                       functions=[Function(type_='acknowledge',
+                                       functions=[Function(type='acknowledge',
                                                            params={'thermostatIdentifier': thermostat_identifier,
                                                                    'ackRef': ack_ref,
                                                                    'ackType': ack_type.value,
