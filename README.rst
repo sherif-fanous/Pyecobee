@@ -3,7 +3,7 @@ Pyecobee: A Python implementation of the `ecobee API <https://www.ecobee.com/hom
 
 Introduction
 ============
-Pyecobee is a simple, elegant, and object oriented implementation of the ecobee API in Python. It is compatible with Python 2.6/2.7/3.3/3.4/3.5/3.6
+Pyecobee is a simple, elegant, and object oriented implementation of the ecobee API in Python. It is compatible with Python 2.6/2.7/3.3+
 
 **Warning:** Pyecobee has been tested with an ecobee Smart Si. Though the following methods have not been tested I
 believe they should work find. Please create an `issue <https://github.com/sfanous/Pyecobee/issues>`_ or even better
@@ -13,6 +13,7 @@ them.
 - control_plug: I don't own an ecobee smart plug, so couldn't test this function
 - reset_preferences: I didn't want to wipe my thermostat's settings
 - set_occupied: Can only be used by an EMS thermostat
+- unlink_voice_engine: Requires a thermostat with voice control
 - update_sensor: Requires an ecobee3 or ecobee4 thermostat
 - All Hierarchy requests: Accessible to EMS and Utility accounts only
     - list_sets
@@ -38,6 +39,13 @@ them.
     - create_runtime_report_job
     - list_runtime_report_job_status
     - cancel_runtime_report_job
+
+**Warning:** ecobee's documentation for the following object definitions is unavailable and as such any request returning
+any of these objects will throw an Exception
+
+- ECPDemandResponse (https://www.ecobee.com/home/developer/api/documentation/v1/objects/ECPDemandResponse.shtml)
+- Energy (https://www.ecobee.com/home/developer/api/documentation/v1/objects/Energy.shtml)
+- TimeOfUse (https://www.ecobee.com/home/developer/api/documentation/v1/objects/TimeOfUse.shtml)
 
 **Disclaimer:** Any ecobee API Keys, Authorization/Access/Refresh Tokens used in the following examples are fake.
 

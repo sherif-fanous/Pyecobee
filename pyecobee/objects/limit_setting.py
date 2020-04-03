@@ -51,17 +51,19 @@ class LimitSetting(EcobeeObject):
 
         :return: The value of the limit attribute of this LimitSetting instance.
         :rtype: int
-
-        Sets the limit attribute of this LimitSetting instance.
-
-        :param limit: The limit value to set for the limit attribute of this LimitSetting instance.
-        :type: int
         """
 
         return self._limit
 
     @limit.setter
     def limit(self, limit):
+        """
+        Sets the limit attribute of this LimitSetting instance.
+
+        :param limit: The limit value to set for the limit attribute of this LimitSetting instance.
+        :type: int
+        """
+
         self._limit = limit
 
     @property
@@ -71,17 +73,19 @@ class LimitSetting(EcobeeObject):
 
         :return: The value of the enabled attribute of this LimitSetting instance.
         :rtype: bool
-
-        Sets the enabled attribute of this LimitSetting instance.
-
-        :param enabled: The enabled value to set for the enabled attribute of this LimitSetting instance.
-        :type: bool
         """
 
         return self._enabled
 
     @enabled.setter
     def enabled(self, enabled):
+        """
+        Sets the enabled attribute of this LimitSetting instance.
+
+        :param enabled: The enabled value to set for the enabled attribute of this LimitSetting instance.
+        :type: bool
+        """
+
         self._enabled = enabled
 
     @property
@@ -91,15 +95,17 @@ class LimitSetting(EcobeeObject):
 
         :return: The value of the remind_technician attribute of this LimitSetting instance.
         :rtype: bool
-
-        Sets the remind_technician attribute of this LimitSetting instance.
-
-        :param remind_technician: The remind_technician value to set for the remind_technician attribute of this LimitSetting instance.
-        :type: bool
         """
 
         return self._remind_technician
 
     @remind_technician.setter
     def remind_technician(self, remind_technician):
+        """
+        Sets the remind_technician attribute of this LimitSetting instance.
+
+        :param remind_technician: The remind_technician value to set for the remind_technician attribute of this LimitSetting instance.
+        :type: bool
+        """
+
         self._remind_technician = remind_technician

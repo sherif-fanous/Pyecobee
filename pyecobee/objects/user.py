@@ -19,7 +19,8 @@ class User(EcobeeObject):
    """
     __slots__ = ['_user_name', '_display_name', '_first_name', '_last_name', '_honorific', '_register_date',
                  '_register_time', '_default_thermostat_identifier', '_management_ref', '_utility_ref', '_support_ref',
-                 '_phone_number', '_is_residential', '_is_developer', '_is_management', '_is_utility', '_is_contractor']
+                 '_phone_number', '_utility_time_zone', '_management_time_zone', '_is_residential', '_is_developer',
+                 '_is_management', '_is_utility', '_is_contractor']
 
     attribute_name_map = {'user_name': 'userName', 'userName': 'user_name', 'display_name': 'displayName',
                           'displayName': 'display_name', 'first_name': 'firstName', 'firstName': 'first_name',
@@ -31,6 +32,8 @@ class User(EcobeeObject):
                           'management_ref': 'managementRef', 'managementRef': 'management_ref',
                           'utility_ref': 'utilityRef', 'utilityRef': 'utility_ref', 'support_ref': 'supportRef',
                           'supportRef': 'support_ref', 'phone_number': 'phoneNumber', 'phoneNumber': 'phone_number',
+                          'utility_time_zone': 'utilityTimeZone', 'utilityTimeZone': 'utility_time_zone',
+                          'management_time_zone': 'managementTimeZone', 'managementTimeZone': 'management_time_zone',
                           'is_residential': 'isResidential', 'isResidential': 'is_residential',
                           'is_developer': 'isDeveloper', 'isDeveloper': 'is_developer', 'is_management': 'isManagement',
                           'isManagement': 'is_management', 'is_utility': 'isUtility', 'isUtility': 'is_utility',
@@ -40,14 +43,16 @@ class User(EcobeeObject):
                           'last_name': 'six.text_type', 'honorific': 'six.text_type', 'register_date': 'six.text_type',
                           'register_time': 'six.text_type', 'default_thermostat_identifier': 'six.text_type',
                           'management_ref': 'six.text_type', 'utility_ref': 'six.text_type',
-                          'support_ref': 'six.text_type', 'phone_number': 'six.text_type', 'is_residential': 'bool',
-                          'is_developer': 'bool', 'is_management': 'bool', 'is_utility': 'bool',
-                          'is_contractor': 'bool'}
+                          'support_ref': 'six.text_type', 'phone_number': 'six.text_type',
+                          'utility_time_zone': 'six.text_type', 'management_time_zone': 'six.text_type',
+                          'is_residential': 'bool', 'is_developer': 'bool', 'is_management': 'bool',
+                          'is_utility': 'bool', 'is_contractor': 'bool'}
 
     def __init__(self, user_name, display_name=None, first_name=None, last_name=None, honorific=None,
                  register_date=None, register_time=None, default_thermostat_identifier=None, management_ref=None,
-                 utility_ref=None, support_ref=None, phone_number=None, is_residential=None, is_developer=None,
-                 is_management=None, is_utility=None, is_contractor=None):
+                 utility_ref=None, support_ref=None, phone_number=None, utility_time_zone=None,
+                 management_time_zone=None, is_residential=None, is_developer=None, is_management=None, is_utility=None,
+                 is_contractor=None):
         """
         Construct an User instance
         """
@@ -63,6 +68,8 @@ class User(EcobeeObject):
         self._utility_ref = utility_ref
         self._support_ref = support_ref
         self._phone_number = phone_number
+        self._utility_time_zone = utility_time_zone
+        self._management_time_zone = management_time_zone
         self._is_residential = is_residential
         self._is_developer = is_developer
         self._is_management = is_management
@@ -87,17 +94,19 @@ class User(EcobeeObject):
 
         :return: The value of the display_name attribute of this User instance.
         :rtype: six.text_type
-
-        Sets the display_name attribute of this User instance.
-
-        :param display_name: The display_name value to set for the display_name attribute of this User instance.
-        :type: six.text_type
         """
 
         return self._display_name
 
     @display_name.setter
     def display_name(self, display_name):
+        """
+        Sets the display_name attribute of this User instance.
+
+        :param display_name: The display_name value to set for the display_name attribute of this User instance.
+        :type: six.text_type
+        """
+
         self._display_name = display_name
 
     @property
@@ -107,17 +116,19 @@ class User(EcobeeObject):
 
         :return: The value of the first_name attribute of this User instance.
         :rtype: six.text_type
-
-        Sets the first_name attribute of this User instance.
-
-        :param first_name: The first_name value to set for the first_name attribute of this User instance.
-        :type: six.text_type
         """
 
         return self._first_name
 
     @first_name.setter
     def first_name(self, first_name):
+        """
+        Sets the first_name attribute of this User instance.
+
+        :param first_name: The first_name value to set for the first_name attribute of this User instance.
+        :type: six.text_type
+        """
+
         self._first_name = first_name
 
     @property
@@ -127,17 +138,19 @@ class User(EcobeeObject):
 
         :return: The value of the last_name attribute of this User instance.
         :rtype: six.text_type
-
-        Sets the last_name attribute of this User instance.
-
-        :param last_name: The last_name value to set for the last_name attribute of this User instance.
-        :type: six.text_type
         """
 
         return self._last_name
 
     @last_name.setter
     def last_name(self, last_name):
+        """
+        Sets the last_name attribute of this User instance.
+
+        :param last_name: The last_name value to set for the last_name attribute of this User instance.
+        :type: six.text_type
+        """
+
         self._last_name = last_name
 
     @property
@@ -224,18 +237,64 @@ class User(EcobeeObject):
 
         :return: The value of the phone_number attribute of this User instance.
         :rtype: six.text_type
-
-        Sets the phone_number attribute of this User instance.
-
-        :param phone_number: The phone_number value to set for the phone_number attribute of this User instance.
-        :type: six.text_type
         """
 
         return self._phone_number
 
     @phone_number.setter
     def phone_number(self, phone_number):
+        """
+        Sets the phone_number attribute of this User instance.
+
+        :param phone_number: The phone_number value to set for the phone_number attribute of this User instance.
+        :type: six.text_type
+        """
+
         self._phone_number = phone_number
+
+    @property
+    def utility_time_zone(self):
+        """
+        Gets the utility_time_zone attribute of this User instance.
+
+        :return: The value of the utility_time_zone attribute of this User instance.
+        :rtype: six.text_type
+        """
+
+        return self._utility_time_zone
+
+    @utility_time_zone.setter
+    def utility_time_zone(self, utility_time_zone):
+        """
+        Sets the utility_time_zone attribute of this User instance.
+
+        :param utility_time_zone: The utility_time_zone value to set for the utility_time_zone attribute of this User instance.
+        :type: six.text_type
+        """
+
+        self._utility_time_zone = utility_time_zone
+
+    @property
+    def management_time_zone(self):
+        """
+        Gets the management_time_zone attribute of this User instance.
+
+        :return: The value of the management_time_zone attribute of this User instance.
+        :rtype: six.text_type
+        """
+
+        return self._management_time_zone
+
+    @management_time_zone.setter
+    def management_time_zone(self, management_time_zone):
+        """
+        Sets the management_time_zone attribute of this User instance.
+
+        :param management_time_zone: The management_time_zone value to set for the management_time_zone attribute of this User instance.
+        :type: six.text_type
+        """
+
+        self._management_time_zone = management_time_zone
 
     @property
     def is_residential(self):
@@ -244,17 +303,19 @@ class User(EcobeeObject):
 
         :return: The value of the is_residential attribute of this User instance.
         :rtype: bool
-
-        Sets the is_residential attribute of this User instance.
-
-        :param is_residential: The is_residential value to set for the is_residential attribute of this User instance.
-        :type: bool
         """
 
         return self._is_residential
 
     @is_residential.setter
     def is_residential(self, is_residential):
+        """
+        Sets the is_residential attribute of this User instance.
+
+        :param is_residential: The is_residential value to set for the is_residential attribute of this User instance.
+        :type: bool
+        """
+
         self._is_residential = is_residential
 
     @property
@@ -264,17 +325,19 @@ class User(EcobeeObject):
 
         :return: The value of the is_developer attribute of this User instance.
         :rtype: bool
-
-        Sets the is_developer attribute of this User instance.
-
-        :param is_developer: The is_developer value to set for the is_developer attribute of this User instance.
-        :type: bool
         """
 
         return self._is_developer
 
     @is_developer.setter
     def is_developer(self, is_developer):
+        """
+        Sets the is_developer attribute of this User instance.
+
+        :param is_developer: The is_developer value to set for the is_developer attribute of this User instance.
+        :type: bool
+        """
+
         self._is_developer = is_developer
 
     @property
@@ -284,17 +347,19 @@ class User(EcobeeObject):
 
         :return: The value of the is_management attribute of this User instance.
         :rtype: bool
-
-        Sets the is_management attribute of this User instance.
-
-        :param is_management: The is_management value to set for the is_management attribute of this User instance.
-        :type: bool
         """
 
         return self._is_management
 
     @is_management.setter
     def is_management(self, is_management):
+        """
+        Sets the is_management attribute of this User instance.
+
+        :param is_management: The is_management value to set for the is_management attribute of this User instance.
+        :type: bool
+        """
+
         self._is_management = is_management
 
     @property
@@ -304,17 +369,19 @@ class User(EcobeeObject):
 
         :return: The value of the is_utility attribute of this User instance.
         :rtype: bool
-
-        Sets the is_utility attribute of this User instance.
-
-        :param is_utility: The is_utility value to set for the is_utility attribute of this User instance.
-        :type: bool
         """
 
         return self._is_utility
 
     @is_utility.setter
     def is_utility(self, is_utility):
+        """
+        Sets the is_utility attribute of this User instance.
+
+        :param is_utility: The is_utility value to set for the is_utility attribute of this User instance.
+        :type: bool
+        """
+
         self._is_utility = is_utility
 
     @property
@@ -324,15 +391,17 @@ class User(EcobeeObject):
 
         :return: The value of the is_contractor attribute of this User instance.
         :rtype: bool
-
-        Sets the is_contractor attribute of this User instance.
-
-        :param is_contractor: The is_contractor value to set for the is_contractor attribute of this User instance.
-        :type: bool
         """
 
         return self._is_contractor
 
     @is_contractor.setter
     def is_contractor(self, is_contractor):
+        """
+        Sets the is_contractor attribute of this User instance.
+
+        :param is_contractor: The is_contractor value to set for the is_contractor attribute of this User instance.
+        :type: bool
+        """
+
         self._is_contractor = is_contractor

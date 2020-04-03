@@ -42,17 +42,19 @@ class HierarchySet(EcobeeObject):
 
         :return: The value of the set_name attribute of this HierarchySet instance.
         :rtype: six.text_type
-
-        Sets the set_name attribute of this HierarchySet instance.
-
-        :param set_name: The set_name value to set for the set_name attribute of this HierarchySet instance.
-        :type: six.text_type
         """
 
         return self._set_name
 
     @set_name.setter
     def set_name(self, set_name):
+        """
+        Sets the set_name attribute of this HierarchySet instance.
+
+        :param set_name: The set_name value to set for the set_name attribute of this HierarchySet instance.
+        :type: six.text_type
+        """
+
         self._set_name = set_name
 
     @property

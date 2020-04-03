@@ -69,17 +69,19 @@ class Location(EcobeeObject):
 
         :return: The value of the time_zone attribute of this Location instance.
         :rtype: six.text_type
-
-        Sets the time_zone attribute of this Location instance.
-
-        :param time_zone: The time_zone value to set for the time_zone attribute of this Location instance.
-        :type: six.text_type
         """
 
         return self._time_zone
 
     @time_zone.setter
     def time_zone(self, time_zone):
+        """
+        Sets the time_zone attribute of this Location instance.
+
+        :param time_zone: The time_zone value to set for the time_zone attribute of this Location instance.
+        :type: six.text_type
+        """
+
         self._time_zone = time_zone
 
     @property
@@ -89,17 +91,19 @@ class Location(EcobeeObject):
 
         :return: The value of the is_daylight_saving attribute of this Location instance.
         :rtype: bool
-
-        Sets the is_daylight_saving attribute of this Location instance.
-
-        :param is_daylight_saving: The is_daylight_saving value to set for the is_daylight_saving attribute of this Location instance.
-        :type: bool
         """
 
         return self._is_daylight_saving
 
     @is_daylight_saving.setter
     def is_daylight_saving(self, is_daylight_saving):
+        """
+        Sets the is_daylight_saving attribute of this Location instance.
+
+        :param is_daylight_saving: The is_daylight_saving value to set for the is_daylight_saving attribute of this Location instance.
+        :type: bool
+        """
+
         self._is_daylight_saving = is_daylight_saving
 
     @property
@@ -109,17 +113,19 @@ class Location(EcobeeObject):
 
         :return: The value of the street_address attribute of this Location instance.
         :rtype: six.text_type
-
-        Sets the street_address attribute of this Location instance.
-
-        :param street_address: The street_address value to set for the street_address attribute of this Location instance.
-        :type: six.text_type
         """
 
         return self._street_address
 
     @street_address.setter
     def street_address(self, street_address):
+        """
+        Sets the street_address attribute of this Location instance.
+
+        :param street_address: The street_address value to set for the street_address attribute of this Location instance.
+        :type: six.text_type
+        """
+
         self._street_address = street_address
 
     @property
@@ -129,17 +135,19 @@ class Location(EcobeeObject):
 
         :return: The value of the city attribute of this Location instance.
         :rtype: six.text_type
-
-        Sets the city attribute of this Location instance.
-
-        :param city: The city value to set for the city attribute of this Location instance.
-        :type: six.text_type
         """
 
         return self._city
 
     @city.setter
     def city(self, city):
+        """
+        Sets the city attribute of this Location instance.
+
+        :param city: The city value to set for the city attribute of this Location instance.
+        :type: six.text_type
+        """
+
         self._city = city
 
     @property
@@ -149,17 +157,19 @@ class Location(EcobeeObject):
 
         :return: The value of the province_state attribute of this Location instance.
         :rtype: six.text_type
-
-        Sets the province_state attribute of this Location instance.
-
-        :param province_state: The province_state value to set for the province_state attribute of this Location instance.
-        :type: six.text_type
         """
 
         return self._province_state
 
     @province_state.setter
     def province_state(self, province_state):
+        """
+        Sets the province_state attribute of this Location instance.
+
+        :param province_state: The province_state value to set for the province_state attribute of this Location instance.
+        :type: six.text_type
+        """
+
         self._province_state = province_state
 
     @property
@@ -169,17 +179,19 @@ class Location(EcobeeObject):
 
         :return: The value of the country attribute of this Location instance.
         :rtype: six.text_type
-
-        Sets the country attribute of this Location instance.
-
-        :param country: The country value to set for the country attribute of this Location instance.
-        :type: six.text_type
         """
 
         return self._country
 
     @country.setter
     def country(self, country):
+        """
+        Sets the country attribute of this Location instance.
+
+        :param country: The country value to set for the country attribute of this Location instance.
+        :type: six.text_type
+        """
+
         self._country = country
 
     @property
@@ -189,17 +201,19 @@ class Location(EcobeeObject):
 
         :return: The value of the postal_code attribute of this Location instance.
         :rtype: six.text_type
-
-        Sets the postal_code attribute of this Location instance.
-
-        :param postal_code: The postal_code value to set for the postal_code attribute of this Location instance.
-        :type: six.text_type
         """
 
         return self._postal_code
 
     @postal_code.setter
     def postal_code(self, postal_code):
+        """
+        Sets the postal_code attribute of this Location instance.
+
+        :param postal_code: The postal_code value to set for the postal_code attribute of this Location instance.
+        :type: six.text_type
+        """
+
         self._postal_code = postal_code
 
     @property
@@ -209,17 +223,19 @@ class Location(EcobeeObject):
 
         :return: The value of the phone_number attribute of this Location instance.
         :rtype: six.text_type
-
-        Sets the phone_number attribute of this Location instance.
-
-        :param phone_number: The phone_number value to set for the phone_number attribute of this Location instance.
-        :type: six.text_type
         """
 
         return self._phone_number
 
     @phone_number.setter
     def phone_number(self, phone_number):
+        """
+        Sets the phone_number attribute of this Location instance.
+
+        :param phone_number: The phone_number value to set for the phone_number attribute of this Location instance.
+        :type: six.text_type
+        """
+
         self._phone_number = phone_number
 
     @property
@@ -229,15 +245,17 @@ class Location(EcobeeObject):
 
         :return: The value of the map_coordinates attribute of this Location instance.
         :rtype: six.text_type
-
-        Sets the map_coordinates attribute of this Location instance.
-
-        :param map_coordinates: The map_coordinates value to set for the map_coordinates attribute of this Location instance.
-        :type: six.text_type
         """
 
         return self._map_coordinates
 
     @map_coordinates.setter
     def map_coordinates(self, map_coordinates):
+        """
+        Sets the map_coordinates attribute of this Location instance.
+
+        :param map_coordinates: The map_coordinates value to set for the map_coordinates attribute of this Location instance.
+        :type: six.text_type
+        """
+
         self._map_coordinates = map_coordinates

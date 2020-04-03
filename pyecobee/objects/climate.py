@@ -63,17 +63,19 @@ class Climate(EcobeeObject):
 
         :return: The value of the name attribute of this Climate instance.
         :rtype: six.text_type
-
-        Sets the name attribute of this Climate instance.
-
-        :param name: The name value to set for the name attribute of this Climate instance.
-        :type: six.text_type
         """
 
         return self._name
 
     @name.setter
     def name(self, name):
+        """
+        Sets the name attribute of this Climate instance.
+
+        :param name: The name value to set for the name attribute of this Climate instance.
+        :type: six.text_type
+        """
+
         self._name = name
 
     @property
@@ -94,17 +96,19 @@ class Climate(EcobeeObject):
 
         :return: The value of the is_occupied attribute of this Climate instance.
         :rtype: bool
-
-        Sets the is_occupied attribute of this Climate instance.
-
-        :param is_occupied: The is_occupied value to set for the is_occupied attribute of this Climate instance.
-        :type: bool
         """
 
         return self._is_occupied
 
     @is_occupied.setter
     def is_occupied(self, is_occupied):
+        """
+        Sets the is_occupied attribute of this Climate instance.
+
+        :param is_occupied: The is_occupied value to set for the is_occupied attribute of this Climate instance.
+        :type: bool
+        """
+
         self._is_occupied = is_occupied
 
     @property
@@ -114,17 +118,19 @@ class Climate(EcobeeObject):
 
         :return: The value of the is_optimized attribute of this Climate instance.
         :rtype: bool
-
-        Sets the is_optimized attribute of this Climate instance.
-
-        :param is_optimized: The is_optimized value to set for the is_optimized attribute of this Climate instance.
-        :type: bool
         """
 
         return self._is_optimized
 
     @is_optimized.setter
     def is_optimized(self, is_optimized):
+        """
+        Sets the is_optimized attribute of this Climate instance.
+
+        :param is_optimized: The is_optimized value to set for the is_optimized attribute of this Climate instance.
+        :type: bool
+        """
+
         self._is_optimized = is_optimized
 
     @property
@@ -134,17 +140,19 @@ class Climate(EcobeeObject):
 
         :return: The value of the cool_fan attribute of this Climate instance.
         :rtype: six.text_type
-
-        Sets the cool_fan attribute of this Climate instance.
-
-        :param cool_fan: The cool_fan value to set for the cool_fan attribute of this Climate instance.
-        :type: six.text_type
         """
 
         return self._cool_fan
 
     @cool_fan.setter
     def cool_fan(self, cool_fan):
+        """
+        Sets the cool_fan attribute of this Climate instance.
+
+        :param cool_fan: The cool_fan value to set for the cool_fan attribute of this Climate instance.
+        :type: six.text_type
+        """
+
         self._cool_fan = cool_fan
 
     @property
@@ -154,17 +162,19 @@ class Climate(EcobeeObject):
 
         :return: The value of the heat_fan attribute of this Climate instance.
         :rtype: six.text_type
-
-        Sets the heat_fan attribute of this Climate instance.
-
-        :param heat_fan: The heat_fan value to set for the heat_fan attribute of this Climate instance.
-        :type: six.text_type
         """
 
         return self._heat_fan
 
     @heat_fan.setter
     def heat_fan(self, heat_fan):
+        """
+        Sets the heat_fan attribute of this Climate instance.
+
+        :param heat_fan: The heat_fan value to set for the heat_fan attribute of this Climate instance.
+        :type: six.text_type
+        """
+
         self._heat_fan = heat_fan
 
     @property
@@ -174,17 +184,19 @@ class Climate(EcobeeObject):
 
         :return: The value of the vent attribute of this Climate instance.
         :rtype: six.text_type
-
-        Sets the vent attribute of this Climate instance.
-
-        :param vent: The vent value to set for the vent attribute of this Climate instance.
-        :type: six.text_type
         """
 
         return self._vent
 
     @vent.setter
     def vent(self, vent):
+        """
+        Sets the vent attribute of this Climate instance.
+
+        :param vent: The vent value to set for the vent attribute of this Climate instance.
+        :type: six.text_type
+        """
+
         self._vent = vent
 
     @property
@@ -194,17 +206,19 @@ class Climate(EcobeeObject):
 
         :return: The value of the ventilator_min_on_time attribute of this Climate instance.
         :rtype: int
-
-        Sets the ventilator_min_on_time attribute of this Climate instance.
-
-        :param ventilator_min_on_time: The ventilator_min_on_time value to set for the ventilator_min_on_time attribute of this Climate instance.
-        :type: int
         """
 
         return self._ventilator_min_on_time
 
     @ventilator_min_on_time.setter
     def ventilator_min_on_time(self, ventilator_min_on_time):
+        """
+        Sets the ventilator_min_on_time attribute of this Climate instance.
+
+        :param ventilator_min_on_time: The ventilator_min_on_time value to set for the ventilator_min_on_time attribute of this Climate instance.
+        :type: int
+        """
+
         self._ventilator_min_on_time = ventilator_min_on_time
 
     @property
@@ -214,17 +228,19 @@ class Climate(EcobeeObject):
 
         :return: The value of the owner attribute of this Climate instance.
         :rtype: six.text_type
-
-        Sets the owner attribute of this Climate instance.
-
-        :param owner: The owner value to set for the owner attribute of this Climate instance.
-        :type: six.text_type
         """
 
         return self._owner
 
     @owner.setter
     def owner(self, owner):
+        """
+        Sets the owner attribute of this Climate instance.
+
+        :param owner: The owner value to set for the owner attribute of this Climate instance.
+        :type: six.text_type
+        """
+
         self._owner = owner
 
     @property
@@ -234,17 +250,19 @@ class Climate(EcobeeObject):
 
         :return: The value of the type attribute of this Climate instance.
         :rtype: six.text_type
-
-        Sets the type attribute of this Climate instance.
-
-        :param type: The type value to set for the type attribute of this Climate instance.
-        :type: six.text_type
         """
 
         return self._type
 
     @type.setter
     def type(self, type):
+        """
+        Sets the type attribute of this Climate instance.
+
+        :param type: The type value to set for the type attribute of this Climate instance.
+        :type: six.text_type
+        """
+
         self._type = type
 
     @property
@@ -254,17 +272,19 @@ class Climate(EcobeeObject):
 
         :return: The value of the colour attribute of this Climate instance.
         :rtype: int
-
-        Sets the colour attribute of this Climate instance.
-
-        :param colour: The colour value to set for the colour attribute of this Climate instance.
-        :type: int
         """
 
         return self._colour
 
     @colour.setter
     def colour(self, colour):
+        """
+        Sets the colour attribute of this Climate instance.
+
+        :param colour: The colour value to set for the colour attribute of this Climate instance.
+        :type: int
+        """
+
         self._colour = colour
 
     @property
@@ -274,17 +294,19 @@ class Climate(EcobeeObject):
 
         :return: The value of the cool_temp attribute of this Climate instance.
         :rtype: int
-
-        Sets the cool_temp attribute of this Climate instance.
-
-        :param cool_temp: The cool_temp value to set for the cool_temp attribute of this Climate instance.
-        :type: int
         """
 
         return self._cool_temp
 
     @cool_temp.setter
     def cool_temp(self, cool_temp):
+        """
+        Sets the cool_temp attribute of this Climate instance.
+
+        :param cool_temp: The cool_temp value to set for the cool_temp attribute of this Climate instance.
+        :type: int
+        """
+
         self._cool_temp = cool_temp
 
     @property
@@ -294,17 +316,19 @@ class Climate(EcobeeObject):
 
         :return: The value of the heat_temp attribute of this Climate instance.
         :rtype: int
-
-        Sets the heat_temp attribute of this Climate instance.
-
-        :param heat_temp: The heat_temp value to set for the heat_temp attribute of this Climate instance.
-        :type: int
         """
 
         return self._heat_temp
 
     @heat_temp.setter
     def heat_temp(self, heat_temp):
+        """
+        Sets the heat_temp attribute of this Climate instance.
+
+        :param heat_temp: The heat_temp value to set for the heat_temp attribute of this Climate instance.
+        :type: int
+        """
+
         self._heat_temp = heat_temp
 
     @property
@@ -314,15 +338,17 @@ class Climate(EcobeeObject):
 
         :return: The value of the sensors attribute of this Climate instance.
         :rtype: List[RemoteSensor]
-
-        Sets the sensors attribute of this Climate instance.
-
-        :param sensors: The sensors value to set for the sensors attribute of this Climate instance.
-        :type: List[RemoteSensor]
         """
 
         return self._sensors
 
     @sensors.setter
     def sensors(self, sensors):
+        """
+        Sets the sensors attribute of this Climate instance.
+
+        :param sensors: The sensors value to set for the sensors attribute of this Climate instance.
+        :type: List[RemoteSensor]
+        """
+
         self._sensors = sensors

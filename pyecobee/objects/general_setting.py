@@ -50,17 +50,19 @@ class GeneralSetting(EcobeeObject):
 
         :return: The value of the enabled attribute of this GeneralSetting instance.
         :rtype: bool
-
-        Sets the enabled attribute of this GeneralSetting instance.
-
-        :param enabled: The enabled value to set for the enabled attribute of this GeneralSetting instance.
-        :type: bool
         """
 
         return self._enabled
 
     @enabled.setter
     def enabled(self, enabled):
+        """
+        Sets the enabled attribute of this GeneralSetting instance.
+
+        :param enabled: The enabled value to set for the enabled attribute of this GeneralSetting instance.
+        :type: bool
+        """
+
         self._enabled = enabled
 
     @property
@@ -70,15 +72,17 @@ class GeneralSetting(EcobeeObject):
 
         :return: The value of the remind_technician attribute of this GeneralSetting instance.
         :rtype: bool
-
-        Sets the remind_technician attribute of this GeneralSetting instance.
-
-        :param remind_technician: The remind_technician value to set for the remind_technician attribute of this GeneralSetting instance.
-        :type: bool
         """
 
         return self._remind_technician
 
     @remind_technician.setter
     def remind_technician(self, remind_technician):
+        """
+        Sets the remind_technician attribute of this GeneralSetting instance.
+
+        :param remind_technician: The remind_technician value to set for the remind_technician attribute of this GeneralSetting instance.
+        :type: bool
+        """
+
         self._remind_technician = remind_technician

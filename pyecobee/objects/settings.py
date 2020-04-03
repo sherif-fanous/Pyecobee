@@ -398,17 +398,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the hvac_mode attribute of this Settings instance.
         :rtype: six.text_type
-
-        Sets the hvac_mode attribute of this Settings instance.
-
-        :param hvac_mode: The hvac_mode value to set for the hvac_mode attribute of this Settings instance.
-        :type: six.text_type
         """
 
         return self._hvac_mode
 
     @hvac_mode.setter
     def hvac_mode(self, hvac_mode):
+        """
+        Sets the hvac_mode attribute of this Settings instance.
+
+        :param hvac_mode: The hvac_mode value to set for the hvac_mode attribute of this Settings instance.
+        :type: six.text_type
+        """
+
         self._hvac_mode = hvac_mode
 
     @property
@@ -418,17 +420,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the last_service_date attribute of this Settings instance.
         :rtype: six.text_type
-
-        Sets the last_service_date attribute of this Settings instance.
-
-        :param last_service_date: The last_service_date value to set for the last_service_date attribute of this Settings instance.
-        :type: six.text_type
         """
 
         return self._last_service_date
 
     @last_service_date.setter
     def last_service_date(self, last_service_date):
+        """
+        Sets the last_service_date attribute of this Settings instance.
+
+        :param last_service_date: The last_service_date value to set for the last_service_date attribute of this Settings instance.
+        :type: six.text_type
+        """
+
         self._last_service_date = last_service_date
 
     @property
@@ -438,17 +442,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the service_remind_me attribute of this Settings instance.
         :rtype: bool
-
-        Sets the service_remind_me attribute of this Settings instance.
-
-        :param service_remind_me: The service_remind_me value to set for the service_remind_me attribute of this Settings instance.
-        :type: bool
         """
 
         return self._service_remind_me
 
     @service_remind_me.setter
     def service_remind_me(self, service_remind_me):
+        """
+        Sets the service_remind_me attribute of this Settings instance.
+
+        :param service_remind_me: The service_remind_me value to set for the service_remind_me attribute of this Settings instance.
+        :type: bool
+        """
+
         self._service_remind_me = service_remind_me
 
     @property
@@ -458,17 +464,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the months_between_service attribute of this Settings instance.
         :rtype: int
-
-        Sets the months_between_service attribute of this Settings instance.
-
-        :param months_between_service: The months_between_service value to set for the months_between_service attribute of this Settings instance.
-        :type: int
         """
 
         return self._months_between_service
 
     @months_between_service.setter
     def months_between_service(self, months_between_service):
+        """
+        Sets the months_between_service attribute of this Settings instance.
+
+        :param months_between_service: The months_between_service value to set for the months_between_service attribute of this Settings instance.
+        :type: int
+        """
+
         self._months_between_service = months_between_service
 
     @property
@@ -478,17 +486,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the remind_me_date attribute of this Settings instance.
         :rtype: six.text_type
-
-        Sets the remind_me_date attribute of this Settings instance.
-
-        :param remind_me_date: The remind_me_date value to set for the remind_me_date attribute of this Settings instance.
-        :type: six.text_type
         """
 
         return self._remind_me_date
 
     @remind_me_date.setter
     def remind_me_date(self, remind_me_date):
+        """
+        Sets the remind_me_date attribute of this Settings instance.
+
+        :param remind_me_date: The remind_me_date value to set for the remind_me_date attribute of this Settings instance.
+        :type: six.text_type
+        """
+
         self._remind_me_date = remind_me_date
 
     @property
@@ -498,17 +508,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the vent attribute of this Settings instance.
         :rtype: six.text_type
-
-        Sets the vent attribute of this Settings instance.
-
-        :param vent: The vent value to set for the vent attribute of this Settings instance.
-        :type: six.text_type
         """
 
         return self._vent
 
     @vent.setter
     def vent(self, vent):
+        """
+        Sets the vent attribute of this Settings instance.
+
+        :param vent: The vent value to set for the vent attribute of this Settings instance.
+        :type: six.text_type
+        """
+
         self._vent = vent
 
     @property
@@ -518,17 +530,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the ventilator_min_on_time attribute of this Settings instance.
         :rtype: int
-
-        Sets the ventilator_min_on_time attribute of this Settings instance.
-
-        :param ventilator_min_on_time: The ventilator_min_on_time value to set for the ventilator_min_on_time attribute of this Settings instance.
-        :type: int
         """
 
         return self._ventilator_min_on_time
 
     @ventilator_min_on_time.setter
     def ventilator_min_on_time(self, ventilator_min_on_time):
+        """
+        Sets the ventilator_min_on_time attribute of this Settings instance.
+
+        :param ventilator_min_on_time: The ventilator_min_on_time value to set for the ventilator_min_on_time attribute of this Settings instance.
+        :type: int
+        """
+
         self._ventilator_min_on_time = ventilator_min_on_time
 
     @property
@@ -538,17 +552,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the service_remind_technician attribute of this Settings instance.
         :rtype: bool
-
-        Sets the service_remind_technician attribute of this Settings instance.
-
-        :param service_remind_technician: The service_remind_technician value to set for the service_remind_technician attribute of this Settings instance.
-        :type: bool
         """
 
         return self._service_remind_technician
 
     @service_remind_technician.setter
     def service_remind_technician(self, service_remind_technician):
+        """
+        Sets the service_remind_technician attribute of this Settings instance.
+
+        :param service_remind_technician: The service_remind_technician value to set for the service_remind_technician attribute of this Settings instance.
+        :type: bool
+        """
+
         self._service_remind_technician = service_remind_technician
 
     @property
@@ -558,17 +574,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the ei_location attribute of this Settings instance.
         :rtype: six.text_type
-
-        Sets the ei_location attribute of this Settings instance.
-
-        :param ei_location: The ei_location value to set for the ei_location attribute of this Settings instance.
-        :type: six.text_type
         """
 
         return self._ei_location
 
     @ei_location.setter
     def ei_location(self, ei_location):
+        """
+        Sets the ei_location attribute of this Settings instance.
+
+        :param ei_location: The ei_location value to set for the ei_location attribute of this Settings instance.
+        :type: six.text_type
+        """
+
         self._ei_location = ei_location
 
     @property
@@ -578,17 +596,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the cold_temp_alert attribute of this Settings instance.
         :rtype: int
-
-        Sets the cold_temp_alert attribute of this Settings instance.
-
-        :param cold_temp_alert: The cold_temp_alert value to set for the cold_temp_alert attribute of this Settings instance.
-        :type: int
         """
 
         return self._cold_temp_alert
 
     @cold_temp_alert.setter
     def cold_temp_alert(self, cold_temp_alert):
+        """
+        Sets the cold_temp_alert attribute of this Settings instance.
+
+        :param cold_temp_alert: The cold_temp_alert value to set for the cold_temp_alert attribute of this Settings instance.
+        :type: int
+        """
+
         self._cold_temp_alert = cold_temp_alert
 
     @property
@@ -598,17 +618,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the cold_temp_alert_enabled attribute of this Settings instance.
         :rtype: bool
-
-        Sets the cold_temp_alert_enabled attribute of this Settings instance.
-
-        :param cold_temp_alert_enabled: The cold_temp_alert_enabled value to set for the cold_temp_alert_enabled attribute of this Settings instance.
-        :type: bool
         """
 
         return self._cold_temp_alert_enabled
 
     @cold_temp_alert_enabled.setter
     def cold_temp_alert_enabled(self, cold_temp_alert_enabled):
+        """
+        Sets the cold_temp_alert_enabled attribute of this Settings instance.
+
+        :param cold_temp_alert_enabled: The cold_temp_alert_enabled value to set for the cold_temp_alert_enabled attribute of this Settings instance.
+        :type: bool
+        """
+
         self._cold_temp_alert_enabled = cold_temp_alert_enabled
 
     @property
@@ -618,17 +640,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the hot_temp_alert attribute of this Settings instance.
         :rtype: int
-
-        Sets the hot_temp_alert attribute of this Settings instance.
-
-        :param hot_temp_alert: The hot_temp_alert value to set for the hot_temp_alert attribute of this Settings instance.
-        :type: int
         """
 
         return self._hot_temp_alert
 
     @hot_temp_alert.setter
     def hot_temp_alert(self, hot_temp_alert):
+        """
+        Sets the hot_temp_alert attribute of this Settings instance.
+
+        :param hot_temp_alert: The hot_temp_alert value to set for the hot_temp_alert attribute of this Settings instance.
+        :type: int
+        """
+
         self._hot_temp_alert = hot_temp_alert
 
     @property
@@ -638,17 +662,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the hot_temp_alert_enabled attribute of this Settings instance.
         :rtype: bool
-
-        Sets the hot_temp_alert_enabled attribute of this Settings instance.
-
-        :param hot_temp_alert_enabled: The hot_temp_alert_enabled value to set for the hot_temp_alert_enabled attribute of this Settings instance.
-        :type: bool
         """
 
         return self._hot_temp_alert_enabled
 
     @hot_temp_alert_enabled.setter
     def hot_temp_alert_enabled(self, hot_temp_alert_enabled):
+        """
+        Sets the hot_temp_alert_enabled attribute of this Settings instance.
+
+        :param hot_temp_alert_enabled: The hot_temp_alert_enabled value to set for the hot_temp_alert_enabled attribute of this Settings instance.
+        :type: bool
+        """
+
         self._hot_temp_alert_enabled = hot_temp_alert_enabled
 
     @property
@@ -680,17 +706,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the max_set_back attribute of this Settings instance.
         :rtype: int
-
-        Sets the max_set_back attribute of this Settings instance.
-
-        :param max_set_back: The max_set_back value to set for the max_set_back attribute of this Settings instance.
-        :type: int
         """
 
         return self._max_set_back
 
     @max_set_back.setter
     def max_set_back(self, max_set_back):
+        """
+        Sets the max_set_back attribute of this Settings instance.
+
+        :param max_set_back: The max_set_back value to set for the max_set_back attribute of this Settings instance.
+        :type: int
+        """
+
         self._max_set_back = max_set_back
 
     @property
@@ -700,17 +728,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the max_set_forward attribute of this Settings instance.
         :rtype: int
-
-        Sets the max_set_forward attribute of this Settings instance.
-
-        :param max_set_forward: The max_set_forward value to set for the max_set_forward attribute of this Settings instance.
-        :type: int
         """
 
         return self._max_set_forward
 
     @max_set_forward.setter
     def max_set_forward(self, max_set_forward):
+        """
+        Sets the max_set_forward attribute of this Settings instance.
+
+        :param max_set_forward: The max_set_forward value to set for the max_set_forward attribute of this Settings instance.
+        :type: int
+        """
+
         self._max_set_forward = max_set_forward
 
     @property
@@ -720,17 +750,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the quick_save_set_back attribute of this Settings instance.
         :rtype: int
-
-        Sets the quick_save_set_back attribute of this Settings instance.
-
-        :param quick_save_set_back: The quick_save_set_back value to set for the quick_save_set_back attribute of this Settings instance.
-        :type: int
         """
 
         return self._quick_save_set_back
 
     @quick_save_set_back.setter
     def quick_save_set_back(self, quick_save_set_back):
+        """
+        Sets the quick_save_set_back attribute of this Settings instance.
+
+        :param quick_save_set_back: The quick_save_set_back value to set for the quick_save_set_back attribute of this Settings instance.
+        :type: int
+        """
+
         self._quick_save_set_back = quick_save_set_back
 
     @property
@@ -740,17 +772,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the quick_save_set_forward attribute of this Settings instance.
         :rtype: int
-
-        Sets the quick_save_set_forward attribute of this Settings instance.
-
-        :param quick_save_set_forward: The quick_save_set_forward value to set for the quick_save_set_forward attribute of this Settings instance.
-        :type: int
         """
 
         return self._quick_save_set_forward
 
     @quick_save_set_forward.setter
     def quick_save_set_forward(self, quick_save_set_forward):
+        """
+        Sets the quick_save_set_forward attribute of this Settings instance.
+
+        :param quick_save_set_forward: The quick_save_set_forward value to set for the quick_save_set_forward attribute of this Settings instance.
+        :type: int
+        """
+
         self._quick_save_set_forward = quick_save_set_forward
 
     @property
@@ -826,17 +860,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the condensation_avoid attribute of this Settings instance.
         :rtype: bool
-
-        Sets the condensation_avoid attribute of this Settings instance.
-
-        :param condensation_avoid: The condensation_avoid value to set for the condensation_avoid attribute of this Settings instance.
-        :type: bool
         """
 
         return self._condensation_avoid
 
     @condensation_avoid.setter
     def condensation_avoid(self, condensation_avoid):
+        """
+        Sets the condensation_avoid attribute of this Settings instance.
+
+        :param condensation_avoid: The condensation_avoid value to set for the condensation_avoid attribute of this Settings instance.
+        :type: bool
+        """
+
         self._condensation_avoid = condensation_avoid
 
     @property
@@ -846,17 +882,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the use_celsius attribute of this Settings instance.
         :rtype: bool
-
-        Sets the use_celsius attribute of this Settings instance.
-
-        :param use_celsius: The use_celsius value to set for the use_celsius attribute of this Settings instance.
-        :type: bool
         """
 
         return self._use_celsius
 
     @use_celsius.setter
     def use_celsius(self, use_celsius):
+        """
+        Sets the use_celsius attribute of this Settings instance.
+
+        :param use_celsius: The use_celsius value to set for the use_celsius attribute of this Settings instance.
+        :type: bool
+        """
+
         self._use_celsius = use_celsius
 
     @property
@@ -866,17 +904,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the use_time_format12 attribute of this Settings instance.
         :rtype: bool
-
-        Sets the use_time_format12 attribute of this Settings instance.
-
-        :param use_time_format12: The use_time_format12 value to set for the use_time_format12 attribute of this Settings instance.
-        :type: bool
         """
 
         return self._use_time_format12
 
     @use_time_format12.setter
     def use_time_format12(self, use_time_format12):
+        """
+        Sets the use_time_format12 attribute of this Settings instance.
+
+        :param use_time_format12: The use_time_format12 value to set for the use_time_format12 attribute of this Settings instance.
+        :type: bool
+        """
+
         self._use_time_format12 = use_time_format12
 
     @property
@@ -886,17 +926,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the locale attribute of this Settings instance.
         :rtype: six.text_type
-
-        Sets the locale attribute of this Settings instance.
-
-        :param locale: The locale value to set for the locale attribute of this Settings instance.
-        :type: six.text_type
         """
 
         return self._locale
 
     @locale.setter
     def locale(self, locale):
+        """
+        Sets the locale attribute of this Settings instance.
+
+        :param locale: The locale value to set for the locale attribute of this Settings instance.
+        :type: six.text_type
+        """
+
         self._locale = locale
 
     @property
@@ -906,17 +948,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the humidity attribute of this Settings instance.
         :rtype: six.text_type
-
-        Sets the humidity attribute of this Settings instance.
-
-        :param humidity: The humidity value to set for the humidity attribute of this Settings instance.
-        :type: six.text_type
         """
 
         return self._humidity
 
     @humidity.setter
     def humidity(self, humidity):
+        """
+        Sets the humidity attribute of this Settings instance.
+
+        :param humidity: The humidity value to set for the humidity attribute of this Settings instance.
+        :type: six.text_type
+        """
+
         self._humidity = humidity
 
     @property
@@ -926,17 +970,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the humidifier_mode attribute of this Settings instance.
         :rtype: six.text_type
-
-        Sets the humidifier_mode attribute of this Settings instance.
-
-        :param humidifier_mode: The humidifier_mode value to set for the humidifier_mode attribute of this Settings instance.
-        :type: six.text_type
         """
 
         return self._humidifier_mode
 
     @humidifier_mode.setter
     def humidifier_mode(self, humidifier_mode):
+        """
+        Sets the humidifier_mode attribute of this Settings instance.
+
+        :param humidifier_mode: The humidifier_mode value to set for the humidifier_mode attribute of this Settings instance.
+        :type: six.text_type
+        """
+
         self._humidifier_mode = humidifier_mode
 
     @property
@@ -946,17 +992,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the backlight_on_intensity attribute of this Settings instance.
         :rtype: int
-
-        Sets the backlight_on_intensity attribute of this Settings instance.
-
-        :param backlight_on_intensity: The backlight_on_intensity value to set for the backlight_on_intensity attribute of this Settings instance.
-        :type: int
         """
 
         return self._backlight_on_intensity
 
     @backlight_on_intensity.setter
     def backlight_on_intensity(self, backlight_on_intensity):
+        """
+        Sets the backlight_on_intensity attribute of this Settings instance.
+
+        :param backlight_on_intensity: The backlight_on_intensity value to set for the backlight_on_intensity attribute of this Settings instance.
+        :type: int
+        """
+
         self._backlight_on_intensity = backlight_on_intensity
 
     @property
@@ -966,17 +1014,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the backlight_sleep_intensity attribute of this Settings instance.
         :rtype: int
-
-        Sets the backlight_sleep_intensity attribute of this Settings instance.
-
-        :param backlight_sleep_intensity: The backlight_sleep_intensity value to set for the backlight_sleep_intensity attribute of this Settings instance.
-        :type: int
         """
 
         return self._backlight_sleep_intensity
 
     @backlight_sleep_intensity.setter
     def backlight_sleep_intensity(self, backlight_sleep_intensity):
+        """
+        Sets the backlight_sleep_intensity attribute of this Settings instance.
+
+        :param backlight_sleep_intensity: The backlight_sleep_intensity value to set for the backlight_sleep_intensity attribute of this Settings instance.
+        :type: int
+        """
+
         self._backlight_sleep_intensity = backlight_sleep_intensity
 
     @property
@@ -986,17 +1036,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the backlight_off_time attribute of this Settings instance.
         :rtype: int
-
-        Sets the backlight_off_time attribute of this Settings instance.
-
-        :param backlight_off_time: The backlight_off_time value to set for the backlight_off_time attribute of this Settings instance.
-        :type: int
         """
 
         return self._backlight_off_time
 
     @backlight_off_time.setter
     def backlight_off_time(self, backlight_off_time):
+        """
+        Sets the backlight_off_time attribute of this Settings instance.
+
+        :param backlight_off_time: The backlight_off_time value to set for the backlight_off_time attribute of this Settings instance.
+        :type: int
+        """
+
         self._backlight_off_time = backlight_off_time
 
     @property
@@ -1006,17 +1058,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the sound_tick_volume attribute of this Settings instance.
         :rtype: int
-
-        Sets the sound_tick_volume attribute of this Settings instance.
-
-        :param sound_tick_volume: The sound_tick_volume value to set for the sound_tick_volume attribute of this Settings instance.
-        :type: int
         """
 
         return self._sound_tick_volume
 
     @sound_tick_volume.setter
     def sound_tick_volume(self, sound_tick_volume):
+        """
+        Sets the sound_tick_volume attribute of this Settings instance.
+
+        :param sound_tick_volume: The sound_tick_volume value to set for the sound_tick_volume attribute of this Settings instance.
+        :type: int
+        """
+
         self._sound_tick_volume = sound_tick_volume
 
     @property
@@ -1026,17 +1080,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the sound_alert_volume attribute of this Settings instance.
         :rtype: int
-
-        Sets the sound_alert_volume attribute of this Settings instance.
-
-        :param sound_alert_volume: The sound_alert_volume value to set for the sound_alert_volume attribute of this Settings instance.
-        :type: int
         """
 
         return self._sound_alert_volume
 
     @sound_alert_volume.setter
     def sound_alert_volume(self, sound_alert_volume):
+        """
+        Sets the sound_alert_volume attribute of this Settings instance.
+
+        :param sound_alert_volume: The sound_alert_volume value to set for the sound_alert_volume attribute of this Settings instance.
+        :type: int
+        """
+
         self._sound_alert_volume = sound_alert_volume
 
     @property
@@ -1046,17 +1102,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the compressor_protection_min_time attribute of this Settings instance.
         :rtype: int
-
-        Sets the compressor_protection_min_time attribute of this Settings instance.
-
-        :param compressor_protection_min_time: The compressor_protection_min_time value to set for the compressor_protection_min_time attribute of this Settings instance.
-        :type: int
         """
 
         return self._compressor_protection_min_time
 
     @compressor_protection_min_time.setter
     def compressor_protection_min_time(self, compressor_protection_min_time):
+        """
+        Sets the compressor_protection_min_time attribute of this Settings instance.
+
+        :param compressor_protection_min_time: The compressor_protection_min_time value to set for the compressor_protection_min_time attribute of this Settings instance.
+        :type: int
+        """
+
         self._compressor_protection_min_time = compressor_protection_min_time
 
     @property
@@ -1066,17 +1124,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the compressor_protection_min_temp attribute of this Settings instance.
         :rtype: int
-
-        Sets the compressor_protection_min_temp attribute of this Settings instance.
-
-        :param compressor_protection_min_temp: The compressor_protection_min_temp value to set for the compressor_protection_min_temp attribute of this Settings instance.
-        :type: int
         """
 
         return self._compressor_protection_min_temp
 
     @compressor_protection_min_temp.setter
     def compressor_protection_min_temp(self, compressor_protection_min_temp):
+        """
+        Sets the compressor_protection_min_temp attribute of this Settings instance.
+
+        :param compressor_protection_min_temp: The compressor_protection_min_temp value to set for the compressor_protection_min_temp attribute of this Settings instance.
+        :type: int
+        """
+
         self._compressor_protection_min_temp = compressor_protection_min_temp
 
     @property
@@ -1086,17 +1146,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the stage1_heating_differential_temp attribute of this Settings instance.
         :rtype: int
-
-        Sets the stage1_heating_differential_temp attribute of this Settings instance.
-
-        :param stage1_heating_differential_temp: The stage1_heating_differential_temp value to set for the stage1_heating_differential_temp attribute of this Settings instance.
-        :type: int
         """
 
         return self._stage1_heating_differential_temp
 
     @stage1_heating_differential_temp.setter
     def stage1_heating_differential_temp(self, stage1_heating_differential_temp):
+        """
+        Sets the stage1_heating_differential_temp attribute of this Settings instance.
+
+        :param stage1_heating_differential_temp: The stage1_heating_differential_temp value to set for the stage1_heating_differential_temp attribute of this Settings instance.
+        :type: int
+        """
+
         self._stage1_heating_differential_temp = stage1_heating_differential_temp
 
     @property
@@ -1106,17 +1168,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the stage1_cooling_differential_temp attribute of this Settings instance.
         :rtype: int
-
-        Sets the stage1_cooling_differential_temp attribute of this Settings instance.
-
-        :param stage1_cooling_differential_temp: The stage1_cooling_differential_temp value to set for the stage1_cooling_differential_temp attribute of this Settings instance.
-        :type: int
         """
 
         return self._stage1_cooling_differential_temp
 
     @stage1_cooling_differential_temp.setter
     def stage1_cooling_differential_temp(self, stage1_cooling_differential_temp):
+        """
+        Sets the stage1_cooling_differential_temp attribute of this Settings instance.
+
+        :param stage1_cooling_differential_temp: The stage1_cooling_differential_temp value to set for the stage1_cooling_differential_temp attribute of this Settings instance.
+        :type: int
+        """
+
         self._stage1_cooling_differential_temp = stage1_cooling_differential_temp
 
     @property
@@ -1126,17 +1190,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the stage1_heating_dissipation_time attribute of this Settings instance.
         :rtype: int
-
-        Sets the stage1_heating_dissipation_time attribute of this Settings instance.
-
-        :param stage1_heating_dissipation_time: The stage1_heating_dissipation_time value to set for the stage1_heating_dissipation_time attribute of this Settings instance.
-        :type: int
         """
 
         return self._stage1_heating_dissipation_time
 
     @stage1_heating_dissipation_time.setter
     def stage1_heating_dissipation_time(self, stage1_heating_dissipation_time):
+        """
+        Sets the stage1_heating_dissipation_time attribute of this Settings instance.
+
+        :param stage1_heating_dissipation_time: The stage1_heating_dissipation_time value to set for the stage1_heating_dissipation_time attribute of this Settings instance.
+        :type: int
+        """
+
         self._stage1_heating_dissipation_time = stage1_heating_dissipation_time
 
     @property
@@ -1146,17 +1212,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the stage1_cooling_dissipation_time attribute of this Settings instance.
         :rtype: int
-
-        Sets the stage1_cooling_dissipation_time attribute of this Settings instance.
-
-        :param stage1_cooling_dissipation_time: The stage1_cooling_dissipation_time value to set for the stage1_cooling_dissipation_time attribute of this Settings instance.
-        :type: int
         """
 
         return self._stage1_cooling_dissipation_time
 
     @stage1_cooling_dissipation_time.setter
     def stage1_cooling_dissipation_time(self, stage1_cooling_dissipation_time):
+        """
+        Sets the stage1_cooling_dissipation_time attribute of this Settings instance.
+
+        :param stage1_cooling_dissipation_time: The stage1_cooling_dissipation_time value to set for the stage1_cooling_dissipation_time attribute of this Settings instance.
+        :type: int
+        """
+
         self._stage1_cooling_dissipation_time = stage1_cooling_dissipation_time
 
     @property
@@ -1166,17 +1234,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the heat_pump_reversal_on_cool attribute of this Settings instance.
         :rtype: bool
-
-        Sets the heat_pump_reversal_on_cool attribute of this Settings instance.
-
-        :param heat_pump_reversal_on_cool: The heat_pump_reversal_on_cool value to set for the heat_pump_reversal_on_cool attribute of this Settings instance.
-        :type: bool
         """
 
         return self._heat_pump_reversal_on_cool
 
     @heat_pump_reversal_on_cool.setter
     def heat_pump_reversal_on_cool(self, heat_pump_reversal_on_cool):
+        """
+        Sets the heat_pump_reversal_on_cool attribute of this Settings instance.
+
+        :param heat_pump_reversal_on_cool: The heat_pump_reversal_on_cool value to set for the heat_pump_reversal_on_cool attribute of this Settings instance.
+        :type: bool
+        """
+
         self._heat_pump_reversal_on_cool = heat_pump_reversal_on_cool
 
     @property
@@ -1186,17 +1256,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the fan_control_required attribute of this Settings instance.
         :rtype: bool
-
-        Sets the fan_control_required attribute of this Settings instance.
-
-        :param fan_control_required: The fan_control_required value to set for the fan_control_required attribute of this Settings instance.
-        :type: bool
         """
 
         return self._fan_control_required
 
     @fan_control_required.setter
     def fan_control_required(self, fan_control_required):
+        """
+        Sets the fan_control_required attribute of this Settings instance.
+
+        :param fan_control_required: The fan_control_required value to set for the fan_control_required attribute of this Settings instance.
+        :type: bool
+        """
+
         self._fan_control_required = fan_control_required
 
     @property
@@ -1206,17 +1278,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the fan_min_on_time attribute of this Settings instance.
         :rtype: int
-
-        Sets the fan_min_on_time attribute of this Settings instance.
-
-        :param fan_min_on_time: The fan_min_on_time value to set for the fan_min_on_time attribute of this Settings instance.
-        :type: int
         """
 
         return self._fan_min_on_time
 
     @fan_min_on_time.setter
     def fan_min_on_time(self, fan_min_on_time):
+        """
+        Sets the fan_min_on_time attribute of this Settings instance.
+
+        :param fan_min_on_time: The fan_min_on_time value to set for the fan_min_on_time attribute of this Settings instance.
+        :type: int
+        """
+
         self._fan_min_on_time = fan_min_on_time
 
     @property
@@ -1226,17 +1300,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the heat_cool_min_delta attribute of this Settings instance.
         :rtype: int
-
-        Sets the heat_cool_min_delta attribute of this Settings instance.
-
-        :param heat_cool_min_delta: The heat_cool_min_delta value to set for the heat_cool_min_delta attribute of this Settings instance.
-        :type: int
         """
 
         return self._heat_cool_min_delta
 
     @heat_cool_min_delta.setter
     def heat_cool_min_delta(self, heat_cool_min_delta):
+        """
+        Sets the heat_cool_min_delta attribute of this Settings instance.
+
+        :param heat_cool_min_delta: The heat_cool_min_delta value to set for the heat_cool_min_delta attribute of this Settings instance.
+        :type: int
+        """
+
         self._heat_cool_min_delta = heat_cool_min_delta
 
     @property
@@ -1246,17 +1322,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the temp_correction attribute of this Settings instance.
         :rtype: int
-
-        Sets the temp_correction attribute of this Settings instance.
-
-        :param temp_correction: The temp_correction value to set for the temp_correction attribute of this Settings instance.
-        :type: int
         """
 
         return self._temp_correction
 
     @temp_correction.setter
     def temp_correction(self, temp_correction):
+        """
+        Sets the temp_correction attribute of this Settings instance.
+
+        :param temp_correction: The temp_correction value to set for the temp_correction attribute of this Settings instance.
+        :type: int
+        """
+
         self._temp_correction = temp_correction
 
     @property
@@ -1266,17 +1344,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the hold_action attribute of this Settings instance.
         :rtype: six.text_type
-
-        Sets the hold_action attribute of this Settings instance.
-
-        :param hold_action: The hold_action value to set for the hold_action attribute of this Settings instance.
-        :type: six.text_type
         """
 
         return self._hold_action
 
     @hold_action.setter
     def hold_action(self, hold_action):
+        """
+        Sets the hold_action attribute of this Settings instance.
+
+        :param hold_action: The hold_action value to set for the hold_action attribute of this Settings instance.
+        :type: six.text_type
+        """
+
         self._hold_action = hold_action
 
     @property
@@ -1319,17 +1399,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the dehumidifier_mode attribute of this Settings instance.
         :rtype: six.text_type
-
-        Sets the dehumidifier_mode attribute of this Settings instance.
-
-        :param dehumidifier_mode: The dehumidifier_mode value to set for the dehumidifier_mode attribute of this Settings instance.
-        :type: six.text_type
         """
 
         return self._dehumidifier_mode
 
     @dehumidifier_mode.setter
     def dehumidifier_mode(self, dehumidifier_mode):
+        """
+        Sets the dehumidifier_mode attribute of this Settings instance.
+
+        :param dehumidifier_mode: The dehumidifier_mode value to set for the dehumidifier_mode attribute of this Settings instance.
+        :type: six.text_type
+        """
+
         self._dehumidifier_mode = dehumidifier_mode
 
     @property
@@ -1339,17 +1421,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the dehumidifier_level attribute of this Settings instance.
         :rtype: int
-
-        Sets the dehumidifier_level attribute of this Settings instance.
-
-        :param dehumidifier_level: The dehumidifier_level value to set for the dehumidifier_level attribute of this Settings instance.
-        :type: int
         """
 
         return self._dehumidifier_level
 
     @dehumidifier_level.setter
     def dehumidifier_level(self, dehumidifier_level):
+        """
+        Sets the dehumidifier_level attribute of this Settings instance.
+
+        :param dehumidifier_level: The dehumidifier_level value to set for the dehumidifier_level attribute of this Settings instance.
+        :type: int
+        """
+
         self._dehumidifier_level = dehumidifier_level
 
     @property
@@ -1359,17 +1443,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the dehumidify_with_a_c attribute of this Settings instance.
         :rtype: bool
-
-        Sets the dehumidify_with_a_c attribute of this Settings instance.
-
-        :param dehumidify_with_a_c: The dehumidify_with_a_c value to set for the dehumidify_with_a_c attribute of this Settings instance.
-        :type: bool
         """
 
         return self._dehumidify_with_a_c
 
     @dehumidify_with_a_c.setter
     def dehumidify_with_a_c(self, dehumidify_with_a_c):
+        """
+        Sets the dehumidify_with_a_c attribute of this Settings instance.
+
+        :param dehumidify_with_a_c: The dehumidify_with_a_c value to set for the dehumidify_with_a_c attribute of this Settings instance.
+        :type: bool
+        """
+
         self._dehumidify_with_a_c = dehumidify_with_a_c
 
     @property
@@ -1379,17 +1465,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the dehumidify_overcool_offset attribute of this Settings instance.
         :rtype: int
-
-        Sets the dehumidify_overcool_offset attribute of this Settings instance.
-
-        :param dehumidify_overcool_offset: The dehumidify_overcool_offset value to set for the dehumidify_overcool_offset attribute of this Settings instance.
-        :type: int
         """
 
         return self._dehumidify_overcool_offset
 
     @dehumidify_overcool_offset.setter
     def dehumidify_overcool_offset(self, dehumidify_overcool_offset):
+        """
+        Sets the dehumidify_overcool_offset attribute of this Settings instance.
+
+        :param dehumidify_overcool_offset: The dehumidify_overcool_offset value to set for the dehumidify_overcool_offset attribute of this Settings instance.
+        :type: int
+        """
+
         self._dehumidify_overcool_offset = dehumidify_overcool_offset
 
     @property
@@ -1399,17 +1487,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the auto_heat_cool_feature_enabled attribute of this Settings instance.
         :rtype: bool
-
-        Sets the auto_heat_cool_feature_enabled attribute of this Settings instance.
-
-        :param auto_heat_cool_feature_enabled: The auto_heat_cool_feature_enabled value to set for the auto_heat_cool_feature_enabled attribute of this Settings instance.
-        :type: bool
         """
 
         return self._auto_heat_cool_feature_enabled
 
     @auto_heat_cool_feature_enabled.setter
     def auto_heat_cool_feature_enabled(self, auto_heat_cool_feature_enabled):
+        """
+        Sets the auto_heat_cool_feature_enabled attribute of this Settings instance.
+
+        :param auto_heat_cool_feature_enabled: The auto_heat_cool_feature_enabled value to set for the auto_heat_cool_feature_enabled attribute of this Settings instance.
+        :type: bool
+        """
+
         self._auto_heat_cool_feature_enabled = auto_heat_cool_feature_enabled
 
     @property
@@ -1419,17 +1509,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the wifi_offline_alert attribute of this Settings instance.
         :rtype: bool
-
-        Sets the wifi_offline_alert attribute of this Settings instance.
-
-        :param wifi_offline_alert: The wifi_offline_alert value to set for the wifi_offline_alert attribute of this Settings instance.
-        :type: bool
         """
 
         return self._wifi_offline_alert
 
     @wifi_offline_alert.setter
     def wifi_offline_alert(self, wifi_offline_alert):
+        """
+        Sets the wifi_offline_alert attribute of this Settings instance.
+
+        :param wifi_offline_alert: The wifi_offline_alert value to set for the wifi_offline_alert attribute of this Settings instance.
+        :type: bool
+        """
+
         self._wifi_offline_alert = wifi_offline_alert
 
     @property
@@ -1483,17 +1575,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the heat_range_high attribute of this Settings instance.
         :rtype: int
-
-        Sets the heat_range_high attribute of this Settings instance.
-
-        :param heat_range_high: The heat_range_high value to set for the heat_range_high attribute of this Settings instance.
-        :type: int
         """
 
         return self._heat_range_high
 
     @heat_range_high.setter
     def heat_range_high(self, heat_range_high):
+        """
+        Sets the heat_range_high attribute of this Settings instance.
+
+        :param heat_range_high: The heat_range_high value to set for the heat_range_high attribute of this Settings instance.
+        :type: int
+        """
+
         self._heat_range_high = heat_range_high
 
     @property
@@ -1503,17 +1597,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the heat_range_low attribute of this Settings instance.
         :rtype: int
-
-        Sets the heat_range_low attribute of this Settings instance.
-
-        :param heat_range_low: The heat_range_low value to set for the heat_range_low attribute of this Settings instance.
-        :type: int
         """
 
         return self._heat_range_low
 
     @heat_range_low.setter
     def heat_range_low(self, heat_range_low):
+        """
+        Sets the heat_range_low attribute of this Settings instance.
+
+        :param heat_range_low: The heat_range_low value to set for the heat_range_low attribute of this Settings instance.
+        :type: int
+        """
+
         self._heat_range_low = heat_range_low
 
     @property
@@ -1523,17 +1619,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the cool_range_high attribute of this Settings instance.
         :rtype: int
-
-        Sets the cool_range_high attribute of this Settings instance.
-
-        :param cool_range_high: The cool_range_high value to set for the cool_range_high attribute of this Settings instance.
-        :type: int
         """
 
         return self._cool_range_high
 
     @cool_range_high.setter
     def cool_range_high(self, cool_range_high):
+        """
+        Sets the cool_range_high attribute of this Settings instance.
+
+        :param cool_range_high: The cool_range_high value to set for the cool_range_high attribute of this Settings instance.
+        :type: int
+        """
+
         self._cool_range_high = cool_range_high
 
     @property
@@ -1543,17 +1641,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the cool_range_low attribute of this Settings instance.
         :rtype: int
-
-        Sets the cool_range_low attribute of this Settings instance.
-
-        :param cool_range_low: The cool_range_low value to set for the cool_range_low attribute of this Settings instance.
-        :type: int
         """
 
         return self._cool_range_low
 
     @cool_range_low.setter
     def cool_range_low(self, cool_range_low):
+        """
+        Sets the cool_range_low attribute of this Settings instance.
+
+        :param cool_range_low: The cool_range_low value to set for the cool_range_low attribute of this Settings instance.
+        :type: int
+        """
+
         self._cool_range_low = cool_range_low
 
     @property
@@ -1585,17 +1685,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the aux_runtime_alert attribute of this Settings instance.
         :rtype: int
-
-        Sets the aux_runtime_alert attribute of this Settings instance.
-
-        :param aux_runtime_alert: The aux_runtime_alert value to set for the aux_runtime_alert attribute of this Settings instance.
-        :type: int
         """
 
         return self._aux_runtime_alert
 
     @aux_runtime_alert.setter
     def aux_runtime_alert(self, aux_runtime_alert):
+        """
+        Sets the aux_runtime_alert attribute of this Settings instance.
+
+        :param aux_runtime_alert: The aux_runtime_alert value to set for the aux_runtime_alert attribute of this Settings instance.
+        :type: int
+        """
+
         self._aux_runtime_alert = aux_runtime_alert
 
     @property
@@ -1605,17 +1707,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the aux_outdoor_temp_alert attribute of this Settings instance.
         :rtype: int
-
-        Sets the aux_outdoor_temp_alert attribute of this Settings instance.
-
-        :param aux_outdoor_temp_alert: The aux_outdoor_temp_alert value to set for the aux_outdoor_temp_alert attribute of this Settings instance.
-        :type: int
         """
 
         return self._aux_outdoor_temp_alert
 
     @aux_outdoor_temp_alert.setter
     def aux_outdoor_temp_alert(self, aux_outdoor_temp_alert):
+        """
+        Sets the aux_outdoor_temp_alert attribute of this Settings instance.
+
+        :param aux_outdoor_temp_alert: The aux_outdoor_temp_alert value to set for the aux_outdoor_temp_alert attribute of this Settings instance.
+        :type: int
+        """
+
         self._aux_outdoor_temp_alert = aux_outdoor_temp_alert
 
     @property
@@ -1625,17 +1729,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the aux_max_outdoor_temp attribute of this Settings instance.
         :rtype: int
-
-        Sets the aux_max_outdoor_temp attribute of this Settings instance.
-
-        :param aux_max_outdoor_temp: The aux_max_outdoor_temp value to set for the aux_max_outdoor_temp attribute of this Settings instance.
-        :type: int
         """
 
         return self._aux_max_outdoor_temp
 
     @aux_max_outdoor_temp.setter
     def aux_max_outdoor_temp(self, aux_max_outdoor_temp):
+        """
+        Sets the aux_max_outdoor_temp attribute of this Settings instance.
+
+        :param aux_max_outdoor_temp: The aux_max_outdoor_temp value to set for the aux_max_outdoor_temp attribute of this Settings instance.
+        :type: int
+        """
+
         self._aux_max_outdoor_temp = aux_max_outdoor_temp
 
     @property
@@ -1645,17 +1751,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the aux_runtime_alert_notify attribute of this Settings instance.
         :rtype: bool
-
-        Sets the aux_runtime_alert_notify attribute of this Settings instance.
-
-        :param aux_runtime_alert_notify: The aux_runtime_alert_notify value to set for the aux_runtime_alert_notify attribute of this Settings instance.
-        :type: bool
         """
 
         return self._aux_runtime_alert_notify
 
     @aux_runtime_alert_notify.setter
     def aux_runtime_alert_notify(self, aux_runtime_alert_notify):
+        """
+        Sets the aux_runtime_alert_notify attribute of this Settings instance.
+
+        :param aux_runtime_alert_notify: The aux_runtime_alert_notify value to set for the aux_runtime_alert_notify attribute of this Settings instance.
+        :type: bool
+        """
+
         self._aux_runtime_alert_notify = aux_runtime_alert_notify
 
     @property
@@ -1665,17 +1773,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the aux_outdoor_temp_alert_notify attribute of this Settings instance.
         :rtype: bool
-
-        Sets the aux_outdoor_temp_alert_notify attribute of this Settings instance.
-
-        :param aux_outdoor_temp_alert_notify: The aux_outdoor_temp_alert_notify value to set for the aux_outdoor_temp_alert_notify attribute of this Settings instance.
-        :type: bool
         """
 
         return self._aux_outdoor_temp_alert_notify
 
     @aux_outdoor_temp_alert_notify.setter
     def aux_outdoor_temp_alert_notify(self, aux_outdoor_temp_alert_notify):
+        """
+        Sets the aux_outdoor_temp_alert_notify attribute of this Settings instance.
+
+        :param aux_outdoor_temp_alert_notify: The aux_outdoor_temp_alert_notify value to set for the aux_outdoor_temp_alert_notify attribute of this Settings instance.
+        :type: bool
+        """
+
         self._aux_outdoor_temp_alert_notify = aux_outdoor_temp_alert_notify
 
     @property
@@ -1685,17 +1795,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the aux_runtime_alert_notify_technician attribute of this Settings instance.
         :rtype: bool
-
-        Sets the aux_runtime_alert_notify_technician attribute of this Settings instance.
-
-        :param aux_runtime_alert_notify_technician: The aux_runtime_alert_notify_technician value to set for the aux_runtime_alert_notify_technician attribute of this Settings instance.
-        :type: bool
         """
 
         return self._aux_runtime_alert_notify_technician
 
     @aux_runtime_alert_notify_technician.setter
     def aux_runtime_alert_notify_technician(self, aux_runtime_alert_notify_technician):
+        """
+        Sets the aux_runtime_alert_notify_technician attribute of this Settings instance.
+
+        :param aux_runtime_alert_notify_technician: The aux_runtime_alert_notify_technician value to set for the aux_runtime_alert_notify_technician attribute of this Settings instance.
+        :type: bool
+        """
+
         self._aux_runtime_alert_notify_technician = aux_runtime_alert_notify_technician
 
     @property
@@ -1705,17 +1817,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the aux_outdoor_temp_alert_notify_technician attribute of this Settings instance.
         :rtype: bool
-
-        Sets the aux_outdoor_temp_alert_notify_technician attribute of this Settings instance.
-
-        :param aux_outdoor_temp_alert_notify_technician: The aux_outdoor_temp_alert_notify_technician value to set for the aux_outdoor_temp_alert_notify_technician attribute of this Settings instance.
-        :type: bool
         """
 
         return self._aux_outdoor_temp_alert_notify_technician
 
     @aux_outdoor_temp_alert_notify_technician.setter
     def aux_outdoor_temp_alert_notify_technician(self, aux_outdoor_temp_alert_notify_technician):
+        """
+        Sets the aux_outdoor_temp_alert_notify_technician attribute of this Settings instance.
+
+        :param aux_outdoor_temp_alert_notify_technician: The aux_outdoor_temp_alert_notify_technician value to set for the aux_outdoor_temp_alert_notify_technician attribute of this Settings instance.
+        :type: bool
+        """
+
         self._aux_outdoor_temp_alert_notify_technician = aux_outdoor_temp_alert_notify_technician
 
     @property
@@ -1725,17 +1839,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the disable_pre_heating attribute of this Settings instance.
         :rtype: bool
-
-        Sets the disable_pre_heating attribute of this Settings instance.
-
-        :param disable_pre_heating: The disable_pre_heating value to set for the disable_pre_heating attribute of this Settings instance.
-        :type: bool
         """
 
         return self._disable_pre_heating
 
     @disable_pre_heating.setter
     def disable_pre_heating(self, disable_pre_heating):
+        """
+        Sets the disable_pre_heating attribute of this Settings instance.
+
+        :param disable_pre_heating: The disable_pre_heating value to set for the disable_pre_heating attribute of this Settings instance.
+        :type: bool
+        """
+
         self._disable_pre_heating = disable_pre_heating
 
     @property
@@ -1745,17 +1861,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the disable_pre_cooling attribute of this Settings instance.
         :rtype: bool
-
-        Sets the disable_pre_cooling attribute of this Settings instance.
-
-        :param disable_pre_cooling: The disable_pre_cooling value to set for the disable_pre_cooling attribute of this Settings instance.
-        :type: bool
         """
 
         return self._disable_pre_cooling
 
     @disable_pre_cooling.setter
     def disable_pre_cooling(self, disable_pre_cooling):
+        """
+        Sets the disable_pre_cooling attribute of this Settings instance.
+
+        :param disable_pre_cooling: The disable_pre_cooling value to set for the disable_pre_cooling attribute of this Settings instance.
+        :type: bool
+        """
+
         self._disable_pre_cooling = disable_pre_cooling
 
     @property
@@ -1765,17 +1883,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the installer_code_required attribute of this Settings instance.
         :rtype: bool
-
-        Sets the installer_code_required attribute of this Settings instance.
-
-        :param installer_code_required: The installer_code_required value to set for the installer_code_required attribute of this Settings instance.
-        :type: bool
         """
 
         return self._installer_code_required
 
     @installer_code_required.setter
     def installer_code_required(self, installer_code_required):
+        """
+        Sets the installer_code_required attribute of this Settings instance.
+
+        :param installer_code_required: The installer_code_required value to set for the installer_code_required attribute of this Settings instance.
+        :type: bool
+        """
+
         self._installer_code_required = installer_code_required
 
     @property
@@ -1785,17 +1905,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the dr_accept attribute of this Settings instance.
         :rtype: six.text_type
-
-        Sets the dr_accept attribute of this Settings instance.
-
-        :param dr_accept: The dr_accept value to set for the dr_accept attribute of this Settings instance.
-        :type: six.text_type
         """
 
         return self._dr_accept
 
     @dr_accept.setter
     def dr_accept(self, dr_accept):
+        """
+        Sets the dr_accept attribute of this Settings instance.
+
+        :param dr_accept: The dr_accept value to set for the dr_accept attribute of this Settings instance.
+        :type: six.text_type
+        """
+
         self._dr_accept = dr_accept
 
     @property
@@ -1805,17 +1927,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the is_rental_property attribute of this Settings instance.
         :rtype: bool
-
-        Sets the is_rental_property attribute of this Settings instance.
-
-        :param is_rental_property: The is_rental_property value to set for the is_rental_property attribute of this Settings instance.
-        :type: bool
         """
 
         return self._is_rental_property
 
     @is_rental_property.setter
     def is_rental_property(self, is_rental_property):
+        """
+        Sets the is_rental_property attribute of this Settings instance.
+
+        :param is_rental_property: The is_rental_property value to set for the is_rental_property attribute of this Settings instance.
+        :type: bool
+        """
+
         self._is_rental_property = is_rental_property
 
     @property
@@ -1825,17 +1949,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the use_zone_controller attribute of this Settings instance.
         :rtype: bool
-
-        Sets the use_zone_controller attribute of this Settings instance.
-
-        :param use_zone_controller: The use_zone_controller value to set for the use_zone_controller attribute of this Settings instance.
-        :type: bool
         """
 
         return self._use_zone_controller
 
     @use_zone_controller.setter
     def use_zone_controller(self, use_zone_controller):
+        """
+        Sets the use_zone_controller attribute of this Settings instance.
+
+        :param use_zone_controller: The use_zone_controller value to set for the use_zone_controller attribute of this Settings instance.
+        :type: bool
+        """
+
         self._use_zone_controller = use_zone_controller
 
     @property
@@ -1845,17 +1971,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the random_start_delay_cool attribute of this Settings instance.
         :rtype: int
-
-        Sets the random_start_delay_cool attribute of this Settings instance.
-
-        :param random_start_delay_cool: The random_start_delay_cool value to set for the random_start_delay_cool attribute of this Settings instance.
-        :type: int
         """
 
         return self._random_start_delay_cool
 
     @random_start_delay_cool.setter
     def random_start_delay_cool(self, random_start_delay_cool):
+        """
+        Sets the random_start_delay_cool attribute of this Settings instance.
+
+        :param random_start_delay_cool: The random_start_delay_cool value to set for the random_start_delay_cool attribute of this Settings instance.
+        :type: int
+        """
+
         self._random_start_delay_cool = random_start_delay_cool
 
     @property
@@ -1865,17 +1993,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the random_start_delay_heat attribute of this Settings instance.
         :rtype: int
-
-        Sets the random_start_delay_heat attribute of this Settings instance.
-
-        :param random_start_delay_heat: The random_start_delay_heat value to set for the random_start_delay_heat attribute of this Settings instance.
-        :type: int
         """
 
         return self._random_start_delay_heat
 
     @random_start_delay_heat.setter
     def random_start_delay_heat(self, random_start_delay_heat):
+        """
+        Sets the random_start_delay_heat attribute of this Settings instance.
+
+        :param random_start_delay_heat: The random_start_delay_heat value to set for the random_start_delay_heat attribute of this Settings instance.
+        :type: int
+        """
+
         self._random_start_delay_heat = random_start_delay_heat
 
     @property
@@ -1885,17 +2015,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the humidity_high_alert attribute of this Settings instance.
         :rtype: int
-
-        Sets the humidity_high_alert attribute of this Settings instance.
-
-        :param humidity_high_alert: The humidity_high_alert value to set for the humidity_high_alert attribute of this Settings instance.
-        :type: int
         """
 
         return self._humidity_high_alert
 
     @humidity_high_alert.setter
     def humidity_high_alert(self, humidity_high_alert):
+        """
+        Sets the humidity_high_alert attribute of this Settings instance.
+
+        :param humidity_high_alert: The humidity_high_alert value to set for the humidity_high_alert attribute of this Settings instance.
+        :type: int
+        """
+
         self._humidity_high_alert = humidity_high_alert
 
     @property
@@ -1905,17 +2037,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the humidity_low_alert attribute of this Settings instance.
         :rtype: int
-
-        Sets the humidity_low_alert attribute of this Settings instance.
-
-        :param humidity_low_alert: The humidity_low_alert value to set for the humidity_low_alert attribute of this Settings instance.
-        :type: int
         """
 
         return self._humidity_low_alert
 
     @humidity_low_alert.setter
     def humidity_low_alert(self, humidity_low_alert):
+        """
+        Sets the humidity_low_alert attribute of this Settings instance.
+
+        :param humidity_low_alert: The humidity_low_alert value to set for the humidity_low_alert attribute of this Settings instance.
+        :type: int
+        """
+
         self._humidity_low_alert = humidity_low_alert
 
     @property
@@ -1925,17 +2059,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the disable_heat_pump_alerts attribute of this Settings instance.
         :rtype: bool
-
-        Sets the disable_heat_pump_alerts attribute of this Settings instance.
-
-        :param disable_heat_pump_alerts: The disable_heat_pump_alerts value to set for the disable_heat_pump_alerts attribute of this Settings instance.
-        :type: bool
         """
 
         return self._disable_heat_pump_alerts
 
     @disable_heat_pump_alerts.setter
     def disable_heat_pump_alerts(self, disable_heat_pump_alerts):
+        """
+        Sets the disable_heat_pump_alerts attribute of this Settings instance.
+
+        :param disable_heat_pump_alerts: The disable_heat_pump_alerts value to set for the disable_heat_pump_alerts attribute of this Settings instance.
+        :type: bool
+        """
+
         self._disable_heat_pump_alerts = disable_heat_pump_alerts
 
     @property
@@ -1945,17 +2081,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the disable_alerts_on_idt attribute of this Settings instance.
         :rtype: bool
-
-        Sets the disable_alerts_on_idt attribute of this Settings instance.
-
-        :param disable_alerts_on_idt: The disable_alerts_on_idt value to set for the disable_alerts_on_idt attribute of this Settings instance.
-        :type: bool
         """
 
         return self._disable_alerts_on_idt
 
     @disable_alerts_on_idt.setter
     def disable_alerts_on_idt(self, disable_alerts_on_idt):
+        """
+        Sets the disable_alerts_on_idt attribute of this Settings instance.
+
+        :param disable_alerts_on_idt: The disable_alerts_on_idt value to set for the disable_alerts_on_idt attribute of this Settings instance.
+        :type: bool
+        """
+
         self._disable_alerts_on_idt = disable_alerts_on_idt
 
     @property
@@ -1965,17 +2103,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the humidity_alert_notify attribute of this Settings instance.
         :rtype: bool
-
-        Sets the humidity_alert_notify attribute of this Settings instance.
-
-        :param humidity_alert_notify: The humidity_alert_notify value to set for the humidity_alert_notify attribute of this Settings instance.
-        :type: bool
         """
 
         return self._humidity_alert_notify
 
     @humidity_alert_notify.setter
     def humidity_alert_notify(self, humidity_alert_notify):
+        """
+        Sets the humidity_alert_notify attribute of this Settings instance.
+
+        :param humidity_alert_notify: The humidity_alert_notify value to set for the humidity_alert_notify attribute of this Settings instance.
+        :type: bool
+        """
+
         self._humidity_alert_notify = humidity_alert_notify
 
     @property
@@ -1985,17 +2125,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the humidity_alert_notify_technician attribute of this Settings instance.
         :rtype: bool
-
-        Sets the humidity_alert_notify_technician attribute of this Settings instance.
-
-        :param humidity_alert_notify_technician: The humidity_alert_notify_technician value to set for the humidity_alert_notify_technician attribute of this Settings instance.
-        :type: bool
         """
 
         return self._humidity_alert_notify_technician
 
     @humidity_alert_notify_technician.setter
     def humidity_alert_notify_technician(self, humidity_alert_notify_technician):
+        """
+        Sets the humidity_alert_notify_technician attribute of this Settings instance.
+
+        :param humidity_alert_notify_technician: The humidity_alert_notify_technician value to set for the humidity_alert_notify_technician attribute of this Settings instance.
+        :type: bool
+        """
+
         self._humidity_alert_notify_technician = humidity_alert_notify_technician
 
     @property
@@ -2005,17 +2147,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the temp_alert_notify attribute of this Settings instance.
         :rtype: bool
-
-        Sets the temp_alert_notify attribute of this Settings instance.
-
-        :param temp_alert_notify: The temp_alert_notify value to set for the temp_alert_notify attribute of this Settings instance.
-        :type: bool
         """
 
         return self._temp_alert_notify
 
     @temp_alert_notify.setter
     def temp_alert_notify(self, temp_alert_notify):
+        """
+        Sets the temp_alert_notify attribute of this Settings instance.
+
+        :param temp_alert_notify: The temp_alert_notify value to set for the temp_alert_notify attribute of this Settings instance.
+        :type: bool
+        """
+
         self._temp_alert_notify = temp_alert_notify
 
     @property
@@ -2025,17 +2169,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the temp_alert_notify_technician attribute of this Settings instance.
         :rtype: bool
-
-        Sets the temp_alert_notify_technician attribute of this Settings instance.
-
-        :param temp_alert_notify_technician: The temp_alert_notify_technician value to set for the temp_alert_notify_technician attribute of this Settings instance.
-        :type: bool
         """
 
         return self._temp_alert_notify_technician
 
     @temp_alert_notify_technician.setter
     def temp_alert_notify_technician(self, temp_alert_notify_technician):
+        """
+        Sets the temp_alert_notify_technician attribute of this Settings instance.
+
+        :param temp_alert_notify_technician: The temp_alert_notify_technician value to set for the temp_alert_notify_technician attribute of this Settings instance.
+        :type: bool
+        """
+
         self._temp_alert_notify_technician = temp_alert_notify_technician
 
     @property
@@ -2045,17 +2191,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the monthly_electricity_bill_limit attribute of this Settings instance.
         :rtype: int
-
-        Sets the monthly_electricity_bill_limit attribute of this Settings instance.
-
-        :param monthly_electricity_bill_limit: The monthly_electricity_bill_limit value to set for the monthly_electricity_bill_limit attribute of this Settings instance.
-        :type: int
         """
 
         return self._monthly_electricity_bill_limit
 
     @monthly_electricity_bill_limit.setter
     def monthly_electricity_bill_limit(self, monthly_electricity_bill_limit):
+        """
+        Sets the monthly_electricity_bill_limit attribute of this Settings instance.
+
+        :param monthly_electricity_bill_limit: The monthly_electricity_bill_limit value to set for the monthly_electricity_bill_limit attribute of this Settings instance.
+        :type: int
+        """
+
         self._monthly_electricity_bill_limit = monthly_electricity_bill_limit
 
     @property
@@ -2065,17 +2213,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the enable_electricity_bill_alert attribute of this Settings instance.
         :rtype: bool
-
-        Sets the enable_electricity_bill_alert attribute of this Settings instance.
-
-        :param enable_electricity_bill_alert: The enable_electricity_bill_alert value to set for the enable_electricity_bill_alert attribute of this Settings instance.
-        :type: bool
         """
 
         return self._enable_electricity_bill_alert
 
     @enable_electricity_bill_alert.setter
     def enable_electricity_bill_alert(self, enable_electricity_bill_alert):
+        """
+        Sets the enable_electricity_bill_alert attribute of this Settings instance.
+
+        :param enable_electricity_bill_alert: The enable_electricity_bill_alert value to set for the enable_electricity_bill_alert attribute of this Settings instance.
+        :type: bool
+        """
+
         self._enable_electricity_bill_alert = enable_electricity_bill_alert
 
     @property
@@ -2085,17 +2235,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the enable_projected_electricity_bill_alert attribute of this Settings instance.
         :rtype: bool
-
-        Sets the enable_projected_electricity_bill_alert attribute of this Settings instance.
-
-        :param enable_projected_electricity_bill_alert: The enable_projected_electricity_bill_alert value to set for the enable_projected_electricity_bill_alert attribute of this Settings instance.
-        :type: bool
         """
 
         return self._enable_projected_electricity_bill_alert
 
     @enable_projected_electricity_bill_alert.setter
     def enable_projected_electricity_bill_alert(self, enable_projected_electricity_bill_alert):
+        """
+        Sets the enable_projected_electricity_bill_alert attribute of this Settings instance.
+
+        :param enable_projected_electricity_bill_alert: The enable_projected_electricity_bill_alert value to set for the enable_projected_electricity_bill_alert attribute of this Settings instance.
+        :type: bool
+        """
+
         self._enable_projected_electricity_bill_alert = enable_projected_electricity_bill_alert
 
     @property
@@ -2105,17 +2257,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the electricity_billing_day_of_month attribute of this Settings instance.
         :rtype: int
-
-        Sets the electricity_billing_day_of_month attribute of this Settings instance.
-
-        :param electricity_billing_day_of_month: The electricity_billing_day_of_month value to set for the electricity_billing_day_of_month attribute of this Settings instance.
-        :type: int
         """
 
         return self._electricity_billing_day_of_month
 
     @electricity_billing_day_of_month.setter
     def electricity_billing_day_of_month(self, electricity_billing_day_of_month):
+        """
+        Sets the electricity_billing_day_of_month attribute of this Settings instance.
+
+        :param electricity_billing_day_of_month: The electricity_billing_day_of_month value to set for the electricity_billing_day_of_month attribute of this Settings instance.
+        :type: int
+        """
+
         self._electricity_billing_day_of_month = electricity_billing_day_of_month
 
     @property
@@ -2125,17 +2279,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the electricity_bill_cycle_months attribute of this Settings instance.
         :rtype: int
-
-        Sets the electricity_bill_cycle_months attribute of this Settings instance.
-
-        :param electricity_bill_cycle_months: The electricity_bill_cycle_months value to set for the electricity_bill_cycle_months attribute of this Settings instance.
-        :type: int
         """
 
         return self._electricity_bill_cycle_months
 
     @electricity_bill_cycle_months.setter
     def electricity_bill_cycle_months(self, electricity_bill_cycle_months):
+        """
+        Sets the electricity_bill_cycle_months attribute of this Settings instance.
+
+        :param electricity_bill_cycle_months: The electricity_bill_cycle_months value to set for the electricity_bill_cycle_months attribute of this Settings instance.
+        :type: int
+        """
+
         self._electricity_bill_cycle_months = electricity_bill_cycle_months
 
     @property
@@ -2145,17 +2301,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the electricity_bill_start_month attribute of this Settings instance.
         :rtype: int
-
-        Sets the electricity_bill_start_month attribute of this Settings instance.
-
-        :param electricity_bill_start_month: The electricity_bill_start_month value to set for the electricity_bill_start_month attribute of this Settings instance.
-        :type: int
         """
 
         return self._electricity_bill_start_month
 
     @electricity_bill_start_month.setter
     def electricity_bill_start_month(self, electricity_bill_start_month):
+        """
+        Sets the electricity_bill_start_month attribute of this Settings instance.
+
+        :param electricity_bill_start_month: The electricity_bill_start_month value to set for the electricity_bill_start_month attribute of this Settings instance.
+        :type: int
+        """
+
         self._electricity_bill_start_month = electricity_bill_start_month
 
     @property
@@ -2165,17 +2323,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the ventilator_min_on_time_home attribute of this Settings instance.
         :rtype: int
-
-        Sets the ventilator_min_on_time_home attribute of this Settings instance.
-
-        :param ventilator_min_on_time_home: The ventilator_min_on_time_home value to set for the ventilator_min_on_time_home attribute of this Settings instance.
-        :type: int
         """
 
         return self._ventilator_min_on_time_home
 
     @ventilator_min_on_time_home.setter
     def ventilator_min_on_time_home(self, ventilator_min_on_time_home):
+        """
+        Sets the ventilator_min_on_time_home attribute of this Settings instance.
+
+        :param ventilator_min_on_time_home: The ventilator_min_on_time_home value to set for the ventilator_min_on_time_home attribute of this Settings instance.
+        :type: int
+        """
+
         self._ventilator_min_on_time_home = ventilator_min_on_time_home
 
     @property
@@ -2185,17 +2345,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the ventilator_min_on_time_away attribute of this Settings instance.
         :rtype: int
-
-        Sets the ventilator_min_on_time_away attribute of this Settings instance.
-
-        :param ventilator_min_on_time_away: The ventilator_min_on_time_away value to set for the ventilator_min_on_time_away attribute of this Settings instance.
-        :type: int
         """
 
         return self._ventilator_min_on_time_away
 
     @ventilator_min_on_time_away.setter
     def ventilator_min_on_time_away(self, ventilator_min_on_time_away):
+        """
+        Sets the ventilator_min_on_time_away attribute of this Settings instance.
+
+        :param ventilator_min_on_time_away: The ventilator_min_on_time_away value to set for the ventilator_min_on_time_away attribute of this Settings instance.
+        :type: int
+        """
+
         self._ventilator_min_on_time_away = ventilator_min_on_time_away
 
     @property
@@ -2205,17 +2367,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the backlight_off_during_sleep attribute of this Settings instance.
         :rtype: bool
-
-        Sets the backlight_off_during_sleep attribute of this Settings instance.
-
-        :param backlight_off_during_sleep: The backlight_off_during_sleep value to set for the backlight_off_during_sleep attribute of this Settings instance.
-        :type: bool
         """
 
         return self._backlight_off_during_sleep
 
     @backlight_off_during_sleep.setter
     def backlight_off_during_sleep(self, backlight_off_during_sleep):
+        """
+        Sets the backlight_off_during_sleep attribute of this Settings instance.
+
+        :param backlight_off_during_sleep: The backlight_off_during_sleep value to set for the backlight_off_during_sleep attribute of this Settings instance.
+        :type: bool
+        """
+
         self._backlight_off_during_sleep = backlight_off_during_sleep
 
     @property
@@ -2225,17 +2389,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the auto_away attribute of this Settings instance.
         :rtype: bool
-
-        Sets the auto_away attribute of this Settings instance.
-
-        :param auto_away: The auto_away value to set for the auto_away attribute of this Settings instance.
-        :type: bool
         """
 
         return self._auto_away
 
     @auto_away.setter
     def auto_away(self, auto_away):
+        """
+        Sets the auto_away attribute of this Settings instance.
+
+        :param auto_away: The auto_away value to set for the auto_away attribute of this Settings instance.
+        :type: bool
+        """
+
         self._auto_away = auto_away
 
     @property
@@ -2245,17 +2411,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the smart_circulation attribute of this Settings instance.
         :rtype: bool
-
-        Sets the smart_circulation attribute of this Settings instance.
-
-        :param smart_circulation: The smart_circulation value to set for the smart_circulation attribute of this Settings instance.
-        :type: bool
         """
 
         return self._smart_circulation
 
     @smart_circulation.setter
     def smart_circulation(self, smart_circulation):
+        """
+        Sets the smart_circulation attribute of this Settings instance.
+
+        :param smart_circulation: The smart_circulation value to set for the smart_circulation attribute of this Settings instance.
+        :type: bool
+        """
+
         self._smart_circulation = smart_circulation
 
     @property
@@ -2265,17 +2433,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the follow_me_comfort attribute of this Settings instance.
         :rtype: bool
-
-        Sets the follow_me_comfort attribute of this Settings instance.
-
-        :param follow_me_comfort: The follow_me_comfort value to set for the follow_me_comfort attribute of this Settings instance.
-        :type: bool
         """
 
         return self._follow_me_comfort
 
     @follow_me_comfort.setter
     def follow_me_comfort(self, follow_me_comfort):
+        """
+        Sets the follow_me_comfort attribute of this Settings instance.
+
+        :param follow_me_comfort: The follow_me_comfort value to set for the follow_me_comfort attribute of this Settings instance.
+        :type: bool
+        """
+
         self._follow_me_comfort = follow_me_comfort
 
     @property
@@ -2296,17 +2466,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the is_ventilator_timer_on attribute of this Settings instance.
         :rtype: bool
-
-        Sets the is_ventilator_timer_on attribute of this Settings instance.
-
-        :param is_ventilator_timer_on: The is_ventilator_timer_on value to set for the is_ventilator_timer_on attribute of this Settings instance.
-        :type: bool
         """
 
         return self._is_ventilator_timer_on
 
     @is_ventilator_timer_on.setter
     def is_ventilator_timer_on(self, is_ventilator_timer_on):
+        """
+        Sets the is_ventilator_timer_on attribute of this Settings instance.
+
+        :param is_ventilator_timer_on: The is_ventilator_timer_on value to set for the is_ventilator_timer_on attribute of this Settings instance.
+        :type: bool
+        """
+
         self._is_ventilator_timer_on = is_ventilator_timer_on
 
     @property
@@ -2327,17 +2499,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the has_u_v_filter attribute of this Settings instance.
         :rtype: bool
-
-        Sets the has_u_v_filter attribute of this Settings instance.
-
-        :param has_u_v_filter: The has_u_v_filter value to set for the has_u_v_filter attribute of this Settings instance.
-        :type: bool
         """
 
         return self._has_u_v_filter
 
     @has_u_v_filter.setter
     def has_u_v_filter(self, has_u_v_filter):
+        """
+        Sets the has_u_v_filter attribute of this Settings instance.
+
+        :param has_u_v_filter: The has_u_v_filter value to set for the has_u_v_filter attribute of this Settings instance.
+        :type: bool
+        """
+
         self._has_u_v_filter = has_u_v_filter
 
     @property
@@ -2347,17 +2521,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the cooling_lockout attribute of this Settings instance.
         :rtype: bool
-
-        Sets the cooling_lockout attribute of this Settings instance.
-
-        :param cooling_lockout: The cooling_lockout value to set for the cooling_lockout attribute of this Settings instance.
-        :type: bool
         """
 
         return self._cooling_lockout
 
     @cooling_lockout.setter
     def cooling_lockout(self, cooling_lockout):
+        """
+        Sets the cooling_lockout attribute of this Settings instance.
+
+        :param cooling_lockout: The cooling_lockout value to set for the cooling_lockout attribute of this Settings instance.
+        :type: bool
+        """
+
         self._cooling_lockout = cooling_lockout
 
     @property
@@ -2367,17 +2543,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the ventilator_free_cooling attribute of this Settings instance.
         :rtype: bool
-
-        Sets the ventilator_free_cooling attribute of this Settings instance.
-
-        :param ventilator_free_cooling: The ventilator_free_cooling value to set for the ventilator_free_cooling attribute of this Settings instance.
-        :type: bool
         """
 
         return self._ventilator_free_cooling
 
     @ventilator_free_cooling.setter
     def ventilator_free_cooling(self, ventilator_free_cooling):
+        """
+        Sets the ventilator_free_cooling attribute of this Settings instance.
+
+        :param ventilator_free_cooling: The ventilator_free_cooling value to set for the ventilator_free_cooling attribute of this Settings instance.
+        :type: bool
+        """
+
         self._ventilator_free_cooling = ventilator_free_cooling
 
     @property
@@ -2387,17 +2565,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the dehumidify_when_heating attribute of this Settings instance.
         :rtype: bool
-
-        Sets the dehumidify_when_heating attribute of this Settings instance.
-
-        :param dehumidify_when_heating: The dehumidify_when_heating value to set for the dehumidify_when_heating attribute of this Settings instance.
-        :type: bool
         """
 
         return self._dehumidify_when_heating
 
     @dehumidify_when_heating.setter
     def dehumidify_when_heating(self, dehumidify_when_heating):
+        """
+        Sets the dehumidify_when_heating attribute of this Settings instance.
+
+        :param dehumidify_when_heating: The dehumidify_when_heating value to set for the dehumidify_when_heating attribute of this Settings instance.
+        :type: bool
+        """
+
         self._dehumidify_when_heating = dehumidify_when_heating
 
     @property
@@ -2407,17 +2587,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the ventilator_dehumidify attribute of this Settings instance.
         :rtype: bool
-
-        Sets the ventilator_dehumidify attribute of this Settings instance.
-
-        :param ventilator_dehumidify: The ventilator_dehumidify value to set for the ventilator_dehumidify attribute of this Settings instance.
-        :type: bool
         """
 
         return self._ventilator_dehumidify
 
     @ventilator_dehumidify.setter
     def ventilator_dehumidify(self, ventilator_dehumidify):
+        """
+        Sets the ventilator_dehumidify attribute of this Settings instance.
+
+        :param ventilator_dehumidify: The ventilator_dehumidify value to set for the ventilator_dehumidify attribute of this Settings instance.
+        :type: bool
+        """
+
         self._ventilator_dehumidify = ventilator_dehumidify
 
     @property
@@ -2427,17 +2609,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the group_ref attribute of this Settings instance.
         :rtype: six.text_type
-
-        Sets the group_ref attribute of this Settings instance.
-
-        :param group_ref: The group_ref value to set for the group_ref attribute of this Settings instance.
-        :type: six.text_type
         """
 
         return self._group_ref
 
     @group_ref.setter
     def group_ref(self, group_ref):
+        """
+        Sets the group_ref attribute of this Settings instance.
+
+        :param group_ref: The group_ref value to set for the group_ref attribute of this Settings instance.
+        :type: six.text_type
+        """
+
         self._group_ref = group_ref
 
     @property
@@ -2447,17 +2631,19 @@ class Settings(EcobeeObject):
 
         :return: The value of the group_name attribute of this Settings instance.
         :rtype: six.text_type
-
-        Sets the group_name attribute of this Settings instance.
-
-        :param group_name: The group_name value to set for the group_name attribute of this Settings instance.
-        :type: six.text_type
         """
 
         return self._group_name
 
     @group_name.setter
     def group_name(self, group_name):
+        """
+        Sets the group_name attribute of this Settings instance.
+
+        :param group_name: The group_name value to set for the group_name attribute of this Settings instance.
+        :type: six.text_type
+        """
+
         self._group_name = group_name
 
     @property
@@ -2467,15 +2653,17 @@ class Settings(EcobeeObject):
 
         :return: The value of the group_setting attribute of this Settings instance.
         :rtype: int
-
-        Sets the group_setting attribute of this Settings instance.
-
-        :param group_setting: The group_setting value to set for the group_setting attribute of this Settings instance.
-        :type: int
         """
 
         return self._group_setting
 
     @group_setting.setter
     def group_setting(self, group_setting):
+        """
+        Sets the group_setting attribute of this Settings instance.
+
+        :param group_setting: The group_setting value to set for the group_setting attribute of this Settings instance.
+        :type: int
+        """
+
         self._group_setting = group_setting

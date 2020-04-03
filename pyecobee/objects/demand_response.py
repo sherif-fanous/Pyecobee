@@ -79,17 +79,19 @@ class DemandResponse(EcobeeObject):
 
         :return: The value of the name attribute of this DemandResponse instance.
         :rtype: six.text_type
-
-        Sets the name attribute of this DemandResponse instance.
-
-        :param name: The name value to set for the name attribute of this DemandResponse instance.
-        :type: six.text_type
         """
 
         return self._name
 
     @name.setter
     def name(self, name):
+        """
+        Sets the name attribute of this DemandResponse instance.
+
+        :param name: The name value to set for the name attribute of this DemandResponse instance.
+        :type: six.text_type
+        """
+
         self._name = name
 
     @property
@@ -110,17 +112,19 @@ class DemandResponse(EcobeeObject):
 
         :return: The value of the comments attribute of this DemandResponse instance.
         :rtype: six.text_type
-
-        Sets the comments attribute of this DemandResponse instance.
-
-        :param comments: The comments value to set for the comments attribute of this DemandResponse instance.
-        :type: six.text_type
         """
 
         return self._comments
 
     @comments.setter
     def comments(self, comments):
+        """
+        Sets the comments attribute of this DemandResponse instance.
+
+        :param comments: The comments value to set for the comments attribute of this DemandResponse instance.
+        :type: six.text_type
+        """
+
         self._comments = comments
 
     @property
@@ -130,17 +134,19 @@ class DemandResponse(EcobeeObject):
 
         :return: The value of the message attribute of this DemandResponse instance.
         :rtype: six.text_type
-
-        Sets the message attribute of this DemandResponse instance.
-
-        :param message: The message value to set for the message attribute of this DemandResponse instance.
-        :type: six.text_type
         """
 
         return self._message
 
     @message.setter
     def message(self, message):
+        """
+        Sets the message attribute of this DemandResponse instance.
+
+        :param message: The message value to set for the message attribute of this DemandResponse instance.
+        :type: six.text_type
+        """
+
         self._message = message
 
     @property
@@ -150,17 +156,19 @@ class DemandResponse(EcobeeObject):
 
         :return: The value of the deferred_date attribute of this DemandResponse instance.
         :rtype: six.text_type
-
-        Sets the deferred_date attribute of this DemandResponse instance.
-
-        :param deferred_date: The deferred_date value to set for the deferred_date attribute of this DemandResponse instance.
-        :type: six.text_type
         """
 
         return self._deferred_date
 
     @deferred_date.setter
     def deferred_date(self, deferred_date):
+        """
+        Sets the deferred_date attribute of this DemandResponse instance.
+
+        :param deferred_date: The deferred_date value to set for the deferred_date attribute of this DemandResponse instance.
+        :type: six.text_type
+        """
+
         self._deferred_date = deferred_date
 
     @property
@@ -170,17 +178,19 @@ class DemandResponse(EcobeeObject):
 
         :return: The value of the deferred_time attribute of this DemandResponse instance.
         :rtype: six.text_type
-
-        Sets the deferred_time attribute of this DemandResponse instance.
-
-        :param deferred_time: The deferred_time value to set for the deferred_time attribute of this DemandResponse instance.
-        :type: six.text_type
         """
 
         return self._deferred_time
 
     @deferred_time.setter
     def deferred_time(self, deferred_time):
+        """
+        Sets the deferred_time attribute of this DemandResponse instance.
+
+        :param deferred_time: The deferred_time value to set for the deferred_time attribute of this DemandResponse instance.
+        :type: six.text_type
+        """
+
         self._deferred_time = deferred_time
 
     @property
@@ -190,17 +200,19 @@ class DemandResponse(EcobeeObject):
 
         :return: The value of the show_idt attribute of this DemandResponse instance.
         :rtype: bool
-
-        Sets the show_idt attribute of this DemandResponse instance.
-
-        :param show_idt: The show_idt value to set for the show_idt attribute of this DemandResponse instance.
-        :type: bool
         """
 
         return self._show_idt
 
     @show_idt.setter
     def show_idt(self, show_idt):
+        """
+        Sets the show_idt attribute of this DemandResponse instance.
+
+        :param show_idt: The show_idt value to set for the show_idt attribute of this DemandResponse instance.
+        :type: bool
+        """
+
         self._show_idt = show_idt
 
     @property
@@ -210,17 +222,19 @@ class DemandResponse(EcobeeObject):
 
         :return: The value of the show_web attribute of this DemandResponse instance.
         :rtype: bool
-
-        Sets the show_web attribute of this DemandResponse instance.
-
-        :param show_web: The show_web value to set for the show_web attribute of this DemandResponse instance.
-        :type: bool
         """
 
         return self._show_web
 
     @show_web.setter
     def show_web(self, show_web):
+        """
+        Sets the show_web attribute of this DemandResponse instance.
+
+        :param show_web: The show_web value to set for the show_web attribute of this DemandResponse instance.
+        :type: bool
+        """
+
         self._show_web = show_web
 
     @property
@@ -230,17 +244,19 @@ class DemandResponse(EcobeeObject):
 
         :return: The value of the send_email attribute of this DemandResponse instance.
         :rtype: bool
-
-        Sets the send_email attribute of this DemandResponse instance.
-
-        :param send_email: The send_email value to set for the send_email attribute of this DemandResponse instance.
-        :type: bool
         """
 
         return self._send_email
 
     @send_email.setter
     def send_email(self, send_email):
+        """
+        Sets the send_email attribute of this DemandResponse instance.
+
+        :param send_email: The send_email value to set for the send_email attribute of this DemandResponse instance.
+        :type: bool
+        """
+
         self._send_email = send_email
 
     @property
@@ -250,17 +266,19 @@ class DemandResponse(EcobeeObject):
 
         :return: The value of the randomize_start_time attribute of this DemandResponse instance.
         :rtype: bool
-
-        Sets the randomize_start_time attribute of this DemandResponse instance.
-
-        :param randomize_start_time: The randomize_start_time value to set for the randomize_start_time attribute of this DemandResponse instance.
-        :type: bool
         """
 
         return self._randomize_start_time
 
     @randomize_start_time.setter
     def randomize_start_time(self, randomize_start_time):
+        """
+        Sets the randomize_start_time attribute of this DemandResponse instance.
+
+        :param randomize_start_time: The randomize_start_time value to set for the randomize_start_time attribute of this DemandResponse instance.
+        :type: bool
+        """
+
         self._randomize_start_time = randomize_start_time
 
     @property
@@ -270,17 +288,19 @@ class DemandResponse(EcobeeObject):
 
         :return: The value of the random_start_time_seconds attribute of this DemandResponse instance.
         :rtype: int
-
-        Sets the random_start_time_seconds attribute of this DemandResponse instance.
-
-        :param random_start_time_seconds: The random_start_time_seconds value to set for the random_start_time_seconds attribute of this DemandResponse instance.
-        :type: int
         """
 
         return self._random_start_time_seconds
 
     @random_start_time_seconds.setter
     def random_start_time_seconds(self, random_start_time_seconds):
+        """
+        Sets the random_start_time_seconds attribute of this DemandResponse instance.
+
+        :param random_start_time_seconds: The random_start_time_seconds value to set for the random_start_time_seconds attribute of this DemandResponse instance.
+        :type: int
+        """
+
         self._random_start_time_seconds = random_start_time_seconds
 
     @property
@@ -290,17 +310,19 @@ class DemandResponse(EcobeeObject):
 
         :return: The value of the randomize_end_time attribute of this DemandResponse instance.
         :rtype: bool
-
-        Sets the randomize_end_time attribute of this DemandResponse instance.
-
-        :param randomize_end_time: The randomize_end_time value to set for the randomize_end_time attribute of this DemandResponse instance.
-        :type: bool
         """
 
         return self._randomize_end_time
 
     @randomize_end_time.setter
     def randomize_end_time(self, randomize_end_time):
+        """
+        Sets the randomize_end_time attribute of this DemandResponse instance.
+
+        :param randomize_end_time: The randomize_end_time value to set for the randomize_end_time attribute of this DemandResponse instance.
+        :type: bool
+        """
+
         self._randomize_end_time = randomize_end_time
 
     @property
@@ -310,17 +332,19 @@ class DemandResponse(EcobeeObject):
 
         :return: The value of the random_end_time_seconds attribute of this DemandResponse instance.
         :rtype: int
-
-        Sets the random_end_time_seconds attribute of this DemandResponse instance.
-
-        :param random_end_time_seconds: The random_end_time_seconds value to set for the random_end_time_seconds attribute of this DemandResponse instance.
-        :type: int
         """
 
         return self._random_end_time_seconds
 
     @random_end_time_seconds.setter
     def random_end_time_seconds(self, random_end_time_seconds):
+        """
+        Sets the random_end_time_seconds attribute of this DemandResponse instance.
+
+        :param random_end_time_seconds: The random_end_time_seconds value to set for the random_end_time_seconds attribute of this DemandResponse instance.
+        :type: int
+        """
+
         self._random_end_time_seconds = random_end_time_seconds
 
     @property
@@ -330,17 +354,19 @@ class DemandResponse(EcobeeObject):
 
         :return: The value of the event attribute of this DemandResponse instance.
         :rtype: Event
-
-        Sets the event attribute of this DemandResponse instance.
-
-        :param event: The event value to set for the event attribute of this DemandResponse instance.
-        :type: Event
         """
 
         return self._event
 
     @event.setter
     def event(self, event):
+        """
+        Sets the event attribute of this DemandResponse instance.
+
+        :param event: The event value to set for the event attribute of this DemandResponse instance.
+        :type: Event
+        """
+
         self._event = event
 
     @property
@@ -361,17 +387,19 @@ class DemandResponse(EcobeeObject):
 
         :return: The value of the external_ref attribute of this DemandResponse instance.
         :rtype: six.text_type
-
-        Sets the external_ref attribute of this DemandResponse instance.
-
-        :param external_ref: The external_ref value to set for the external_ref attribute of this DemandResponse instance.
-        :type: six.text_type
         """
 
         return self._external_ref
 
     @external_ref.setter
     def external_ref(self, external_ref):
+        """
+        Sets the external_ref attribute of this DemandResponse instance.
+
+        :param external_ref: The external_ref value to set for the external_ref attribute of this DemandResponse instance.
+        :type: six.text_type
+        """
+
         self._external_ref = external_ref
 
     @property
@@ -381,17 +409,19 @@ class DemandResponse(EcobeeObject):
 
         :return: The value of the external_ref_type attribute of this DemandResponse instance.
         :rtype: six.text_type
-
-        Sets the external_ref_type attribute of this DemandResponse instance.
-
-        :param external_ref_type: The external_ref_type value to set for the external_ref_type attribute of this DemandResponse instance.
-        :type: six.text_type
         """
 
         return self._external_ref_type
 
     @external_ref_type.setter
     def external_ref_type(self, external_ref_type):
+        """
+        Sets the external_ref_type attribute of this DemandResponse instance.
+
+        :param external_ref_type: The external_ref_type value to set for the external_ref_type attribute of this DemandResponse instance.
+        :type: six.text_type
+        """
+
         self._external_ref_type = external_ref_type
 
     @property
@@ -401,15 +431,17 @@ class DemandResponse(EcobeeObject):
 
         :return: The value of the priority attribute of this DemandResponse instance.
         :rtype: Long
-
-        Sets the priority attribute of this DemandResponse instance.
-
-        :param priority: The priority value to set for the priority attribute of this DemandResponse instance.
-        :type: Long
         """
 
         return self._priority
 
     @priority.setter
     def priority(self, priority):
+        """
+        Sets the priority attribute of this DemandResponse instance.
+
+        :param priority: The priority value to set for the priority attribute of this DemandResponse instance.
+        :type: Long
+        """
+
         self._priority = priority

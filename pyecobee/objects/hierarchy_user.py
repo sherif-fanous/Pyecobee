@@ -48,17 +48,19 @@ class HierarchyUser(EcobeeObject):
 
         :return: The value of the user_name attribute of this HierarchyUser instance.
         :rtype: six.text_type
-
-        Sets the user_name attribute of this HierarchyUser instance.
-
-        :param user_name: The user_name value to set for the user_name attribute of this HierarchyUser instance.
-        :type: six.text_type
         """
 
         return self._user_name
 
     @user_name.setter
     def user_name(self, user_name):
+        """
+        Sets the user_name attribute of this HierarchyUser instance.
+
+        :param user_name: The user_name value to set for the user_name attribute of this HierarchyUser instance.
+        :type: six.text_type
+        """
+
         self._user_name = user_name
 
     @property
@@ -68,17 +70,19 @@ class HierarchyUser(EcobeeObject):
 
         :return: The value of the first_name attribute of this HierarchyUser instance.
         :rtype: six.text_type
-
-        Sets the first_name attribute of this HierarchyUser instance.
-
-        :param first_name: The first_name value to set for the first_name attribute of this HierarchyUser instance.
-        :type: six.text_type
         """
 
         return self._first_name
 
     @first_name.setter
     def first_name(self, first_name):
+        """
+        Sets the first_name attribute of this HierarchyUser instance.
+
+        :param first_name: The first_name value to set for the first_name attribute of this HierarchyUser instance.
+        :type: six.text_type
+        """
+
         self._first_name = first_name
 
     @property
@@ -88,17 +92,19 @@ class HierarchyUser(EcobeeObject):
 
         :return: The value of the last_name attribute of this HierarchyUser instance.
         :rtype: six.text_type
-
-        Sets the last_name attribute of this HierarchyUser instance.
-
-        :param last_name: The last_name value to set for the last_name attribute of this HierarchyUser instance.
-        :type: six.text_type
         """
 
         return self._last_name
 
     @last_name.setter
     def last_name(self, last_name):
+        """
+        Sets the last_name attribute of this HierarchyUser instance.
+
+        :param last_name: The last_name value to set for the last_name attribute of this HierarchyUser instance.
+        :type: six.text_type
+        """
+
         self._last_name = last_name
 
     @property
@@ -108,17 +114,19 @@ class HierarchyUser(EcobeeObject):
 
         :return: The value of the phone attribute of this HierarchyUser instance.
         :rtype: six.text_type
-
-        Sets the phone attribute of this HierarchyUser instance.
-
-        :param phone: The phone value to set for the phone attribute of this HierarchyUser instance.
-        :type: six.text_type
         """
 
         return self._phone
 
     @phone.setter
     def phone(self, phone):
+        """
+        Sets the phone attribute of this HierarchyUser instance.
+
+        :param phone: The phone value to set for the phone attribute of this HierarchyUser instance.
+        :type: six.text_type
+        """
+
         self._phone = phone
 
     @property
@@ -139,17 +147,19 @@ class HierarchyUser(EcobeeObject):
 
         :return: The value of the active attribute of this HierarchyUser instance.
         :rtype: bool
-
-        Sets the active attribute of this HierarchyUser instance.
-
-        :param active: The active value to set for the active attribute of this HierarchyUser instance.
-        :type: bool
         """
 
         return self._active
 
     @active.setter
     def active(self, active):
+        """
+        Sets the active attribute of this HierarchyUser instance.
+
+        :param active: The active value to set for the active attribute of this HierarchyUser instance.
+        :type: bool
+        """
+
         self._active = active
 
     @property
@@ -159,15 +169,17 @@ class HierarchyUser(EcobeeObject):
 
         :return: The value of the email_alerts attribute of this HierarchyUser instance.
         :rtype: bool
-
-        Sets the email_alerts attribute of this HierarchyUser instance.
-
-        :param email_alerts: The email_alerts value to set for the email_alerts attribute of this HierarchyUser instance.
-        :type: bool
         """
 
         return self._email_alerts
 
     @email_alerts.setter
     def email_alerts(self, email_alerts):
+        """
+        Sets the email_alerts attribute of this HierarchyUser instance.
+
+        :param email_alerts: The email_alerts value to set for the email_alerts attribute of this HierarchyUser instance.
+        :type: bool
+        """
+
         self._email_alerts = email_alerts

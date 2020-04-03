@@ -79,17 +79,19 @@ class Group(EcobeeObject):
 
         :return: The value of the group_name attribute of this Group instance.
         :rtype: six.text_type
-
-        Sets the group_name attribute of this Group instance.
-
-        :param group_name: The group_name value to set for the group_name attribute of this Group instance.
-        :type: six.text_type
         """
 
         return self._group_name
 
     @group_name.setter
     def group_name(self, group_name):
+        """
+        Sets the group_name attribute of this Group instance.
+
+        :param group_name: The group_name value to set for the group_name attribute of this Group instance.
+        :type: six.text_type
+        """
+
         self._group_name = group_name
 
     @property
@@ -110,17 +112,19 @@ class Group(EcobeeObject):
 
         :return: The value of the synchronize_alerts attribute of this Group instance.
         :rtype: bool
-
-        Sets the synchronize_alerts attribute of this Group instance.
-
-        :param synchronize_alerts: The synchronize_alerts value to set for the synchronize_alerts attribute of this Group instance.
-        :type: bool
         """
 
         return self._synchronize_alerts
 
     @synchronize_alerts.setter
     def synchronize_alerts(self, synchronize_alerts):
+        """
+        Sets the synchronize_alerts attribute of this Group instance.
+
+        :param synchronize_alerts: The synchronize_alerts value to set for the synchronize_alerts attribute of this Group instance.
+        :type: bool
+        """
+
         self._synchronize_alerts = synchronize_alerts
 
     @property
@@ -130,17 +134,19 @@ class Group(EcobeeObject):
 
         :return: The value of the synchronize_system_mode attribute of this Group instance.
         :rtype: bool
-
-        Sets the synchronize_system_mode attribute of this Group instance.
-
-        :param synchronize_system_mode: The synchronize_system_mode value to set for the synchronize_system_mode attribute of this Group instance.
-        :type: bool
         """
 
         return self._synchronize_system_mode
 
     @synchronize_system_mode.setter
     def synchronize_system_mode(self, synchronize_system_mode):
+        """
+        Sets the synchronize_system_mode attribute of this Group instance.
+
+        :param synchronize_system_mode: The synchronize_system_mode value to set for the synchronize_system_mode attribute of this Group instance.
+        :type: bool
+        """
+
         self._synchronize_system_mode = synchronize_system_mode
 
     @property
@@ -150,17 +156,19 @@ class Group(EcobeeObject):
 
         :return: The value of the synchronize_schedule attribute of this Group instance.
         :rtype: bool
-
-        Sets the synchronize_schedule attribute of this Group instance.
-
-        :param synchronize_schedule: The synchronize_schedule value to set for the synchronize_schedule attribute of this Group instance.
-        :type: bool
         """
 
         return self._synchronize_schedule
 
     @synchronize_schedule.setter
     def synchronize_schedule(self, synchronize_schedule):
+        """
+        Sets the synchronize_schedule attribute of this Group instance.
+
+        :param synchronize_schedule: The synchronize_schedule value to set for the synchronize_schedule attribute of this Group instance.
+        :type: bool
+        """
+
         self._synchronize_schedule = synchronize_schedule
 
     @property
@@ -170,17 +178,19 @@ class Group(EcobeeObject):
 
         :return: The value of the synchronize_quick_save attribute of this Group instance.
         :rtype: bool
-
-        Sets the synchronize_quick_save attribute of this Group instance.
-
-        :param synchronize_quick_save: The synchronize_quick_save value to set for the synchronize_quick_save attribute of this Group instance.
-        :type: bool
         """
 
         return self._synchronize_quick_save
 
     @synchronize_quick_save.setter
     def synchronize_quick_save(self, synchronize_quick_save):
+        """
+        Sets the synchronize_quick_save attribute of this Group instance.
+
+        :param synchronize_quick_save: The synchronize_quick_save value to set for the synchronize_quick_save attribute of this Group instance.
+        :type: bool
+        """
+
         self._synchronize_quick_save = synchronize_quick_save
 
     @property
@@ -190,17 +200,19 @@ class Group(EcobeeObject):
 
         :return: The value of the synchronize_reminders attribute of this Group instance.
         :rtype: bool
-
-        Sets the synchronize_reminders attribute of this Group instance.
-
-        :param synchronize_reminders: The synchronize_reminders value to set for the synchronize_reminders attribute of this Group instance.
-        :type: bool
         """
 
         return self._synchronize_reminders
 
     @synchronize_reminders.setter
     def synchronize_reminders(self, synchronize_reminders):
+        """
+        Sets the synchronize_reminders attribute of this Group instance.
+
+        :param synchronize_reminders: The synchronize_reminders value to set for the synchronize_reminders attribute of this Group instance.
+        :type: bool
+        """
+
         self._synchronize_reminders = synchronize_reminders
 
     @property
@@ -210,17 +222,19 @@ class Group(EcobeeObject):
 
         :return: The value of the synchronize_contractor_info attribute of this Group instance.
         :rtype: bool
-
-        Sets the synchronize_contractor_info attribute of this Group instance.
-
-        :param synchronize_contractor_info: The synchronize_contractor_info value to set for the synchronize_contractor_info attribute of this Group instance.
-        :type: bool
         """
 
         return self._synchronize_contractor_info
 
     @synchronize_contractor_info.setter
     def synchronize_contractor_info(self, synchronize_contractor_info):
+        """
+        Sets the synchronize_contractor_info attribute of this Group instance.
+
+        :param synchronize_contractor_info: The synchronize_contractor_info value to set for the synchronize_contractor_info attribute of this Group instance.
+        :type: bool
+        """
+
         self._synchronize_contractor_info = synchronize_contractor_info
 
     @property
@@ -230,17 +244,19 @@ class Group(EcobeeObject):
 
         :return: The value of the synchronize_user_preferences attribute of this Group instance.
         :rtype: bool
-
-        Sets the synchronize_user_preferences attribute of this Group instance.
-
-        :param synchronize_user_preferences: The synchronize_user_preferences value to set for the synchronize_user_preferences attribute of this Group instance.
-        :type: bool
         """
 
         return self._synchronize_user_preferences
 
     @synchronize_user_preferences.setter
     def synchronize_user_preferences(self, synchronize_user_preferences):
+        """
+        Sets the synchronize_user_preferences attribute of this Group instance.
+
+        :param synchronize_user_preferences: The synchronize_user_preferences value to set for the synchronize_user_preferences attribute of this Group instance.
+        :type: bool
+        """
+
         self._synchronize_user_preferences = synchronize_user_preferences
 
     @property
@@ -250,17 +266,19 @@ class Group(EcobeeObject):
 
         :return: The value of the synchronize_utility_info attribute of this Group instance.
         :rtype: bool
-
-        Sets the synchronize_utility_info attribute of this Group instance.
-
-        :param synchronize_utility_info: The synchronize_utility_info value to set for the synchronize_utility_info attribute of this Group instance.
-        :type: bool
         """
 
         return self._synchronize_utility_info
 
     @synchronize_utility_info.setter
     def synchronize_utility_info(self, synchronize_utility_info):
+        """
+        Sets the synchronize_utility_info attribute of this Group instance.
+
+        :param synchronize_utility_info: The synchronize_utility_info value to set for the synchronize_utility_info attribute of this Group instance.
+        :type: bool
+        """
+
         self._synchronize_utility_info = synchronize_utility_info
 
     @property
@@ -270,17 +288,19 @@ class Group(EcobeeObject):
 
         :return: The value of the synchronize_location attribute of this Group instance.
         :rtype: bool
-
-        Sets the synchronize_location attribute of this Group instance.
-
-        :param synchronize_location: The synchronize_location value to set for the synchronize_location attribute of this Group instance.
-        :type: bool
         """
 
         return self._synchronize_location
 
     @synchronize_location.setter
     def synchronize_location(self, synchronize_location):
+        """
+        Sets the synchronize_location attribute of this Group instance.
+
+        :param synchronize_location: The synchronize_location value to set for the synchronize_location attribute of this Group instance.
+        :type: bool
+        """
+
         self._synchronize_location = synchronize_location
 
     @property
@@ -290,17 +310,19 @@ class Group(EcobeeObject):
 
         :return: The value of the synchronize_reset attribute of this Group instance.
         :rtype: bool
-
-        Sets the synchronize_reset attribute of this Group instance.
-
-        :param synchronize_reset: The synchronize_reset value to set for the synchronize_reset attribute of this Group instance.
-        :type: bool
         """
 
         return self._synchronize_reset
 
     @synchronize_reset.setter
     def synchronize_reset(self, synchronize_reset):
+        """
+        Sets the synchronize_reset attribute of this Group instance.
+
+        :param synchronize_reset: The synchronize_reset value to set for the synchronize_reset attribute of this Group instance.
+        :type: bool
+        """
+
         self._synchronize_reset = synchronize_reset
 
     @property
@@ -310,17 +332,19 @@ class Group(EcobeeObject):
 
         :return: The value of the synchronize_vacation attribute of this Group instance.
         :rtype: bool
-
-        Sets the synchronize_vacation attribute of this Group instance.
-
-        :param synchronize_vacation: The synchronize_vacation value to set for the synchronize_vacation attribute of this Group instance.
-        :type: bool
         """
 
         return self._synchronize_vacation
 
     @synchronize_vacation.setter
     def synchronize_vacation(self, synchronize_vacation):
+        """
+        Sets the synchronize_vacation attribute of this Group instance.
+
+        :param synchronize_vacation: The synchronize_vacation value to set for the synchronize_vacation attribute of this Group instance.
+        :type: bool
+        """
+
         self._synchronize_vacation = synchronize_vacation
 
     @property
@@ -330,15 +354,17 @@ class Group(EcobeeObject):
 
         :return: The value of the thermostats attribute of this Group instance.
         :rtype: List[six.text_type]
-
-        Sets the thermostats attribute of this Group instance.
-
-        :param thermostats: The thermostats value to set for the thermostats attribute of this Group instance.
-        :type: List[six.text_type]
         """
 
         return self._thermostats
 
     @thermostats.setter
     def thermostats(self, thermostats):
+        """
+        Sets the thermostats attribute of this Group instance.
+
+        :param thermostats: The thermostats value to set for the thermostats attribute of this Group instance.
+        :type: List[six.text_type]
+        """
+
         self._thermostats = thermostats

@@ -222,6 +222,7 @@ class StateType(Enum):
 
 
 class ThermostatModelNumber(Enum):
+    ECOBEE_4_EMS = 'apolloEms'
     ECOBEE_4_SMART = 'apolloSmart'
     ECOBEE_3_EMS = 'athenaEms'
     ECOBEE_3_SMART = 'athenaSmart'

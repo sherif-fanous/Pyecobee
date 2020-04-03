@@ -70,17 +70,19 @@ class HierarchyPrivilege(EcobeeObject):
 
         :return: The value of the set_path attribute of this HierarchyPrivilege instance.
         :rtype: six.text_type
-
-        Sets the set_path attribute of this HierarchyPrivilege instance.
-
-        :param set_path: The set_path value to set for the set_path attribute of this HierarchyPrivilege instance.
-        :type: six.text_type
         """
 
         return self._set_path
 
     @set_path.setter
     def set_path(self, set_path):
+        """
+        Sets the set_path attribute of this HierarchyPrivilege instance.
+
+        :param set_path: The set_path value to set for the set_path attribute of this HierarchyPrivilege instance.
+        :type: six.text_type
+        """
+
         self._set_path = set_path
 
     @property
@@ -90,17 +92,19 @@ class HierarchyPrivilege(EcobeeObject):
 
         :return: The value of the user_name attribute of this HierarchyPrivilege instance.
         :rtype: six.text_type
-
-        Sets the user_name attribute of this HierarchyPrivilege instance.
-
-        :param user_name: The user_name value to set for the user_name attribute of this HierarchyPrivilege instance.
-        :type: six.text_type
         """
 
         return self._user_name
 
     @user_name.setter
     def user_name(self, user_name):
+        """
+        Sets the user_name attribute of this HierarchyPrivilege instance.
+
+        :param user_name: The user_name value to set for the user_name attribute of this HierarchyPrivilege instance.
+        :type: six.text_type
+        """
+
         self._user_name = user_name
 
     @property
@@ -121,17 +125,19 @@ class HierarchyPrivilege(EcobeeObject):
 
         :return: The value of the allow_all attribute of this HierarchyPrivilege instance.
         :rtype: bool
-
-        Sets the allow_all attribute of this HierarchyPrivilege instance.
-
-        :param allow_all: The allow_all value to set for the allow_all attribute of this HierarchyPrivilege instance.
-        :type: bool
         """
 
         return self._allow_all
 
     @allow_all.setter
     def allow_all(self, allow_all):
+        """
+        Sets the allow_all attribute of this HierarchyPrivilege instance.
+
+        :param allow_all: The allow_all value to set for the allow_all attribute of this HierarchyPrivilege instance.
+        :type: bool
+        """
+
         self._allow_all = allow_all
 
     @property
@@ -141,17 +147,19 @@ class HierarchyPrivilege(EcobeeObject):
 
         :return: The value of the allow_none attribute of this HierarchyPrivilege instance.
         :rtype: bool
-
-        Sets the allow_none attribute of this HierarchyPrivilege instance.
-
-        :param allow_none: The allow_none value to set for the allow_none attribute of this HierarchyPrivilege instance.
-        :type: bool
         """
 
         return self._allow_none
 
     @allow_none.setter
     def allow_none(self, allow_none):
+        """
+        Sets the allow_none attribute of this HierarchyPrivilege instance.
+
+        :param allow_none: The allow_none value to set for the allow_none attribute of this HierarchyPrivilege instance.
+        :type: bool
+        """
+
         self._allow_none = allow_none
 
     @property
@@ -161,17 +169,19 @@ class HierarchyPrivilege(EcobeeObject):
 
         :return: The value of the allow_view attribute of this HierarchyPrivilege instance.
         :rtype: bool
-
-        Sets the allow_view attribute of this HierarchyPrivilege instance.
-
-        :param allow_view: The allow_view value to set for the allow_view attribute of this HierarchyPrivilege instance.
-        :type: bool
         """
 
         return self._allow_view
 
     @allow_view.setter
     def allow_view(self, allow_view):
+        """
+        Sets the allow_view attribute of this HierarchyPrivilege instance.
+
+        :param allow_view: The allow_view value to set for the allow_view attribute of this HierarchyPrivilege instance.
+        :type: bool
+        """
+
         self._allow_view = allow_view
 
     @property
@@ -181,17 +191,19 @@ class HierarchyPrivilege(EcobeeObject):
 
         :return: The value of the allow_program attribute of this HierarchyPrivilege instance.
         :rtype: bool
-
-        Sets the allow_program attribute of this HierarchyPrivilege instance.
-
-        :param allow_program: The allow_program value to set for the allow_program attribute of this HierarchyPrivilege instance.
-        :type: bool
         """
 
         return self._allow_program
 
     @allow_program.setter
     def allow_program(self, allow_program):
+        """
+        Sets the allow_program attribute of this HierarchyPrivilege instance.
+
+        :param allow_program: The allow_program value to set for the allow_program attribute of this HierarchyPrivilege instance.
+        :type: bool
+        """
+
         self._allow_program = allow_program
 
     @property
@@ -201,17 +213,19 @@ class HierarchyPrivilege(EcobeeObject):
 
         :return: The value of the allow_vacation attribute of this HierarchyPrivilege instance.
         :rtype: bool
-
-        Sets the allow_vacation attribute of this HierarchyPrivilege instance.
-
-        :param allow_vacation: The allow_vacation value to set for the allow_vacation attribute of this HierarchyPrivilege instance.
-        :type: bool
         """
 
         return self._allow_vacation
 
     @allow_vacation.setter
     def allow_vacation(self, allow_vacation):
+        """
+        Sets the allow_vacation attribute of this HierarchyPrivilege instance.
+
+        :param allow_vacation: The allow_vacation value to set for the allow_vacation attribute of this HierarchyPrivilege instance.
+        :type: bool
+        """
+
         self._allow_vacation = allow_vacation
 
     @property
@@ -221,17 +235,19 @@ class HierarchyPrivilege(EcobeeObject):
 
         :return: The value of the allow_settings attribute of this HierarchyPrivilege instance.
         :rtype: bool
-
-        Sets the allow_settings attribute of this HierarchyPrivilege instance.
-
-        :param allow_settings: The allow_settings value to set for the allow_settings attribute of this HierarchyPrivilege instance.
-        :type: bool
         """
 
         return self._allow_settings
 
     @allow_settings.setter
     def allow_settings(self, allow_settings):
+        """
+        Sets the allow_settings attribute of this HierarchyPrivilege instance.
+
+        :param allow_settings: The allow_settings value to set for the allow_settings attribute of this HierarchyPrivilege instance.
+        :type: bool
+        """
+
         self._allow_settings = allow_settings
 
     @property
@@ -241,17 +257,19 @@ class HierarchyPrivilege(EcobeeObject):
 
         :return: The value of the allow_details attribute of this HierarchyPrivilege instance.
         :rtype: bool
-
-        Sets the allow_details attribute of this HierarchyPrivilege instance.
-
-        :param allow_details: The allow_details value to set for the allow_details attribute of this HierarchyPrivilege instance.
-        :type: bool
         """
 
         return self._allow_details
 
     @allow_details.setter
     def allow_details(self, allow_details):
+        """
+        Sets the allow_details attribute of this HierarchyPrivilege instance.
+
+        :param allow_details: The allow_details value to set for the allow_details attribute of this HierarchyPrivilege instance.
+        :type: bool
+        """
+
         self._allow_details = allow_details
 
     @property
@@ -261,17 +279,19 @@ class HierarchyPrivilege(EcobeeObject):
 
         :return: The value of the allow_report attribute of this HierarchyPrivilege instance.
         :rtype: bool
-
-        Sets the allow_report attribute of this HierarchyPrivilege instance.
-
-        :param allow_report: The allow_report value to set for the allow_report attribute of this HierarchyPrivilege instance.
-        :type: bool
         """
 
         return self._allow_report
 
     @allow_report.setter
     def allow_report(self, allow_report):
+        """
+        Sets the allow_report attribute of this HierarchyPrivilege instance.
+
+        :param allow_report: The allow_report value to set for the allow_report attribute of this HierarchyPrivilege instance.
+        :type: bool
+        """
+
         self._allow_report = allow_report
 
     @property
@@ -281,17 +301,19 @@ class HierarchyPrivilege(EcobeeObject):
 
         :return: The value of the allow_security attribute of this HierarchyPrivilege instance.
         :rtype: bool
-
-        Sets the allow_security attribute of this HierarchyPrivilege instance.
-
-        :param allow_security: The allow_security value to set for the allow_security attribute of this HierarchyPrivilege instance.
-        :type: bool
         """
 
         return self._allow_security
 
     @allow_security.setter
     def allow_security(self, allow_security):
+        """
+        Sets the allow_security attribute of this HierarchyPrivilege instance.
+
+        :param allow_security: The allow_security value to set for the allow_security attribute of this HierarchyPrivilege instance.
+        :type: bool
+        """
+
         self._allow_security = allow_security
 
     @property
@@ -301,17 +323,19 @@ class HierarchyPrivilege(EcobeeObject):
 
         :return: The value of the allow_hierarchy attribute of this HierarchyPrivilege instance.
         :rtype: bool
-
-        Sets the allow_hierarchy attribute of this HierarchyPrivilege instance.
-
-        :param allow_hierarchy: The allow_hierarchy value to set for the allow_hierarchy attribute of this HierarchyPrivilege instance.
-        :type: bool
         """
 
         return self._allow_hierarchy
 
     @allow_hierarchy.setter
     def allow_hierarchy(self, allow_hierarchy):
+        """
+        Sets the allow_hierarchy attribute of this HierarchyPrivilege instance.
+
+        :param allow_hierarchy: The allow_hierarchy value to set for the allow_hierarchy attribute of this HierarchyPrivilege instance.
+        :type: bool
+        """
+
         self._allow_hierarchy = allow_hierarchy
 
     @property
@@ -321,17 +345,19 @@ class HierarchyPrivilege(EcobeeObject):
 
         :return: The value of the allow_alerts attribute of this HierarchyPrivilege instance.
         :rtype: bool
-
-        Sets the allow_alerts attribute of this HierarchyPrivilege instance.
-
-        :param allow_alerts: The allow_alerts value to set for the allow_alerts attribute of this HierarchyPrivilege instance.
-        :type: bool
         """
 
         return self._allow_alerts
 
     @allow_alerts.setter
     def allow_alerts(self, allow_alerts):
+        """
+        Sets the allow_alerts attribute of this HierarchyPrivilege instance.
+
+        :param allow_alerts: The allow_alerts value to set for the allow_alerts attribute of this HierarchyPrivilege instance.
+        :type: bool
+        """
+
         self._allow_alerts = allow_alerts
 
     @property
@@ -341,15 +367,17 @@ class HierarchyPrivilege(EcobeeObject):
 
         :return: The value of the allow_manage_account attribute of this HierarchyPrivilege instance.
         :rtype: bool
-
-        Sets the allow_manage_account attribute of this HierarchyPrivilege instance.
-
-        :param allow_manage_account: The allow_manage_account value to set for the allow_manage_account attribute of this HierarchyPrivilege instance.
-        :type: bool
         """
 
         return self._allow_manage_account
 
     @allow_manage_account.setter
     def allow_manage_account(self, allow_manage_account):
+        """
+        Sets the allow_manage_account attribute of this HierarchyPrivilege instance.
+
+        :param allow_manage_account: The allow_manage_account value to set for the allow_manage_account attribute of this HierarchyPrivilege instance.
+        :type: bool
+        """
+
         self._allow_manage_account = allow_manage_account

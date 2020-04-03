@@ -40,17 +40,19 @@ class Program(EcobeeObject):
 
         :return: The value of the schedule attribute of this Program instance.
         :rtype: List[six.text_type]
-
-        Sets the schedule attribute of this Program instance.
-
-        :param schedule: The schedule value to set for the schedule attribute of this Program instance.
-        :type: List[six.text_type]
         """
 
         return self._schedule
 
     @schedule.setter
     def schedule(self, schedule):
+        """
+        Sets the schedule attribute of this Program instance.
+
+        :param schedule: The schedule value to set for the schedule attribute of this Program instance.
+        :type: List[six.text_type]
+        """
+
         self._schedule = schedule
 
     @property
@@ -60,17 +62,19 @@ class Program(EcobeeObject):
 
         :return: The value of the climates attribute of this Program instance.
         :rtype: List[Climate]
-
-        Sets the climates attribute of this Program instance.
-
-        :param climates: The climates value to set for the climates attribute of this Program instance.
-        :type: List[Climate]
         """
 
         return self._climates
 
     @climates.setter
     def climates(self, climates):
+        """
+        Sets the climates attribute of this Program instance.
+
+        :param climates: The climates value to set for the climates attribute of this Program instance.
+        :type: List[Climate]
+        """
+
         self._climates = climates
 
     @property

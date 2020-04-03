@@ -49,17 +49,19 @@ class SecuritySettings(EcobeeObject):
 
         :return: The value of the user_access_code attribute of this SecuritySettings instance.
         :rtype: six.text_type
-
-        Sets the user_access_code attribute of this SecuritySettings instance.
-
-        :param user_access_code: The user_access_code value to set for the user_access_code attribute of this SecuritySettings instance.
-        :type: six.text_type
         """
 
         return self._user_access_code
 
     @user_access_code.setter
     def user_access_code(self, user_access_code):
+        """
+        Sets the user_access_code attribute of this SecuritySettings instance.
+
+        :param user_access_code: The user_access_code value to set for the user_access_code attribute of this SecuritySettings instance.
+        :type: six.text_type
+        """
+
         self._user_access_code = user_access_code
 
     @property
@@ -69,17 +71,19 @@ class SecuritySettings(EcobeeObject):
 
         :return: The value of the all_user_access attribute of this SecuritySettings instance.
         :rtype: bool
-
-        Sets the all_user_access attribute of this SecuritySettings instance.
-
-        :param all_user_access: The all_user_access value to set for the all_user_access attribute of this SecuritySettings instance.
-        :type: bool
         """
 
         return self._all_user_access
 
     @all_user_access.setter
     def all_user_access(self, all_user_access):
+        """
+        Sets the all_user_access attribute of this SecuritySettings instance.
+
+        :param all_user_access: The all_user_access value to set for the all_user_access attribute of this SecuritySettings instance.
+        :type: bool
+        """
+
         self._all_user_access = all_user_access
 
     @property
@@ -89,17 +93,19 @@ class SecuritySettings(EcobeeObject):
 
         :return: The value of the program_access attribute of this SecuritySettings instance.
         :rtype: bool
-
-        Sets the program_access attribute of this SecuritySettings instance.
-
-        :param program_access: The program_access value to set for the program_access attribute of this SecuritySettings instance.
-        :type: bool
         """
 
         return self._program_access
 
     @program_access.setter
     def program_access(self, program_access):
+        """
+        Sets the program_access attribute of this SecuritySettings instance.
+
+        :param program_access: The program_access value to set for the program_access attribute of this SecuritySettings instance.
+        :type: bool
+        """
+
         self._program_access = program_access
 
     @property
@@ -109,17 +115,19 @@ class SecuritySettings(EcobeeObject):
 
         :return: The value of the details_access attribute of this SecuritySettings instance.
         :rtype: bool
-
-        Sets the details_access attribute of this SecuritySettings instance.
-
-        :param details_access: The details_access value to set for the details_access attribute of this SecuritySettings instance.
-        :type: bool
         """
 
         return self._details_access
 
     @details_access.setter
     def details_access(self, details_access):
+        """
+        Sets the details_access attribute of this SecuritySettings instance.
+
+        :param details_access: The details_access value to set for the details_access attribute of this SecuritySettings instance.
+        :type: bool
+        """
+
         self._details_access = details_access
 
     @property
@@ -129,17 +137,19 @@ class SecuritySettings(EcobeeObject):
 
         :return: The value of the quick_save_access attribute of this SecuritySettings instance.
         :rtype: bool
-
-        Sets the quick_save_access attribute of this SecuritySettings instance.
-
-        :param quick_save_access: The quick_save_access value to set for the quick_save_access attribute of this SecuritySettings instance.
-        :type: bool
         """
 
         return self._quick_save_access
 
     @quick_save_access.setter
     def quick_save_access(self, quick_save_access):
+        """
+        Sets the quick_save_access attribute of this SecuritySettings instance.
+
+        :param quick_save_access: The quick_save_access value to set for the quick_save_access attribute of this SecuritySettings instance.
+        :type: bool
+        """
+
         self._quick_save_access = quick_save_access
 
     @property
@@ -149,15 +159,17 @@ class SecuritySettings(EcobeeObject):
 
         :return: The value of the vacation_access attribute of this SecuritySettings instance.
         :rtype: bool
-
-        Sets the vacation_access attribute of this SecuritySettings instance.
-
-        :param vacation_access: The vacation_access value to set for the vacation_access attribute of this SecuritySettings instance.
-        :type: bool
         """
 
         return self._vacation_access
 
     @vacation_access.setter
     def vacation_access(self, vacation_access):
+        """
+        Sets the vacation_access attribute of this SecuritySettings instance.
+
+        :param vacation_access: The vacation_access value to set for the vacation_access attribute of this SecuritySettings instance.
+        :type: bool
+        """
+
         self._vacation_access = vacation_access

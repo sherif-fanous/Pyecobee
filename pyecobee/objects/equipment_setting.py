@@ -62,17 +62,19 @@ class EquipmentSetting(EcobeeObject):
 
         :return: The value of the filter_last_changed attribute of this EquipmentSetting instance.
         :rtype: six.text_type
-
-        Sets the filter_last_changed attribute of this EquipmentSetting instance.
-
-        :param filter_last_changed: The filter_last_changed value to set for the filter_last_changed attribute of this EquipmentSetting instance.
-        :type: six.text_type
         """
 
         return self._filter_last_changed
 
     @filter_last_changed.setter
     def filter_last_changed(self, filter_last_changed):
+        """
+        Sets the filter_last_changed attribute of this EquipmentSetting instance.
+
+        :param filter_last_changed: The filter_last_changed value to set for the filter_last_changed attribute of this EquipmentSetting instance.
+        :type: six.text_type
+        """
+
         self._filter_last_changed = filter_last_changed
 
     @property
@@ -82,17 +84,19 @@ class EquipmentSetting(EcobeeObject):
 
         :return: The value of the filter_life attribute of this EquipmentSetting instance.
         :rtype: int
-
-        Sets the filter_life attribute of this EquipmentSetting instance.
-
-        :param filter_life: The filter_life value to set for the filter_life attribute of this EquipmentSetting instance.
-        :type: int
         """
 
         return self._filter_life
 
     @filter_life.setter
     def filter_life(self, filter_life):
+        """
+        Sets the filter_life attribute of this EquipmentSetting instance.
+
+        :param filter_life: The filter_life value to set for the filter_life attribute of this EquipmentSetting instance.
+        :type: int
+        """
+
         self._filter_life = filter_life
 
     @property
@@ -102,17 +106,19 @@ class EquipmentSetting(EcobeeObject):
 
         :return: The value of the filter_life_units attribute of this EquipmentSetting instance.
         :rtype: six.text_type
-
-        Sets the filter_life_units attribute of this EquipmentSetting instance.
-
-        :param filter_life_units: The filter_life_units value to set for the filter_life_units attribute of this EquipmentSetting instance.
-        :type: six.text_type
         """
 
         return self._filter_life_units
 
     @filter_life_units.setter
     def filter_life_units(self, filter_life_units):
+        """
+        Sets the filter_life_units attribute of this EquipmentSetting instance.
+
+        :param filter_life_units: The filter_life_units value to set for the filter_life_units attribute of this EquipmentSetting instance.
+        :type: six.text_type
+        """
+
         self._filter_life_units = filter_life_units
 
     @property
@@ -133,17 +139,19 @@ class EquipmentSetting(EcobeeObject):
 
         :return: The value of the enabled attribute of this EquipmentSetting instance.
         :rtype: bool
-
-        Sets the enabled attribute of this EquipmentSetting instance.
-
-        :param enabled: The enabled value to set for the enabled attribute of this EquipmentSetting instance.
-        :type: bool
         """
 
         return self._enabled
 
     @enabled.setter
     def enabled(self, enabled):
+        """
+        Sets the enabled attribute of this EquipmentSetting instance.
+
+        :param enabled: The enabled value to set for the enabled attribute of this EquipmentSetting instance.
+        :type: bool
+        """
+
         self._enabled = enabled
 
     @property
@@ -153,15 +161,17 @@ class EquipmentSetting(EcobeeObject):
 
         :return: The value of the remind_technician attribute of this EquipmentSetting instance.
         :rtype: bool
-
-        Sets the remind_technician attribute of this EquipmentSetting instance.
-
-        :param remind_technician: The remind_technician value to set for the remind_technician attribute of this EquipmentSetting instance.
-        :type: bool
         """
 
         return self._remind_technician
 
     @remind_technician.setter
     def remind_technician(self, remind_technician):
+        """
+        Sets the remind_technician attribute of this EquipmentSetting instance.
+
+        :param remind_technician: The remind_technician value to set for the remind_technician attribute of this EquipmentSetting instance.
+        :type: bool
+        """
+
         self._remind_technician = remind_technician

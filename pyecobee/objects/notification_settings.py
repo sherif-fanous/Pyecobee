@@ -46,17 +46,19 @@ class NotificationSettings(EcobeeObject):
 
         :return: The value of the email_addresses attribute of this NotificationSettings instance.
         :rtype: List[six.text_type]
-
-        Sets the email_addresses attribute of this NotificationSettings instance.
-
-        :param email_addresses: The email_addresses value to set for the email_addresses attribute of this NotificationSettings instance.
-        :type: List[six.text_type]
         """
 
         return self._email_addresses
 
     @email_addresses.setter
     def email_addresses(self, email_addresses):
+        """
+        Sets the email_addresses attribute of this NotificationSettings instance.
+
+        :param email_addresses: The email_addresses value to set for the email_addresses attribute of this NotificationSettings instance.
+        :type: List[six.text_type]
+        """
+
         self._email_addresses = email_addresses
 
     @property
@@ -66,17 +68,19 @@ class NotificationSettings(EcobeeObject):
 
         :return: The value of the email_notifications_enabled attribute of this NotificationSettings instance.
         :rtype: bool
-
-        Sets the email_notifications_enabled attribute of this NotificationSettings instance.
-
-        :param email_notifications_enabled: The email_notifications_enabled value to set for the email_notifications_enabled attribute of this NotificationSettings instance.
-        :type: bool
         """
 
         return self._email_notifications_enabled
 
     @email_notifications_enabled.setter
     def email_notifications_enabled(self, email_notifications_enabled):
+        """
+        Sets the email_notifications_enabled attribute of this NotificationSettings instance.
+
+        :param email_notifications_enabled: The email_notifications_enabled value to set for the email_notifications_enabled attribute of this NotificationSettings instance.
+        :type: bool
+        """
+
         self._email_notifications_enabled = email_notifications_enabled
 
     @property
@@ -86,17 +90,19 @@ class NotificationSettings(EcobeeObject):
 
         :return: The value of the equipment attribute of this NotificationSettings instance.
         :rtype: List[EquipmentSetting]
-
-        Sets the equipment attribute of this NotificationSettings instance.
-
-        :param equipment: The equipment value to set for the equipment attribute of this NotificationSettings instance.
-        :type: List[EquipmentSetting]
         """
 
         return self._equipment
 
     @equipment.setter
     def equipment(self, equipment):
+        """
+        Sets the equipment attribute of this NotificationSettings instance.
+
+        :param equipment: The equipment value to set for the equipment attribute of this NotificationSettings instance.
+        :type: List[EquipmentSetting]
+        """
+
         self._equipment = equipment
 
     @property
@@ -106,17 +112,19 @@ class NotificationSettings(EcobeeObject):
 
         :return: The value of the general attribute of this NotificationSettings instance.
         :rtype: List[GeneralSetting]
-
-        Sets the general attribute of this NotificationSettings instance.
-
-        :param general: The general value to set for the general attribute of this NotificationSettings instance.
-        :type: List[GeneralSetting]
         """
 
         return self._general
 
     @general.setter
     def general(self, general):
+        """
+        Sets the general attribute of this NotificationSettings instance.
+
+        :param general: The general value to set for the general attribute of this NotificationSettings instance.
+        :type: List[GeneralSetting]
+        """
+
         self._general = general
 
     @property
@@ -126,15 +134,17 @@ class NotificationSettings(EcobeeObject):
 
         :return: The value of the limit attribute of this NotificationSettings instance.
         :rtype: List[LimitSetting]
-
-        Sets the limit attribute of this NotificationSettings instance.
-
-        :param limit: The limit value to set for the limit attribute of this NotificationSettings instance.
-        :type: List[LimitSetting]
         """
 
         return self._limit
 
     @limit.setter
     def limit(self, limit):
+        """
+        Sets the limit attribute of this NotificationSettings instance.
+
+        :param limit: The limit value to set for the limit attribute of this NotificationSettings instance.
+        :type: List[LimitSetting]
+        """
+
         self._limit = limit

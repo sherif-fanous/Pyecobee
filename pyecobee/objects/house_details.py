@@ -49,17 +49,19 @@ class HouseDetails(EcobeeObject):
 
         :return: The value of the style attribute of this HouseDetails instance.
         :rtype: six.text_type
-
-        Sets the style attribute of this HouseDetails instance.
-
-        :param style: The style value to set for the style attribute of this HouseDetails instance.
-        :type: six.text_type
         """
 
         return self._style
 
     @style.setter
     def style(self, style):
+        """
+        Sets the style attribute of this HouseDetails instance.
+
+        :param style: The style value to set for the style attribute of this HouseDetails instance.
+        :type: six.text_type
+        """
+
         self._style = style
 
     @property
@@ -69,17 +71,19 @@ class HouseDetails(EcobeeObject):
 
         :return: The value of the size attribute of this HouseDetails instance.
         :rtype: int
-
-        Sets the size attribute of this HouseDetails instance.
-
-        :param size: The size value to set for the size attribute of this HouseDetails instance.
-        :type: int
         """
 
         return self._size
 
     @size.setter
     def size(self, size):
+        """
+        Sets the size attribute of this HouseDetails instance.
+
+        :param size: The size value to set for the size attribute of this HouseDetails instance.
+        :type: int
+        """
+
         self._size = size
 
     @property
@@ -89,17 +93,19 @@ class HouseDetails(EcobeeObject):
 
         :return: The value of the number_of_floors attribute of this HouseDetails instance.
         :rtype: int
-
-        Sets the number_of_floors attribute of this HouseDetails instance.
-
-        :param number_of_floors: The number_of_floors value to set for the number_of_floors attribute of this HouseDetails instance.
-        :type: int
         """
 
         return self._number_of_floors
 
     @number_of_floors.setter
     def number_of_floors(self, number_of_floors):
+        """
+        Sets the number_of_floors attribute of this HouseDetails instance.
+
+        :param number_of_floors: The number_of_floors value to set for the number_of_floors attribute of this HouseDetails instance.
+        :type: int
+        """
+
         self._number_of_floors = number_of_floors
 
     @property
@@ -109,17 +115,19 @@ class HouseDetails(EcobeeObject):
 
         :return: The value of the number_of_rooms attribute of this HouseDetails instance.
         :rtype: int
-
-        Sets the number_of_rooms attribute of this HouseDetails instance.
-
-        :param number_of_rooms: The number_of_rooms value to set for the number_of_rooms attribute of this HouseDetails instance.
-        :type: int
         """
 
         return self._number_of_rooms
 
     @number_of_rooms.setter
     def number_of_rooms(self, number_of_rooms):
+        """
+        Sets the number_of_rooms attribute of this HouseDetails instance.
+
+        :param number_of_rooms: The number_of_rooms value to set for the number_of_rooms attribute of this HouseDetails instance.
+        :type: int
+        """
+
         self._number_of_rooms = number_of_rooms
 
     @property
@@ -129,17 +137,19 @@ class HouseDetails(EcobeeObject):
 
         :return: The value of the number_of_occupants attribute of this HouseDetails instance.
         :rtype: int
-
-        Sets the number_of_occupants attribute of this HouseDetails instance.
-
-        :param number_of_occupants: The number_of_occupants value to set for the number_of_occupants attribute of this HouseDetails instance.
-        :type: int
         """
 
         return self._number_of_occupants
 
     @number_of_occupants.setter
     def number_of_occupants(self, number_of_occupants):
+        """
+        Sets the number_of_occupants attribute of this HouseDetails instance.
+
+        :param number_of_occupants: The number_of_occupants value to set for the number_of_occupants attribute of this HouseDetails instance.
+        :type: int
+        """
+
         self._number_of_occupants = number_of_occupants
 
     @property
@@ -149,17 +159,19 @@ class HouseDetails(EcobeeObject):
 
         :return: The value of the age attribute of this HouseDetails instance.
         :rtype: int
-
-        Sets the age attribute of this HouseDetails instance.
-
-        :param age: The age value to set for the age attribute of this HouseDetails instance.
-        :type: int
         """
 
         return self._age
 
     @age.setter
     def age(self, age):
+        """
+        Sets the age attribute of this HouseDetails instance.
+
+        :param age: The age value to set for the age attribute of this HouseDetails instance.
+        :type: int
+        """
+
         self._age = age
 
     @property
@@ -169,15 +181,17 @@ class HouseDetails(EcobeeObject):
 
         :return: The value of the window_efficiency attribute of this HouseDetails instance.
         :rtype: int
-
-        Sets the window_efficiency attribute of this HouseDetails instance.
-
-        :param window_efficiency: The window_efficiency value to set for the window_efficiency attribute of this HouseDetails instance.
-        :type: int
         """
 
         return self._window_efficiency
 
     @window_efficiency.setter
     def window_efficiency(self, window_efficiency):
+        """
+        Sets the window_efficiency attribute of this HouseDetails instance.
+
+        :param window_efficiency: The window_efficiency value to set for the window_efficiency attribute of this HouseDetails instance.
+        :type: int
+        """
+
         self._window_efficiency = window_efficiency

@@ -38,17 +38,19 @@ class DemandManagement(EcobeeObject):
 
         :return: The value of the date attribute of this DemandManagement instance.
         :rtype: six.text_type
-
-        Sets the date attribute of this DemandManagement instance.
-
-        :param date: The date value to set for the date attribute of this DemandManagement instance.
-        :type: six.text_type
         """
 
         return self._date
 
     @date.setter
     def date(self, date):
+        """
+        Sets the date attribute of this DemandManagement instance.
+
+        :param date: The date value to set for the date attribute of this DemandManagement instance.
+        :type: six.text_type
+        """
+
         self._date = date
 
     @property
@@ -58,17 +60,19 @@ class DemandManagement(EcobeeObject):
 
         :return: The value of the hour attribute of this DemandManagement instance.
         :rtype: int
-
-        Sets the hour attribute of this DemandManagement instance.
-
-        :param hour: The hour value to set for the hour attribute of this DemandManagement instance.
-        :type: int
         """
 
         return self._hour
 
     @hour.setter
     def hour(self, hour):
+        """
+        Sets the hour attribute of this DemandManagement instance.
+
+        :param hour: The hour value to set for the hour attribute of this DemandManagement instance.
+        :type: int
+        """
+
         self._hour = hour
 
     @property
@@ -78,15 +82,17 @@ class DemandManagement(EcobeeObject):
 
         :return: The value of the temp_offsets attribute of this DemandManagement instance.
         :rtype: List[int]
-
-        Sets the temp_offsets attribute of this DemandManagement instance.
-
-        :param temp_offsets: The temp_offsets value to set for the temp_offsets attribute of this DemandManagement instance.
-        :type: List[int]
         """
 
         return self._temp_offsets
 
     @temp_offsets.setter
     def temp_offsets(self, temp_offsets):
+        """
+        Sets the temp_offsets attribute of this DemandManagement instance.
+
+        :param temp_offsets: The temp_offsets value to set for the temp_offsets attribute of this DemandManagement instance.
+        :type: List[int]
+        """
+
         self._temp_offsets = temp_offsets

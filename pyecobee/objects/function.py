@@ -37,17 +37,19 @@ class Function(EcobeeObject):
 
         :return: The value of the type attribute of this Function instance.
         :rtype: six.text_type
-
-        Sets the type attribute of this Function instance.
-
-        :param type: The type value to set for the type attribute of this Function instance.
-        :type: six.text_type
         """
 
         return self._type
 
     @type.setter
     def type(self, type):
+        """
+        Sets the type attribute of this Function instance.
+
+        :param type: The type value to set for the type attribute of this Function instance.
+        :type: six.text_type
+        """
+
         self._type = type
 
     @property
@@ -57,15 +59,17 @@ class Function(EcobeeObject):
 
         :return: The value of the params attribute of this Function instance.
         :rtype: Dict[six.text_type, object]
-
-        Sets the params attribute of this Function instance.
-
-        :param params: The params value to set for the params attribute of this Function instance.
-        :type: Dict[six.text_type, object]
         """
 
         return self._params
 
     @params.setter
     def params(self, params):
+        """
+        Sets the params attribute of this Function instance.
+
+        :param params: The params value to set for the params attribute of this Function instance.
+        :type: Dict[six.text_type, object]
+        """
+
         self._params = params
