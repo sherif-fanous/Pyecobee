@@ -1053,10 +1053,10 @@ The ecobee API specifies that all tokens issued must be stored by the applicatio
         finally:
             pyecobee_db.close()
 
-        if not ecobee_service.authorization_token:
+        if ecobee_service.authorization_token is None:
             authorize(ecobee_service)
 
-        if not ecobee_service.access_token:
+        if ecobee_service.access_token is None:
             request_tokens(ecobee_service)
 
         now_utc = datetime.now(pytz.utc)
