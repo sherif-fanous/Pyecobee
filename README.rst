@@ -1088,7 +1088,7 @@ Pro-active
             authorize(ecobee_service)
             request_tokens(ecobee_service)
         elif now_utc > ecobee_service.access_token_expires_on:
-            token_response = ecobee_service.refresh_tokens()
+            token_response = refresh_tokens(ecobee_service)
 
 Reactive
 --------
