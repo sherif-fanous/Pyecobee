@@ -1002,6 +1002,8 @@ The ecobee API specifies that all tokens issued must be stored by the applicatio
 
     from pyecobee import *
 
+    logger = logging.getLogger(__name__)
+
 
     def persist_to_shelf(file_name, ecobee_service):
         pyecobee_db = shelve.open(file_name, protocol=2)
@@ -1043,6 +1045,14 @@ The ecobee API specifies that all tokens issued must be stored by the applicatio
 
 
     if __name__ == '__main__':
+        formatter = logging.Formatter('%(asctime)s %(name)-18s %(levelname)-8s %(message)s')
+
+        stream_handler = logging.StreamHandler()
+        stream_handler.setFormatter(formatter)
+
+        logger.addHandler(stream_handler)
+        logger.setLevel(logging.DEBUG)
+
         thermostat_name = 'My Thermostat'
         try:
             pyecobee_db = shelve.open('pyecobee_db', protocol=2)
