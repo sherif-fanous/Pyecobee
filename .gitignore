@@ -3,6 +3,7 @@
 TODO
 build/
 dist/
+tests/
 __pycache__/
 pyecobee_db*
 pyecobee.egg-info
