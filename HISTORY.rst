@@ -2,6 +2,10 @@
 
 Release History
 ===============
+1.3.6 (2020-07-31)
+------------------
+* Add fan_speed to Settings object
+
 1.3.5 (2020-04-03)
 ------------------
 * Code refactoring and cleanup

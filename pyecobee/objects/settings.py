@@ -47,7 +47,7 @@ class Settings(EcobeeObject):
                  '_ventilator_min_on_time_away', '_backlight_off_during_sleep', '_auto_away', '_smart_circulation',
                  '_follow_me_comfort', '_ventilator_type', '_is_ventilator_timer_on', '_ventilator_off_date_time',
                  '_has_u_v_filter', '_cooling_lockout', '_ventilator_free_cooling', '_dehumidify_when_heating',
-                 '_ventilator_dehumidify', '_group_ref', '_group_name', '_group_setting']
+                 '_ventilator_dehumidify', '_group_ref', '_group_name', '_group_setting', '_fan_speed']
 
     attribute_name_map = {'hvac_mode': 'hvacMode', 'hvacMode': 'hvac_mode', 'last_service_date': 'lastServiceDate',
                           'lastServiceDate': 'last_service_date', 'service_remind_me': 'serviceRemindMe',
@@ -191,7 +191,8 @@ class Settings(EcobeeObject):
                           'ventilator_dehumidify': 'ventilatorDehumidify',
                           'ventilatorDehumidify': 'ventilator_dehumidify', 'group_ref': 'groupRef',
                           'groupRef': 'group_ref', 'group_name': 'groupName', 'groupName': 'group_name',
-                          'group_setting': 'groupSetting', 'groupSetting': 'group_setting'}
+                          'group_setting': 'groupSetting', 'groupSetting': 'group_setting', 'fan_speed': 'fanSpeed',
+                          'fanSpeed': 'fan_speed'}
 
     attribute_type_map = {'hvac_mode': 'six.text_type', 'last_service_date': 'six.text_type',
                           'service_remind_me': 'bool', 'months_between_service': 'int',
@@ -238,7 +239,8 @@ class Settings(EcobeeObject):
                           'ventilator_off_date_time': 'six.text_type', 'has_u_v_filter': 'bool',
                           'cooling_lockout': 'bool', 'ventilator_free_cooling': 'bool',
                           'dehumidify_when_heating': 'bool', 'ventilator_dehumidify': 'bool',
-                          'group_ref': 'six.text_type', 'group_name': 'six.text_type', 'group_setting': 'int'}
+                          'group_ref': 'six.text_type', 'group_name': 'six.text_type', 'group_setting': 'int',
+                          'fan_speed': 'six.text_type'}
 
     def __init__(self, hvac_mode=None, last_service_date=None, service_remind_me=None, months_between_service=None,
                  remind_me_date=None, vent=None, ventilator_min_on_time=None, service_remind_technician=None,
@@ -273,7 +275,7 @@ class Settings(EcobeeObject):
                  backlight_off_during_sleep=None, auto_away=None, smart_circulation=None, follow_me_comfort=None,
                  ventilator_type=None, is_ventilator_timer_on=None, ventilator_off_date_time=None, has_u_v_filter=None,
                  cooling_lockout=None, ventilator_free_cooling=None, dehumidify_when_heating=None,
-                 ventilator_dehumidify=None, group_ref=None, group_name=None, group_setting=None):
+                 ventilator_dehumidify=None, group_ref=None, group_name=None, group_setting=None, fan_speed=None):
         """
         Construct a Settings instance
         """
@@ -390,6 +392,7 @@ class Settings(EcobeeObject):
         self._group_ref = group_ref
         self._group_name = group_name
         self._group_setting = group_setting
+        self._fan_speed = fan_speed
 
     @property
     def hvac_mode(self):
@@ -2667,3 +2670,25 @@ class Settings(EcobeeObject):
         """
 
         self._group_setting = group_setting
+
+    @property
+    def fan_speed(self):
+        """
+        Gets the fan_speed attribute of this Settings instance.
+
+        :return: The value of the fan_speed attribute of this Settings instance.
+        :rtype: six.text_type
+        """
+
+        return self._fan_speed
+
+    @fan_speed.setter
+    def fan_speed(self, fan_speed):
+        """
+        Sets the fan_speed attribute of this Settings instance.
+
+        :param fan_speed: The fan_speed value to set for the fan_speed attribute of this Settings instance.
+        :type: six.text_type
+        """
+
+        self._fan_speed = fan_speed
