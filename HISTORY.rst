@@ -2,6 +2,10 @@
 
 Release History
 ===============
+1.3.8 (2020-08-01)
+------------------
+* Add fan_speed to Event object
+
 1.3.7 (2020-07-31)
 ------------------
 * Handle KeyError exception in case of new property added by ecobee

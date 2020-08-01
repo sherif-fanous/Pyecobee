@@ -22,7 +22,7 @@ class Event(EcobeeObject):
                  '_ventilator_min_on_time', '_is_optional', '_is_temperature_relative', '_cool_relative_temp',
                  '_heat_relative_temp', '_is_temperature_absolute', '_duty_cycle_percentage', '_fan_min_on_time',
                  '_occupied_sensor_active', '_unoccupied_sensor_active', '_dr_ramp_up_temp', '_dr_ramp_up_time',
-                 '_link_ref', '_hold_climate_ref']
+                 '_link_ref', '_hold_climate_ref', '_fan_speed']
 
     attribute_name_map = {'type': 'type', 'name': 'name', 'running': 'running', 'start_date': 'startDate',
                           'startDate': 'start_date', 'start_time': 'startTime', 'startTime': 'start_time',
@@ -46,7 +46,8 @@ class Event(EcobeeObject):
                           'unoccupiedSensorActive': 'unoccupied_sensor_active', 'dr_ramp_up_temp': 'drRampUpTemp',
                           'drRampUpTemp': 'dr_ramp_up_temp', 'dr_ramp_up_time': 'drRampUpTime',
                           'drRampUpTime': 'dr_ramp_up_time', 'link_ref': 'linkRef', 'linkRef': 'link_ref',
-                          'hold_climate_ref': 'holdClimateRef', 'holdClimateRef': 'hold_climate_ref'}
+                          'hold_climate_ref': 'holdClimateRef', 'holdClimateRef': 'hold_climate_ref',
+                          'fan_speed': 'fanSpeed', 'fanSpeed': 'fan_speed'}
 
     attribute_type_map = {'type': 'six.text_type', 'name': 'six.text_type', 'running': 'bool',
                           'start_date': 'six.text_type', 'start_time': 'six.text_type', 'end_date': 'six.text_type',
@@ -57,7 +58,8 @@ class Event(EcobeeObject):
                           'heat_relative_temp': 'int', 'is_temperature_absolute': 'bool',
                           'duty_cycle_percentage': 'int', 'fan_min_on_time': 'int', 'occupied_sensor_active': 'bool',
                           'unoccupied_sensor_active': 'bool', 'dr_ramp_up_temp': 'int', 'dr_ramp_up_time': 'int',
-                          'link_ref': 'six.text_type', 'hold_climate_ref': 'six.text_type'}
+                          'link_ref': 'six.text_type', 'hold_climate_ref': 'six.text_type',
+                          'fan_speed': 'six.text_type'}
 
     def __init__(self, type=None, name=None, running=None, start_date=None, start_time=None, end_date=None,
                  end_time=None, is_occupied=None, is_cool_off=None, is_heat_off=None, cool_hold_temp=None,
@@ -65,7 +67,7 @@ class Event(EcobeeObject):
                  is_temperature_relative=None, cool_relative_temp=None, heat_relative_temp=None,
                  is_temperature_absolute=None, duty_cycle_percentage=None, fan_min_on_time=None,
                  occupied_sensor_active=None, unoccupied_sensor_active=None, dr_ramp_up_temp=None, dr_ramp_up_time=None,
-                 link_ref=None, hold_climate_ref=None):
+                 link_ref=None, hold_climate_ref=None, fan_speed=None):
         """
         Construct an Event instance
         """
@@ -97,6 +99,7 @@ class Event(EcobeeObject):
         self._dr_ramp_up_time = dr_ramp_up_time
         self._link_ref = link_ref
         self._hold_climate_ref = hold_climate_ref
+        self._fan_speed = fan_speed
 
     @property
     def type(self):
@@ -405,3 +408,25 @@ class Event(EcobeeObject):
         """
 
         return self._hold_climate_ref
+
+    @property
+    def fan_speed(self):
+        """
+        Gets the fan_speed attribute of this Event instance.
+
+        :return: The value of the fan_speed attribute of this Event instance.
+        :rtype: six.text_type
+        """
+
+        return self._fan_speed
+
+    @fan_speed.setter
+    def fan_speed(self, fan_speed):
+        """
+        Sets the fan_speed attribute of this Event instance.
+
+        :param fan_speed: The fan_speed value to set for the fan_speed attribute of this Event instance.
+        :type: six.text_type
+        """
+
+        self._fan_speed = fan_speed
