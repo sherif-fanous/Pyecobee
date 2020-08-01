@@ -200,8 +200,16 @@ class Utilities(object):
                     response_properties[parent_classes[0]].append(generated_code)
 
                     if parent_classes:
-                        generated_code = '{0}={1!r}'.format(parent_classes[-1].attribute_name_map[key], data[key])
-                        response_properties[parent_classes[0]].append(generated_code)
+                        try:
+                            generated_code = '{0}={1!r}'.format(parent_classes[-1].attribute_name_map[key], data[key])
+                            response_properties[parent_classes[0]].append(generated_code)
+                        except KeyError:
+                            logger.error(
+                                'Missing attribute in class {0}\n'
+                                'Attribute name  => {1}\n'
+                                'Attribute value => {2}\n\n'
+                                'Please open a new issue here (https://github.com/sfanous/Pyecobee/issues/new)'.format(
+                                    parent_classes[-1].__name__, key, data[key]))
                     else:
                         generated_code = '{0}={1!r}'.format(key, data[key])
                         response_properties[parent_classes[0]].append(generated_code)
