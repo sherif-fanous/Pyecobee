@@ -2,6 +2,12 @@
 
 Release History
 ===============
+1.3.9 (2020-08-04)
+------------------
+* Migrate from PyCharm to VSCode
+* Code refactoring and cleanup using Autopep8 and Pylint
+* Add undocumented ecobee objects (Energy & TimeOfUse)
+
 1.3.8 (2020-08-01)
 ------------------
 * Add fan_speed to Event object

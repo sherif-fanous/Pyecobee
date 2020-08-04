@@ -8,7 +8,7 @@ with open('HISTORY.rst', 'r') as f:
 
 setup(
     name='pyecobee',
-    version='1.3.8',
+    version='1.3.9',
     description='A Python implementation of the ecobee API',
     long_description=readme + '\n\n' + history,
     url='https://github.com/sfanous/Pyecobee',

@@ -41,6 +41,7 @@ from pyecobee.objects.device import Device
 from pyecobee.objects.electricity import Electricity
 from pyecobee.objects.electricity_device import ElectricityDevice
 from pyecobee.objects.electricity_tier import ElectricityTier
+from pyecobee.objects.energy import Energy
 from pyecobee.objects.equipment_setting import EquipmentSetting
 from pyecobee.objects.event import Event
 from pyecobee.objects.extended_runtime import ExtendedRuntime
@@ -75,6 +76,7 @@ from pyecobee.objects.state import State
 from pyecobee.objects.status import Status
 from pyecobee.objects.technician import Technician
 from pyecobee.objects.thermostat import Thermostat
+from pyecobee.objects.time_of_use import TimeOfUse
 from pyecobee.objects.user import User
 from pyecobee.objects.utility import Utility
 from pyecobee.objects.version import Version
