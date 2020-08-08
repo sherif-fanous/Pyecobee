@@ -21,6 +21,7 @@ class ElectricityTier(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
+
     __slots__ = ['_name', '_consumption', '_cost']
 
     attribute_name_map = {'name': 'name', 'consumption': 'consumption', 'cost': 'cost'}
@@ -28,7 +29,8 @@ class ElectricityTier(EcobeeObject):
     attribute_type_map = {
         'name': 'six.text_type',
         'consumption': 'six.text_type',
-        'cost': 'six.text_type'}
+        'cost': 'six.text_type',
+    }
 
     def __init__(self, name=None, consumption=None, cost=None):
         """

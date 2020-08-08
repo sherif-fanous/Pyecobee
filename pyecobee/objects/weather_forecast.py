@@ -21,6 +21,7 @@ class WeatherForecast(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
+
     __slots__ = [
         '_weather_symbol',
         '_date_time',
@@ -37,7 +38,8 @@ class WeatherForecast(EcobeeObject):
         '_pop',
         '_temp_high',
         '_temp_low',
-        '_sky']
+        '_sky',
+    ]
 
     attribute_name_map = {
         'weather_symbol': 'weatherSymbol',
@@ -64,7 +66,8 @@ class WeatherForecast(EcobeeObject):
         'tempHigh': 'temp_high',
         'temp_low': 'tempLow',
         'tempLow': 'temp_low',
-        'sky': 'sky'}
+        'sky': 'sky',
+    }
 
     attribute_type_map = {
         'weather_symbol': 'int',
@@ -82,12 +85,28 @@ class WeatherForecast(EcobeeObject):
         'pop': 'int',
         'temp_high': 'int',
         'temp_low': 'int',
-        'sky': 'int'}
+        'sky': 'int',
+    }
 
-    def __init__(self, weather_symbol=None, date_time=None, condition=None, temperature=None,
-                 pressure=None, relative_humidity=None, dewpoint=None, visibility=None,
-                 wind_speed=None, wind_gust=None, wind_direction=None, wind_bearing=None, pop=None,
-                 temp_high=None, temp_low=None, sky=None):
+    def __init__(
+        self,
+        weather_symbol=None,
+        date_time=None,
+        condition=None,
+        temperature=None,
+        pressure=None,
+        relative_humidity=None,
+        dewpoint=None,
+        visibility=None,
+        wind_speed=None,
+        wind_gust=None,
+        wind_direction=None,
+        wind_bearing=None,
+        pop=None,
+        temp_high=None,
+        temp_low=None,
+        sky=None,
+    ):
         """
         Construct a WeatherForecast instance
         """

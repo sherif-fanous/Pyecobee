@@ -21,6 +21,7 @@ class VoiceEngine(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
+
     __slots__ = ['_name', '_enabled']
 
     attribute_name_map = {'name': 'name', 'enabled': 'enabled'}

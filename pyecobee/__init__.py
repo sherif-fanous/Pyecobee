@@ -104,8 +104,10 @@ from pyecobee.utilities import Utilities
 try:  # Python 2.X
     from logging import NullHandler
 except ImportError:
+
     class NullHandler(logging.Handler):
         def emit(self, record):
             pass
+
 
 logging.getLogger(__name__).addHandler(NullHandler())

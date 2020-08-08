@@ -21,6 +21,7 @@ class HierarchyUser(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
+
     __slots__ = [
         '_user_name',
         '_first_name',
@@ -28,7 +29,8 @@ class HierarchyUser(EcobeeObject):
         '_phone',
         '_last_login',
         '_active',
-        '_email_alerts']
+        '_email_alerts',
+    ]
 
     attribute_name_map = {
         'user_name': 'userName',
@@ -42,7 +44,8 @@ class HierarchyUser(EcobeeObject):
         'lastLogin': 'last_login',
         'active': 'active',
         'email_alerts': 'emailAlerts',
-        'emailAlerts': 'email_alerts'}
+        'emailAlerts': 'email_alerts',
+    }
 
     attribute_type_map = {
         'user_name': 'six.text_type',
@@ -51,10 +54,19 @@ class HierarchyUser(EcobeeObject):
         'phone': 'six.text_type',
         'last_login': 'six.text_type',
         'active': 'bool',
-        'email_alerts': 'bool'}
+        'email_alerts': 'bool',
+    }
 
-    def __init__(self, user_name, first_name=None, last_name=None,
-                 phone=None, last_login=None, active=None, email_alerts=None):
+    def __init__(
+        self,
+        user_name,
+        first_name=None,
+        last_name=None,
+        phone=None,
+        last_login=None,
+        active=None,
+        email_alerts=None,
+    ):
         """
         Construct a HierarchyUser instance
         """

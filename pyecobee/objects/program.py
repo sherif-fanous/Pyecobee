@@ -21,18 +21,21 @@ class Program(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
+
     __slots__ = ['_schedule', '_climates', '_current_climate_ref']
 
     attribute_name_map = {
         'schedule': 'schedule',
         'climates': 'climates',
         'current_climate_ref': 'currentClimateRef',
-        'currentClimateRef': 'current_climate_ref'}
+        'currentClimateRef': 'current_climate_ref',
+    }
 
     attribute_type_map = {
         'schedule': 'List[six.text_type]',
         'climates': 'List[Climate]',
-        'current_climate_ref': 'six.text_type'}
+        'current_climate_ref': 'six.text_type',
+    }
 
     def __init__(self, schedule, climates, current_climate_ref=None):
         """

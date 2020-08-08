@@ -21,6 +21,7 @@ class RuntimeSensorReport(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
+
     __slots__ = ['_thermostat_identifier', '_sensors', '_columns', '_data']
 
     attribute_name_map = {
@@ -28,15 +29,19 @@ class RuntimeSensorReport(EcobeeObject):
         'thermostatIdentifier': 'thermostat_identifier',
         'sensors': 'sensors',
         'columns': 'columns',
-        'data': 'data'}
+        'data': 'data',
+    }
 
     attribute_type_map = {
         'thermostat_identifier': 'six.text_type',
         'sensors': 'List[RuntimeSensorMetadata]',
         'columns': 'List[six.text_type]',
-        'data': 'List[six.text_type]'}
+        'data': 'List[six.text_type]',
+    }
 
-    def __init__(self, thermostat_identifier=None, sensors=None, columns=None, data=None):
+    def __init__(
+        self, thermostat_identifier=None, sensors=None, columns=None, data=None
+    ):
         """
         Construct a RuntimeSensorReport instance
         """

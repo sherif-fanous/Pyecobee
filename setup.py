@@ -8,7 +8,7 @@ with open('HISTORY.rst', 'r') as f:
 
 setup(
     name='pyecobee',
-    version='1.3.9',
+    version='1.3.10',
     description='A Python implementation of the ecobee API',
     long_description=readme + '\n\n' + history,
     url='https://github.com/sfanous/Pyecobee',
@@ -30,15 +30,14 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
-        'Programming Language :: Python :: Implementation :: CPython'
+        'Programming Language :: Python :: Implementation :: CPython',
     ],
     packages=['pyecobee', 'pyecobee.objects'],
     install_requires=[
         'enum34>=1.1.6; python_version < "3.4"',
         'pytz>=2017.2',
         'requests>=2.13.0',
-        'six>=1.10.0'],
-    package_data={
-        'license': ['LICENSE'],
-    },
+        'six>=1.10.0',
+    ],
+    package_data={'license': ['LICENSE'],},
 )

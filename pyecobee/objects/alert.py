@@ -21,6 +21,7 @@ class Alert(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
+
     __slots__ = [
         '_text',
         '_acknowledge_ref',
@@ -37,7 +38,8 @@ class Alert(EcobeeObject):
         '_acknowledgement',
         '_remind_me_later',
         '_thermostat_identifier',
-        '_notification_type']
+        '_notification_type',
+    ]
 
     attribute_name_map = {
         'text': 'text',
@@ -65,7 +67,8 @@ class Alert(EcobeeObject):
         'thermostat_identifier': 'thermostatIdentifier',
         'thermostatIdentifier': 'thermostat_identifier',
         'notification_type': 'notificationType',
-        'notificationType': 'notification_type'}
+        'notificationType': 'notification_type',
+    }
 
     attribute_type_map = {
         'text': 'six.text_type',
@@ -83,12 +86,28 @@ class Alert(EcobeeObject):
         'acknowledgement': 'six.text_type',
         'remind_me_later': 'bool',
         'thermostat_identifier': 'six.text_type',
-        'notification_type': 'six.text_type'}
+        'notification_type': 'six.text_type',
+    }
 
-    def __init__(self, text, acknowledge_ref=None, date=None, time=None, severity=None,
-                 alert_number=None, alert_type=None, is_operator_alert=None, reminder=None,
-                 show_idt=None, show_web=None, send_email=None, acknowledgement=None,
-                 remind_me_later=None, thermostat_identifier=None, notification_type=None):
+    def __init__(
+        self,
+        text,
+        acknowledge_ref=None,
+        date=None,
+        time=None,
+        severity=None,
+        alert_number=None,
+        alert_type=None,
+        is_operator_alert=None,
+        reminder=None,
+        show_idt=None,
+        show_web=None,
+        send_email=None,
+        acknowledgement=None,
+        remind_me_later=None,
+        thermostat_identifier=None,
+        notification_type=None,
+    ):
         """
         Construct an Alert instance
         """

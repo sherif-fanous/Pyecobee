@@ -21,6 +21,7 @@ class Location(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
+
     __slots__ = [
         '_time_zone_offset_minutes',
         '_time_zone',
@@ -31,7 +32,8 @@ class Location(EcobeeObject):
         '_country',
         '_postal_code',
         '_phone_number',
-        '_map_coordinates']
+        '_map_coordinates',
+    ]
 
     attribute_name_map = {
         'time_zone_offset_minutes': 'timeZoneOffsetMinutes',
@@ -51,7 +53,8 @@ class Location(EcobeeObject):
         'phone_number': 'phoneNumber',
         'phoneNumber': 'phone_number',
         'map_coordinates': 'mapCoordinates',
-        'mapCoordinates': 'map_coordinates'}
+        'mapCoordinates': 'map_coordinates',
+    }
 
     attribute_type_map = {
         'time_zone_offset_minutes': 'int',
@@ -63,11 +66,22 @@ class Location(EcobeeObject):
         'country': 'six.text_type',
         'postal_code': 'six.text_type',
         'phone_number': 'six.text_type',
-        'map_coordinates': 'six.text_type'}
+        'map_coordinates': 'six.text_type',
+    }
 
-    def __init__(self, time_zone_offset_minutes=None, time_zone=None, is_daylight_saving=None,
-                 street_address=None, city=None, province_state=None, country=None,
-                 postal_code=None, phone_number=None, map_coordinates=None):
+    def __init__(
+        self,
+        time_zone_offset_minutes=None,
+        time_zone=None,
+        is_daylight_saving=None,
+        street_address=None,
+        city=None,
+        province_state=None,
+        country=None,
+        postal_code=None,
+        phone_number=None,
+        map_coordinates=None,
+    ):
         """
         Construct a Location instance
         """

@@ -21,6 +21,7 @@ class Action(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
+
     __slots__ = [
         '_type',
         '_send_alert',
@@ -31,7 +32,8 @@ class Action(EcobeeObject):
         '_heat_adjust_temp',
         '_cool_adjust_temp',
         '_activate_relay',
-        '_activate_relay_open']
+        '_activate_relay_open',
+    ]
 
     attribute_name_map = {
         'type': 'type',
@@ -52,7 +54,8 @@ class Action(EcobeeObject):
         'activate_relay': 'activateRelay',
         'activateRelay': 'activate_relay',
         'activate_relay_open': 'activateRelayOpen',
-        'activateRelayOpen': 'activate_relay_open'}
+        'activateRelayOpen': 'activate_relay_open',
+    }
 
     attribute_type_map = {
         'type': 'six.text_type',
@@ -64,11 +67,22 @@ class Action(EcobeeObject):
         'heat_adjust_temp': 'int',
         'cool_adjust_temp': 'int',
         'activate_relay': 'six.text_type',
-        'activate_relay_open': 'bool'}
+        'activate_relay_open': 'bool',
+    }
 
-    def __init__(self, type_=None, send_alert=None, send_update=None, activation_delay=None,
-                 deactivation_delay=None, min_action_duration=None, heat_adjust_temp=None,
-                 cool_adjust_temp=None, activate_relay=None, activate_relay_open=None):
+    def __init__(
+        self,
+        type_=None,
+        send_alert=None,
+        send_update=None,
+        activation_delay=None,
+        deactivation_delay=None,
+        min_action_duration=None,
+        heat_adjust_temp=None,
+        cool_adjust_temp=None,
+        activate_relay=None,
+        activate_relay_open=None,
+    ):
         """
         Construct an Action instance
         """

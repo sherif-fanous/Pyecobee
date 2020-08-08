@@ -21,42 +21,123 @@ class Settings(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
+
     __slots__ = [
-        '_hvac_mode', '_last_service_date', '_service_remind_me', '_months_between_service',
-        '_remind_me_date', '_vent', '_ventilator_min_on_time', '_service_remind_technician',
-        '_ei_location', '_cold_temp_alert', '_cold_temp_alert_enabled', '_hot_temp_alert',
-        '_hot_temp_alert_enabled', '_cool_stages', '_heat_stages', '_max_set_back',
-        '_max_set_forward', '_quick_save_set_back', '_quick_save_set_forward', '_has_heat_pump',
-        '_has_forced_air', '_has_boiler', '_has_humidifier', '_has_erv', '_has_hrv',
-        '_condensation_avoid', '_use_celsius', '_use_time_format12', '_locale', '_humidity',
-        '_humidifier_mode', '_backlight_on_intensity', '_backlight_sleep_intensity',
-        '_backlight_off_time', '_sound_tick_volume', '_sound_alert_volume',
-        '_compressor_protection_min_time', '_compressor_protection_min_temp',
-        '_stage1_heating_differential_temp', '_stage1_cooling_differential_temp',
-        '_stage1_heating_dissipation_time', '_stage1_cooling_dissipation_time',
-        '_heat_pump_reversal_on_cool', '_fan_control_required', '_fan_min_on_time',
-        '_heat_cool_min_delta', '_temp_correction', '_hold_action', '_heat_pump_ground_water',
-        '_has_electric', '_has_dehumidifier', '_dehumidifier_mode', '_dehumidifier_level',
-        '_dehumidify_with_a_c', '_dehumidify_overcool_offset', '_auto_heat_cool_feature_enabled',
-        '_wifi_offline_alert', '_heat_min_temp', '_heat_max_temp', '_cool_min_temp',
-        '_cool_max_temp', '_heat_range_high', '_heat_range_low', '_cool_range_high',
-        '_cool_range_low', '_user_access_code', '_user_access_setting', '_aux_runtime_alert',
-        '_aux_outdoor_temp_alert', '_aux_max_outdoor_temp', '_aux_runtime_alert_notify',
-        '_aux_outdoor_temp_alert_notify', '_aux_runtime_alert_notify_technician',
-        '_aux_outdoor_temp_alert_notify_technician', '_disable_pre_heating',
-        '_disable_pre_cooling', '_installer_code_required', '_dr_accept', '_is_rental_property',
-        '_use_zone_controller', '_random_start_delay_cool', '_random_start_delay_heat',
-        '_humidity_high_alert', '_humidity_low_alert', '_disable_heat_pump_alerts',
-        '_disable_alerts_on_idt', '_humidity_alert_notify', '_humidity_alert_notify_technician',
-        '_temp_alert_notify', '_temp_alert_notify_technician', '_monthly_electricity_bill_limit',
-        '_enable_electricity_bill_alert', '_enable_projected_electricity_bill_alert',
-        '_electricity_billing_day_of_month', '_electricity_bill_cycle_months',
-        '_electricity_bill_start_month', '_ventilator_min_on_time_home',
-        '_ventilator_min_on_time_away', '_backlight_off_during_sleep', '_auto_away',
-        '_smart_circulation', '_follow_me_comfort', '_ventilator_type', '_is_ventilator_timer_on',
-        '_ventilator_off_date_time', '_has_u_v_filter', '_cooling_lockout',
-        '_ventilator_free_cooling', '_dehumidify_when_heating', '_ventilator_dehumidify',
-        '_group_ref', '_group_name', '_group_setting', '_fan_speed']
+        '_hvac_mode',
+        '_last_service_date',
+        '_service_remind_me',
+        '_months_between_service',
+        '_remind_me_date',
+        '_vent',
+        '_ventilator_min_on_time',
+        '_service_remind_technician',
+        '_ei_location',
+        '_cold_temp_alert',
+        '_cold_temp_alert_enabled',
+        '_hot_temp_alert',
+        '_hot_temp_alert_enabled',
+        '_cool_stages',
+        '_heat_stages',
+        '_max_set_back',
+        '_max_set_forward',
+        '_quick_save_set_back',
+        '_quick_save_set_forward',
+        '_has_heat_pump',
+        '_has_forced_air',
+        '_has_boiler',
+        '_has_humidifier',
+        '_has_erv',
+        '_has_hrv',
+        '_condensation_avoid',
+        '_use_celsius',
+        '_use_time_format12',
+        '_locale',
+        '_humidity',
+        '_humidifier_mode',
+        '_backlight_on_intensity',
+        '_backlight_sleep_intensity',
+        '_backlight_off_time',
+        '_sound_tick_volume',
+        '_sound_alert_volume',
+        '_compressor_protection_min_time',
+        '_compressor_protection_min_temp',
+        '_stage1_heating_differential_temp',
+        '_stage1_cooling_differential_temp',
+        '_stage1_heating_dissipation_time',
+        '_stage1_cooling_dissipation_time',
+        '_heat_pump_reversal_on_cool',
+        '_fan_control_required',
+        '_fan_min_on_time',
+        '_heat_cool_min_delta',
+        '_temp_correction',
+        '_hold_action',
+        '_heat_pump_ground_water',
+        '_has_electric',
+        '_has_dehumidifier',
+        '_dehumidifier_mode',
+        '_dehumidifier_level',
+        '_dehumidify_with_a_c',
+        '_dehumidify_overcool_offset',
+        '_auto_heat_cool_feature_enabled',
+        '_wifi_offline_alert',
+        '_heat_min_temp',
+        '_heat_max_temp',
+        '_cool_min_temp',
+        '_cool_max_temp',
+        '_heat_range_high',
+        '_heat_range_low',
+        '_cool_range_high',
+        '_cool_range_low',
+        '_user_access_code',
+        '_user_access_setting',
+        '_aux_runtime_alert',
+        '_aux_outdoor_temp_alert',
+        '_aux_max_outdoor_temp',
+        '_aux_runtime_alert_notify',
+        '_aux_outdoor_temp_alert_notify',
+        '_aux_runtime_alert_notify_technician',
+        '_aux_outdoor_temp_alert_notify_technician',
+        '_disable_pre_heating',
+        '_disable_pre_cooling',
+        '_installer_code_required',
+        '_dr_accept',
+        '_is_rental_property',
+        '_use_zone_controller',
+        '_random_start_delay_cool',
+        '_random_start_delay_heat',
+        '_humidity_high_alert',
+        '_humidity_low_alert',
+        '_disable_heat_pump_alerts',
+        '_disable_alerts_on_idt',
+        '_humidity_alert_notify',
+        '_humidity_alert_notify_technician',
+        '_temp_alert_notify',
+        '_temp_alert_notify_technician',
+        '_monthly_electricity_bill_limit',
+        '_enable_electricity_bill_alert',
+        '_enable_projected_electricity_bill_alert',
+        '_electricity_billing_day_of_month',
+        '_electricity_bill_cycle_months',
+        '_electricity_bill_start_month',
+        '_ventilator_min_on_time_home',
+        '_ventilator_min_on_time_away',
+        '_backlight_off_during_sleep',
+        '_auto_away',
+        '_smart_circulation',
+        '_follow_me_comfort',
+        '_ventilator_type',
+        '_is_ventilator_timer_on',
+        '_ventilator_off_date_time',
+        '_has_u_v_filter',
+        '_cooling_lockout',
+        '_ventilator_free_cooling',
+        '_dehumidify_when_heating',
+        '_ventilator_dehumidify',
+        '_group_ref',
+        '_group_name',
+        '_group_setting',
+        '_fan_speed',
+    ]
 
     attribute_name_map = {
         'hvac_mode': 'hvacMode',
@@ -283,7 +364,8 @@ class Settings(EcobeeObject):
         'group_setting': 'groupSetting',
         'groupSetting': 'group_setting',
         'fan_speed': 'fanSpeed',
-        'fanSpeed': 'fan_speed'}
+        'fanSpeed': 'fan_speed',
+    }
 
     attribute_type_map = {
         'hvac_mode': 'six.text_type',
@@ -399,51 +481,126 @@ class Settings(EcobeeObject):
         'group_ref': 'six.text_type',
         'group_name': 'six.text_type',
         'group_setting': 'int',
-        'fan_speed': 'six.text_type'}
+        'fan_speed': 'six.text_type',
+    }
 
-    def __init__(self, hvac_mode=None, last_service_date=None, service_remind_me=None,
-                 months_between_service=None, remind_me_date=None, vent=None,
-                 ventilator_min_on_time=None, service_remind_technician=None, ei_location=None,
-                 cold_temp_alert=None, cold_temp_alert_enabled=None, hot_temp_alert=None,
-                 hot_temp_alert_enabled=None, cool_stages=None, heat_stages=None,
-                 max_set_back=None, max_set_forward=None, quick_save_set_back=None,
-                 quick_save_set_forward=None, has_heat_pump=None, has_forced_air=None,
-                 has_boiler=None, has_humidifier=None, has_erv=None, has_hrv=None,
-                 condensation_avoid=None, use_celsius=None, use_time_format12=None, locale=None,
-                 humidity=None, humidifier_mode=None, backlight_on_intensity=None,
-                 backlight_sleep_intensity=None, backlight_off_time=None, sound_tick_volume=None,
-                 sound_alert_volume=None, compressor_protection_min_time=None,
-                 compressor_protection_min_temp=None, stage1_heating_differential_temp=None,
-                 stage1_cooling_differential_temp=None, stage1_heating_dissipation_time=None,
-                 stage1_cooling_dissipation_time=None, heat_pump_reversal_on_cool=None,
-                 fan_control_required=None, fan_min_on_time=None, heat_cool_min_delta=None,
-                 temp_correction=None, hold_action=None, heat_pump_ground_water=None,
-                 has_electric=None, has_dehumidifier=None, dehumidifier_mode=None,
-                 dehumidifier_level=None, dehumidify_with_a_c=None,
-                 dehumidify_overcool_offset=None, auto_heat_cool_feature_enabled=None,
-                 wifi_offline_alert=None, heat_min_temp=None, heat_max_temp=None,
-                 cool_min_temp=None, cool_max_temp=None, heat_range_high=None, heat_range_low=None,
-                 cool_range_high=None, cool_range_low=None, user_access_code=None,
-                 user_access_setting=None, aux_runtime_alert=None, aux_outdoor_temp_alert=None,
-                 aux_max_outdoor_temp=None, aux_runtime_alert_notify=None,
-                 aux_outdoor_temp_alert_notify=None, aux_runtime_alert_notify_technician=None,
-                 aux_outdoor_temp_alert_notify_technician=None, disable_pre_heating=None,
-                 disable_pre_cooling=None, installer_code_required=None, dr_accept=None,
-                 is_rental_property=None, use_zone_controller=None, random_start_delay_cool=None,
-                 random_start_delay_heat=None, humidity_high_alert=None, humidity_low_alert=None,
-                 disable_heat_pump_alerts=None, disable_alerts_on_idt=None,
-                 humidity_alert_notify=None, humidity_alert_notify_technician=None,
-                 temp_alert_notify=None, temp_alert_notify_technician=None,
-                 monthly_electricity_bill_limit=None, enable_electricity_bill_alert=None,
-                 enable_projected_electricity_bill_alert=None,
-                 electricity_billing_day_of_month=None, electricity_bill_cycle_months=None,
-                 electricity_bill_start_month=None, ventilator_min_on_time_home=None,
-                 ventilator_min_on_time_away=None, backlight_off_during_sleep=None, auto_away=None,
-                 smart_circulation=None, follow_me_comfort=None, ventilator_type=None,
-                 is_ventilator_timer_on=None, ventilator_off_date_time=None, has_u_v_filter=None,
-                 cooling_lockout=None, ventilator_free_cooling=None, dehumidify_when_heating=None,
-                 ventilator_dehumidify=None, group_ref=None, group_name=None, group_setting=None,
-                 fan_speed=None):
+    def __init__(
+        self,
+        hvac_mode=None,
+        last_service_date=None,
+        service_remind_me=None,
+        months_between_service=None,
+        remind_me_date=None,
+        vent=None,
+        ventilator_min_on_time=None,
+        service_remind_technician=None,
+        ei_location=None,
+        cold_temp_alert=None,
+        cold_temp_alert_enabled=None,
+        hot_temp_alert=None,
+        hot_temp_alert_enabled=None,
+        cool_stages=None,
+        heat_stages=None,
+        max_set_back=None,
+        max_set_forward=None,
+        quick_save_set_back=None,
+        quick_save_set_forward=None,
+        has_heat_pump=None,
+        has_forced_air=None,
+        has_boiler=None,
+        has_humidifier=None,
+        has_erv=None,
+        has_hrv=None,
+        condensation_avoid=None,
+        use_celsius=None,
+        use_time_format12=None,
+        locale=None,
+        humidity=None,
+        humidifier_mode=None,
+        backlight_on_intensity=None,
+        backlight_sleep_intensity=None,
+        backlight_off_time=None,
+        sound_tick_volume=None,
+        sound_alert_volume=None,
+        compressor_protection_min_time=None,
+        compressor_protection_min_temp=None,
+        stage1_heating_differential_temp=None,
+        stage1_cooling_differential_temp=None,
+        stage1_heating_dissipation_time=None,
+        stage1_cooling_dissipation_time=None,
+        heat_pump_reversal_on_cool=None,
+        fan_control_required=None,
+        fan_min_on_time=None,
+        heat_cool_min_delta=None,
+        temp_correction=None,
+        hold_action=None,
+        heat_pump_ground_water=None,
+        has_electric=None,
+        has_dehumidifier=None,
+        dehumidifier_mode=None,
+        dehumidifier_level=None,
+        dehumidify_with_a_c=None,
+        dehumidify_overcool_offset=None,
+        auto_heat_cool_feature_enabled=None,
+        wifi_offline_alert=None,
+        heat_min_temp=None,
+        heat_max_temp=None,
+        cool_min_temp=None,
+        cool_max_temp=None,
+        heat_range_high=None,
+        heat_range_low=None,
+        cool_range_high=None,
+        cool_range_low=None,
+        user_access_code=None,
+        user_access_setting=None,
+        aux_runtime_alert=None,
+        aux_outdoor_temp_alert=None,
+        aux_max_outdoor_temp=None,
+        aux_runtime_alert_notify=None,
+        aux_outdoor_temp_alert_notify=None,
+        aux_runtime_alert_notify_technician=None,
+        aux_outdoor_temp_alert_notify_technician=None,
+        disable_pre_heating=None,
+        disable_pre_cooling=None,
+        installer_code_required=None,
+        dr_accept=None,
+        is_rental_property=None,
+        use_zone_controller=None,
+        random_start_delay_cool=None,
+        random_start_delay_heat=None,
+        humidity_high_alert=None,
+        humidity_low_alert=None,
+        disable_heat_pump_alerts=None,
+        disable_alerts_on_idt=None,
+        humidity_alert_notify=None,
+        humidity_alert_notify_technician=None,
+        temp_alert_notify=None,
+        temp_alert_notify_technician=None,
+        monthly_electricity_bill_limit=None,
+        enable_electricity_bill_alert=None,
+        enable_projected_electricity_bill_alert=None,
+        electricity_billing_day_of_month=None,
+        electricity_bill_cycle_months=None,
+        electricity_bill_start_month=None,
+        ventilator_min_on_time_home=None,
+        ventilator_min_on_time_away=None,
+        backlight_off_during_sleep=None,
+        auto_away=None,
+        smart_circulation=None,
+        follow_me_comfort=None,
+        ventilator_type=None,
+        is_ventilator_timer_on=None,
+        ventilator_off_date_time=None,
+        has_u_v_filter=None,
+        cooling_lockout=None,
+        ventilator_free_cooling=None,
+        dehumidify_when_heating=None,
+        ventilator_dehumidify=None,
+        group_ref=None,
+        group_name=None,
+        group_setting=None,
+        fan_speed=None,
+    ):
         """
         Construct a Settings instance
         """
@@ -520,7 +677,9 @@ class Settings(EcobeeObject):
         self._aux_runtime_alert_notify = aux_runtime_alert_notify
         self._aux_outdoor_temp_alert_notify = aux_outdoor_temp_alert_notify
         self._aux_runtime_alert_notify_technician = aux_runtime_alert_notify_technician
-        self._aux_outdoor_temp_alert_notify_technician = aux_outdoor_temp_alert_notify_technician
+        self._aux_outdoor_temp_alert_notify_technician = (
+            aux_outdoor_temp_alert_notify_technician
+        )
         self._disable_pre_heating = disable_pre_heating
         self._disable_pre_cooling = disable_pre_cooling
         self._installer_code_required = installer_code_required
@@ -539,7 +698,9 @@ class Settings(EcobeeObject):
         self._temp_alert_notify_technician = temp_alert_notify_technician
         self._monthly_electricity_bill_limit = monthly_electricity_bill_limit
         self._enable_electricity_bill_alert = enable_electricity_bill_alert
-        self._enable_projected_electricity_bill_alert = enable_projected_electricity_bill_alert
+        self._enable_projected_electricity_bill_alert = (
+            enable_projected_electricity_bill_alert
+        )
         self._electricity_billing_day_of_month = electricity_billing_day_of_month
         self._electricity_bill_cycle_months = electricity_bill_cycle_months
         self._electricity_bill_start_month = electricity_bill_start_month
@@ -2211,7 +2372,9 @@ class Settings(EcobeeObject):
         return self._aux_outdoor_temp_alert_notify_technician
 
     @aux_outdoor_temp_alert_notify_technician.setter
-    def aux_outdoor_temp_alert_notify_technician(self, aux_outdoor_temp_alert_notify_technician):
+    def aux_outdoor_temp_alert_notify_technician(
+        self, aux_outdoor_temp_alert_notify_technician
+    ):
         """
         Sets the aux_outdoor_temp_alert_notify_technician attribute of
         this Settings instance.
@@ -2223,7 +2386,9 @@ class Settings(EcobeeObject):
         :type: bool
         """
 
-        self._aux_outdoor_temp_alert_notify_technician = aux_outdoor_temp_alert_notify_technician
+        self._aux_outdoor_temp_alert_notify_technician = (
+            aux_outdoor_temp_alert_notify_technician
+        )
 
     @property
     def disable_pre_heating(self):
@@ -2714,7 +2879,9 @@ class Settings(EcobeeObject):
         return self._enable_projected_electricity_bill_alert
 
     @enable_projected_electricity_bill_alert.setter
-    def enable_projected_electricity_bill_alert(self, enable_projected_electricity_bill_alert):
+    def enable_projected_electricity_bill_alert(
+        self, enable_projected_electricity_bill_alert
+    ):
         """
         Sets the enable_projected_electricity_bill_alert attribute of
         this Settings instance.
@@ -2726,7 +2893,9 @@ class Settings(EcobeeObject):
         :type: bool
         """
 
-        self._enable_projected_electricity_bill_alert = enable_projected_electricity_bill_alert
+        self._enable_projected_electricity_bill_alert = (
+            enable_projected_electricity_bill_alert
+        )
 
     @property
     def electricity_billing_day_of_month(self):
@@ -3223,8 +3392,8 @@ class Settings(EcobeeObject):
         """
         Gets the fan_speed attribute of this Settings instance.
 
-        :return: The value of the fan_speed attribute of this
-        Settings instance.
+        :return: The value of the fan_speed attribute of this Settings
+        instance.
         :rtype: six.text_type
         """
 
@@ -3235,8 +3404,8 @@ class Settings(EcobeeObject):
         """
         Sets the fan_speed attribute of this Settings instance.
 
-        :param fan_speed: The fan_speed value to set for the
-        fan_speed attribute of this Settings instance.
+        :param fan_speed: The fan_speed value to set for the fan_speed
+        attribute of this Settings instance.
         :type: six.text_type
         """
 

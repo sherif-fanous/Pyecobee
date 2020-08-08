@@ -37,14 +37,16 @@ class EcobeeAuthorizeResponse(EcobeeObject):
         'code': 'code',
         'scope': 'scope',
         'expires_in': 'expires_in',
-        'interval': 'interval'}
+        'interval': 'interval',
+    }
 
     attribute_type_map = {
         'ecobee_pin': 'six.text_type',
         'code': 'six.text_type',
         'scope': 'six.text_type',
         'expires_in': 'int',
-        'interval': 'int'}
+        'interval': 'int',
+    }
 
     def __init__(self, ecobee_pin, code, scope, expires_in, interval):
         """
@@ -136,12 +138,14 @@ class EcobeeCreateRuntimeReportJobResponse(EcobeeStatusResponse):
         'jobId': 'job_id',
         'job_status': 'jobStatus',
         'jobStatus': 'job_status',
-        'status': 'status'}
+        'status': 'status',
+    }
 
     attribute_type_map = {
         'job_id': 'six.text_type',
         'job_status': 'six.text_type',
-        'status': 'Status'}
+        'status': 'Status',
+    }
 
     def __init__(self, job_id, job_status, status):
         """
@@ -190,12 +194,14 @@ class EcobeeErrorResponse(EcobeeObject):
     attribute_name_map = {
         'error': 'error',
         'error_description': 'error_description',
-        'error_uri': 'error_uri'}
+        'error_uri': 'error_uri',
+    }
 
     attribute_type_map = {
         'error': 'six.text_type',
         'error_description': 'six.text_type',
-        'error_uri': 'six.text_type'}
+        'error_uri': 'six.text_type',
+    }
 
     def __init__(self, error, error_description, error_uri):
         """
@@ -283,7 +289,8 @@ class EcobeeIssueDemandResponsesResponse(EcobeeStatusResponse):
     attribute_name_map = {
         'demand_response_ref': 'demandResponseRef',
         'demandResponseRef': 'demand_response_ref',
-        'status': 'status'}
+        'status': 'status',
+    }
 
     attribute_type_map = {'demand_response_ref': 'six.text_type', 'status': 'Status'}
 
@@ -318,9 +325,13 @@ class EcobeeListDemandResponsesResponse(EcobeeStatusResponse):
     attribute_name_map = {
         'demand_response_list': 'drList',
         'drList': 'demand_response_list',
-        'status': 'status'}
+        'status': 'status',
+    }
 
-    attribute_type_map = {'demand_response_list': 'List[DemandResponse]', 'status': 'Status'}
+    attribute_type_map = {
+        'demand_response_list': 'List[DemandResponse]',
+        'status': 'Status',
+    }
 
     def __init__(self, demand_response_list, status):
         """
@@ -379,12 +390,17 @@ class EcobeeListHierarchySetsResponse(EcobeeStatusResponse):
 class EcobeeListHierarchyUsersResponse(EcobeeStatusResponse):
     __slots__ = ['_users', '_privileges']
 
-    attribute_name_map = {'users': 'users', 'privileges': 'privileges', 'status': 'status'}
+    attribute_name_map = {
+        'users': 'users',
+        'privileges': 'privileges',
+        'status': 'status',
+    }
 
     attribute_type_map = {
         'users': 'List[HierarchyUser]',
         'privileges': 'List[HierarchyPrivilege]',
-        'status': 'Status'}
+        'status': 'Status',
+    }
 
     def __init__(self, users, status, privileges=None):
         """
@@ -460,7 +476,8 @@ class EcobeeMeterReportsResponse(EcobeeStatusResponse):
     attribute_name_map = {
         'report_list': 'reportList',
         'reportList': 'report_list',
-        'status': 'status'}
+        'status': 'status',
+    }
 
     attribute_type_map = {'report_list': 'List[MeterReport]', 'status': 'Status'}
 
@@ -495,7 +512,8 @@ class EcobeeRuntimeReportsResponse(EcobeeStatusResponse):
         '_end_interval',
         '_columns',
         '_report_list',
-        '_sensor_list']
+        '_sensor_list',
+    ]
 
     attribute_name_map = {
         'start_date': 'startDate',
@@ -511,7 +529,8 @@ class EcobeeRuntimeReportsResponse(EcobeeStatusResponse):
         'reportList': 'report_list',
         'sensor_list': 'sensorList',
         'sensorList': 'sensor_list',
-        'status': 'status'}
+        'status': 'status',
+    }
 
     attribute_type_map = {
         'start_date': 'six.text_type',
@@ -521,17 +540,20 @@ class EcobeeRuntimeReportsResponse(EcobeeStatusResponse):
         'columns': 'six.text_type',
         'report_list': 'List[RuntimeReport]',
         'sensor_list': 'List[RuntimeSensorReport]',
-        'status': 'Status'}
+        'status': 'Status',
+    }
 
-    def __init__(self,
-                 start_date,
-                 start_interval,
-                 end_date,
-                 end_interval,
-                 columns,
-                 report_list,
-                 sensor_list,
-                 status):
+    def __init__(
+        self,
+        start_date,
+        start_interval,
+        end_date,
+        end_interval,
+        columns,
+        report_list,
+        sensor_list,
+        status,
+    ):
         """
         Construct a EcobeeRuntimeReportsResponse instance
 
@@ -648,12 +670,14 @@ class EcobeeThermostatResponse(EcobeeStatusResponse):
         'page': 'page',
         'thermostat_list': 'thermostatList',
         'thermostatList': 'thermostat_list',
-        'status': 'status'}
+        'status': 'status',
+    }
 
     attribute_type_map = {
         'page': 'Page',
         'thermostat_list': 'List[Thermostat]',
-        'status': 'Status'}
+        'status': 'Status',
+    }
 
     def __init__(self, page, thermostat_list, status):
         """
@@ -703,13 +727,15 @@ class EcobeeThermostatsSummaryResponse(EcobeeStatusResponse):
         'thermostatCount': 'thermostat_count',
         'status_list': 'statusList',
         'statusList': 'status_list',
-        'status': 'status'}
+        'status': 'status',
+    }
 
     attribute_type_map = {
         'revision_list': 'List[six.text_type]',
         'thermostat_count': 'int',
         'status_list': 'List[six.text_type]',
-        'status': 'Status'}
+        'status': 'Status',
+    }
 
     def __init__(self, revision_list, thermostat_count, status_list, status):
         """
@@ -771,28 +797,26 @@ class EcobeeTokensResponse(EcobeeObject):
         '_token_type',
         '_expires_in',
         '_refresh_token',
-        '_scope']
+        '_scope',
+    ]
 
     attribute_name_map = {
         'access_token': 'access_token',
         'token_type': 'token_type',
         'expires_in': 'expires_in',
         'refresh_token': 'refresh_token',
-        'scope': 'scope'}
+        'scope': 'scope',
+    }
 
     attribute_type_map = {
         'access_token': 'six.text_type',
         'token_type': 'six.text_type',
         'expires_in': 'int',
         'refresh_token': 'six.text_type',
-        'scope': 'six.text_type'}
+        'scope': 'six.text_type',
+    }
 
-    def __init__(self,
-                 access_token,
-                 token_type,
-                 expires_in,
-                 refresh_token,
-                 scope):
+    def __init__(self, access_token, token_type, expires_in, refresh_token, scope):
         """
         Construct a EcobeeTokensResponse instance
 

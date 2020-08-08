@@ -21,6 +21,7 @@ class Status(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
+
     __slots__ = ['_code', '_message']
 
     attribute_name_map = {'code': 'code', 'message': 'message'}

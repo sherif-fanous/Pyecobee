@@ -20,7 +20,13 @@ class Energy(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
-    __slots__ = ['_tou', '_energy_feature_state', '_feels_like_mode', '_comfort_preferences']
+
+    __slots__ = [
+        '_tou',
+        '_energy_feature_state',
+        '_feels_like_mode',
+        '_comfort_preferences',
+    ]
 
     attribute_name_map = {
         'tou': 'tou',
@@ -29,16 +35,23 @@ class Energy(EcobeeObject):
         'feels_like_mode': 'feelsLikeMode',
         'feelsLikeMode': 'feels_like_mode',
         'comfort_preferences': 'comfortPreferences',
-        'comfortPreferences': 'comfort_preferences'}
+        'comfortPreferences': 'comfort_preferences',
+    }
 
     attribute_type_map = {
         'tou': 'TimeOfUse',
         'energy_feature_state': 'six.text_type',
         'feels_like_mode': 'six.text_type',
-        'comfort_preferences': 'six.text_type'}
+        'comfort_preferences': 'six.text_type',
+    }
 
-    def __init__(self, tou=None, energy_feature_state=None, feels_like_mode=None,
-                 comfort_preferences=None):
+    def __init__(
+        self,
+        tou=None,
+        energy_feature_state=None,
+        feels_like_mode=None,
+        comfort_preferences=None,
+    ):
         """
         Construct a Energy instance
         """

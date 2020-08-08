@@ -21,6 +21,7 @@ class User(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
+
     __slots__ = [
         '_user_name',
         '_display_name',
@@ -40,26 +41,48 @@ class User(EcobeeObject):
         '_is_developer',
         '_is_management',
         '_is_utility',
-        '_is_contractor']
+        '_is_contractor',
+    ]
 
     attribute_name_map = {
-        'user_name': 'userName', 'userName': 'user_name', 'display_name': 'displayName',
-        'displayName': 'display_name', 'first_name': 'firstName', 'firstName': 'first_name',
-        'last_name': 'lastName', 'lastName': 'last_name', 'honorific': 'honorific',
-        'register_date': 'registerDate', 'registerDate': 'register_date',
-        'register_time': 'registerTime', 'registerTime': 'register_time',
+        'user_name': 'userName',
+        'userName': 'user_name',
+        'display_name': 'displayName',
+        'displayName': 'display_name',
+        'first_name': 'firstName',
+        'firstName': 'first_name',
+        'last_name': 'lastName',
+        'lastName': 'last_name',
+        'honorific': 'honorific',
+        'register_date': 'registerDate',
+        'registerDate': 'register_date',
+        'register_time': 'registerTime',
+        'registerTime': 'register_time',
         'default_thermostat_identifier': 'defaultThermostatIdentifier',
         'defaultThermostatIdentifier': 'default_thermostat_identifier',
-        'management_ref': 'managementRef', 'managementRef': 'management_ref',
-        'utility_ref': 'utilityRef', 'utilityRef': 'utility_ref', 'support_ref': 'supportRef',
-        'supportRef': 'support_ref', 'phone_number': 'phoneNumber', 'phoneNumber': 'phone_number',
-        'utility_time_zone': 'utilityTimeZone', 'utilityTimeZone': 'utility_time_zone',
-        'management_time_zone': 'managementTimeZone', 'managementTimeZone': 'management_time_zone',
-        'is_residential': 'isResidential', 'isResidential': 'is_residential',
-        'is_developer': 'isDeveloper', 'isDeveloper': 'is_developer',
-        'is_management': 'isManagement', 'isManagement': 'is_management',
-        'is_utility': 'isUtility', 'isUtility': 'is_utility', 'is_contractor': 'isContractor',
-        'isContractor': 'is_contractor'}
+        'management_ref': 'managementRef',
+        'managementRef': 'management_ref',
+        'utility_ref': 'utilityRef',
+        'utilityRef': 'utility_ref',
+        'support_ref': 'supportRef',
+        'supportRef': 'support_ref',
+        'phone_number': 'phoneNumber',
+        'phoneNumber': 'phone_number',
+        'utility_time_zone': 'utilityTimeZone',
+        'utilityTimeZone': 'utility_time_zone',
+        'management_time_zone': 'managementTimeZone',
+        'managementTimeZone': 'management_time_zone',
+        'is_residential': 'isResidential',
+        'isResidential': 'is_residential',
+        'is_developer': 'isDeveloper',
+        'isDeveloper': 'is_developer',
+        'is_management': 'isManagement',
+        'isManagement': 'is_management',
+        'is_utility': 'isUtility',
+        'isUtility': 'is_utility',
+        'is_contractor': 'isContractor',
+        'isContractor': 'is_contractor',
+    }
 
     attribute_type_map = {
         'user_name': 'six.text_type',
@@ -80,14 +103,31 @@ class User(EcobeeObject):
         'is_developer': 'bool',
         'is_management': 'bool',
         'is_utility': 'bool',
-        'is_contractor': 'bool'}
+        'is_contractor': 'bool',
+    }
 
-    def __init__(self, user_name, display_name=None, first_name=None, last_name=None,
-                 honorific=None, register_date=None, register_time=None,
-                 default_thermostat_identifier=None, management_ref=None, utility_ref=None,
-                 support_ref=None, phone_number=None, utility_time_zone=None,
-                 management_time_zone=None, is_residential=None, is_developer=None,
-                 is_management=None, is_utility=None, is_contractor=None):
+    def __init__(
+        self,
+        user_name,
+        display_name=None,
+        first_name=None,
+        last_name=None,
+        honorific=None,
+        register_date=None,
+        register_time=None,
+        default_thermostat_identifier=None,
+        management_ref=None,
+        utility_ref=None,
+        support_ref=None,
+        phone_number=None,
+        utility_time_zone=None,
+        management_time_zone=None,
+        is_residential=None,
+        is_developer=None,
+        is_management=None,
+        is_utility=None,
+        is_contractor=None,
+    ):
         """
         Construct an User instance
         """

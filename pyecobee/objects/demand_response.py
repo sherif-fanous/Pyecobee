@@ -21,6 +21,7 @@ class DemandResponse(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
+
     __slots__ = [
         '_name',
         '_demand_response_ref',
@@ -39,7 +40,8 @@ class DemandResponse(EcobeeObject):
         '_thermostats',
         '_external_ref',
         '_external_ref_type',
-        '_priority']
+        '_priority',
+    ]
 
     attribute_name_map = {
         'name': 'name',
@@ -71,7 +73,8 @@ class DemandResponse(EcobeeObject):
         'externalRef': 'external_ref',
         'external_ref_type': 'externalRefType',
         'externalRefType': 'external_ref_type',
-        'priority': 'priority'}
+        'priority': 'priority',
+    }
 
     attribute_type_map = {
         'name': 'six.text_type',
@@ -91,13 +94,30 @@ class DemandResponse(EcobeeObject):
         'thermostats': 'List[six.text_type]',
         'external_ref': 'six.text_type',
         'external_ref_type': 'six.text_type',
-        'priority': 'Long'}
+        'priority': 'Long',
+    }
 
-    def __init__(self, name=None, demand_response_ref=None, comments=None, message=None,
-                 deferred_date=None, deferred_time=None, show_idt=None, show_web=None,
-                 send_email=None, randomize_start_time=None, random_start_time_seconds=None,
-                 randomize_end_time=None, random_end_time_seconds=None, event=None,
-                 thermostats=None, external_ref=None, external_ref_type=None, priority=None):
+    def __init__(
+        self,
+        name=None,
+        demand_response_ref=None,
+        comments=None,
+        message=None,
+        deferred_date=None,
+        deferred_time=None,
+        show_idt=None,
+        show_web=None,
+        send_email=None,
+        randomize_start_time=None,
+        random_start_time_seconds=None,
+        randomize_end_time=None,
+        random_end_time_seconds=None,
+        event=None,
+        thermostats=None,
+        external_ref=None,
+        external_ref_type=None,
+        priority=None,
+    ):
         """
         Construct a DemandResponse instance
         """

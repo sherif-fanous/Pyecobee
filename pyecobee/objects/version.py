@@ -21,11 +21,13 @@ class Version(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
+
     __slots__ = ['_thermostat_firmware_version']
 
     attribute_name_map = {
         'thermostat_firmware_version': 'thermostatFirmwareVersion',
-        'thermostatFirmwareVersion': 'thermostat_firmware_version'}
+        'thermostatFirmwareVersion': 'thermostat_firmware_version',
+    }
 
     attribute_type_map = {'thermostat_firmware_version': 'six.text_type'}
 

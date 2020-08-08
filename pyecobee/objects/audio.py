@@ -21,12 +21,14 @@ class Audio(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
+
     __slots__ = [
         '_playback_volume',
         '_microphone_enabled',
         '_sound_alert_volume',
         '_sound_tick_volume',
-        '_voice_engines']
+        '_voice_engines',
+    ]
 
     attribute_name_map = {
         'playback_volume': 'playbackVolume',
@@ -38,17 +40,25 @@ class Audio(EcobeeObject):
         'sound_tick_volume': 'soundTickVolume',
         'soundTickVolume': 'sound_tick_volume',
         'voice_engines': 'voiceEngines',
-        'voiceEngines': 'voice_engines'}
+        'voiceEngines': 'voice_engines',
+    }
 
     attribute_type_map = {
         'playback_volume': 'int',
         'microphone_enabled': 'bool',
         'sound_alert_volume': 'int',
         'sound_tick_volume': 'int',
-        'voice_engines': 'List[VoiceEngine]'}
+        'voice_engines': 'List[VoiceEngine]',
+    }
 
-    def __init__(self, playback_volume=None, microphone_enabled=None,
-                 sound_alert_volume=None, sound_tick_volume=None, voice_engines=None):
+    def __init__(
+        self,
+        playback_volume=None,
+        microphone_enabled=None,
+        sound_alert_volume=None,
+        sound_tick_volume=None,
+        voice_engines=None,
+    ):
         """
         Construct an Audio instance
         """

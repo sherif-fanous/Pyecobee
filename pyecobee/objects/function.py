@@ -21,11 +21,15 @@ class Function(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
+
     __slots__ = ['_type', '_params']
 
     attribute_name_map = {'type': 'type', 'params': 'params'}
 
-    attribute_type_map = {'type': 'six.text_type', 'params': 'Dict[six.text_type, object]'}
+    attribute_type_map = {
+        'type': 'six.text_type',
+        'params': 'Dict[six.text_type, object]',
+    }
 
     def __init__(self, type_=None, params=None):
         """

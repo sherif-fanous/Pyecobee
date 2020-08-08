@@ -21,6 +21,7 @@ class EquipmentSetting(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
+
     __slots__ = [
         '_type',
         '_filter_last_changed',
@@ -28,7 +29,8 @@ class EquipmentSetting(EcobeeObject):
         '_filter_life_units',
         '_remind_me_date',
         '_enabled',
-        '_remind_technician']
+        '_remind_technician',
+    ]
 
     attribute_name_map = {
         'type': 'type',
@@ -42,7 +44,8 @@ class EquipmentSetting(EcobeeObject):
         'remindMeDate': 'remind_me_date',
         'enabled': 'enabled',
         'remind_technician': 'remindTechnician',
-        'remindTechnician': 'remind_technician'}
+        'remindTechnician': 'remind_technician',
+    }
 
     attribute_type_map = {
         'type': 'six.text_type',
@@ -51,10 +54,19 @@ class EquipmentSetting(EcobeeObject):
         'filter_life_units': 'six.text_type',
         'remind_me_date': 'six.text_type',
         'enabled': 'bool',
-        'remind_technician': 'bool'}
+        'remind_technician': 'bool',
+    }
 
-    def __init__(self, type_, filter_last_changed=None, filter_life=None, filter_life_units=None,
-                 remind_me_date=None, enabled=None, remind_technician=None):
+    def __init__(
+        self,
+        type_,
+        filter_last_changed=None,
+        filter_life=None,
+        filter_life_units=None,
+        remind_me_date=None,
+        enabled=None,
+        remind_technician=None,
+    ):
         """
         Construct an EquipmentSetting instance
         """

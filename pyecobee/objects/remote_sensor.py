@@ -21,6 +21,7 @@ class RemoteSensor(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
+
     __slots__ = ['_id', '_name', '_type', '_code', '_in_use', '_capability']
 
     attribute_name_map = {
@@ -30,7 +31,8 @@ class RemoteSensor(EcobeeObject):
         'code': 'code',
         'in_use': 'inUse',
         'inUse': 'in_use',
-        'capability': 'capability'}
+        'capability': 'capability',
+    }
 
     attribute_type_map = {
         'id': 'six.text_type',
@@ -38,9 +40,12 @@ class RemoteSensor(EcobeeObject):
         'type': 'six.text_type',
         'code': 'six.text_type',
         'in_use': 'bool',
-        'capability': 'List[RemoteSensorCapability]'}
+        'capability': 'List[RemoteSensorCapability]',
+    }
 
-    def __init__(self, id_=None, name=None, type_=None, code=None, in_use=None, capability=None):
+    def __init__(
+        self, id_=None, name=None, type_=None, code=None, in_use=None, capability=None
+    ):
         """
         Construct a RemoteSensor instance
         """

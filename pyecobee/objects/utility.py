@@ -21,15 +21,22 @@ class Utility(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
+
     __slots__ = ['_name', '_phone', '_email', '_web']
 
-    attribute_name_map = {'name': 'name', 'phone': 'phone', 'email': 'email', 'web': 'web'}
+    attribute_name_map = {
+        'name': 'name',
+        'phone': 'phone',
+        'email': 'email',
+        'web': 'web',
+    }
 
     attribute_type_map = {
         'name': 'six.text_type',
         'phone': 'six.text_type',
         'email': 'six.text_type',
-        'web': 'six.text_type'}
+        'web': 'six.text_type',
+    }
 
     def __init__(self, name=None, phone=None, email=None, web=None):
         """

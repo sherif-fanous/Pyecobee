@@ -21,13 +21,15 @@ class SecuritySettings(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
+
     __slots__ = [
         '_user_access_code',
         '_all_user_access',
         '_program_access',
         '_details_access',
         '_quick_save_access',
-        '_vacation_access']
+        '_vacation_access',
+    ]
 
     attribute_name_map = {
         'user_access_code': 'userAccessCode',
@@ -41,7 +43,8 @@ class SecuritySettings(EcobeeObject):
         'quick_save_access': 'quickSaveAccess',
         'quickSaveAccess': 'quick_save_access',
         'vacation_access': 'vacationAccess',
-        'vacationAccess': 'vacation_access'}
+        'vacationAccess': 'vacation_access',
+    }
 
     attribute_type_map = {
         'user_access_code': 'six.text_type',
@@ -49,10 +52,18 @@ class SecuritySettings(EcobeeObject):
         'program_access': 'bool',
         'details_access': 'bool',
         'quick_save_access': 'bool',
-        'vacation_access': 'bool'}
+        'vacation_access': 'bool',
+    }
 
-    def __init__(self, user_access_code=None, all_user_access=None, program_access=None,
-                 details_access=None, quick_save_access=None, vacation_access=None):
+    def __init__(
+        self,
+        user_access_code=None,
+        all_user_access=None,
+        program_access=None,
+        details_access=None,
+        quick_save_access=None,
+        vacation_access=None,
+    ):
         """
         Construct a SecuritySettings instance
         """

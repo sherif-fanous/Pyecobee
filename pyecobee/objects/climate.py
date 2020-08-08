@@ -21,6 +21,7 @@ class Climate(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
+
     __slots__ = [
         '_name',
         '_climate_ref',
@@ -35,7 +36,8 @@ class Climate(EcobeeObject):
         '_colour',
         '_cool_temp',
         '_heat_temp',
-        '_sensors']
+        '_sensors',
+    ]
 
     attribute_name_map = {
         'name': 'name',
@@ -59,7 +61,8 @@ class Climate(EcobeeObject):
         'coolTemp': 'cool_temp',
         'heat_temp': 'heatTemp',
         'heatTemp': 'heat_temp',
-        'sensors': 'sensors'}
+        'sensors': 'sensors',
+    }
 
     attribute_type_map = {
         'name': 'six.text_type',
@@ -75,11 +78,26 @@ class Climate(EcobeeObject):
         'colour': 'int',
         'cool_temp': 'int',
         'heat_temp': 'int',
-        'sensors': 'List[RemoteSensor]'}
+        'sensors': 'List[RemoteSensor]',
+    }
 
-    def __init__(self, name, climate_ref=None, is_occupied=None, is_optimized=None, cool_fan=None,
-                 heat_fan=None, vent=None, ventilator_min_on_time=None, owner=None, type_=None,
-                 colour=None, cool_temp=None, heat_temp=None, sensors=None):
+    def __init__(
+        self,
+        name,
+        climate_ref=None,
+        is_occupied=None,
+        is_optimized=None,
+        cool_fan=None,
+        heat_fan=None,
+        vent=None,
+        ventilator_min_on_time=None,
+        owner=None,
+        type_=None,
+        colour=None,
+        cool_temp=None,
+        heat_temp=None,
+        sensors=None,
+    ):
         """
         Construct a Climate instance
         """

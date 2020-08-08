@@ -21,6 +21,7 @@ class Event(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
+
     __slots__ = [
         '_type',
         '_name',
@@ -50,7 +51,8 @@ class Event(EcobeeObject):
         '_dr_ramp_up_time',
         '_link_ref',
         '_hold_climate_ref',
-        '_fan_speed']
+        '_fan_speed',
+    ]
 
     attribute_name_map = {
         'type': 'type',
@@ -105,7 +107,8 @@ class Event(EcobeeObject):
         'hold_climate_ref': 'holdClimateRef',
         'holdClimateRef': 'hold_climate_ref',
         'fan_speed': 'fanSpeed',
-        'fanSpeed': 'fan_speed'}
+        'fanSpeed': 'fan_speed',
+    }
 
     attribute_type_map = {
         'type': 'six.text_type',
@@ -136,16 +139,41 @@ class Event(EcobeeObject):
         'dr_ramp_up_time': 'int',
         'link_ref': 'six.text_type',
         'hold_climate_ref': 'six.text_type',
-        'fan_speed': 'six.text_type'}
+        'fan_speed': 'six.text_type',
+    }
 
-    def __init__(self, type_=None, name=None, running=None, start_date=None, start_time=None,
-                 end_date=None, end_time=None, is_occupied=None, is_cool_off=None,
-                 is_heat_off=None, cool_hold_temp=None, heat_hold_temp=None, fan=None, vent=None,
-                 ventilator_min_on_time=None, is_optional=None, is_temperature_relative=None,
-                 cool_relative_temp=None, heat_relative_temp=None, is_temperature_absolute=None,
-                 duty_cycle_percentage=None, fan_min_on_time=None, occupied_sensor_active=None,
-                 unoccupied_sensor_active=None, dr_ramp_up_temp=None, dr_ramp_up_time=None,
-                 link_ref=None, hold_climate_ref=None, fan_speed=None):
+    def __init__(
+        self,
+        type_=None,
+        name=None,
+        running=None,
+        start_date=None,
+        start_time=None,
+        end_date=None,
+        end_time=None,
+        is_occupied=None,
+        is_cool_off=None,
+        is_heat_off=None,
+        cool_hold_temp=None,
+        heat_hold_temp=None,
+        fan=None,
+        vent=None,
+        ventilator_min_on_time=None,
+        is_optional=None,
+        is_temperature_relative=None,
+        cool_relative_temp=None,
+        heat_relative_temp=None,
+        is_temperature_absolute=None,
+        duty_cycle_percentage=None,
+        fan_min_on_time=None,
+        occupied_sensor_active=None,
+        unoccupied_sensor_active=None,
+        dr_ramp_up_temp=None,
+        dr_ramp_up_time=None,
+        link_ref=None,
+        hold_climate_ref=None,
+        fan_speed=None,
+    ):
         """
         Construct an Event instance
         """
@@ -521,8 +549,8 @@ class Event(EcobeeObject):
         """
         Gets the fan_speed attribute of this Event instance.
 
-        :return: The value of the fan_speed attribute of this
-        Event instance.
+        :return: The value of the fan_speed attribute of this Event
+        instance.
         :rtype: six.text_type
         """
 

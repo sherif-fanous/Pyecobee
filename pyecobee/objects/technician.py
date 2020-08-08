@@ -21,6 +21,7 @@ class Technician(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
+
     __slots__ = [
         '_contractor_ref',
         '_name',
@@ -31,7 +32,8 @@ class Technician(EcobeeObject):
         '_country',
         '_postal_code',
         '_email',
-        '_web']
+        '_web',
+    ]
 
     attribute_name_map = {
         'contractor_ref': 'contractorRef',
@@ -47,7 +49,8 @@ class Technician(EcobeeObject):
         'postal_code': 'postalCode',
         'postalCode': 'postal_code',
         'email': 'email',
-        'web': 'web'}
+        'web': 'web',
+    }
 
     attribute_type_map = {
         'contractor_ref': 'six.text_type',
@@ -59,10 +62,22 @@ class Technician(EcobeeObject):
         'country': 'six.text_type',
         'postal_code': 'six.text_type',
         'email': 'six.text_type',
-        'web': 'six.text_type'}
+        'web': 'six.text_type',
+    }
 
-    def __init__(self, contractor_ref=None, name=None, phone=None, street_address=None, city=None,
-                 province_state=None, country=None, postal_code=None, email=None, web=None):
+    def __init__(
+        self,
+        contractor_ref=None,
+        name=None,
+        phone=None,
+        street_address=None,
+        city=None,
+        province_state=None,
+        country=None,
+        postal_code=None,
+        email=None,
+        web=None,
+    ):
         """
         Construct a Technician instance
         """

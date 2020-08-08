@@ -21,17 +21,20 @@ class MeterReport(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
+
     __slots__ = ['_thermostat_identifier', '_meter_list']
 
     attribute_name_map = {
         'thermostat_identifier': 'thermostatIdentifier',
         'thermostatIdentifier': 'thermostat_identifier',
         'meter_list': 'meterList',
-        'meterList': 'meter_list'}
+        'meterList': 'meter_list',
+    }
 
     attribute_type_map = {
         'thermostat_identifier': 'six.text_type',
-        'meter_list': 'List[MeterReportData]'}
+        'meter_list': 'List[MeterReportData]',
+    }
 
     def __init__(self, thermostat_identifier=None, meter_list=None):
         """

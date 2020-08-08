@@ -21,6 +21,7 @@ class Electricity(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
+
     __slots__ = ['_devices']
 
     attribute_name_map = {'devices': 'devices'}

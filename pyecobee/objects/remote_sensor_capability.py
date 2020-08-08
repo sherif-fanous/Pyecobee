@@ -21,11 +21,16 @@ class RemoteSensorCapability(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
+
     __slots__ = ['_id', '_type', '_value']
 
     attribute_name_map = {'id': 'id', 'type': 'type', 'value': 'value'}
 
-    attribute_type_map = {'id': 'six.text_type', 'type': 'six.text_type', 'value': 'six.text_type'}
+    attribute_type_map = {
+        'id': 'six.text_type',
+        'type': 'six.text_type',
+        'value': 'six.text_type',
+    }
 
     def __init__(self, id_=None, type_=None, value=None):
         """

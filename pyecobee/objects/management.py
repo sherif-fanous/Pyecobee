@@ -21,6 +21,7 @@ class Management(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
+
     __slots__ = [
         '_administrative_contact',
         '_billing_contact',
@@ -29,7 +30,8 @@ class Management(EcobeeObject):
         '_email',
         '_web',
         '_show_alert_idt',
-        '_show_alert_web']
+        '_show_alert_web',
+    ]
 
     attribute_name_map = {
         'administrative_contact': 'administrativeContact',
@@ -43,7 +45,8 @@ class Management(EcobeeObject):
         'show_alert_idt': 'showAlertIdt',
         'showAlertIdt': 'show_alert_idt',
         'show_alert_web': 'showAlertWeb',
-        'showAlertWeb': 'show_alert_web'}
+        'showAlertWeb': 'show_alert_web',
+    }
 
     attribute_type_map = {
         'administrative_contact': 'six.text_type',
@@ -53,10 +56,20 @@ class Management(EcobeeObject):
         'email': 'six.text_type',
         'web': 'six.text_type',
         'show_alert_idt': 'bool',
-        'show_alert_web': 'bool'}
+        'show_alert_web': 'bool',
+    }
 
-    def __init__(self, administrative_contact=None, billing_contact=None, name=None,
-                 phone=None, email=None, web=None, show_alert_idt=None, show_alert_web=None):
+    def __init__(
+        self,
+        administrative_contact=None,
+        billing_contact=None,
+        name=None,
+        phone=None,
+        email=None,
+        web=None,
+        show_alert_idt=None,
+        show_alert_web=None,
+    ):
         """
         Construct a Management instance
         """

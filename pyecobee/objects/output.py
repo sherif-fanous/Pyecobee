@@ -21,6 +21,7 @@ class Output(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
+
     __slots__ = [
         '_name',
         '_zone',
@@ -29,7 +30,8 @@ class Output(EcobeeObject):
         '_send_update',
         '_active_closed',
         '_activation_time',
-        '_deactivation_time']
+        '_deactivation_time',
+    ]
 
     attribute_name_map = {
         'name': 'name',
@@ -44,7 +46,8 @@ class Output(EcobeeObject):
         'activation_time': 'activationTime',
         'activationTime': 'activation_time',
         'deactivation_time': 'deactivationTime',
-        'deactivationTime': 'deactivation_time'}
+        'deactivationTime': 'deactivation_time',
+    }
 
     attribute_type_map = {
         'name': 'six.text_type',
@@ -54,10 +57,20 @@ class Output(EcobeeObject):
         'send_update': 'bool',
         'active_closed': 'bool',
         'activation_time': 'int',
-        'deactivation_time': 'int'}
+        'deactivation_time': 'int',
+    }
 
-    def __init__(self, name=None, zone=None, output_id=None, type_=None, send_update=None,
-                 active_closed=None, activation_time=None, deactivation_time=None):
+    def __init__(
+        self,
+        name=None,
+        zone=None,
+        output_id=None,
+        type_=None,
+        send_update=None,
+        active_closed=None,
+        activation_time=None,
+        deactivation_time=None,
+    ):
         """
         Construct an Output instance
         """

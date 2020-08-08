@@ -21,6 +21,7 @@ class Sensor(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
+
     __slots__ = [
         '_name',
         '_manufacturer',
@@ -36,7 +37,8 @@ class Sensor(EcobeeObject):
         '_gain',
         '_max_voltage',
         '_multiplier',
-        '_states']
+        '_states',
+    ]
 
     attribute_name_map = {
         'name': 'name',
@@ -58,7 +60,8 @@ class Sensor(EcobeeObject):
         'max_voltage': 'maxVoltage',
         'maxVoltage': 'max_voltage',
         'multiplier': 'multiplier',
-        'states': 'states'}
+        'states': 'states',
+    }
 
     attribute_type_map = {
         'name': 'six.text_type',
@@ -75,11 +78,27 @@ class Sensor(EcobeeObject):
         'gain': 'int',
         'max_voltage': 'int',
         'multiplier': 'int',
-        'states': 'List[State]'}
+        'states': 'List[State]',
+    }
 
-    def __init__(self, name=None, manufacturer=None, model=None, zone=None, sensor_id=None,
-                 type_=None, usage=None, number_of_bits=None, bconstant=None, thermistor_size=None,
-                 temp_correction=None, gain=None, max_voltage=None, multiplier=None, states=None):
+    def __init__(
+        self,
+        name=None,
+        manufacturer=None,
+        model=None,
+        zone=None,
+        sensor_id=None,
+        type_=None,
+        usage=None,
+        number_of_bits=None,
+        bconstant=None,
+        thermistor_size=None,
+        temp_correction=None,
+        gain=None,
+        max_voltage=None,
+        multiplier=None,
+        states=None,
+    ):
         """
         Construct a Sensor instance
         """

@@ -21,6 +21,7 @@ class HouseDetails(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
+
     __slots__ = [
         '_style',
         '_size',
@@ -28,7 +29,8 @@ class HouseDetails(EcobeeObject):
         '_number_of_rooms',
         '_number_of_occupants',
         '_age',
-        '_window_efficiency']
+        '_window_efficiency',
+    ]
 
     attribute_name_map = {
         'style': 'style',
@@ -41,7 +43,8 @@ class HouseDetails(EcobeeObject):
         'numberOfOccupants': 'number_of_occupants',
         'age': 'age',
         'window_efficiency': 'windowEfficiency',
-        'windowEfficiency': 'window_efficiency'}
+        'windowEfficiency': 'window_efficiency',
+    }
 
     attribute_type_map = {
         'style': 'six.text_type',
@@ -50,10 +53,19 @@ class HouseDetails(EcobeeObject):
         'number_of_rooms': 'int',
         'number_of_occupants': 'int',
         'age': 'int',
-        'window_efficiency': 'int'}
+        'window_efficiency': 'int',
+    }
 
-    def __init__(self, style=None, size=None, number_of_floors=None, number_of_rooms=None,
-                 number_of_occupants=None, age=None, window_efficiency=None):
+    def __init__(
+        self,
+        style=None,
+        size=None,
+        number_of_floors=None,
+        number_of_rooms=None,
+        number_of_occupants=None,
+        age=None,
+        window_efficiency=None,
+    ):
         """
         Construct a HouseDetails instance
         """

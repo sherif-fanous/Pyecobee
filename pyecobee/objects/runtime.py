@@ -21,6 +21,7 @@ class Runtime(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
+
     __slots__ = [
         '_runtime_rev',
         '_connected',
@@ -41,28 +42,50 @@ class Runtime(EcobeeObject):
         '_desired_dehumidity',
         '_desired_fan_mode',
         '_desired_heat_range',
-        '_desired_cool_range']
+        '_desired_cool_range',
+    ]
 
     attribute_name_map = {
-        'runtime_rev': 'runtimeRev', 'runtimeRev': 'runtime_rev', 'connected': 'connected',
-        'first_connected': 'firstConnected', 'firstConnected': 'first_connected',
-        'connect_date_time': 'connectDateTime', 'connectDateTime': 'connect_date_time',
-        'disconnect_date_time': 'disconnectDateTime', 'disconnectDateTime': 'disconnect_date_time',
-        'last_modified': 'lastModified', 'lastModified': 'last_modified',
-        'last_status_modified': 'lastStatusModified', 'lastStatusModified': 'last_status_modified',
-        'runtime_date': 'runtimeDate', 'runtimeDate': 'runtime_date',
-        'runtime_interval': 'runtimeInterval', 'runtimeInterval': 'runtime_interval',
-        'actual_temperature': 'actualTemperature', 'actualTemperature': 'actual_temperature',
-        'actual_humidity': 'actualHumidity', 'actualHumidity': 'actual_humidity',
-        'raw_temperature': 'rawTemperature', 'rawTemperature': 'raw_temperature',
-        'show_icon_mode': 'showIconMode', 'showIconMode': 'show_icon_mode',
-        'desired_heat': 'desiredHeat', 'desiredHeat': 'desired_heat',
-        'desired_cool': 'desiredCool', 'desiredCool': 'desired_cool',
-        'desired_humidity': 'desiredHumidity', 'desiredHumidity': 'desired_humidity',
-        'desired_dehumidity': 'desiredDehumidity', 'desiredDehumidity': 'desired_dehumidity',
-        'desired_fan_mode': 'desiredFanMode', 'desiredFanMode': 'desired_fan_mode',
-        'desired_heat_range': 'desiredHeatRange', 'desiredHeatRange': 'desired_heat_range',
-        'desired_cool_range': 'desiredCoolRange', 'desiredCoolRange': 'desired_cool_range'}
+        'runtime_rev': 'runtimeRev',
+        'runtimeRev': 'runtime_rev',
+        'connected': 'connected',
+        'first_connected': 'firstConnected',
+        'firstConnected': 'first_connected',
+        'connect_date_time': 'connectDateTime',
+        'connectDateTime': 'connect_date_time',
+        'disconnect_date_time': 'disconnectDateTime',
+        'disconnectDateTime': 'disconnect_date_time',
+        'last_modified': 'lastModified',
+        'lastModified': 'last_modified',
+        'last_status_modified': 'lastStatusModified',
+        'lastStatusModified': 'last_status_modified',
+        'runtime_date': 'runtimeDate',
+        'runtimeDate': 'runtime_date',
+        'runtime_interval': 'runtimeInterval',
+        'runtimeInterval': 'runtime_interval',
+        'actual_temperature': 'actualTemperature',
+        'actualTemperature': 'actual_temperature',
+        'actual_humidity': 'actualHumidity',
+        'actualHumidity': 'actual_humidity',
+        'raw_temperature': 'rawTemperature',
+        'rawTemperature': 'raw_temperature',
+        'show_icon_mode': 'showIconMode',
+        'showIconMode': 'show_icon_mode',
+        'desired_heat': 'desiredHeat',
+        'desiredHeat': 'desired_heat',
+        'desired_cool': 'desiredCool',
+        'desiredCool': 'desired_cool',
+        'desired_humidity': 'desiredHumidity',
+        'desiredHumidity': 'desired_humidity',
+        'desired_dehumidity': 'desiredDehumidity',
+        'desiredDehumidity': 'desired_dehumidity',
+        'desired_fan_mode': 'desiredFanMode',
+        'desiredFanMode': 'desired_fan_mode',
+        'desired_heat_range': 'desiredHeatRange',
+        'desiredHeatRange': 'desired_heat_range',
+        'desired_cool_range': 'desiredCoolRange',
+        'desiredCoolRange': 'desired_cool_range',
+    }
 
     attribute_type_map = {
         'runtime_rev': 'six.text_type',
@@ -84,15 +107,32 @@ class Runtime(EcobeeObject):
         'desired_dehumidity': 'int',
         'desired_fan_mode': 'six.text_type',
         'desired_heat_range': 'List[int]',
-        'desired_cool_range': 'List[int]'}
+        'desired_cool_range': 'List[int]',
+    }
 
-    def __init__(self, runtime_rev=None, connected=None, first_connected=None,
-                 connect_date_time=None, disconnect_date_time=None, last_modified=None,
-                 last_status_modified=None, runtime_date=None, runtime_interval=None,
-                 actual_temperature=None, actual_humidity=None, raw_temperature=None,
-                 show_icon_mode=None, desired_heat=None, desired_cool=None, desired_humidity=None,
-                 desired_dehumidity=None, desired_fan_mode=None, desired_heat_range=None,
-                 desired_cool_range=None):
+    def __init__(
+        self,
+        runtime_rev=None,
+        connected=None,
+        first_connected=None,
+        connect_date_time=None,
+        disconnect_date_time=None,
+        last_modified=None,
+        last_status_modified=None,
+        runtime_date=None,
+        runtime_interval=None,
+        actual_temperature=None,
+        actual_humidity=None,
+        raw_temperature=None,
+        show_icon_mode=None,
+        desired_heat=None,
+        desired_cool=None,
+        desired_humidity=None,
+        desired_dehumidity=None,
+        desired_fan_mode=None,
+        desired_heat_range=None,
+        desired_cool_range=None,
+    ):
         """
         Construct a Runtime instance
         """

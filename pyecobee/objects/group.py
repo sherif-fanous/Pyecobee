@@ -21,6 +21,7 @@ class Group(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
+
     __slots__ = [
         '_group_name',
         '_group_ref',
@@ -35,7 +36,8 @@ class Group(EcobeeObject):
         '_synchronize_location',
         '_synchronize_reset',
         '_synchronize_vacation',
-        '_thermostats']
+        '_thermostats',
+    ]
 
     attribute_name_map = {
         'group_name': 'groupName',
@@ -64,7 +66,8 @@ class Group(EcobeeObject):
         'synchronizeReset': 'synchronize_reset',
         'synchronize_vacation': 'synchronizeVacation',
         'synchronizeVacation': 'synchronize_vacation',
-        'thermostats': 'thermostats'}
+        'thermostats': 'thermostats',
+    }
 
     attribute_type_map = {
         'group_name': 'six.text_type',
@@ -80,14 +83,26 @@ class Group(EcobeeObject):
         'synchronize_location': 'bool',
         'synchronize_reset': 'bool',
         'synchronize_vacation': 'bool',
-        'thermostats': 'List[six.text_type]'}
+        'thermostats': 'List[six.text_type]',
+    }
 
-    def __init__(self, group_name, group_ref=None, synchronize_alerts=None,
-                 synchronize_system_mode=None, synchronize_schedule=None,
-                 synchronize_quick_save=None, synchronize_reminders=None,
-                 synchronize_contractor_info=None, synchronize_user_preferences=None,
-                 synchronize_utility_info=None, synchronize_location=None, synchronize_reset=None,
-                 synchronize_vacation=None, thermostats=None):
+    def __init__(
+        self,
+        group_name,
+        group_ref=None,
+        synchronize_alerts=None,
+        synchronize_system_mode=None,
+        synchronize_schedule=None,
+        synchronize_quick_save=None,
+        synchronize_reminders=None,
+        synchronize_contractor_info=None,
+        synchronize_user_preferences=None,
+        synchronize_utility_info=None,
+        synchronize_location=None,
+        synchronize_reset=None,
+        synchronize_vacation=None,
+        thermostats=None,
+    ):
         """
         Construct a Group instance
         """

@@ -21,12 +21,14 @@ class NotificationSettings(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
+
     __slots__ = [
         '_email_addresses',
         '_email_notifications_enabled',
         '_equipment',
         '_general',
-        '_limit']
+        '_limit',
+    ]
 
     attribute_name_map = {
         'email_addresses': 'emailAddresses',
@@ -35,17 +37,25 @@ class NotificationSettings(EcobeeObject):
         'emailNotificationsEnabled': 'email_notifications_enabled',
         'equipment': 'equipment',
         'general': 'general',
-        'limit': 'limit'}
+        'limit': 'limit',
+    }
 
     attribute_type_map = {
         'email_addresses': 'List[six.text_type]',
         'email_notifications_enabled': 'bool',
         'equipment': 'List[EquipmentSetting]',
         'general': 'List[GeneralSetting]',
-        'limit': 'List[LimitSetting]'}
+        'limit': 'List[LimitSetting]',
+    }
 
-    def __init__(self, email_addresses=None, email_notifications_enabled=None,
-                 equipment=None, general=None, limit=None):
+    def __init__(
+        self,
+        email_addresses=None,
+        email_notifications_enabled=None,
+        equipment=None,
+        general=None,
+        limit=None,
+    ):
         """
         Construct a NotificationSettings instance
         """

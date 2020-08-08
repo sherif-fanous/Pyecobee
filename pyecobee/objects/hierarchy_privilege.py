@@ -21,6 +21,7 @@ class HierarchyPrivilege(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
+
     __slots__ = [
         '_set_path',
         '_user_name',
@@ -36,7 +37,8 @@ class HierarchyPrivilege(EcobeeObject):
         '_allow_security',
         '_allow_hierarchy',
         '_allow_alerts',
-        '_allow_manage_account']
+        '_allow_manage_account',
+    ]
 
     attribute_name_map = {
         'set_path': 'setPath',
@@ -68,7 +70,8 @@ class HierarchyPrivilege(EcobeeObject):
         'allow_alerts': 'allowAlerts',
         'allowAlerts': 'allow_alerts',
         'allow_manage_account': 'allowManageAccount',
-        'allowManageAccount': 'allow_manage_account'}
+        'allowManageAccount': 'allow_manage_account',
+    }
 
     attribute_type_map = {
         'set_path': 'six.text_type',
@@ -85,12 +88,27 @@ class HierarchyPrivilege(EcobeeObject):
         'allow_security': 'bool',
         'allow_hierarchy': 'bool',
         'allow_alerts': 'bool',
-        'allow_manage_account': 'bool'}
+        'allow_manage_account': 'bool',
+    }
 
-    def __init__(self, set_path, user_name, set_name=None, allow_all=None, allow_none=None,
-                 allow_view=None, allow_program=None, allow_vacation=None, allow_settings=None,
-                 allow_details=None, allow_report=None, allow_security=None, allow_hierarchy=None,
-                 allow_alerts=None, allow_manage_account=None):
+    def __init__(
+        self,
+        set_path,
+        user_name,
+        set_name=None,
+        allow_all=None,
+        allow_none=None,
+        allow_view=None,
+        allow_program=None,
+        allow_vacation=None,
+        allow_settings=None,
+        allow_details=None,
+        allow_report=None,
+        allow_security=None,
+        allow_hierarchy=None,
+        allow_alerts=None,
+        allow_manage_account=None,
+    ):
         """
         Construct a HierarchyPrivilege instance
         """

@@ -21,6 +21,7 @@ class ExtendedRuntime(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
+
     __slots__ = [
         '_last_reading_timestamp',
         '_runtime_date',
@@ -46,29 +47,54 @@ class ExtendedRuntime(EcobeeObject):
         '_economizer',
         '_ventilator',
         '_current_electricity_bill',
-        '_projected_electricity_bill']
+        '_projected_electricity_bill',
+    ]
 
     attribute_name_map = {
         'last_reading_timestamp': 'lastReadingTimestamp',
-        'lastReadingTimestamp': 'last_reading_timestamp', 'runtime_date': 'runtimeDate',
-        'runtimeDate': 'runtime_date', 'runtime_interval': 'runtimeInterval',
-        'runtimeInterval': 'runtime_interval', 'actual_temperature': 'actualTemperature',
-        'actualTemperature': 'actual_temperature', 'actual_humidity': 'actualHumidity',
-        'actualHumidity': 'actual_humidity', 'desired_heat': 'desiredHeat',
-        'desiredHeat': 'desired_heat', 'desired_cool': 'desiredCool',
-        'desiredCool': 'desired_cool', 'desired_humidity': 'desiredHumidity',
-        'desiredHumidity': 'desired_humidity', 'desired_dehumidity': 'desiredDehumidity',
-        'desiredDehumidity': 'desired_dehumidity', 'dm_offset': 'dmOffset',
-        'dmOffset': 'dm_offset', 'hvac_mode': 'hvacMode', 'hvacMode': 'hvac_mode',
-        'heat_pump1': 'heatPump1', 'heatPump1': 'heat_pump1', 'heat_pump2': 'heatPump2',
-        'heatPump2': 'heat_pump2', 'aux_heat1': 'auxHeat1', 'auxHeat1': 'aux_heat1',
-        'aux_heat2': 'auxHeat2', 'auxHeat2': 'aux_heat2', 'aux_heat3': 'auxHeat3',
-        'auxHeat3': 'aux_heat3', 'cool1': 'cool1', 'cool2': 'cool2', 'fan': 'fan',
-        'humidifier': 'humidifier', 'dehumidifier': 'dehumidifier', 'economizer': 'economizer',
-        'ventilator': 'ventilator', 'current_electricity_bill': 'currentElectricityBill',
+        'lastReadingTimestamp': 'last_reading_timestamp',
+        'runtime_date': 'runtimeDate',
+        'runtimeDate': 'runtime_date',
+        'runtime_interval': 'runtimeInterval',
+        'runtimeInterval': 'runtime_interval',
+        'actual_temperature': 'actualTemperature',
+        'actualTemperature': 'actual_temperature',
+        'actual_humidity': 'actualHumidity',
+        'actualHumidity': 'actual_humidity',
+        'desired_heat': 'desiredHeat',
+        'desiredHeat': 'desired_heat',
+        'desired_cool': 'desiredCool',
+        'desiredCool': 'desired_cool',
+        'desired_humidity': 'desiredHumidity',
+        'desiredHumidity': 'desired_humidity',
+        'desired_dehumidity': 'desiredDehumidity',
+        'desiredDehumidity': 'desired_dehumidity',
+        'dm_offset': 'dmOffset',
+        'dmOffset': 'dm_offset',
+        'hvac_mode': 'hvacMode',
+        'hvacMode': 'hvac_mode',
+        'heat_pump1': 'heatPump1',
+        'heatPump1': 'heat_pump1',
+        'heat_pump2': 'heatPump2',
+        'heatPump2': 'heat_pump2',
+        'aux_heat1': 'auxHeat1',
+        'auxHeat1': 'aux_heat1',
+        'aux_heat2': 'auxHeat2',
+        'auxHeat2': 'aux_heat2',
+        'aux_heat3': 'auxHeat3',
+        'auxHeat3': 'aux_heat3',
+        'cool1': 'cool1',
+        'cool2': 'cool2',
+        'fan': 'fan',
+        'humidifier': 'humidifier',
+        'dehumidifier': 'dehumidifier',
+        'economizer': 'economizer',
+        'ventilator': 'ventilator',
+        'current_electricity_bill': 'currentElectricityBill',
         'currentElectricityBill': 'current_electricity_bill',
         'projected_electricity_bill': 'projectedElectricityBill',
-        'projectedElectricityBill': 'projected_electricity_bill'}
+        'projectedElectricityBill': 'projected_electricity_bill',
+    }
 
     attribute_type_map = {
         'last_reading_timestamp': 'six.text_type',
@@ -95,15 +121,37 @@ class ExtendedRuntime(EcobeeObject):
         'economizer': 'List[int]',
         'ventilator': 'List[int]',
         'current_electricity_bill': 'int',
-        'projected_electricity_bill': 'int'}
+        'projected_electricity_bill': 'int',
+    }
 
-    def __init__(self, last_reading_timestamp=None, runtime_date=None, runtime_interval=None,
-                 actual_temperature=None, actual_humidity=None, desired_heat=None,
-                 desired_cool=None, desired_humidity=None, desired_dehumidity=None, dm_offset=None,
-                 hvac_mode=None, heat_pump1=None, heat_pump2=None, aux_heat1=None, aux_heat2=None,
-                 aux_heat3=None, cool1=None, cool2=None, fan=None, humidifier=None,
-                 dehumidifier=None, economizer=None, ventilator=None,
-                 current_electricity_bill=None, projected_electricity_bill=None):
+    def __init__(
+        self,
+        last_reading_timestamp=None,
+        runtime_date=None,
+        runtime_interval=None,
+        actual_temperature=None,
+        actual_humidity=None,
+        desired_heat=None,
+        desired_cool=None,
+        desired_humidity=None,
+        desired_dehumidity=None,
+        dm_offset=None,
+        hvac_mode=None,
+        heat_pump1=None,
+        heat_pump2=None,
+        aux_heat1=None,
+        aux_heat2=None,
+        aux_heat3=None,
+        cool1=None,
+        cool2=None,
+        fan=None,
+        humidifier=None,
+        dehumidifier=None,
+        economizer=None,
+        ventilator=None,
+        current_electricity_bill=None,
+        projected_electricity_bill=None,
+    ):
         """
         Construct an ExtendedRuntime instance
         """

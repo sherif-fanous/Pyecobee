@@ -20,12 +20,14 @@ class TimeOfUse(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
+
     __slots__ = ['_feature_state', '_savings']
 
     attribute_name_map = {
         'feature_state': 'featureState',
         'featureState': 'feature_state',
-        'savings': 'savings'}
+        'savings': 'savings',
+    }
 
     attribute_type_map = {'feature_state': 'six.text_type', 'savings': 'six.text_type'}
 

@@ -21,6 +21,7 @@ class LimitSetting(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
+
     __slots__ = ['_type', '_limit', '_enabled', '_remind_technician']
 
     attribute_name_map = {
@@ -28,13 +29,15 @@ class LimitSetting(EcobeeObject):
         'limit': 'limit',
         'enabled': 'enabled',
         'remind_technician': 'remindTechnician',
-        'remindTechnician': 'remind_technician'}
+        'remindTechnician': 'remind_technician',
+    }
 
     attribute_type_map = {
         'type': 'six.text_type',
         'limit': 'int',
         'enabled': 'bool',
-        'remind_technician': 'bool'}
+        'remind_technician': 'bool',
+    }
 
     def __init__(self, type_, limit=None, enabled=None, remind_technician=None):
         """

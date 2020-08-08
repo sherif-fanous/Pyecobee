@@ -2,6 +2,10 @@
 
 Release History
 ===============
+1.3.10 (2020-08-08)
+-------------------
+* Reformat code using Black instead of Autopep8
+
 1.3.9 (2020-08-04)
 ------------------
 * Migrate from PyCharm to VSCode

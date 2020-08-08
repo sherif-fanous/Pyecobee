@@ -21,6 +21,7 @@ class ReportJob(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
+
     __slots__ = ['_job_id', '_status', '_message', '_files']
 
     attribute_name_map = {
@@ -28,13 +29,15 @@ class ReportJob(EcobeeObject):
         'jobId': 'job_id',
         'status': 'status',
         'message': 'message',
-        'files': 'files'}
+        'files': 'files',
+    }
 
     attribute_type_map = {
         'job_id': 'six.text_type',
         'status': 'six.text_type',
         'message': 'six.text_type',
-        'files': 'List[six.text_type]'}
+        'files': 'List[six.text_type]',
+    }
 
     def __init__(self, job_id=None, status=None, message=None, files=None):
         """

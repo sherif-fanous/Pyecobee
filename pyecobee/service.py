@@ -52,7 +52,8 @@ class EcobeeService(EcobeeObject):
         '_refresh_token',
         '_access_token_expires_on',
         '_refresh_token_expires_on',
-        '_scope']
+        '_scope',
+    ]
 
     AUTHORIZE_URL = 'https://api.ecobee.com/authorize'
     TOKENS_URL = 'https://api.ecobee.com/token'
@@ -84,7 +85,8 @@ class EcobeeService(EcobeeObject):
         'refresh_token': 'refresh_token',
         'access_token_expires_on': 'access_token_expires_on',
         'refresh_token_expires_on': 'refresh_token_expires_on',
-        'scope': 'scope'}
+        'scope': 'scope',
+    }
 
     attribute_type_map = {
         'thermostat_name': 'six.text_type',
@@ -94,17 +96,20 @@ class EcobeeService(EcobeeObject):
         'refresh_token': 'six.text_type',
         'access_token_expires_on': 'datetime',
         'refresh_token_expires_on': 'datetime',
-        'scope': 'Scope'}
+        'scope': 'Scope',
+    }
 
-    def __init__(self,
-                 thermostat_name,
-                 application_key,
-                 authorization_token=None,
-                 access_token=None,
-                 refresh_token=None,
-                 access_token_expires_on=None,
-                 refresh_token_expires_on=None,
-                 scope=Scope.SMART_WRITE):
+    def __init__(
+        self,
+        thermostat_name,
+        application_key,
+        authorization_token=None,
+        access_token=None,
+        refresh_token=None,
+        access_token_expires_on=None,
+        refresh_token_expires_on=None,
+        scope=Scope.SMART_WRITE,
+    ):
         """
         Construct an EcobeeService instance
 
@@ -124,7 +129,9 @@ class EcobeeService(EcobeeObject):
         Valid values: Scope.SMART_READ, Scope.SMART_WRITE, and Scope.EMS
         """
         if not isinstance(application_key, six.string_types):
-            raise TypeError('application_key must be an instance of {0}'.format(six.string_types))
+            raise TypeError(
+                'application_key must be an instance of {0}'.format(six.string_types)
+            )
         if len(application_key) != 32:
             raise ValueError('application_key must be a 32 alphanumeric string')
 
@@ -159,18 +166,25 @@ class EcobeeService(EcobeeObject):
         :raises ValueError: If response_type is not set to "ecobeePin"
         """
         if not isinstance(response_type, six.string_types):
-            raise TypeError('response_type must be an instance of {0}'.format(six.string_types))
+            raise TypeError(
+                'response_type must be an instance of {0}'.format(six.string_types)
+            )
         if response_type != 'ecobeePin':
             raise ValueError('response_type must be "ecobeePin"')
 
-        response = Utilities.make_http_request(requests.get,
-                                               EcobeeService.AUTHORIZE_URL,
-                                               params={
-                                                   'client_id': self._application_key,
-                                                   'response_type': response_type,
-                                                   'scope': self._scope.value},
-                                               timeout=timeout)
-        authorize_response = Utilities.process_http_response(response, EcobeeAuthorizeResponse)
+        response = Utilities.make_http_request(
+            requests.get,
+            EcobeeService.AUTHORIZE_URL,
+            params={
+                'client_id': self._application_key,
+                'response_type': response_type,
+                'scope': self._scope.value,
+            },
+            timeout=timeout,
+        )
+        authorize_response = Utilities.process_http_response(
+            response, EcobeeAuthorizeResponse
+        )
 
         self._authorization_token = authorize_response.code
 
@@ -195,22 +209,31 @@ class EcobeeService(EcobeeObject):
         :raises ValueError: If grant_type is not set to "ecobeePin"
         """
         if not isinstance(grant_type, six.string_types):
-            raise TypeError('grant_type must be an instance of {0}'.format(six.string_types))
+            raise TypeError(
+                'grant_type must be an instance of {0}'.format(six.string_types)
+            )
         if grant_type != 'ecobeePin':
             raise ValueError('grant_type must be "ecobeePin"')
 
         now_utc = datetime.now(pytz.utc)
-        response = Utilities.make_http_request(requests.post,
-                                               EcobeeService.TOKENS_URL,
-                                               params={
-                                                   'client_id': self._application_key,
-                                                   'code': self._authorization_token,
-                                                   'grant_type': grant_type},
-                                               timeout=timeout)
-        tokens_response = Utilities.process_http_response(response, EcobeeTokensResponse)
+        response = Utilities.make_http_request(
+            requests.post,
+            EcobeeService.TOKENS_URL,
+            params={
+                'client_id': self._application_key,
+                'code': self._authorization_token,
+                'grant_type': grant_type,
+            },
+            timeout=timeout,
+        )
+        tokens_response = Utilities.process_http_response(
+            response, EcobeeTokensResponse
+        )
 
         self._access_token = tokens_response.access_token
-        self._access_token_expires_on = now_utc + timedelta(seconds=tokens_response.expires_in)
+        self._access_token_expires_on = now_utc + timedelta(
+            seconds=tokens_response.expires_in
+        )
         self._refresh_token = tokens_response.refresh_token
         self._refresh_token_expires_on = now_utc + timedelta(days=365)
 
@@ -238,22 +261,31 @@ class EcobeeService(EcobeeObject):
         :raises ValueError: If grant_type is not set to "refresh_token"
         """
         if not isinstance(grant_type, six.string_types):
-            raise TypeError('grant_type must be an instance of {0}'.format(six.string_types))
+            raise TypeError(
+                'grant_type must be an instance of {0}'.format(six.string_types)
+            )
         if grant_type != 'refresh_token':
             raise ValueError('grant_type must be "refresh_token"')
 
         now_utc = datetime.now(pytz.utc)
-        response = Utilities.make_http_request(requests.post,
-                                               EcobeeService.TOKENS_URL,
-                                               params={
-                                                   'client_id': self._application_key,
-                                                   'code': self._refresh_token,
-                                                   'grant_type': grant_type},
-                                               timeout=timeout)
-        tokens_response = Utilities.process_http_response(response, EcobeeTokensResponse)
+        response = Utilities.make_http_request(
+            requests.post,
+            EcobeeService.TOKENS_URL,
+            params={
+                'client_id': self._application_key,
+                'code': self._refresh_token,
+                'grant_type': grant_type,
+            },
+            timeout=timeout,
+        )
+        tokens_response = Utilities.process_http_response(
+            response, EcobeeTokensResponse
+        )
 
         self._access_token = tokens_response.access_token
-        self._access_token_expires_on = now_utc + timedelta(seconds=tokens_response.expires_in)
+        self._access_token_expires_on = now_utc + timedelta(
+            seconds=tokens_response.expires_in
+        )
         self._refresh_token = tokens_response.refresh_token
         self._refresh_token_expires_on = now_utc + timedelta(days=365)
 
@@ -292,18 +324,24 @@ class EcobeeService(EcobeeObject):
         if not isinstance(selection, Selection):
             raise TypeError('selection must be an instance of {0}'.format(Selection))
 
-        dictionary = {'selection': Utilities.object_to_dictionary(selection, type(selection))}
+        dictionary = {
+            'selection': Utilities.object_to_dictionary(selection, type(selection))
+        }
 
         response = Utilities.make_http_request(
             requests.get,
             EcobeeService.THERMOSTAT_SUMMARY_URL,
             headers={
                 'Authorization': 'Bearer {0}'.format(self._access_token),
-                'Content-Type': 'application/json;charset=UTF-8'},
+                'Content-Type': 'application/json;charset=UTF-8',
+            },
             params={'json': json.dumps(dictionary, sort_keys=True, indent=2)},
-            timeout=timeout)
+            timeout=timeout,
+        )
 
-        return Utilities.process_http_response(response, EcobeeThermostatsSummaryResponse)
+        return Utilities.process_http_response(
+            response, EcobeeThermostatsSummaryResponse
+        )
 
     def request_thermostats(self, selection, timeout=5):
         """
@@ -329,24 +367,24 @@ class EcobeeService(EcobeeObject):
         if not isinstance(selection, Selection):
             raise TypeError('selection must be an instance of {0}'.format(Selection))
 
-        dictionary = {'selection': Utilities.object_to_dictionary(selection, type(selection))}
+        dictionary = {
+            'selection': Utilities.object_to_dictionary(selection, type(selection))
+        }
 
         response = Utilities.make_http_request(
             requests.get,
             EcobeeService.THERMOSTAT_URL,
             headers={
                 'Authorization': 'Bearer {0}'.format(self._access_token),
-                'Content-Type': 'application/json;charset=UTF-8'},
+                'Content-Type': 'application/json;charset=UTF-8',
+            },
             params={'json': json.dumps(dictionary, sort_keys=True, indent=2)},
-            timeout=timeout)
+            timeout=timeout,
+        )
 
         return Utilities.process_http_response(response, EcobeeThermostatResponse)
 
-    def update_thermostats(self,
-                           selection,
-                           thermostat=None,
-                           functions=None,
-                           timeout=5):
+    def update_thermostats(self, selection, thermostat=None, functions=None, timeout=5):
         """
         The update_thermostats method permits the modification of any
         writable Thermostat or sub-object property. Thermostats may be
@@ -391,42 +429,51 @@ class EcobeeService(EcobeeObject):
             raise TypeError('selection must be an instance of {0}'.format(Selection))
         if thermostat is not None:
             if not isinstance(thermostat, Thermostat):
-                raise TypeError('thermostat must be an instance of {0}'.format(Thermostat))
+                raise TypeError(
+                    'thermostat must be an instance of {0}'.format(Thermostat)
+                )
         if functions is not None:
             if not isinstance(functions, list):
                 raise TypeError('functions must be an instance of {0}'.format(list))
         if functions is not None:
             for function_ in functions:
                 if not isinstance(function_, Function):
-                    raise TypeError('All members of functions must be a an instance of '
-                                    '{0}'.format(Function))
+                    raise TypeError(
+                        'All members of functions must be a an instance of '
+                        '{0}'.format(Function)
+                    )
 
-        dictionary = {'selection': Utilities.object_to_dictionary(selection, type(selection))}
+        dictionary = {
+            'selection': Utilities.object_to_dictionary(selection, type(selection))
+        }
 
         if thermostat is not None:
-            dictionary['thermostat'] = Utilities.object_to_dictionary(thermostat, type(thermostat))
+            dictionary['thermostat'] = Utilities.object_to_dictionary(
+                thermostat, type(thermostat)
+            )
         if functions is not None:
-            dictionary['functions'] = [Utilities.object_to_dictionary(function_, type(function_))
-                                       for function_ in functions]
+            dictionary['functions'] = [
+                Utilities.object_to_dictionary(function_, type(function_))
+                for function_ in functions
+            ]
 
         response = Utilities.make_http_request(
             requests.post,
             EcobeeService.THERMOSTAT_URL,
             headers={
                 'Authorization': 'Bearer {0}'.format(self._access_token),
-                'Content-Type': 'application/json;charset=UTF-8'},
+                'Content-Type': 'application/json;charset=UTF-8',
+            },
             params={'format': 'json'},
             json_=dictionary,
-            timeout=timeout)
+            timeout=timeout,
+        )
 
         return Utilities.process_http_response(response, EcobeeStatusResponse)
 
-    def request_meter_reports(self,
-                              selection,
-                              start_date_time,
-                              end_date_time,
-                              meters='energy',
-                              timeout=5):
+    def request_meter_reports(
+        self, selection, start_date_time, end_date_time, meters='energy', timeout=5
+    ):
         """
         The request_meter_reports method retrieves the historical meter
         reading information for a selection of thermostats.
@@ -473,37 +520,62 @@ class EcobeeService(EcobeeObject):
         if not isinstance(selection, Selection):
             raise TypeError('selection must be an instance of {0}'.format(Selection))
         if selection.selection_type != SelectionType.THERMOSTATS.value:
-            raise ValueError('selection.selection_type must be set to {0}'.format(
-                SelectionType.THERMOSTATS.value))
+            raise ValueError(
+                'selection.selection_type must be set to {0}'.format(
+                    SelectionType.THERMOSTATS.value
+                )
+            )
         if len(selection.selection_match.split(',')) > 25:
             raise ValueError('selection must not specify more than 25 thermostats')
         if not isinstance(start_date_time, datetime):
             raise TypeError('start_date must be an instance of {0}'.format(datetime))
         if start_date_time < EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME:
-            raise ValueError('start_date must be later than {0}'.format(
-                EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime('%Y-%m-%d %H:%M:%S %Z')))
+            raise ValueError(
+                'start_date must be later than {0}'.format(
+                    EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime(
+                        '%Y-%m-%d %H:%M:%S %Z'
+                    )
+                )
+            )
         if start_date_time > EcobeeService.END_OF_TIME_DATE_TIME:
-            raise ValueError('start_date must be earlier than {0}'.format(
-                EcobeeService.END_OF_TIME_DATE_TIME.strftime('%Y-%m-%d %H:%M:%S %Z')))
+            raise ValueError(
+                'start_date must be earlier than {0}'.format(
+                    EcobeeService.END_OF_TIME_DATE_TIME.strftime('%Y-%m-%d %H:%M:%S %Z')
+                )
+            )
         if not isinstance(end_date_time, datetime):
             raise TypeError('end_date must be an instance of {0}'.format(datetime))
         if end_date_time < EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME:
-            raise ValueError('end_date must be later than {0}'.format(
-                EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime('%Y-%m-%d %H:%M:%S %Z')))
+            raise ValueError(
+                'end_date must be later than {0}'.format(
+                    EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime(
+                        '%Y-%m-%d %H:%M:%S %Z'
+                    )
+                )
+            )
         if end_date_time > EcobeeService.END_OF_TIME_DATE_TIME:
-            raise ValueError('end_date must be earlier than {0}'.format(
-                EcobeeService.END_OF_TIME_DATE_TIME.strftime('%Y-%m-%d %H:%M:%S %Z')))
+            raise ValueError(
+                'end_date must be earlier than {0}'.format(
+                    EcobeeService.END_OF_TIME_DATE_TIME.strftime('%Y-%m-%d %H:%M:%S %Z')
+                )
+            )
         if start_date_time >= end_date_time:
             raise ValueError('end_date_time must be later than start_date_time')
         if (end_date_time - start_date_time).days > 31:
-            raise ValueError('Duration between start_date_time and end_date_time must not be more '
-                             'than 31 days')
+            raise ValueError(
+                'Duration between start_date_time and end_date_time must not be more '
+                'than 31 days'
+            )
         if not isinstance(meters, six.string_types):
-            raise TypeError('meters must be an instance of {0}'.format(six.string_types))
+            raise TypeError(
+                'meters must be an instance of {0}'.format(six.string_types)
+            )
         if not all(meter == 'energy' for meter in meters.split(',')):
             raise ValueError('meters must be a CSV string of "energy"')
         if len(selection.selection_match.split(',')) != len(meters.split(',')):
-            raise ValueError('selection and meters must have the same number of CSV entries')
+            raise ValueError(
+                'selection and meters must have the same number of CSV entries'
+            )
 
         utc = pytz.utc
         start_date_time = start_date_time.astimezone(utc)
@@ -512,33 +584,42 @@ class EcobeeService(EcobeeObject):
         dictionary = {
             'selection': Utilities.object_to_dictionary(selection, type(selection)),
             'startDate': '{0}-{1:02}-{2:02}'.format(
-                start_date_time.year, start_date_time.month, start_date_time.day),
-            'startInterval': (start_date_time.hour * 12) + (start_date_time.minute // 5),
+                start_date_time.year, start_date_time.month, start_date_time.day
+            ),
+            'startInterval': (start_date_time.hour * 12)
+            + (start_date_time.minute // 5),
             'endDate': '{0}-{1:02}-{2:02}'.format(
-                end_date_time.year, end_date_time.month, end_date_time.day),
+                end_date_time.year, end_date_time.month, end_date_time.day
+            ),
             'endInterval': end_date_time.hour * 12 + (end_date_time.minute // 5),
-            'meters': meters}
+            'meters': meters,
+        }
 
         response = Utilities.make_http_request(
             requests.get,
             EcobeeService.METER_REPORT_URL,
             headers={
                 'Authorization': 'Bearer {0}'.format(self._access_token),
-                'Content-Type': 'application/json;charset=UTF-8'},
+                'Content-Type': 'application/json;charset=UTF-8',
+            },
             params={
                 'format': 'json',
-                'body': json.dumps(dictionary, sort_keys=True, indent=2)},
-            timeout=timeout)
+                'body': json.dumps(dictionary, sort_keys=True, indent=2),
+            },
+            timeout=timeout,
+        )
 
         return Utilities.process_http_response(response, EcobeeMeterReportsResponse)
 
-    def request_runtime_reports(self,
-                                selection,
-                                start_date_time,
-                                end_date_time,
-                                columns,
-                                include_sensors=False,
-                                timeout=5):
+    def request_runtime_reports(
+        self,
+        selection,
+        start_date_time,
+        end_date_time,
+        columns,
+        include_sensors=False,
+        timeout=5,
+    ):
         """
         The request_runtime_reports request is limited to retrieving
         information for up to 25 thermostats with a maximum period of 31
@@ -582,33 +663,56 @@ class EcobeeService(EcobeeObject):
         if not isinstance(selection, Selection):
             raise TypeError('selection must be an instance of {0}'.format(Selection))
         if selection.selection_type != SelectionType.THERMOSTATS.value:
-            raise ValueError('selection.selection_type must be set to {0}'.format(
-                SelectionType.THERMOSTATS.value))
+            raise ValueError(
+                'selection.selection_type must be set to {0}'.format(
+                    SelectionType.THERMOSTATS.value
+                )
+            )
         if len(selection.selection_match.split(',')) > 25:
             raise ValueError('selection must not specify more than 25 thermostats')
         if not isinstance(start_date_time, datetime):
             raise TypeError('start_date must be an instance of {0}'.format(datetime))
         if start_date_time < EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME:
-            raise ValueError('start_date must be later than {0}'.format(
-                EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime('%Y-%m-%d %H:%M:%S %Z')))
+            raise ValueError(
+                'start_date must be later than {0}'.format(
+                    EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime(
+                        '%Y-%m-%d %H:%M:%S %Z'
+                    )
+                )
+            )
         if start_date_time > EcobeeService.END_OF_TIME_DATE_TIME:
-            raise ValueError('start_date must be earlier than {0}'.format(
-                EcobeeService.END_OF_TIME_DATE_TIME.strftime('%Y-%m-%d %H:%M:%S %Z')))
+            raise ValueError(
+                'start_date must be earlier than {0}'.format(
+                    EcobeeService.END_OF_TIME_DATE_TIME.strftime('%Y-%m-%d %H:%M:%S %Z')
+                )
+            )
         if not isinstance(end_date_time, datetime):
             raise TypeError('end_date must be an instance of {0}'.format(datetime))
         if end_date_time < EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME:
-            raise ValueError('end_date must be later than {0}'.format(
-                EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime('%Y-%m-%d %H:%M:%S %Z')))
+            raise ValueError(
+                'end_date must be later than {0}'.format(
+                    EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime(
+                        '%Y-%m-%d %H:%M:%S %Z'
+                    )
+                )
+            )
         if end_date_time > EcobeeService.END_OF_TIME_DATE_TIME:
-            raise ValueError('end_date must be earlier than {0}'.format(
-                EcobeeService.END_OF_TIME_DATE_TIME.strftime('%Y-%m-%d %H:%M:%S %Z')))
+            raise ValueError(
+                'end_date must be earlier than {0}'.format(
+                    EcobeeService.END_OF_TIME_DATE_TIME.strftime('%Y-%m-%d %H:%M:%S %Z')
+                )
+            )
         if start_date_time >= end_date_time:
             raise ValueError('end_date_time must be later than start_date_time')
         if (end_date_time - start_date_time).days > 31:
-            raise ValueError('Duration between start_date_time and end_date_time must not be more '
-                             'than 31 days')
+            raise ValueError(
+                'Duration between start_date_time and end_date_time must not be more '
+                'than 31 days'
+            )
         if not isinstance(columns, six.string_types):
-            raise TypeError('columns must be an instance of {0}'.format(six.string_types))
+            raise TypeError(
+                'columns must be an instance of {0}'.format(six.string_types)
+            )
         if not isinstance(include_sensors, bool):
             raise TypeError('include_sensors must be an instance of {0}'.format(bool))
 
@@ -619,24 +723,31 @@ class EcobeeService(EcobeeObject):
         dictionary = {
             'selection': Utilities.object_to_dictionary(selection, type(selection)),
             'startDate': '{0}-{1:02}-{2:02}'.format(
-                start_date_time.year, start_date_time.month, start_date_time.day),
-            'startInterval': (start_date_time.hour * 12) + (start_date_time.minute // 5),
+                start_date_time.year, start_date_time.month, start_date_time.day
+            ),
+            'startInterval': (start_date_time.hour * 12)
+            + (start_date_time.minute // 5),
             'endDate': '{0}-{1:02}-{2:02}'.format(
-                end_date_time.year, end_date_time.month, end_date_time.day),
+                end_date_time.year, end_date_time.month, end_date_time.day
+            ),
             'endInterval': end_date_time.hour * 12 + (end_date_time.minute // 5),
             'columns': columns,
-            'includeSensors': include_sensors}
+            'includeSensors': include_sensors,
+        }
 
         response = Utilities.make_http_request(
             requests.get,
             EcobeeService.RUNTIME_REPORT_URL,
             headers={
                 'Authorization': 'Bearer {0}'.format(self._access_token),
-                'Content-Type': 'application/json;charset=UTF-8'},
+                'Content-Type': 'application/json;charset=UTF-8',
+            },
             params={
                 'format': 'json',
-                'body': json.dumps(dictionary, sort_keys=True, indent=2)},
-            timeout=timeout)
+                'body': json.dumps(dictionary, sort_keys=True, indent=2),
+            },
+            timeout=timeout,
+        )
 
         return Utilities.process_http_response(response, EcobeeRuntimeReportsResponse)
 
@@ -663,21 +774,29 @@ class EcobeeService(EcobeeObject):
         if not isinstance(selection, Selection):
             raise TypeError('selection must be an instance of {0}'.format(Selection))
         if selection.selection_type != SelectionType.REGISTERED.value:
-            raise ValueError('selection.selection_type must be set to {0}'.format(
-                SelectionType.REGISTERED.value))
+            raise ValueError(
+                'selection.selection_type must be set to {0}'.format(
+                    SelectionType.REGISTERED.value
+                )
+            )
 
-        dictionary = {'selection': Utilities.object_to_dictionary(selection, type(selection))}
+        dictionary = {
+            'selection': Utilities.object_to_dictionary(selection, type(selection))
+        }
 
         response = Utilities.make_http_request(
             requests.get,
             EcobeeService.GROUP_URL,
             headers={
                 'Authorization': 'Bearer {0}'.format(self._access_token),
-                'Content-Type': 'application/json;charset=UTF-8'},
+                'Content-Type': 'application/json;charset=UTF-8',
+            },
             params={
                 'format': 'json',
-                'body': json.dumps(dictionary, sort_keys=True, indent=2)},
-            timeout=timeout)
+                'body': json.dumps(dictionary, sort_keys=True, indent=2),
+            },
+            timeout=timeout,
+        )
 
         return Utilities.process_http_response(response, EcobeeGroupsResponse)
 
@@ -706,32 +825,40 @@ class EcobeeService(EcobeeObject):
             raise TypeError('groups must be an instance of {0}'.format(list))
         for group in groups:
             if not isinstance(group, Group):
-                raise TypeError('All members of groups must be a an instance of '
-                                '{0}'.format(Group))
+                raise TypeError(
+                    'All members of groups must be a an instance of '
+                    '{0}'.format(Group)
+                )
 
         dictionary = {
             'selection': Utilities.object_to_dictionary(selection, type(selection)),
-            'groups': [Utilities.object_to_dictionary(group, type(group))
-                       for group in groups]}
+            'groups': [
+                Utilities.object_to_dictionary(group, type(group)) for group in groups
+            ],
+        }
 
         response = Utilities.make_http_request(
             requests.post,
             EcobeeService.GROUP_URL,
             headers={
                 'Authorization': 'Bearer {0}'.format(self._access_token),
-                'Content-Type': 'application/json;charset=UTF-8'},
+                'Content-Type': 'application/json;charset=UTF-8',
+            },
             params={'format': 'json'},
             json_=dictionary,
-            timeout=timeout)
+            timeout=timeout,
+        )
 
         return Utilities.process_http_response(response, EcobeeGroupsResponse)
 
-    def list_hierarchy_sets(self,
-                            set_path,
-                            recursive=False,
-                            include_privileges=False,
-                            include_thermostats=False,
-                            timeout=5):
+    def list_hierarchy_sets(
+        self,
+        set_path,
+        recursive=False,
+        include_privileges=False,
+        include_thermostats=False,
+        timeout=5,
+    ):
         """
         The list_hierarchy_sets method returns the management set
         hierarchy either at a single node depth and its children or
@@ -757,39 +884,49 @@ class EcobeeService(EcobeeObject):
         include_thermostats is not a boolean
         """
         if not isinstance(set_path, six.string_types):
-            raise TypeError('set_path must be an instance of {0}'.format(six.string_types))
+            raise TypeError(
+                'set_path must be an instance of {0}'.format(six.string_types)
+            )
         if not isinstance(recursive, bool):
             raise TypeError('recursive must be an instance of {0}'.format(bool))
         if not isinstance(include_privileges, bool):
-            raise TypeError('include_privileges must be an instance of {0}'.format(bool))
+            raise TypeError(
+                'include_privileges must be an instance of {0}'.format(bool)
+            )
         if not isinstance(include_thermostats, bool):
-            raise TypeError('include_thermostats must be an instance of {0}'.format(bool))
+            raise TypeError(
+                'include_thermostats must be an instance of {0}'.format(bool)
+            )
 
         dictionary = {
             'operation': 'list',
             'setPath': set_path,
             'recursive': recursive,
             'includePrivileges': include_privileges,
-            'includeThermostats': include_thermostats}
+            'includeThermostats': include_thermostats,
+        }
 
         response = Utilities.make_http_request(
             requests.get,
             EcobeeService.HIERARCHY_SET_URL,
             headers={
                 'Authorization': 'Bearer {0}'.format(self._access_token),
-                'Content-Type': 'application/json;charset=UTF-8'},
+                'Content-Type': 'application/json;charset=UTF-8',
+            },
             params={
                 'format': 'json',
-                'body': json.dumps(dictionary, sort_keys=True, indent=2)},
-            timeout=timeout)
+                'body': json.dumps(dictionary, sort_keys=True, indent=2),
+            },
+            timeout=timeout,
+        )
 
-        return Utilities.process_http_response(response, EcobeeListHierarchySetsResponse)
+        return Utilities.process_http_response(
+            response, EcobeeListHierarchySetsResponse
+        )
 
-    def list_hierarchy_users(self,
-                             set_path,
-                             recursive=False,
-                             include_privileges=False,
-                             timeout=5):
+    def list_hierarchy_users(
+        self, set_path, recursive=False, include_privileges=False, timeout=5
+    ):
         """
         The list_hierarchy_users method returns a list hierarchy users
         and privileges.
@@ -811,30 +948,40 @@ class EcobeeService(EcobeeObject):
         a boolean, of include_privileges is not a boolean
         """
         if not isinstance(set_path, six.string_types):
-            raise TypeError('set_path must be an instance of {0}'.format(six.string_types))
+            raise TypeError(
+                'set_path must be an instance of {0}'.format(six.string_types)
+            )
         if not isinstance(recursive, bool):
             raise TypeError('recursive must be an instance of {0}'.format(bool))
         if not isinstance(include_privileges, bool):
-            raise TypeError('include_privileges must be an instance of {0}'.format(bool))
+            raise TypeError(
+                'include_privileges must be an instance of {0}'.format(bool)
+            )
 
         dictionary = {
             'operation': 'list',
             'setPath': set_path,
             'recursive': recursive,
-            'includePrivileges': include_privileges}
+            'includePrivileges': include_privileges,
+        }
 
         response = Utilities.make_http_request(
             requests.get,
             EcobeeService.HIERARCHY_USER_URL,
             headers={
                 'Authorization': 'Bearer {0}'.format(self._access_token),
-                'Content-Type': 'application/json;charset=UTF-8'},
+                'Content-Type': 'application/json;charset=UTF-8',
+            },
             params={
                 'format': 'json',
-                'body': json.dumps(dictionary, sort_keys=True, indent=2)},
-            timeout=timeout)
+                'body': json.dumps(dictionary, sort_keys=True, indent=2),
+            },
+            timeout=timeout,
+        )
 
-        return Utilities.process_http_response(response, EcobeeListHierarchyUsersResponse)
+        return Utilities.process_http_response(
+            response, EcobeeListHierarchyUsersResponse
+        )
 
     def add_hierarchy_set(self, set_name, parent_path, timeout=5):
         """
@@ -854,24 +1001,31 @@ class EcobeeService(EcobeeObject):
         is not a string
         """
         if not isinstance(set_name, six.string_types):
-            raise TypeError('set_name must be an instance of {0}'.format(six.string_types))
+            raise TypeError(
+                'set_name must be an instance of {0}'.format(six.string_types)
+            )
         if not isinstance(parent_path, six.string_types):
-            raise TypeError('parent_path must be an instance of {0}'.format(six.string_types))
+            raise TypeError(
+                'parent_path must be an instance of {0}'.format(six.string_types)
+            )
 
         dictionary = {
             'operation': 'add',
             'setName': set_name,
-            'parentPath': parent_path}
+            'parentPath': parent_path,
+        }
 
         response = Utilities.make_http_request(
             requests.post,
             EcobeeService.HIERARCHY_SET_URL,
             headers={
                 'Authorization': 'Bearer {0}'.format(self._access_token),
-                'Content-Type': 'application/json;charset=UTF-8'},
+                'Content-Type': 'application/json;charset=UTF-8',
+            },
             params={'format': 'json'},
             json_=dictionary,
-            timeout=timeout)
+            timeout=timeout,
+        )
 
         return Utilities.process_http_response(response, EcobeeStatusResponse)
 
@@ -892,21 +1046,23 @@ class EcobeeService(EcobeeObject):
         :raises TypeError: If set_path is not a string
         """
         if not isinstance(set_path, six.string_types):
-            raise TypeError('set_path must be an instance of {0}'.format(six.string_types))
+            raise TypeError(
+                'set_path must be an instance of {0}'.format(six.string_types)
+            )
 
-        dictionary = {
-            'operation': 'remove',
-            'setPath': set_path}
+        dictionary = {'operation': 'remove', 'setPath': set_path}
 
         response = Utilities.make_http_request(
             requests.post,
             EcobeeService.HIERARCHY_SET_URL,
             headers={
                 'Authorization': 'Bearer {0}'.format(self._access_token),
-                'Content-Type': 'application/json;charset=UTF-8'},
+                'Content-Type': 'application/json;charset=UTF-8',
+            },
             params={'format': 'json'},
             json_=dictionary,
-            timeout=timeout)
+            timeout=timeout,
+        )
 
         return Utilities.process_http_response(response, EcobeeStatusResponse)
 
@@ -929,24 +1085,27 @@ class EcobeeService(EcobeeObject):
         not a string
         """
         if not isinstance(set_path, six.string_types):
-            raise TypeError('set_path must be an instance of {0}'.format(six.string_types))
+            raise TypeError(
+                'set_path must be an instance of {0}'.format(six.string_types)
+            )
         if not isinstance(new_name, six.string_types):
-            raise TypeError('new_name must be an instance of {0}'.format(six.string_types))
+            raise TypeError(
+                'new_name must be an instance of {0}'.format(six.string_types)
+            )
 
-        dictionary = {
-            'operation': 'rename',
-            'setPath': set_path,
-            'newName': new_name}
+        dictionary = {'operation': 'rename', 'setPath': set_path, 'newName': new_name}
 
         response = Utilities.make_http_request(
             requests.post,
             EcobeeService.HIERARCHY_SET_URL,
             headers={
                 'Authorization': 'Bearer {0}'.format(self._access_token),
-                'Content-Type': 'application/json;charset=UTF-8'},
+                'Content-Type': 'application/json;charset=UTF-8',
+            },
             params={'format': 'json'},
             json_=dictionary,
-            timeout=timeout)
+            timeout=timeout,
+        )
 
         return Utilities.process_http_response(response, EcobeeStatusResponse)
 
@@ -970,24 +1129,27 @@ class EcobeeService(EcobeeObject):
         not a string
         """
         if not isinstance(set_path, six.string_types):
-            raise TypeError('set_path must be an instance of {0}'.format(six.string_types))
+            raise TypeError(
+                'set_path must be an instance of {0}'.format(six.string_types)
+            )
         if not isinstance(to_path, six.string_types):
-            raise TypeError('to_path must be an instance of {0}'.format(six.string_types))
+            raise TypeError(
+                'to_path must be an instance of {0}'.format(six.string_types)
+            )
 
-        dictionary = {
-            'operation': 'move',
-            'setPath': set_path,
-            'toPath': to_path}
+        dictionary = {'operation': 'move', 'setPath': set_path, 'toPath': to_path}
 
         response = Utilities.make_http_request(
             requests.post,
             EcobeeService.HIERARCHY_SET_URL,
             headers={
                 'Authorization': 'Bearer {0}'.format(self._access_token),
-                'Content-Type': 'application/json;charset=UTF-8'},
+                'Content-Type': 'application/json;charset=UTF-8',
+            },
             params={'format': 'json'},
             json_=dictionary,
-            timeout=timeout)
+            timeout=timeout,
+        )
 
         return Utilities.process_http_response(response, EcobeeStatusResponse)
 
@@ -1023,34 +1185,44 @@ class EcobeeService(EcobeeObject):
             raise TypeError('users must be an instance of {0}'.format(list))
         for user in users:
             if not isinstance(user, HierarchyUser):
-                raise TypeError('All members of users must be a an instance of '
-                                '{0}'.format(HierarchyUser))
+                raise TypeError(
+                    'All members of users must be a an instance of '
+                    '{0}'.format(HierarchyUser)
+                )
         if privileges is not None:
             if not isinstance(privileges, list):
                 raise TypeError('privileges must be an instance of {0}'.format(list))
             for privilege in privileges:
                 if not isinstance(privilege, HierarchyPrivilege):
-                    raise TypeError('All members of privileges must be a an instance of '
-                                    '{0}'.format(HierarchyPrivilege))
+                    raise TypeError(
+                        'All members of privileges must be a an instance of '
+                        '{0}'.format(HierarchyPrivilege)
+                    )
 
         dictionary = {
             'operation': 'add',
-            'users': [Utilities.object_to_dictionary(user, type(user))
-                      for user in users]}
+            'users': [
+                Utilities.object_to_dictionary(user, type(user)) for user in users
+            ],
+        }
 
         if privileges is not None:
-            dictionary['privileges'] = [Utilities.object_to_dictionary(privilege, type(privilege))
-                                        for privilege in privileges]
+            dictionary['privileges'] = [
+                Utilities.object_to_dictionary(privilege, type(privilege))
+                for privilege in privileges
+            ]
 
         response = Utilities.make_http_request(
             requests.post,
             EcobeeService.HIERARCHY_USER_URL,
             headers={
                 'Authorization': 'Bearer {0}'.format(self._access_token),
-                'Content-Type': 'application/json;charset=UTF-8'},
+                'Content-Type': 'application/json;charset=UTF-8',
+            },
             params={'format': 'json'},
             json_=dictionary,
-            timeout=timeout)
+            timeout=timeout,
+        )
 
         return Utilities.process_http_response(response, EcobeeStatusResponse)
 
@@ -1075,29 +1247,37 @@ class EcobeeService(EcobeeObject):
         list, or any member of users is not an instance of HierarchyUser
         """
         if not isinstance(set_path, six.string_types):
-            raise TypeError('set_path must be an instance of {0}'.format(six.string_types))
+            raise TypeError(
+                'set_path must be an instance of {0}'.format(six.string_types)
+            )
         if not isinstance(users, list):
             raise TypeError('users must be an instance of {0}'.format(list))
         for user in users:
             if not isinstance(user, HierarchyUser):
-                raise TypeError('All members of users must be a an instance of '
-                                '{0}'.format(HierarchyUser))
+                raise TypeError(
+                    'All members of users must be a an instance of '
+                    '{0}'.format(HierarchyUser)
+                )
 
         dictionary = {
             'operation': 'remove',
             'setPath': set_path,
-            'users': [Utilities.object_to_dictionary(user, type(user))
-                      for user in users]}
+            'users': [
+                Utilities.object_to_dictionary(user, type(user)) for user in users
+            ],
+        }
 
         response = Utilities.make_http_request(
             requests.post,
             EcobeeService.HIERARCHY_USER_URL,
             headers={
                 'Authorization': 'Bearer {0}'.format(self._access_token),
-                'Content-Type': 'application/json;charset=UTF-8'},
+                'Content-Type': 'application/json;charset=UTF-8',
+            },
             params={'format': 'json'},
             json_=dictionary,
-            timeout=timeout)
+            timeout=timeout,
+        )
 
         return Utilities.process_http_response(response, EcobeeStatusResponse)
 
@@ -1123,23 +1303,29 @@ class EcobeeService(EcobeeObject):
             raise TypeError('users must be an instance of {0}'.format(list))
         for user in users:
             if not isinstance(user, HierarchyUser):
-                raise TypeError('All members of users must be a an instance of '
-                                '{0}'.format(HierarchyUser))
+                raise TypeError(
+                    'All members of users must be a an instance of '
+                    '{0}'.format(HierarchyUser)
+                )
 
         dictionary = {
             'operation': 'unregister',
-            'users': [Utilities.object_to_dictionary(user, type(user))
-                      for user in users]}
+            'users': [
+                Utilities.object_to_dictionary(user, type(user)) for user in users
+            ],
+        }
 
         response = Utilities.make_http_request(
             requests.post,
             EcobeeService.HIERARCHY_USER_URL,
             headers={
                 'Authorization': 'Bearer {0}'.format(self._access_token),
-                'Content-Type': 'application/json;charset=UTF-8'},
+                'Content-Type': 'application/json;charset=UTF-8',
+            },
             params={'format': 'json'},
             json_=dictionary,
-            timeout=timeout)
+            timeout=timeout,
+        )
 
         return Utilities.process_http_response(response, EcobeeStatusResponse)
 
@@ -1170,35 +1356,46 @@ class EcobeeService(EcobeeObject):
                 raise TypeError('users must be an instance of {0}'.format(list))
             for user in users:
                 if not isinstance(user, HierarchyUser):
-                    raise TypeError('All members of users must be a an instance of '
-                                    '{0}'.format(HierarchyUser))
+                    raise TypeError(
+                        'All members of users must be a an instance of '
+                        '{0}'.format(HierarchyUser)
+                    )
         if privileges is not None:
             if not isinstance(privileges, list):
                 raise TypeError('privileges must be an instance of {0}'.format(list))
             for privilege in privileges:
                 if not isinstance(privilege, HierarchyPrivilege):
-                    raise TypeError('All members of privileges must be a an instance of '
-                                    '{0}'.format(HierarchyPrivilege))
+                    raise TypeError(
+                        'All members of privileges must be a an instance of '
+                        '{0}'.format(HierarchyPrivilege)
+                    )
         if users is None and privileges is None:
-            raise ValueError('Either users must not be None or privileges must not be None')
+            raise ValueError(
+                'Either users must not be None or privileges must not be None'
+            )
 
         dictionary = {'operation': 'update'}
 
         if users is not None:
-            dictionary['users'] = [Utilities.object_to_dictionary(user, type(user))
-                                   for user in users]
+            dictionary['users'] = [
+                Utilities.object_to_dictionary(user, type(user)) for user in users
+            ]
         if privileges is not None:
-            dictionary['privileges'] = [Utilities.object_to_dictionary(privilege, type(privilege))
-                                        for privilege in privileges]
+            dictionary['privileges'] = [
+                Utilities.object_to_dictionary(privilege, type(privilege))
+                for privilege in privileges
+            ]
         response = Utilities.make_http_request(
             requests.post,
             EcobeeService.HIERARCHY_USER_URL,
             headers={
                 'Authorization': 'Bearer {0}'.format(self._access_token),
-                'Content-Type': 'application/json;charset=UTF-8'},
+                'Content-Type': 'application/json;charset=UTF-8',
+            },
             params={'format': 'json'},
             json_=dictionary,
-            timeout=timeout)
+            timeout=timeout,
+        )
 
         return Utilities.process_http_response(response, EcobeeStatusResponse)
 
@@ -1223,10 +1420,14 @@ class EcobeeService(EcobeeObject):
         is not a string
         """
         if not isinstance(thermostats, six.string_types):
-            raise TypeError('thermostats must be an instance of {0}'.format(six.string_types))
+            raise TypeError(
+                'thermostats must be an instance of {0}'.format(six.string_types)
+            )
         if set_path is not None:
             if not isinstance(set_path, six.string_types):
-                raise TypeError('set_path must be an instance of {0}'.format(six.string_types))
+                raise TypeError(
+                    'set_path must be an instance of {0}'.format(six.string_types)
+                )
 
         dictionary = {'operation': 'register', 'thermostats': thermostats}
 
@@ -1238,10 +1439,12 @@ class EcobeeService(EcobeeObject):
             EcobeeService.HIERARCHY_THERMOSTAT_URL,
             headers={
                 'Authorization': 'Bearer {0}'.format(self._access_token),
-                'Content-Type': 'application/json;charset=UTF-8'},
+                'Content-Type': 'application/json;charset=UTF-8',
+            },
             params={'format': 'json'},
             json_=dictionary,
-            timeout=timeout)
+            timeout=timeout,
+        )
 
         return Utilities.process_http_response(response, EcobeeStatusResponse)
 
@@ -1264,7 +1467,9 @@ class EcobeeService(EcobeeObject):
         :raises TypeError: If thermostats is not a string
         """
         if not isinstance(thermostats, six.string_types):
-            raise TypeError('thermostats must be an instance of {0}'.format(six.string_types))
+            raise TypeError(
+                'thermostats must be an instance of {0}'.format(six.string_types)
+            )
 
         dictionary = {'operation': 'unregister', 'thermostats': thermostats}
 
@@ -1273,18 +1478,18 @@ class EcobeeService(EcobeeObject):
             EcobeeService.HIERARCHY_THERMOSTAT_URL,
             headers={
                 'Authorization': 'Bearer {0}'.format(self._access_token),
-                'Content-Type': 'application/json;charset=UTF-8'},
+                'Content-Type': 'application/json;charset=UTF-8',
+            },
             params={'format': 'json'},
             json_=dictionary,
-            timeout=timeout)
+            timeout=timeout,
+        )
 
         return Utilities.process_http_response(response, EcobeeStatusResponse)
 
-    def move_hierarchy_thermostats(self,
-                                   set_path,
-                                   to_path,
-                                   thermostats=None,
-                                   timeout=5):
+    def move_hierarchy_thermostats(
+        self, set_path, to_path, thermostats=None, timeout=5
+    ):
         """
         The move_hierarchy_thermostats method moves thermostats between
         hierarchy sets. A thermostat may only reside inside a single
@@ -1307,12 +1512,18 @@ class EcobeeService(EcobeeObject):
         string, or thermostats is not a string
         """
         if not isinstance(set_path, six.string_types):
-            raise TypeError('set_path must be an instance of {0}'.format(six.string_types))
+            raise TypeError(
+                'set_path must be an instance of {0}'.format(six.string_types)
+            )
         if not isinstance(to_path, six.string_types):
-            raise TypeError('to_path must be an instance of {0}'.format(six.string_types))
+            raise TypeError(
+                'to_path must be an instance of {0}'.format(six.string_types)
+            )
         if thermostats is not None:
             if not isinstance(thermostats, six.string_types):
-                raise TypeError('thermostats must be an instance of {0}'.format(six.string_types))
+                raise TypeError(
+                    'thermostats must be an instance of {0}'.format(six.string_types)
+                )
 
         dictionary = {'operation': 'move', 'setPath': set_path, 'toPath': to_path}
 
@@ -1324,10 +1535,12 @@ class EcobeeService(EcobeeObject):
             EcobeeService.HIERARCHY_THERMOSTAT_URL,
             headers={
                 'Authorization': 'Bearer {0}'.format(self._access_token),
-                'Content-Type': 'application/json;charset=UTF-8'},
+                'Content-Type': 'application/json;charset=UTF-8',
+            },
             params={'format': 'json'},
             json_=dictionary,
-            timeout=timeout)
+            timeout=timeout,
+        )
 
         return Utilities.process_http_response(response, EcobeeStatusResponse)
 
@@ -1353,21 +1566,31 @@ class EcobeeService(EcobeeObject):
         is not a string
         """
         if not isinstance(set_path, six.string_types):
-            raise TypeError('set_path must be an instance of {0}'.format(six.string_types))
+            raise TypeError(
+                'set_path must be an instance of {0}'.format(six.string_types)
+            )
         if not isinstance(thermostats, six.string_types):
-            raise TypeError('thermostats must be an instance of {0}'.format(six.string_types))
+            raise TypeError(
+                'thermostats must be an instance of {0}'.format(six.string_types)
+            )
 
-        dictionary = {'operation': 'assign', 'setPath': set_path, 'thermostats': thermostats}
+        dictionary = {
+            'operation': 'assign',
+            'setPath': set_path,
+            'thermostats': thermostats,
+        }
 
         response = Utilities.make_http_request(
             requests.post,
             EcobeeService.HIERARCHY_THERMOSTAT_URL,
             headers={
                 'Authorization': 'Bearer {0}'.format(self._access_token),
-                'Content-Type': 'application/json;charset=UTF-8'},
+                'Content-Type': 'application/json;charset=UTF-8',
+            },
             params={'format': 'json'},
             json_=dictionary,
-            timeout=timeout)
+            timeout=timeout,
+        )
 
         return Utilities.process_http_response(response, EcobeeStatusResponse)
 
@@ -1392,13 +1615,18 @@ class EcobeeService(EcobeeObject):
             EcobeeService.DEMAND_RESPONSE_URL,
             headers={
                 'Authorization': 'Bearer {0}'.format(self._access_token),
-                'Content-Type': 'application/json;charset=UTF-8'},
+                'Content-Type': 'application/json;charset=UTF-8',
+            },
             params={
                 'format': 'json',
-                'body': json.dumps(dictionary, sort_keys=True, indent=2)},
-            timeout=timeout)
+                'body': json.dumps(dictionary, sort_keys=True, indent=2),
+            },
+            timeout=timeout,
+        )
 
-        return Utilities.process_http_response(response, EcobeeListDemandResponsesResponse)
+        return Utilities.process_http_response(
+            response, EcobeeListDemandResponsesResponse
+        )
 
     def issue_demand_response(self, selection, demand_response, timeout=5):
         """
@@ -1425,27 +1653,33 @@ class EcobeeService(EcobeeObject):
         if not isinstance(selection, Selection):
             raise TypeError('selection must be an instance of {0}'.format(Selection))
         if not isinstance(demand_response, DemandResponse):
-            raise TypeError('demand_response must be an instance of {0}'.format(DemandResponse))
+            raise TypeError(
+                'demand_response must be an instance of {0}'.format(DemandResponse)
+            )
 
         dictionary = {
-            'selection': Utilities.object_to_dictionary(
-                selection,
-                type(selection)),
+            'selection': Utilities.object_to_dictionary(selection, type(selection)),
             'operation': 'create',
-            'demandResponse': Utilities.object_to_dictionary(demand_response,
-                                                             type(demand_response))}
+            'demandResponse': Utilities.object_to_dictionary(
+                demand_response, type(demand_response)
+            ),
+        }
 
         response = Utilities.make_http_request(
             requests.post,
             EcobeeService.DEMAND_RESPONSE_URL,
             headers={
                 'Authorization': 'Bearer {0}'.format(self._access_token),
-                'Content-Type': 'application/json;charset=UTF-8'},
+                'Content-Type': 'application/json;charset=UTF-8',
+            },
             params={'format': 'json'},
             json_=dictionary,
-            timeout=timeout)
+            timeout=timeout,
+        )
 
-        return Utilities.process_http_response(response, EcobeeIssueDemandResponsesResponse)
+        return Utilities.process_http_response(
+            response, EcobeeIssueDemandResponsesResponse
+        )
 
     def cancel_demand_response(self, demand_response_ref, timeout=5):
         """
@@ -1466,28 +1700,30 @@ class EcobeeService(EcobeeObject):
         :raises TypeError: If demand_response_ref is not a string
         """
         if not isinstance(demand_response_ref, six.text_type):
-            raise TypeError('demand_response_ref must be an instance of {0}'.format(six.text_type))
+            raise TypeError(
+                'demand_response_ref must be an instance of {0}'.format(six.text_type)
+            )
 
         dictionary = {
             'operation': 'cancel',
-            'demandResponse': {'demandResponseRef': demand_response_ref}}
+            'demandResponse': {'demandResponseRef': demand_response_ref},
+        }
 
         response = Utilities.make_http_request(
             requests.post,
             EcobeeService.DEMAND_RESPONSE_URL,
             headers={
                 'Authorization': 'Bearer {0}'.format(self._access_token),
-                'Content-Type': 'application/json;charset=UTF-8'},
+                'Content-Type': 'application/json;charset=UTF-8',
+            },
             params={'format': 'json'},
             json_=dictionary,
-            timeout=timeout)
+            timeout=timeout,
+        )
 
         return Utilities.process_http_response(response, EcobeeStatusResponse)
 
-    def issue_demand_managements(self,
-                                 selection,
-                                 demand_managements,
-                                 timeout=5):
+    def issue_demand_managements(self, selection, demand_managements, timeout=5):
         """
         The issue_demand_managements method creates demand management
         objects that permit a Utility to forecast and adjust the
@@ -1514,36 +1750,43 @@ class EcobeeService(EcobeeObject):
         if not isinstance(selection, Selection):
             raise TypeError('selection must be an instance of {0}'.format(Selection))
         if not isinstance(demand_managements, list):
-            raise TypeError('demand_managements must be an instance of {0}'.format(list))
+            raise TypeError(
+                'demand_managements must be an instance of {0}'.format(list)
+            )
         for demand_management in demand_managements:
             if not isinstance(demand_management, DemandManagement):
-                raise TypeError('All members of demand_managements must be a an instance '
-                                'of {0}'.format(DemandManagement))
+                raise TypeError(
+                    'All members of demand_managements must be a an instance '
+                    'of {0}'.format(DemandManagement)
+                )
 
         dictionary = {
             'selection': Utilities.object_to_dictionary(selection, type(selection)),
-            'dmList': [Utilities.object_to_dictionary(demand_management, type(demand_management))
-                       for demand_management in demand_managements]}
+            'dmList': [
+                Utilities.object_to_dictionary(
+                    demand_management, type(demand_management)
+                )
+                for demand_management in demand_managements
+            ],
+        }
 
         response = Utilities.make_http_request(
             requests.post,
             EcobeeService.DEMAND_MANAGEMENT_URL,
             headers={
                 'Authorization': 'Bearer {0}'.format(self._access_token),
-                'Content-Type': 'application/json;charset=UTF-8'},
+                'Content-Type': 'application/json;charset=UTF-8',
+            },
             params={'format': 'json'},
             json_=dictionary,
-            timeout=timeout)
+            timeout=timeout,
+        )
 
         return Utilities.process_http_response(response, EcobeeStatusResponse)
 
-    def create_runtime_report_job(self,
-                                  selection,
-                                  start_date,
-                                  end_date,
-                                  columns,
-                                  include_sensors=False,
-                                  timeout=5):
+    def create_runtime_report_job(
+        self, selection, start_date, end_date, columns, include_sensors=False, timeout=5
+    ):
         """
         The create_runtime_report_job method creates a new runtime
         report job to be processed. Reports can only be processed for
@@ -1576,47 +1819,67 @@ class EcobeeService(EcobeeObject):
         """
         if not isinstance(selection, Selection):
             raise TypeError('selection must be an instance of {0}'.format(Selection))
-        if selection.selection_type != SelectionType.MANAGEMENT_SET.value and \
-                selection.selection_type != SelectionType.THERMOSTATS.value:
-            raise ValueError('selection.selection_type must be set to {0} or {1}'.format(
-                SelectionType.MANAGEMENT_SET.value,
-                SelectionType.THERMOSTATS.value))
+        if (
+            selection.selection_type != SelectionType.MANAGEMENT_SET.value
+            and selection.selection_type != SelectionType.THERMOSTATS.value
+        ):
+            raise ValueError(
+                'selection.selection_type must be set to {0} or {1}'.format(
+                    SelectionType.MANAGEMENT_SET.value, SelectionType.THERMOSTATS.value
+                )
+            )
         if not isinstance(start_date, date):
             raise TypeError('start_date must be an instance of {0}'.format(date))
-        if pytz.utc.localize(datetime(start_date.year,
-                                      start_date.month,
-                                      start_date.day,
-                                      0,
-                                      0,
-                                      0)) < EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME:
-            raise ValueError('start_date must be later than {0}'.format(
-                EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime('%Y-%m-%d %H:%M:%S %Z')))
-        if pytz.utc.localize(datetime(start_date.year,
-                                      start_date.month,
-                                      start_date.day,
-                                      0,
-                                      0,
-                                      0)) > EcobeeService.END_OF_TIME_DATE_TIME:
-            raise ValueError('start_date must be earlier than {0}'.format(
-                EcobeeService.END_OF_TIME_DATE_TIME.strftime('%Y-%m-%d %H:%M:%S %Z')))
+        if (
+            pytz.utc.localize(
+                datetime(start_date.year, start_date.month, start_date.day, 0, 0, 0)
+            )
+            < EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME
+        ):
+            raise ValueError(
+                'start_date must be later than {0}'.format(
+                    EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime(
+                        '%Y-%m-%d %H:%M:%S %Z'
+                    )
+                )
+            )
+        if (
+            pytz.utc.localize(
+                datetime(start_date.year, start_date.month, start_date.day, 0, 0, 0)
+            )
+            > EcobeeService.END_OF_TIME_DATE_TIME
+        ):
+            raise ValueError(
+                'start_date must be earlier than {0}'.format(
+                    EcobeeService.END_OF_TIME_DATE_TIME.strftime('%Y-%m-%d %H:%M:%S %Z')
+                )
+            )
         if not isinstance(end_date, date):
             raise TypeError('end_date must be an instance of {0}'.format(date))
-        if pytz.utc.localize(datetime(end_date.year,
-                                      end_date.month,
-                                      end_date.day,
-                                      0,
-                                      0,
-                                      0)) < EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME:
-            raise ValueError('end_date must be later than {0}'.format(
-                EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime('%Y-%m-%d %H:%M:%S %Z')))
-        if pytz.utc.localize(datetime(end_date.year,
-                                      end_date.month,
-                                      end_date.day,
-                                      0,
-                                      0,
-                                      0)) > EcobeeService.END_OF_TIME_DATE_TIME:
-            raise ValueError('end_date must be earlier than {0}'.format(
-                EcobeeService.END_OF_TIME_DATE_TIME.strftime('%Y-%m-%d %H:%M:%S %Z')))
+        if (
+            pytz.utc.localize(
+                datetime(end_date.year, end_date.month, end_date.day, 0, 0, 0)
+            )
+            < EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME
+        ):
+            raise ValueError(
+                'end_date must be later than {0}'.format(
+                    EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime(
+                        '%Y-%m-%d %H:%M:%S %Z'
+                    )
+                )
+            )
+        if (
+            pytz.utc.localize(
+                datetime(end_date.year, end_date.month, end_date.day, 0, 0, 0)
+            )
+            > EcobeeService.END_OF_TIME_DATE_TIME
+        ):
+            raise ValueError(
+                'end_date must be earlier than {0}'.format(
+                    EcobeeService.END_OF_TIME_DATE_TIME.strftime('%Y-%m-%d %H:%M:%S %Z')
+                )
+            )
         if start_date >= end_date:
             raise ValueError('end_date must be later than start_date')
         if not isinstance(columns, six.text_type):
@@ -1627,24 +1890,30 @@ class EcobeeService(EcobeeObject):
         dictionary = {
             'selection': Utilities.object_to_dictionary(selection, type(selection)),
             'startDate': '{0}-{1:02}-{2:02}'.format(
-                start_date.year, start_date.month, start_date.day),
+                start_date.year, start_date.month, start_date.day
+            ),
             'endDate': '{0}-{1:02}-{2:02}'.format(
-                end_date.year, end_date.month, end_date.day),
+                end_date.year, end_date.month, end_date.day
+            ),
             'columns': columns,
-            'includeSensors': include_sensors}
+            'includeSensors': include_sensors,
+        }
 
         response = Utilities.make_http_request(
             requests.post,
-            '{0}/create'.format(
-                EcobeeService.RUNTIME_REPORT_JOB_URL),
+            '{0}/create'.format(EcobeeService.RUNTIME_REPORT_JOB_URL),
             headers={
                 'Authorization': 'Bearer {0}'.format(self._access_token),
-                'Content-Type': 'application/json;charset=UTF-8'},
+                'Content-Type': 'application/json;charset=UTF-8',
+            },
             params={'format': 'json'},
             json_=dictionary,
-            timeout=timeout)
+            timeout=timeout,
+        )
 
-        return Utilities.process_http_response(response, EcobeeCreateRuntimeReportJobResponse)
+        return Utilities.process_http_response(
+            response, EcobeeCreateRuntimeReportJobResponse
+        )
 
     def list_runtime_report_job_status(self, job_id=None, timeout=5):
         """
@@ -1665,7 +1934,9 @@ class EcobeeService(EcobeeObject):
         """
         if job_id is not None:
             if not isinstance(job_id, six.text_type):
-                raise TypeError('job_id must be an instance of {0}'.format(six.text_type))
+                raise TypeError(
+                    'job_id must be an instance of {0}'.format(six.text_type)
+                )
 
         dictionary = {}
 
@@ -1674,17 +1945,21 @@ class EcobeeService(EcobeeObject):
 
         response = Utilities.make_http_request(
             requests.post,
-            '{0}/status'.format(
-                EcobeeService.RUNTIME_REPORT_JOB_URL),
+            '{0}/status'.format(EcobeeService.RUNTIME_REPORT_JOB_URL),
             headers={
                 'Authorization': 'Bearer {0}'.format(self._access_token),
-                'Content-Type': 'application/json;charset=UTF-8'},
+                'Content-Type': 'application/json;charset=UTF-8',
+            },
             params={
                 'format': 'json',
-                'body': json.dumps(dictionary, sort_keys=True, indent=2)},
-            timeout=timeout)
+                'body': json.dumps(dictionary, sort_keys=True, indent=2),
+            },
+            timeout=timeout,
+        )
 
-        return Utilities.process_http_response(response, EcobeeListRuntimeReportJobStatusResponse)
+        return Utilities.process_http_response(
+            response, EcobeeListRuntimeReportJobStatusResponse
+        )
 
     def cancel_runtime_report_job(self, job_id, timeout=5):
         """
@@ -1711,26 +1986,29 @@ class EcobeeService(EcobeeObject):
 
         response = Utilities.make_http_request(
             requests.post,
-            '{0}/cancel'.format(
-                EcobeeService.RUNTIME_REPORT_JOB_URL),
+            '{0}/cancel'.format(EcobeeService.RUNTIME_REPORT_JOB_URL),
             headers={
                 'Authorization': 'Bearer {0}'.format(self._access_token),
-                'Content-Type': 'application/json;charset=UTF-8'},
+                'Content-Type': 'application/json;charset=UTF-8',
+            },
             params={'format': 'json'},
             json_=dictionary,
-            timeout=timeout)
+            timeout=timeout,
+        )
 
         return Utilities.process_http_response(response, EcobeeStatusResponse)
 
-    def acknowledge(self,
-                    thermostat_identifier,
-                    ack_ref,
-                    ack_type,
-                    remind_me_later=False,
-                    selection=Selection(
-                        selection_type=SelectionType.REGISTERED.value,
-                        selection_match=''),
-                    timeout=5):
+    def acknowledge(
+        self,
+        thermostat_identifier,
+        ack_ref,
+        ack_type,
+        remind_me_later=False,
+        selection=Selection(
+            selection_type=SelectionType.REGISTERED.value, selection_match=''
+        ),
+        timeout=5,
+    ):
         """
         The acknowledge method allows an alert to be acknowledged.
 
@@ -1757,10 +2035,15 @@ class EcobeeService(EcobeeObject):
         instance of Selection
         """
         if not isinstance(thermostat_identifier, six.string_types):
-            raise TypeError('thermostat_identifier must be an instance of {0}'.format(
-                six.string_types))
+            raise TypeError(
+                'thermostat_identifier must be an instance of {0}'.format(
+                    six.string_types
+                )
+            )
         if not isinstance(ack_ref, six.string_types):
-            raise TypeError('ack_ref must be an instance of {0}'.format(six.string_types))
+            raise TypeError(
+                'ack_ref must be an instance of {0}'.format(six.string_types)
+            )
         if not isinstance(ack_type, AckType):
             raise TypeError('ack_type must be an instance of {0}'.format(AckType))
         if not isinstance(remind_me_later, bool):
@@ -1771,24 +2054,33 @@ class EcobeeService(EcobeeObject):
         return self.update_thermostats(
             selection,
             thermostat=None,
-            functions=[Function(type_='acknowledge',
-                                params={
-                                    'thermostatIdentifier': thermostat_identifier,
-                                    'ackRef': ack_ref,
-                                    'ackType': ack_type.value,
-                                    'remindMeLater': remind_me_later})],
-            timeout=timeout)
+            functions=[
+                Function(
+                    type_='acknowledge',
+                    params={
+                        'thermostatIdentifier': thermostat_identifier,
+                        'ackRef': ack_ref,
+                        'ackType': ack_type.value,
+                        'remindMeLater': remind_me_later,
+                    },
+                )
+            ],
+            timeout=timeout,
+        )
 
-    def control_plug(self,
-                     plug_name,
-                     plug_state,
-                     start_date_time=None,
-                     end_date_time=None,
-                     hold_type=HoldType.INDEFINITE,
-                     hold_hours=None,
-                     selection=Selection(selection_type=SelectionType.REGISTERED.value,
-                                         selection_match=''),
-                     timeout=5):
+    def control_plug(
+        self,
+        plug_name,
+        plug_state,
+        start_date_time=None,
+        end_date_time=None,
+        hold_type=HoldType.INDEFINITE,
+        hold_hours=None,
+        selection=Selection(
+            selection_type=SelectionType.REGISTERED.value, selection_match=''
+        ),
+        timeout=5,
+    ):
         """
         The control_plug method controls the on/off state of a plug by
         setting a hold on the plug, creating a hold for the on or off
@@ -1833,79 +2125,123 @@ class EcobeeService(EcobeeObject):
         HoldType.HOLD_HOURS
         """
         if not isinstance(plug_name, six.string_types):
-            raise TypeError('plug_name must be an instance of {0}'.format(six.string_types))
+            raise TypeError(
+                'plug_name must be an instance of {0}'.format(six.string_types)
+            )
         if not isinstance(plug_state, PlugState):
             raise TypeError('plug_state must be an instance of {0}'.format(PlugState))
         if start_date_time is not None:
             if not isinstance(start_date_time, datetime):
-                raise TypeError('start_date_time must be an instance of {0}'.format(datetime))
+                raise TypeError(
+                    'start_date_time must be an instance of {0}'.format(datetime)
+                )
             if start_date_time < EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME:
-                raise ValueError('start_date_time must be later than {0}'.format(
-                    EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime('%Y-%m-%d %H:%M:%S %Z')))
+                raise ValueError(
+                    'start_date_time must be later than {0}'.format(
+                        EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime(
+                            '%Y-%m-%d %H:%M:%S %Z'
+                        )
+                    )
+                )
             if start_date_time > EcobeeService.END_OF_TIME_DATE_TIME:
-                raise ValueError('start_date_time must be earlier than {0}'.format(
-                    EcobeeService.END_OF_TIME_DATE_TIME.strftime('%Y-%m-%d %H:%M:%S %Z')))
+                raise ValueError(
+                    'start_date_time must be earlier than {0}'.format(
+                        EcobeeService.END_OF_TIME_DATE_TIME.strftime(
+                            '%Y-%m-%d %H:%M:%S %Z'
+                        )
+                    )
+                )
         if end_date_time is not None:
             if not isinstance(end_date_time, datetime):
-                raise TypeError('end_date_time must be an instance of {0}'.format(datetime))
+                raise TypeError(
+                    'end_date_time must be an instance of {0}'.format(datetime)
+                )
             if end_date_time < EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME:
-                raise ValueError('end_date_time must be later than {0}'.format(
-                    EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime('%Y-%m-%d %H:%M:%S %Z')))
+                raise ValueError(
+                    'end_date_time must be later than {0}'.format(
+                        EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime(
+                            '%Y-%m-%d %H:%M:%S %Z'
+                        )
+                    )
+                )
             if end_date_time > EcobeeService.END_OF_TIME_DATE_TIME:
-                raise ValueError('end_date_time must be earlier than {0}'.format(
-                    EcobeeService.END_OF_TIME_DATE_TIME.strftime('%Y-%m-%d %H:%M:%S %Z')))
-        if start_date_time is not None and end_date_time is not None and \
-                start_date_time >= end_date_time:
+                raise ValueError(
+                    'end_date_time must be earlier than {0}'.format(
+                        EcobeeService.END_OF_TIME_DATE_TIME.strftime(
+                            '%Y-%m-%d %H:%M:%S %Z'
+                        )
+                    )
+                )
+        if (
+            start_date_time is not None
+            and end_date_time is not None
+            and start_date_time >= end_date_time
+        ):
             raise ValueError('end_date_time must be later than start_date_time')
         if not isinstance(hold_type, HoldType):
             raise TypeError('hold_type must be an instance of {0}'.format(HoldType))
         if hold_type == HoldType.DATE_TIME and end_date_time is None:
-            raise ValueError('hold_type is {0}. end_date_time must not be None'.format(
-                HoldType.DATE_TIME.value))
+            raise ValueError(
+                'hold_type is {0}. end_date_time must not be None'.format(
+                    HoldType.DATE_TIME.value
+                )
+            )
         if hold_hours is not None and not isinstance(hold_hours, int):
             raise TypeError('hold_hours must be an instance of {0}'.format(int))
         if hold_type == HoldType.HOLD_HOURS and hold_hours is None:
-            raise ValueError('hold_type is {0}. hold_hours must not be None'.format(
-                HoldType.HOLD_HOURS.value))
+            raise ValueError(
+                'hold_type is {0}. hold_hours must not be None'.format(
+                    HoldType.HOLD_HOURS.value
+                )
+            )
         if not isinstance(selection, Selection):
             raise TypeError('selection must be an instance of {0}'.format(Selection))
 
         control_plug_parameters = {
             'plugName': plug_name,
             'plugState': plug_state.value,
-            'holdType': hold_type.value}
+            'holdType': hold_type.value,
+        }
 
         if start_date_time is not None:
             control_plug_parameters['startDate'] = '{0}-{1:02}-{2:02}'.format(
-                start_date_time.year, start_date_time.month, start_date_time.day)
+                start_date_time.year, start_date_time.month, start_date_time.day
+            )
             control_plug_parameters['startTime'] = '{0:02}:{1:02}:{2:02}'.format(
-                start_date_time.hour, start_date_time.minute, start_date_time.second)
+                start_date_time.hour, start_date_time.minute, start_date_time.second
+            )
 
         if end_date_time is not None:
             control_plug_parameters['endDate'] = '{0}-{1:02}-{2:02}'.format(
-                end_date_time.year, end_date_time.month, end_date_time.day)
+                end_date_time.year, end_date_time.month, end_date_time.day
+            )
             control_plug_parameters['endTime'] = '{0:02}:{1:02}:{2:02}'.format(
-                end_date_time.hour, end_date_time.minute, end_date_time.second)
+                end_date_time.hour, end_date_time.minute, end_date_time.second
+            )
         if hold_hours is not None:
             control_plug_parameters['holdHours'] = hold_hours
 
-        return self.update_thermostats(selection,
-                                       thermostat=None,
-                                       functions=[Function(type_='controlPlug',
-                                                           params=control_plug_parameters)],
-                                       timeout=timeout)
+        return self.update_thermostats(
+            selection,
+            thermostat=None,
+            functions=[Function(type_='controlPlug', params=control_plug_parameters)],
+            timeout=timeout,
+        )
 
-    def create_vacation(self,
-                        name,
-                        cool_hold_temp,
-                        heat_hold_temp,
-                        start_date_time=None,
-                        end_date_time=None,
-                        fan_mode=FanMode.AUTO,
-                        fan_min_on_time=0,
-                        selection=Selection(selection_type=SelectionType.REGISTERED.value,
-                                            selection_match=''),
-                        timeout=5):
+    def create_vacation(
+        self,
+        name,
+        cool_hold_temp,
+        heat_hold_temp,
+        start_date_time=None,
+        end_date_time=None,
+        fan_mode=FanMode.AUTO,
+        fan_min_on_time=0,
+        selection=Selection(
+            selection_type=SelectionType.REGISTERED.value, selection_match=''
+        ),
+        timeout=5,
+    ):
         """
         The create_vacation method creates a vacation event on the
         thermostat. If the start/end date_times are not provided for the
@@ -1957,39 +2293,82 @@ class EcobeeService(EcobeeObject):
         if not isinstance(name, six.string_types):
             raise TypeError('name must be an instance of {0}'.format(six.string_types))
         if not isinstance(cool_hold_temp, numbers.Real):
-            raise TypeError('cool_hold_temp must be an instance of {0}'.format(numbers.Real))
-        if not (EcobeeService.MINIMUM_COOLING_TEMPERATURE <= float(cool_hold_temp) <=
-                EcobeeService.MAXIMUM_COOLING_TEMPERATURE):
-            raise ValueError('cool_hold_temp must be between {0}F and {1}F'.format(
-                EcobeeService.MINIMUM_COOLING_TEMPERATURE,
-                EcobeeService.MAXIMUM_COOLING_TEMPERATURE))
+            raise TypeError(
+                'cool_hold_temp must be an instance of {0}'.format(numbers.Real)
+            )
+        if not (
+            EcobeeService.MINIMUM_COOLING_TEMPERATURE
+            <= float(cool_hold_temp)
+            <= EcobeeService.MAXIMUM_COOLING_TEMPERATURE
+        ):
+            raise ValueError(
+                'cool_hold_temp must be between {0}F and {1}F'.format(
+                    EcobeeService.MINIMUM_COOLING_TEMPERATURE,
+                    EcobeeService.MAXIMUM_COOLING_TEMPERATURE,
+                )
+            )
         if not isinstance(heat_hold_temp, numbers.Real):
-            raise TypeError('heat_hold_temp must be an instance of {0}'.format(numbers.Real))
-        if not (EcobeeService.MINIMUM_HEATING_TEMPERATURE <= float(heat_hold_temp) <=
-                EcobeeService.MAXIMUM_HEATING_TEMPERATURE):
-            raise ValueError('heat_hold_temp must be between {0}F and {1}F'.format(
-                EcobeeService.MINIMUM_HEATING_TEMPERATURE,
-                EcobeeService.MAXIMUM_HEATING_TEMPERATURE))
+            raise TypeError(
+                'heat_hold_temp must be an instance of {0}'.format(numbers.Real)
+            )
+        if not (
+            EcobeeService.MINIMUM_HEATING_TEMPERATURE
+            <= float(heat_hold_temp)
+            <= EcobeeService.MAXIMUM_HEATING_TEMPERATURE
+        ):
+            raise ValueError(
+                'heat_hold_temp must be between {0}F and {1}F'.format(
+                    EcobeeService.MINIMUM_HEATING_TEMPERATURE,
+                    EcobeeService.MAXIMUM_HEATING_TEMPERATURE,
+                )
+            )
         if start_date_time is not None:
             if not isinstance(start_date_time, datetime):
-                raise TypeError('start_date_time must be an instance of {0}'.format(datetime))
+                raise TypeError(
+                    'start_date_time must be an instance of {0}'.format(datetime)
+                )
             if start_date_time < EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME:
-                raise ValueError('start_date_time must be later than {0}'.format(
-                    EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime('%Y-%m-%d %H:%M:%S %Z')))
+                raise ValueError(
+                    'start_date_time must be later than {0}'.format(
+                        EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime(
+                            '%Y-%m-%d %H:%M:%S %Z'
+                        )
+                    )
+                )
             if start_date_time > EcobeeService.END_OF_TIME_DATE_TIME:
-                raise ValueError('start_date_time must be earlier than {0}'.format(
-                    EcobeeService.END_OF_TIME_DATE_TIME.strftime('%Y-%m-%d %H:%M:%S %Z')))
+                raise ValueError(
+                    'start_date_time must be earlier than {0}'.format(
+                        EcobeeService.END_OF_TIME_DATE_TIME.strftime(
+                            '%Y-%m-%d %H:%M:%S %Z'
+                        )
+                    )
+                )
         if end_date_time is not None:
             if not isinstance(end_date_time, datetime):
-                raise TypeError('end_date_time must be an instance of {0}'.format(datetime))
+                raise TypeError(
+                    'end_date_time must be an instance of {0}'.format(datetime)
+                )
             if end_date_time < EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME:
-                raise ValueError('end_date_time must be later than {0}'.format(
-                    EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime('%Y-%m-%d %H:%M:%S %Z')))
+                raise ValueError(
+                    'end_date_time must be later than {0}'.format(
+                        EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime(
+                            '%Y-%m-%d %H:%M:%S %Z'
+                        )
+                    )
+                )
             if end_date_time > EcobeeService.END_OF_TIME_DATE_TIME:
-                raise ValueError('end_date_time must be earlier than {0}'.format(
-                    EcobeeService.END_OF_TIME_DATE_TIME.strftime('%Y-%m-%d %H:%M:%S %Z')))
-        if start_date_time is not None and end_date_time is not None and \
-                start_date_time >= end_date_time:
+                raise ValueError(
+                    'end_date_time must be earlier than {0}'.format(
+                        EcobeeService.END_OF_TIME_DATE_TIME.strftime(
+                            '%Y-%m-%d %H:%M:%S %Z'
+                        )
+                    )
+                )
+        if (
+            start_date_time is not None
+            and end_date_time is not None
+            and start_date_time >= end_date_time
+        ):
             raise ValueError('end_date_time must be later than start_date_time')
         if not isinstance(fan_mode, FanMode):
             raise TypeError('fan_mode must be an instance of {0}'.format(FanMode))
@@ -2005,31 +2384,42 @@ class EcobeeService(EcobeeObject):
             'coolHoldTemp': int(cool_hold_temp * 10),
             'heatHoldTemp': int(heat_hold_temp * 10),
             'fan': fan_mode.value,
-            'fanMinOnTime': str(fan_min_on_time)}
+            'fanMinOnTime': str(fan_min_on_time),
+        }
 
         if start_date_time is not None:
             create_vacation_parameters['startDate'] = '{0}-{1:02}-{2:02}'.format(
-                start_date_time.year, start_date_time.month, start_date_time.day)
+                start_date_time.year, start_date_time.month, start_date_time.day
+            )
             create_vacation_parameters['startTime'] = '{0:02}:{1:02}:{2:02}'.format(
-                start_date_time.hour, start_date_time.minute, start_date_time.second)
+                start_date_time.hour, start_date_time.minute, start_date_time.second
+            )
 
         if end_date_time is not None:
             create_vacation_parameters['endDate'] = '{0}-{1:02}-{2:02}'.format(
-                end_date_time.year, end_date_time.month, end_date_time.day)
+                end_date_time.year, end_date_time.month, end_date_time.day
+            )
             create_vacation_parameters['endTime'] = '{0:02}:{1:02}:{2:02}'.format(
-                end_date_time.hour, end_date_time.minute, end_date_time.second)
+                end_date_time.hour, end_date_time.minute, end_date_time.second
+            )
 
-        return self.update_thermostats(selection,
-                                       thermostat=None,
-                                       functions=[Function(type_='createVacation',
-                                                           params=create_vacation_parameters)],
-                                       timeout=timeout)
+        return self.update_thermostats(
+            selection,
+            thermostat=None,
+            functions=[
+                Function(type_='createVacation', params=create_vacation_parameters)
+            ],
+            timeout=timeout,
+        )
 
-    def delete_vacation(self,
-                        name,
-                        selection=Selection(selection_type=SelectionType.REGISTERED.value,
-                                            selection_match=''),
-                        timeout=5):
+    def delete_vacation(
+        self,
+        name,
+        selection=Selection(
+            selection_type=SelectionType.REGISTERED.value, selection_match=''
+        ),
+        timeout=5,
+    ):
         """
         The delete_vacation method deletes a vacation event from a
         thermostat. This is the only way to cancel a vacation event.
@@ -2055,16 +2445,20 @@ class EcobeeService(EcobeeObject):
         if not isinstance(selection, Selection):
             raise TypeError('selection must be an instance of {0}'.format(Selection))
 
-        return self.update_thermostats(selection,
-                                       thermostat=None,
-                                       functions=[Function(type_='deleteVacation',
-                                                           params={'name': name})],
-                                       timeout=timeout)
+        return self.update_thermostats(
+            selection,
+            thermostat=None,
+            functions=[Function(type_='deleteVacation', params={'name': name})],
+            timeout=timeout,
+        )
 
-    def reset_preferences(self,
-                          selection=Selection(selection_type=SelectionType.REGISTERED.value,
-                                              selection_match=''),
-                          timeout=5):
+    def reset_preferences(
+        self,
+        selection=Selection(
+            selection_type=SelectionType.REGISTERED.value, selection_match=''
+        ),
+        timeout=5,
+    ):
         """
         The reset_preferences method sets all of the user configurable
         settings back to the factory default values. This method call
@@ -2091,16 +2485,21 @@ class EcobeeService(EcobeeObject):
         if not isinstance(selection, Selection):
             raise TypeError('selection must be an instance of {0}'.format(Selection))
 
-        return self.update_thermostats(selection,
-                                       thermostat=None,
-                                       functions=[Function(type_='resetPreferences')],
-                                       timeout=timeout)
+        return self.update_thermostats(
+            selection,
+            thermostat=None,
+            functions=[Function(type_='resetPreferences')],
+            timeout=timeout,
+        )
 
-    def resume_program(self,
-                       resume_all=False,
-                       selection=Selection(selection_type=SelectionType.REGISTERED.value,
-                                           selection_match=''),
-                       timeout=5):
+    def resume_program(
+        self,
+        resume_all=False,
+        selection=Selection(
+            selection_type=SelectionType.REGISTERED.value, selection_match=''
+        ),
+        timeout=5,
+    ):
         """
         The resume_program method removes the currently running event
         providing the event is not a mandatory demand response event. If
@@ -2130,17 +2529,23 @@ class EcobeeService(EcobeeObject):
         if not isinstance(selection, Selection):
             raise TypeError('selection must be an instance of {0}'.format(Selection))
 
-        return self.update_thermostats(selection,
-                                       thermostat=None,
-                                       functions=[Function(type_='resumeProgram',
-                                                           params={'resumeAll': resume_all})],
-                                       timeout=timeout)
+        return self.update_thermostats(
+            selection,
+            thermostat=None,
+            functions=[
+                Function(type_='resumeProgram', params={'resumeAll': resume_all})
+            ],
+            timeout=timeout,
+        )
 
-    def send_message(self,
-                     text,
-                     selection=Selection(selection_type=SelectionType.REGISTERED.value,
-                                         selection_match=''),
-                     timeout=5):
+    def send_message(
+        self,
+        text,
+        selection=Selection(
+            selection_type=SelectionType.REGISTERED.value, selection_match=''
+        ),
+        timeout=5,
+    ):
         """
         The send_message method allows an alert message to be sent to
         the thermostat. The message properties are same as those of the
@@ -2166,23 +2571,27 @@ class EcobeeService(EcobeeObject):
         if not isinstance(selection, Selection):
             raise TypeError('selection must be an instance of {0}'.format(Selection))
 
-        return self.update_thermostats(selection,
-                                       thermostat=None,
-                                       functions=[Function(type_='sendMessage',
-                                                           params={'text': text})],
-                                       timeout=timeout)
+        return self.update_thermostats(
+            selection,
+            thermostat=None,
+            functions=[Function(type_='sendMessage', params={'text': text})],
+            timeout=timeout,
+        )
 
-    def set_hold(self,
-                 cool_hold_temp=None,
-                 heat_hold_temp=None,
-                 hold_climate_ref=None,
-                 start_date_time=None,
-                 end_date_time=None,
-                 hold_type=HoldType.INDEFINITE,
-                 hold_hours=None,
-                 selection=Selection(selection_type=SelectionType.REGISTERED.value,
-                                     selection_match=''),
-                 timeout=5):
+    def set_hold(
+        self,
+        cool_hold_temp=None,
+        heat_hold_temp=None,
+        hold_climate_ref=None,
+        start_date_time=None,
+        end_date_time=None,
+        hold_type=HoldType.INDEFINITE,
+        hold_hours=None,
+        selection=Selection(
+            selection_type=SelectionType.REGISTERED.value, selection_match=''
+        ),
+        timeout=5,
+    ):
         """
         The set_hold method sets the thermostat into a hold with the
         specified temperature creating a hold for the specified
@@ -2243,63 +2652,123 @@ class EcobeeService(EcobeeObject):
         """
         if cool_hold_temp is not None:
             if not isinstance(cool_hold_temp, numbers.Real):
-                raise TypeError('cool_hold_temp must be an instance of {0}'.format(numbers.Real))
-            if not (EcobeeService.MINIMUM_COOLING_TEMPERATURE <= float(cool_hold_temp) <=
-                    EcobeeService.MAXIMUM_COOLING_TEMPERATURE):
-                raise ValueError('cool_hold_temp must be between {0}F and {1}F'.format(
-                    EcobeeService.MINIMUM_COOLING_TEMPERATURE,
-                    EcobeeService.MAXIMUM_COOLING_TEMPERATURE))
+                raise TypeError(
+                    'cool_hold_temp must be an instance of {0}'.format(numbers.Real)
+                )
+            if not (
+                EcobeeService.MINIMUM_COOLING_TEMPERATURE
+                <= float(cool_hold_temp)
+                <= EcobeeService.MAXIMUM_COOLING_TEMPERATURE
+            ):
+                raise ValueError(
+                    'cool_hold_temp must be between {0}F and {1}F'.format(
+                        EcobeeService.MINIMUM_COOLING_TEMPERATURE,
+                        EcobeeService.MAXIMUM_COOLING_TEMPERATURE,
+                    )
+                )
         if heat_hold_temp is not None:
             if not isinstance(heat_hold_temp, numbers.Real):
-                raise TypeError('heat_hold_temp must be an instance of {0}'.format(numbers.Real))
-            if not (EcobeeService.MINIMUM_HEATING_TEMPERATURE <= float(heat_hold_temp) <=
-                    EcobeeService.MAXIMUM_HEATING_TEMPERATURE):
-                raise ValueError('heat_hold_temp must be between {0}F and {1}F'.format(
-                    EcobeeService.MINIMUM_HEATING_TEMPERATURE,
-                    EcobeeService.MAXIMUM_HEATING_TEMPERATURE))
+                raise TypeError(
+                    'heat_hold_temp must be an instance of {0}'.format(numbers.Real)
+                )
+            if not (
+                EcobeeService.MINIMUM_HEATING_TEMPERATURE
+                <= float(heat_hold_temp)
+                <= EcobeeService.MAXIMUM_HEATING_TEMPERATURE
+            ):
+                raise ValueError(
+                    'heat_hold_temp must be between {0}F and {1}F'.format(
+                        EcobeeService.MINIMUM_HEATING_TEMPERATURE,
+                        EcobeeService.MAXIMUM_HEATING_TEMPERATURE,
+                    )
+                )
         if hold_climate_ref is not None and not isinstance(
-                hold_climate_ref, six.string_types):
-            raise TypeError('hold_climate_ref must be an instance of {0}'.format(
-                six.string_types))
-        if cool_hold_temp is None and heat_hold_temp is None and \
-                hold_climate_ref is None:
-            raise ValueError('cool_hold_temp, heat_hold_temp, and hold_climate_ref must not all '
-                             'be None. Either cool_hold_temp and heat_hold_temp must not be None '
-                             'or hold_climate_ref must not be None')
-        if hold_climate_ref is None and (cool_hold_temp is None or heat_hold_temp is None):
-            raise ValueError('hold_climate_ref is None. cool_hold_temp and heat_hold_temp must '
-                             'not be None.')
+            hold_climate_ref, six.string_types
+        ):
+            raise TypeError(
+                'hold_climate_ref must be an instance of {0}'.format(six.string_types)
+            )
+        if (
+            cool_hold_temp is None
+            and heat_hold_temp is None
+            and hold_climate_ref is None
+        ):
+            raise ValueError(
+                'cool_hold_temp, heat_hold_temp, and hold_climate_ref must not all '
+                'be None. Either cool_hold_temp and heat_hold_temp must not be None '
+                'or hold_climate_ref must not be None'
+            )
+        if hold_climate_ref is None and (
+            cool_hold_temp is None or heat_hold_temp is None
+        ):
+            raise ValueError(
+                'hold_climate_ref is None. cool_hold_temp and heat_hold_temp must '
+                'not be None.'
+            )
         if start_date_time is not None:
             if not isinstance(start_date_time, datetime):
-                raise TypeError('start_date_time must be an instance of {0}'.format(datetime))
+                raise TypeError(
+                    'start_date_time must be an instance of {0}'.format(datetime)
+                )
             if start_date_time < EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME:
-                raise ValueError('start_date_time must be later than {0}'.format(
-                    EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime('%Y-%m-%d %H:%M:%S %Z')))
+                raise ValueError(
+                    'start_date_time must be later than {0}'.format(
+                        EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime(
+                            '%Y-%m-%d %H:%M:%S %Z'
+                        )
+                    )
+                )
             if start_date_time > EcobeeService.END_OF_TIME_DATE_TIME:
-                raise ValueError('start_date_time must be earlier than {0}'.format(
-                    EcobeeService.END_OF_TIME_DATE_TIME.strftime('%Y-%m-%d %H:%M:%S %Z')))
+                raise ValueError(
+                    'start_date_time must be earlier than {0}'.format(
+                        EcobeeService.END_OF_TIME_DATE_TIME.strftime(
+                            '%Y-%m-%d %H:%M:%S %Z'
+                        )
+                    )
+                )
         if end_date_time is not None:
             if not isinstance(end_date_time, datetime):
-                raise TypeError('end_date_time must be an instance of {0}'.format(datetime))
+                raise TypeError(
+                    'end_date_time must be an instance of {0}'.format(datetime)
+                )
             if end_date_time < EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME:
-                raise ValueError('end_date_time must be later than {0}'.format(
-                    EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime('%Y-%m-%d %H:%M:%S %Z')))
+                raise ValueError(
+                    'end_date_time must be later than {0}'.format(
+                        EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime(
+                            '%Y-%m-%d %H:%M:%S %Z'
+                        )
+                    )
+                )
             if end_date_time > EcobeeService.END_OF_TIME_DATE_TIME:
-                raise ValueError('end_date_time must be earlier than {0}'.format(
-                    EcobeeService.END_OF_TIME_DATE_TIME.strftime('%Y-%m-%d %H:%M:%S %Z')))
-        if start_date_time is not None and end_date_time is not None and \
-                start_date_time >= end_date_time:
+                raise ValueError(
+                    'end_date_time must be earlier than {0}'.format(
+                        EcobeeService.END_OF_TIME_DATE_TIME.strftime(
+                            '%Y-%m-%d %H:%M:%S %Z'
+                        )
+                    )
+                )
+        if (
+            start_date_time is not None
+            and end_date_time is not None
+            and start_date_time >= end_date_time
+        ):
             raise ValueError('end_date_time must be later than start_date_time')
         if not isinstance(hold_type, HoldType):
             raise TypeError('hold_type must be an instance of {0}'.format(HoldType))
         if hold_type == HoldType.DATE_TIME and end_date_time is None:
-            raise ValueError('hold_type is {0}. end_date_time must not be None'.format(
-                HoldType.DATE_TIME.value))
+            raise ValueError(
+                'hold_type is {0}. end_date_time must not be None'.format(
+                    HoldType.DATE_TIME.value
+                )
+            )
         if hold_hours is not None and not isinstance(hold_hours, int):
             raise TypeError('hold_hours must be an instance of {0}'.format(int))
         if hold_type == HoldType.HOLD_HOURS and hold_hours is None:
-            raise ValueError('hold_type is {0}. hold_hours must not be None'.format(
-                HoldType.HOLD_HOURS.value))
+            raise ValueError(
+                'hold_type is {0}. hold_hours must not be None'.format(
+                    HoldType.HOLD_HOURS.value
+                )
+            )
         if not isinstance(selection, Selection):
             raise TypeError('selection must be an instance of {0}'.format(Selection))
 
@@ -2316,34 +2785,42 @@ class EcobeeService(EcobeeObject):
 
         if start_date_time is not None:
             set_hold_parameters['startDate'] = '{0}-{1:02}-{2:02}'.format(
-                start_date_time.year, start_date_time.month, start_date_time.day)
+                start_date_time.year, start_date_time.month, start_date_time.day
+            )
             set_hold_parameters['startTime'] = '{0:02}:{1:02}:{2:02}'.format(
-                start_date_time.hour, start_date_time.minute, start_date_time.second)
+                start_date_time.hour, start_date_time.minute, start_date_time.second
+            )
 
         if end_date_time is not None:
             set_hold_parameters['endDate'] = '{0}-{1:02}-{2:02}'.format(
-                end_date_time.year, end_date_time.month, end_date_time.day)
+                end_date_time.year, end_date_time.month, end_date_time.day
+            )
             set_hold_parameters['endTime'] = '{0:02}:{1:02}:{2:02}'.format(
-                end_date_time.hour, end_date_time.minute, end_date_time.second)
+                end_date_time.hour, end_date_time.minute, end_date_time.second
+            )
 
         if hold_hours is not None:
             set_hold_parameters['holdHours'] = hold_hours
 
-        return self.update_thermostats(selection,
-                                       thermostat=None,
-                                       functions=[Function(type_='setHold',
-                                                           params=set_hold_parameters)],
-                                       timeout=timeout)
+        return self.update_thermostats(
+            selection,
+            thermostat=None,
+            functions=[Function(type_='setHold', params=set_hold_parameters)],
+            timeout=timeout,
+        )
 
-    def set_occupied(self,
-                     occupied,
-                     start_date_time=None,
-                     end_date_time=None,
-                     hold_type=HoldType.INDEFINITE,
-                     hold_hours=None,
-                     selection=Selection(selection_type=SelectionType.REGISTERED.value,
-                                         selection_match=''),
-                     timeout=5):
+    def set_occupied(
+        self,
+        occupied,
+        start_date_time=None,
+        end_date_time=None,
+        hold_type=HoldType.INDEFINITE,
+        hold_hours=None,
+        selection=Selection(
+            selection_type=SelectionType.REGISTERED.value, selection_match=''
+        ),
+        timeout=5,
+    ):
         """
         The set_occupied method may only be used by EMS thermostats. The
         method switches a thermostat from occupied mode to unoccupied,
@@ -2396,35 +2873,68 @@ class EcobeeService(EcobeeObject):
             raise TypeError('occupied must be an instance of {0}'.format(bool))
         if start_date_time is not None:
             if not isinstance(start_date_time, datetime):
-                raise TypeError('start_date_time must be an instance of {0}'.format(datetime))
+                raise TypeError(
+                    'start_date_time must be an instance of {0}'.format(datetime)
+                )
             if start_date_time < EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME:
-                raise ValueError('start_date_time must be later than {0}'.format(
-                    EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime('%Y-%m-%d %H:%M:%S %Z')))
+                raise ValueError(
+                    'start_date_time must be later than {0}'.format(
+                        EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime(
+                            '%Y-%m-%d %H:%M:%S %Z'
+                        )
+                    )
+                )
             if start_date_time > EcobeeService.END_OF_TIME_DATE_TIME:
-                raise ValueError('start_date_time must be earlier than {0}'.format(
-                    EcobeeService.END_OF_TIME_DATE_TIME.strftime('%Y-%m-%d %H:%M:%S %Z')))
+                raise ValueError(
+                    'start_date_time must be earlier than {0}'.format(
+                        EcobeeService.END_OF_TIME_DATE_TIME.strftime(
+                            '%Y-%m-%d %H:%M:%S %Z'
+                        )
+                    )
+                )
         if end_date_time is not None:
             if not isinstance(end_date_time, datetime):
-                raise TypeError('end_date_time must be an instance of {0}'.format(datetime))
+                raise TypeError(
+                    'end_date_time must be an instance of {0}'.format(datetime)
+                )
             if end_date_time < EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME:
-                raise ValueError('end_date_time must be later than {0}'.format(
-                    EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime('%Y-%m-%d %H:%M:%S %Z')))
+                raise ValueError(
+                    'end_date_time must be later than {0}'.format(
+                        EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime(
+                            '%Y-%m-%d %H:%M:%S %Z'
+                        )
+                    )
+                )
             if end_date_time > EcobeeService.END_OF_TIME_DATE_TIME:
-                raise ValueError('end_date_time must be earlier than {0}'.format(
-                    EcobeeService.END_OF_TIME_DATE_TIME.strftime('%Y-%m-%d %H:%M:%S %Z')))
-        if start_date_time is not None and end_date_time is not None and \
-                start_date_time >= end_date_time:
+                raise ValueError(
+                    'end_date_time must be earlier than {0}'.format(
+                        EcobeeService.END_OF_TIME_DATE_TIME.strftime(
+                            '%Y-%m-%d %H:%M:%S %Z'
+                        )
+                    )
+                )
+        if (
+            start_date_time is not None
+            and end_date_time is not None
+            and start_date_time >= end_date_time
+        ):
             raise ValueError('end_date_time must be later than start_date_time')
         if not isinstance(hold_type, HoldType):
             raise TypeError('hold_type must be an instance of {0}'.format(HoldType))
         if hold_type == HoldType.DATE_TIME and end_date_time is None:
-            raise ValueError('hold_type is {0}. end_date_time must not be None'.format(
-                HoldType.DATE_TIME.value))
+            raise ValueError(
+                'hold_type is {0}. end_date_time must not be None'.format(
+                    HoldType.DATE_TIME.value
+                )
+            )
         if hold_hours is not None and not isinstance(hold_hours, int):
             raise TypeError('hold_hours must be an instance of {0}'.format(int))
         if hold_type == HoldType.HOLD_HOURS and hold_hours is None:
-            raise ValueError('hold_type is {0}. hold_hours must not be None'.format(
-                HoldType.HOLD_HOURS.value))
+            raise ValueError(
+                'hold_type is {0}. hold_hours must not be None'.format(
+                    HoldType.HOLD_HOURS.value
+                )
+            )
         if not isinstance(selection, Selection):
             raise TypeError('selection must be an instance of {0}'.format(Selection))
 
@@ -2432,30 +2942,38 @@ class EcobeeService(EcobeeObject):
 
         if start_date_time is not None:
             set_occupied_parameters['startDate'] = '{0}-{1:02}-{2:02}'.format(
-                start_date_time.year, start_date_time.month, start_date_time.day)
+                start_date_time.year, start_date_time.month, start_date_time.day
+            )
             set_occupied_parameters['startTime'] = '{0:02}:{1:02}:{2:02}'.format(
-                start_date_time.hour, start_date_time.minute, start_date_time.second)
+                start_date_time.hour, start_date_time.minute, start_date_time.second
+            )
 
         if end_date_time is not None:
             set_occupied_parameters['endDate'] = '{0}-{1:02}-{2:02}'.format(
-                end_date_time.year, end_date_time.month, end_date_time.day)
+                end_date_time.year, end_date_time.month, end_date_time.day
+            )
             set_occupied_parameters['endTime'] = '{0:02}:{1:02}:{2:02}'.format(
-                end_date_time.hour, end_date_time.minute, end_date_time.second)
+                end_date_time.hour, end_date_time.minute, end_date_time.second
+            )
 
         if hold_hours is not None:
             set_occupied_parameters['holdHours'] = hold_hours
 
-        return self.update_thermostats(selection,
-                                       thermostat=None,
-                                       functions=[Function(type_='setOccupied',
-                                                           params=set_occupied_parameters)],
-                                       timeout=timeout)
+        return self.update_thermostats(
+            selection,
+            thermostat=None,
+            functions=[Function(type_='setOccupied', params=set_occupied_parameters)],
+            timeout=timeout,
+        )
 
-    def unlink_voice_engine(self,
-                            engine_name,
-                            selection=Selection(selection_type=SelectionType.REGISTERED.value,
-                                                selection_match=''),
-                            timeout=5):
+    def unlink_voice_engine(
+        self,
+        engine_name,
+        selection=Selection(
+            selection_type=SelectionType.REGISTERED.value, selection_match=''
+        ),
+        timeout=5,
+    ):
         """
         The unlink voice engine function allows you to disable voice
         assistant for the selected thermostat.
@@ -2475,23 +2993,31 @@ class EcobeeService(EcobeeObject):
         is not an instance of Selection
         """
         if not isinstance(engine_name, six.string_types):
-            raise TypeError('engine_name must be an instance of {0}'.format(six.string_types))
+            raise TypeError(
+                'engine_name must be an instance of {0}'.format(six.string_types)
+            )
         if not isinstance(selection, Selection):
             raise TypeError('selection must be an instance of {0}'.format(Selection))
 
-        return self.update_thermostats(selection,
-                                       thermostat=None,
-                                       functions=[Function(type_='unlinkVoiceEngine',
-                                                           params={'engineName': engine_name})],
-                                       timeout=timeout)
+        return self.update_thermostats(
+            selection,
+            thermostat=None,
+            functions=[
+                Function(type_='unlinkVoiceEngine', params={'engineName': engine_name})
+            ],
+            timeout=timeout,
+        )
 
-    def update_sensor(self,
-                      name,
-                      device_id,
-                      sensor_id,
-                      selection=Selection(selection_type=SelectionType.REGISTERED.value,
-                                          selection_match=''),
-                      timeout=5):
+    def update_sensor(
+        self,
+        name,
+        device_id,
+        sensor_id,
+        selection=Selection(
+            selection_type=SelectionType.REGISTERED.value, selection_match=''
+        ),
+        timeout=5,
+    ):
         """
         The update_sensor method allows the caller to update the name of
         an ecobee3 remote sensor. Each ecobee3 remote sensor "enclosure"
@@ -2528,20 +3054,27 @@ class EcobeeService(EcobeeObject):
         if len(name) > 32:
             raise ValueError('name maximum length must not be greater than 32')
         if not isinstance(device_id, six.string_types):
-            raise TypeError('device_id must be an instance of {0}'.format(six.string_types))
+            raise TypeError(
+                'device_id must be an instance of {0}'.format(six.string_types)
+            )
         if not isinstance(sensor_id, six.string_types):
-            raise TypeError('sensor_id must be an instance of {0}'.format(six.string_types))
+            raise TypeError(
+                'sensor_id must be an instance of {0}'.format(six.string_types)
+            )
         if not isinstance(selection, Selection):
             raise TypeError('selection must be an instance of {0}'.format(Selection))
 
-        return self.update_thermostats(selection,
-                                       thermostat=None,
-                                       functions=[Function(type_='updateSensor',
-                                                           params={
-                                                               'name': name,
-                                                               'deviceId': device_id,
-                                                               'sensorId': sensor_id})],
-                                       timeout=timeout)
+        return self.update_thermostats(
+            selection,
+            thermostat=None,
+            functions=[
+                Function(
+                    type_='updateSensor',
+                    params={'name': name, 'deviceId': device_id, 'sensorId': sensor_id},
+                )
+            ],
+            timeout=timeout,
+        )
 
     @property
     def thermostat_name(self):

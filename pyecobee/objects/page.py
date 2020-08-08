@@ -21,6 +21,7 @@ class Page(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
+
     __slots__ = ['_page', '_total_pages', '_page_size', '_total']
 
     attribute_name_map = {
@@ -29,9 +30,15 @@ class Page(EcobeeObject):
         'totalPages': 'total_pages',
         'page_size': 'pageSize',
         'pageSize': 'page_size',
-        'total': 'total'}
+        'total': 'total',
+    }
 
-    attribute_type_map = {'page': 'int', 'total_pages': 'int', 'page_size': 'int', 'total': 'int'}
+    attribute_type_map = {
+        'page': 'int',
+        'total_pages': 'int',
+        'page_size': 'int',
+        'total': 'int',
+    }
 
     def __init__(self, page=None, total_pages=None, page_size=None, total=None):
         """

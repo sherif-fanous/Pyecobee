@@ -21,6 +21,7 @@ class HierarchySet(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
+
     __slots__ = ['_set_name', '_set_path', '_children', '_privileges', '_thermostats']
 
     attribute_name_map = {
@@ -30,16 +31,20 @@ class HierarchySet(EcobeeObject):
         'setPath': 'set_path',
         'children': 'children',
         'privileges': 'privileges',
-        'thermostats': 'thermostats'}
+        'thermostats': 'thermostats',
+    }
 
     attribute_type_map = {
         'set_name': 'six.text_type',
         'set_path': 'six.text_type',
         'children': 'List[HierarchySet]',
         'privileges': 'List[HierarchyPrivilege]',
-        'thermostats': 'List[six.text_type]'}
+        'thermostats': 'List[six.text_type]',
+    }
 
-    def __init__(self, set_name, set_path=None, children=None, privileges=None, thermostats=None):
+    def __init__(
+        self, set_name, set_path=None, children=None, privileges=None, thermostats=None
+    ):
         """
         Construct a HierarchySet instance
         """

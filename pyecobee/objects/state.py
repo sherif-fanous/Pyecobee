@@ -21,6 +21,7 @@ class State(EcobeeObject):
     An __init__ argument with a default value of None has been generated
     if the value of REQUIRED is "no".
     """
+
     __slots__ = ['_max_value', '_min_value', '_type', '_actions']
 
     attribute_name_map = {
@@ -29,13 +30,15 @@ class State(EcobeeObject):
         'min_value': 'minValue',
         'minValue': 'min_value',
         'type': 'type',
-        'actions': 'actions'}
+        'actions': 'actions',
+    }
 
     attribute_type_map = {
         'max_value': 'int',
         'min_value': 'int',
         'type': 'six.text_type',
-        'actions': 'List[Action]'}
+        'actions': 'List[Action]',
+    }
 
     def __init__(self, max_value=None, min_value=None, type_=None, actions=None):
         """
