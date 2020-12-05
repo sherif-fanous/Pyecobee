@@ -125,7 +125,7 @@ class Thermostat(EcobeeObject):
         'utc_time': 'six.text_type',
         'audio': 'Audio',
         'alerts': 'List[Alert]',
-        'reminders': 'List[ThermostatReminder2]',
+        'reminders': 'List[Reminder]',
         'settings': 'Settings',
         'runtime': 'Runtime',
         'extended_runtime': 'ExtendedRuntime',
@@ -402,7 +402,7 @@ class Thermostat(EcobeeObject):
 
         :return: The value of the reminders attribute of this Thermostat
         instance.
-        :rtype: List[ThermostatReminder2]
+        :rtype: List[Reminder]
         """
 
         return self._reminders
