@@ -293,6 +293,8 @@ class Utilities(object):
                                 key,
                                 data[key],
                             )
+
+                            continue
                     else:
                         generated_code = '{0}={1!r}'.format(key, data[key])
                         response_properties[parent_classes[0]].append(generated_code)

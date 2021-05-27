@@ -41,6 +41,10 @@ class Runtime(EcobeeObject):
         '_desired_humidity',
         '_desired_dehumidity',
         '_desired_fan_mode',
+        '_actual_voc',
+        '_actual_co2',
+        '_actual_aq_accuracy',
+        '_actual_aq_score',
         '_desired_heat_range',
         '_desired_cool_range',
     ]
@@ -81,6 +85,14 @@ class Runtime(EcobeeObject):
         'desiredDehumidity': 'desired_dehumidity',
         'desired_fan_mode': 'desiredFanMode',
         'desiredFanMode': 'desired_fan_mode',
+        'actual_voc': 'actualVOC',
+        'actual_co2': 'actualCO2',
+        'actual_aq_accuracy': 'actualAQAccuracy',
+        'actual_aq_score': 'actualAQScore',
+        'actualVOC': 'actual_voc',
+        'actualCO2': 'actual_co2',
+        'actualAQAccuracy': 'actual_aq_accuracy',
+        'actualAQScore': 'actual_aq_score',
         'desired_heat_range': 'desiredHeatRange',
         'desiredHeatRange': 'desired_heat_range',
         'desired_cool_range': 'desiredCoolRange',
@@ -106,6 +118,10 @@ class Runtime(EcobeeObject):
         'desired_humidity': 'int',
         'desired_dehumidity': 'int',
         'desired_fan_mode': 'six.text_type',
+        'actual_voc': 'int',
+        'actual_co2': 'int',
+        'actual_aq_accuracy': 'int',
+        'actual_aq_score': 'int',
         'desired_heat_range': 'List[int]',
         'desired_cool_range': 'List[int]',
     }
@@ -130,6 +146,10 @@ class Runtime(EcobeeObject):
         desired_humidity=None,
         desired_dehumidity=None,
         desired_fan_mode=None,
+        actual_voc=None,
+        actual_co2=None,
+        actual_aq_accuracy=None,
+        actual_aq_score=None,
         desired_heat_range=None,
         desired_cool_range=None,
     ):
@@ -154,6 +174,10 @@ class Runtime(EcobeeObject):
         self._desired_humidity = desired_humidity
         self._desired_dehumidity = desired_dehumidity
         self._desired_fan_mode = desired_fan_mode
+        self._actual_voc = actual_voc
+        self._actual_co2 = actual_co2
+        self._actual_aq_accuracy = actual_aq_accuracy
+        self._actual_aq_score = actual_aq_score
         self._desired_heat_range = desired_heat_range
         self._desired_cool_range = desired_cool_range
 
@@ -400,6 +424,54 @@ class Runtime(EcobeeObject):
         """
 
         return self._desired_fan_mode
+
+    @property
+    def actual_voc(self):
+        """
+        Gets the actual_voc attribute of this Runtime instance.
+
+        :return: The value of the actual_voc attribute of this
+        Runtime instance.
+        :rtype: int
+        """
+
+        return self._actual_voc
+
+    @property
+    def actual_co2(self):
+        """
+        Gets the actual_co2 attribute of this Runtime instance.
+
+        :return: The value of the actual_co2 attribute of this
+        Runtime instance.
+        :rtype: int
+        """
+
+        return self._actual_co2
+
+    @property
+    def actual_aq_accuracy(self):
+        """
+        Gets the actual_aq_accuracy attribute of this Runtime instance.
+
+        :return: The value of the actual_aq_accuracy attribute of this
+        Runtime instance.
+        :rtype: int
+        """
+
+        return self._actual_aq_accuracy
+
+    @property
+    def actual_aq_score(self):
+        """
+        Gets the actual_aq_score attribute of this Runtime instance.
+
+        :return: The value of the actual_aq_score attribute of this
+        Runtime instance.
+        :rtype: int
+        """
+
+        return self._actual_aq_score
 
     @property
     def desired_heat_range(self):
