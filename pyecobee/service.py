@@ -2638,10 +2638,11 @@ class EcobeeService(EcobeeObject):
         :raises EcobeeRequestsException: If an exception is raised by
         the underlying requests module
         :raises TypeError: If cool_hold_temp is not a real,
-        heat_hold_temp is not a real, hold_climate_ref is not a string,
-        start_date_time is not a datetime, end_date_time is not a
-        datetime, hold_type is not a member of HoldType, hold_hours is
-        not an integer, or selection is not an instance of Selection
+        heat_hold_temp is not a real, fan_mode is not a member of
+        FanMode, hold_climate_ref is not a string, start_date_time is
+        not a datetime, end_date_time is not a datetime, hold_type is
+        not a member of HoldType, hold_hours is not an integer, or
+        selection is not an instance of Selection
         :raises ValueError: If cool_hold_temp is lower than -10F,
         cool_hold_temp is higher than 120F, heat_hold_temp is lower than
         45F, heat_hold_temp is higher than 120F, cool_hold_temp,
@@ -2685,8 +2686,7 @@ class EcobeeService(EcobeeObject):
                         EcobeeService.MAXIMUM_HEATING_TEMPERATURE,
                     )
                 )
-        if fan_mode is not None:
-            if not isinstance(fan_mode, FanMode):
+        if fan_mode is not None and not isinstance(fan_mode, FanMode):
                 raise TypeError("fan_mode must be an instance of {0}".format(FanMode))
         if hold_climate_ref is not None and not isinstance(
             hold_climate_ref, six.string_types
