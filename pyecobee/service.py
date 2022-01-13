@@ -2582,6 +2582,7 @@ class EcobeeService(EcobeeObject):
         self,
         cool_hold_temp=None,
         heat_hold_temp=None,
+        fan_mode=None,
         hold_climate_ref=None,
         start_date_time=None,
         end_date_time=None,
@@ -2611,6 +2612,8 @@ class EcobeeService(EcobeeObject):
         cool vacation hold at
         :param heat_hold_temp: The temperature in Fahrenheit to set the
         heat vacation hold at
+        :param fan_mode: The fan mode during the hold. Valid values:
+        FanMode.AUTO and FanMode.ON
         :param hold_climate_ref: The Climate to use as reference for
         setting the cool_hold_temp, heat_hold_temp and fan settings for
         this hold. If this value is passed the cool_hold_temp and
@@ -2635,10 +2638,11 @@ class EcobeeService(EcobeeObject):
         :raises EcobeeRequestsException: If an exception is raised by
         the underlying requests module
         :raises TypeError: If cool_hold_temp is not a real,
-        heat_hold_temp is not a real, hold_climate_ref is not a string,
-        start_date_time is not a datetime, end_date_time is not a
-        datetime, hold_type is not a member of HoldType, hold_hours is
-        not an integer, or selection is not an instance of Selection
+        heat_hold_temp is not a real, fan_mode is not a member of
+        FanMode, hold_climate_ref is not a string, start_date_time is
+        not a datetime, end_date_time is not a datetime, hold_type is
+        not a member of HoldType, hold_hours is not an integer, or
+        selection is not an instance of Selection
         :raises ValueError: If cool_hold_temp is lower than -10F,
         cool_hold_temp is higher than 120F, heat_hold_temp is lower than
         45F, heat_hold_temp is higher than 120F, cool_hold_temp,
@@ -2682,6 +2686,8 @@ class EcobeeService(EcobeeObject):
                         EcobeeService.MAXIMUM_HEATING_TEMPERATURE,
                     )
                 )
+        if fan_mode is not None and not isinstance(fan_mode, FanMode):
+                raise TypeError("fan_mode must be an instance of {0}".format(FanMode))
         if hold_climate_ref is not None and not isinstance(
             hold_climate_ref, six.string_types
         ):
@@ -2779,6 +2785,9 @@ class EcobeeService(EcobeeObject):
 
         if heat_hold_temp is not None:
             set_hold_parameters['heatHoldTemp'] = int(heat_hold_temp * 10)
+            
+        if fan_mode is not None:
+            set_hold_parameters["fan"] = fan_mode.value
 
         if hold_climate_ref is not None:
             set_hold_parameters['holdClimateRef'] = hold_climate_ref
