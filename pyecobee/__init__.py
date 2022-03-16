@@ -61,6 +61,7 @@ from pyecobee.objects.notification_settings import NotificationSettings
 from pyecobee.objects.output import Output
 from pyecobee.objects.page import Page
 from pyecobee.objects.program import Program
+from pyecobee.objects.reminder import Reminder
 from pyecobee.objects.remote_sensor import RemoteSensor
 from pyecobee.objects.remote_sensor_capability import RemoteSensorCapability
 from pyecobee.objects.report_job import ReportJob
