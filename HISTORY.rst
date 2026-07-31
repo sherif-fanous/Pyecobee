@@ -2,6 +2,10 @@
 
 Release History
 ===============
+1.3.13 (2026-07-31)
+-------------------
+* Skip unsupported API objects during response deserialization
+
 1.3.11 (2021-05-27)
 -------------------
 * Add actual_voc actual_co2, actual_aq_accuracy, and actual_aq_score to Runtime object
