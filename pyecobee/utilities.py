@@ -93,6 +93,21 @@ class Utilities(object):
     _class_name_map = {'tou': 'TimeOfUse'}
 
     @classmethod
+    def _object_class(cls, key):
+        """Return the class for an API object name, if it is supported."""
+        class_name = '{0}{1}'.format(key[:1].upper(), key[1:])
+
+        try:
+            return getattr(sys.modules[__name__], class_name)
+        except AttributeError:
+            try:
+                class_name = cls._class_name_map[key]
+
+                return getattr(sys.modules[__name__], class_name)
+            except (AttributeError, KeyError):
+                return None
+
+    @classmethod
     def dictionary_to_object(
         cls,
         data,
@@ -105,22 +120,27 @@ class Utilities(object):
         if isinstance(data, dict):
             for (i, key) in enumerate(data):
                 if isinstance(data[key], dict):  # Object
+                    # An API response may contain an object introduced after
+                    # this library was released.  Do not let that object make
+                    # the whole response impossible to deserialize.
+                    object_class = cls._object_class(key)
+
+                    if object_class is None:
+                        logger.error(
+                            'Missing object definition\n'
+                            'Object name    => %s\n'
+                            'Object value   => %s\n\n'
+                            'Please open a new issue here '
+                            '(https://github.com/sfanous/Pyecobee/issues/new)',
+                            key,
+                            data[key],
+                        )
+
+                        continue
+
                     # Append class of object to parent_classes
                     if len(parent_classes) > 1:
-                        try:
-                            parent_classes.append(
-                                getattr(
-                                    sys.modules[__name__],
-                                    '{0}{1}'.format(key[:1].upper(), key[1:]),
-                                )
-                            )
-                        except AttributeError:
-                            parent_classes.append(
-                                getattr(
-                                    sys.modules[__name__],
-                                    '{0}'.format(cls._class_name_map[key]),
-                                )
-                            )
+                        parent_classes.append(object_class)
 
                         # Nested object (i.e. This object is passed as
                         # an argument to its parent constructor
@@ -139,12 +159,7 @@ class Utilities(object):
                     else:
                         # Top level object
                         parent_classes = [key]
-                        parent_classes.append(
-                            getattr(
-                                sys.modules[__name__],
-                                '{0}{1}'.format(key[:1].upper(), key[1:]),
-                            )
-                        )
+                        parent_classes.append(object_class)
 
                         response_properties[parent_classes[0]] = []
                         generated_code = '{0}{1}(\n'.format(
