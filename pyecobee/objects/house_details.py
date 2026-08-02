@@ -48,7 +48,7 @@ class HouseDetails(EcobeeObject):
     }
 
     attribute_type_map = {
-        "style": "six.text_type",
+        "style": "str",
         "size": "int",
         "number_of_floors": "int",
         "number_of_rooms": "int",
@@ -85,7 +85,7 @@ class HouseDetails(EcobeeObject):
 
         :return: The value of the style attribute of this HouseDetails
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._style
@@ -97,7 +97,7 @@ class HouseDetails(EcobeeObject):
 
         :param style: The style value to set for the style attribute of
         this HouseDetails instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._style = style

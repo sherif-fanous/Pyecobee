@@ -518,6 +518,8 @@ class EcobeeService(EcobeeObject):
             raise ValueError("selection must not specify more than 25 thermostats")
         if not isinstance(start_date_time, DateTime):
             raise TypeError(f"start_date must be an instance of {DateTime}")
+        if start_date_time.tzinfo is None or start_date_time.utcoffset() is None:
+            raise ValueError("start_date_time must be timezone-aware")
         if start_date_time < EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME:
             raise ValueError(
                 "start_date must be later than {}".format(
@@ -534,6 +536,8 @@ class EcobeeService(EcobeeObject):
             )
         if not isinstance(end_date_time, DateTime):
             raise TypeError(f"end_date must be an instance of {DateTime}")
+        if end_date_time.tzinfo is None or end_date_time.utcoffset() is None:
+            raise ValueError("end_date_time must be timezone-aware")
         if end_date_time < EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME:
             raise ValueError(
                 "end_date must be later than {}".format(
@@ -653,6 +657,8 @@ class EcobeeService(EcobeeObject):
             raise ValueError("selection must not specify more than 25 thermostats")
         if not isinstance(start_date_time, DateTime):
             raise TypeError(f"start_date must be an instance of {DateTime}")
+        if start_date_time.tzinfo is None or start_date_time.utcoffset() is None:
+            raise ValueError("start_date_time must be timezone-aware")
         if start_date_time < EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME:
             raise ValueError(
                 "start_date must be later than {}".format(
@@ -669,6 +675,8 @@ class EcobeeService(EcobeeObject):
             )
         if not isinstance(end_date_time, DateTime):
             raise TypeError(f"end_date must be an instance of {DateTime}")
+        if end_date_time.tzinfo is None or end_date_time.utcoffset() is None:
+            raise ValueError("end_date_time must be timezone-aware")
         if end_date_time < EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME:
             raise ValueError(
                 "end_date must be later than {}".format(

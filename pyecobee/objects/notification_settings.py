@@ -42,7 +42,7 @@ class NotificationSettings(EcobeeObject):
     }
 
     attribute_type_map = {
-        "email_addresses": "List[six.text_type]",
+        "email_addresses": "List[str]",
         "email_notifications_enabled": "bool",
         "equipment": "List[EquipmentSetting]",
         "general": "List[GeneralSetting]",
@@ -74,7 +74,7 @@ class NotificationSettings(EcobeeObject):
 
         :return: The value of the email_addresses attribute of this
         NotificationSettings instance.
-        :rtype: List[six.text_type]
+        :rtype: List[str]
         """
 
         return self._email_addresses
@@ -87,7 +87,7 @@ class NotificationSettings(EcobeeObject):
 
         :param email_addresses: The email_addresses value to set for the
         email_addresses attribute of this NotificationSettings instance.
-        :type: List[six.text_type]
+        :type: List[str]
         """
 
         self._email_addresses = email_addresses

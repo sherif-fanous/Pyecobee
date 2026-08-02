@@ -30,7 +30,7 @@ class Version(EcobeeObject):
         "thermostatFirmwareVersion": "thermostat_firmware_version",
     }
 
-    attribute_type_map = {"thermostat_firmware_version": "six.text_type"}
+    attribute_type_map = {"thermostat_firmware_version": "str"}
 
     def __init__(self, thermostat_firmware_version=None):
         """
@@ -46,7 +46,7 @@ class Version(EcobeeObject):
 
         :return: The value of the thermostat_firmware_version attribute
         of this Version instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._thermostat_firmware_version

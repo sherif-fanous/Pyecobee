@@ -33,9 +33,9 @@ class MeterReportData(EcobeeObject):
     }
 
     attribute_type_map = {
-        "meter_type": "six.text_type",
-        "columns": "six.text_type",
-        "data": "List[six.text_type]",
+        "meter_type": "str",
+        "columns": "str",
+        "data": "List[str]",
     }
 
     def __init__(self, meter_type=None, columns=None, data=None):
@@ -53,7 +53,7 @@ class MeterReportData(EcobeeObject):
 
         :return: The value of the meter_type attribute of this
         MeterReportData instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._meter_type
@@ -65,7 +65,7 @@ class MeterReportData(EcobeeObject):
 
         :return: The value of the columns attribute of this
         MeterReportData instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._columns
@@ -77,7 +77,7 @@ class MeterReportData(EcobeeObject):
 
         :return: The value of the data attribute of this MeterReportData
         instance.
-        :rtype: List[six.text_type]
+        :rtype: List[str]
         """
 
         return self._data

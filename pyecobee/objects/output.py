@@ -51,10 +51,10 @@ class Output(EcobeeObject):
     }
 
     attribute_type_map = {
-        "name": "six.text_type",
+        "name": "str",
         "zone": "int",
         "output_id": "int",
-        "type": "six.text_type",
+        "type": "str",
         "send_update": "bool",
         "active_closed": "bool",
         "activation_time": "int",
@@ -91,7 +91,7 @@ class Output(EcobeeObject):
 
         :return: The value of the name attribute of this Output
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._name
@@ -127,7 +127,7 @@ class Output(EcobeeObject):
 
         :return: The value of the type attribute of this Output
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._type

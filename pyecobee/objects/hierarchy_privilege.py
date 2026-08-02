@@ -75,9 +75,9 @@ class HierarchyPrivilege(EcobeeObject):
     }
 
     attribute_type_map = {
-        "set_path": "six.text_type",
-        "user_name": "six.text_type",
-        "set_name": "six.text_type",
+        "set_path": "str",
+        "user_name": "str",
+        "set_name": "str",
         "allow_all": "bool",
         "allow_none": "bool",
         "allow_view": "bool",
@@ -136,7 +136,7 @@ class HierarchyPrivilege(EcobeeObject):
 
         :return: The value of the set_path attribute of this
         HierarchyPrivilege instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._set_path
@@ -148,7 +148,7 @@ class HierarchyPrivilege(EcobeeObject):
 
         :param set_path: The set_path value to set for the set_path
         attribute of this HierarchyPrivilege instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._set_path = set_path
@@ -161,7 +161,7 @@ class HierarchyPrivilege(EcobeeObject):
 
         :return: The value of the user_name attribute of this
         HierarchyPrivilege instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._user_name
@@ -174,7 +174,7 @@ class HierarchyPrivilege(EcobeeObject):
 
         :param user_name: The user_name value to set for the user_name
         attribute of this HierarchyPrivilege instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._user_name = user_name
@@ -186,7 +186,7 @@ class HierarchyPrivilege(EcobeeObject):
 
         :return: The value of the set_name attribute of this
         HierarchyPrivilege instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._set_name

@@ -36,11 +36,11 @@ class HierarchySet(EcobeeObject):
     }
 
     attribute_type_map = {
-        "set_name": "six.text_type",
-        "set_path": "six.text_type",
+        "set_name": "str",
+        "set_path": "str",
         "children": "List[HierarchySet]",
         "privileges": "List[HierarchyPrivilege]",
-        "thermostats": "List[six.text_type]",
+        "thermostats": "List[str]",
     }
 
     def __init__(
@@ -62,7 +62,7 @@ class HierarchySet(EcobeeObject):
 
         :return: The value of the set_name attribute of this
         HierarchySet instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._set_name
@@ -74,7 +74,7 @@ class HierarchySet(EcobeeObject):
 
         :param set_name: The set_name value to set for the set_name
         attribute of this HierarchySet instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._set_name = set_name
@@ -86,7 +86,7 @@ class HierarchySet(EcobeeObject):
 
         :return: The value of the set_path attribute of this
         HierarchySet instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._set_path
@@ -122,7 +122,7 @@ class HierarchySet(EcobeeObject):
 
         :return: The value of the thermostats attribute of this
         HierarchySet instance.
-        :rtype: List[six.text_type]
+        :rtype: List[str]
         """
 
         return self._thermostats

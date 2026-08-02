@@ -72,22 +72,22 @@ class Alert(EcobeeObject):
     }
 
     attribute_type_map = {
-        "text": "six.text_type",
-        "acknowledge_ref": "six.text_type",
-        "date": "six.text_type",
-        "time": "six.text_type",
-        "severity": "six.text_type",
+        "text": "str",
+        "acknowledge_ref": "str",
+        "date": "str",
+        "time": "str",
+        "severity": "str",
         "alert_number": "int",
-        "alert_type": "six.text_type",
+        "alert_type": "str",
         "is_operator_alert": "bool",
-        "reminder": "six.text_type",
+        "reminder": "str",
         "show_idt": "bool",
         "show_web": "bool",
         "send_email": "bool",
-        "acknowledgement": "six.text_type",
+        "acknowledgement": "str",
         "remind_me_later": "bool",
-        "thermostat_identifier": "six.text_type",
-        "notification_type": "six.text_type",
+        "thermostat_identifier": "str",
+        "notification_type": "str",
     }
 
     def __init__(
@@ -135,7 +135,7 @@ class Alert(EcobeeObject):
         Gets the text attribute of this Alert instance.
 
         :return: The value of the text attribute of this Alert instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._text
@@ -147,7 +147,7 @@ class Alert(EcobeeObject):
 
         :return: The value of the acknowledge_ref attribute of this
         Alert instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._acknowledge_ref
@@ -158,7 +158,7 @@ class Alert(EcobeeObject):
         Gets the date attribute of this Alert instance.
 
         :return: The value of the date attribute of this Alert instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._date
@@ -169,7 +169,7 @@ class Alert(EcobeeObject):
         Gets the time attribute of this Alert instance.
 
         :return: The value of the time attribute of this Alert instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._time
@@ -181,7 +181,7 @@ class Alert(EcobeeObject):
 
         :return: The value of the severity attribute of this Alert
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._severity
@@ -205,7 +205,7 @@ class Alert(EcobeeObject):
 
         :return: The value of the alert_type attribute of this Alert
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._alert_type
@@ -229,7 +229,7 @@ class Alert(EcobeeObject):
 
         :return: The value of the reminder attribute of this Alert
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._reminder
@@ -277,7 +277,7 @@ class Alert(EcobeeObject):
 
         :return: The value of the acknowledgement attribute of this
         Alert instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._acknowledgement
@@ -301,7 +301,7 @@ class Alert(EcobeeObject):
 
         :return: The value of the thermostat_identifier attribute of
         this Alert instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._thermostat_identifier
@@ -313,7 +313,7 @@ class Alert(EcobeeObject):
 
         :return: The value of the notification_type attribute of this
         Alert instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._notification_type

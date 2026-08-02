@@ -101,14 +101,14 @@ class Runtime(EcobeeObject):
     }
 
     attribute_type_map = {
-        "runtime_rev": "six.text_type",
+        "runtime_rev": "str",
         "connected": "bool",
-        "first_connected": "six.text_type",
-        "connect_date_time": "six.text_type",
-        "disconnect_date_time": "six.text_type",
-        "last_modified": "six.text_type",
-        "last_status_modified": "six.text_type",
-        "runtime_date": "six.text_type",
+        "first_connected": "str",
+        "connect_date_time": "str",
+        "disconnect_date_time": "str",
+        "last_modified": "str",
+        "last_status_modified": "str",
+        "runtime_date": "str",
         "runtime_interval": "int",
         "actual_temperature": "int",
         "actual_humidity": "int",
@@ -118,7 +118,7 @@ class Runtime(EcobeeObject):
         "desired_cool": "int",
         "desired_humidity": "int",
         "desired_dehumidity": "int",
-        "desired_fan_mode": "six.text_type",
+        "desired_fan_mode": "str",
         "actual_voc": "int",
         "actual_co2": "int",
         "actual_aq_accuracy": "int",
@@ -189,7 +189,7 @@ class Runtime(EcobeeObject):
 
         :return: The value of the runtime_rev attribute of this Runtime
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._runtime_rev
@@ -213,7 +213,7 @@ class Runtime(EcobeeObject):
 
         :return: The value of the first_connected attribute of this
         Runtime instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._first_connected
@@ -225,7 +225,7 @@ class Runtime(EcobeeObject):
 
         :return: The value of the connect_date_time attribute of this
         Runtime instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._connect_date_time
@@ -237,7 +237,7 @@ class Runtime(EcobeeObject):
 
         :param connect_date_time: The connect_date_time value to set for
         the connect_date_time attribute of this Runtime instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._connect_date_time = connect_date_time
@@ -250,7 +250,7 @@ class Runtime(EcobeeObject):
 
         :return: The value of the disconnect_date_time attribute of this
         Runtime instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._disconnect_date_time
@@ -264,7 +264,7 @@ class Runtime(EcobeeObject):
         :param disconnect_date_time: The disconnect_date_time value to
         set for the disconnect_date_time attribute of this Runtime
         instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._disconnect_date_time = disconnect_date_time
@@ -276,7 +276,7 @@ class Runtime(EcobeeObject):
 
         :return: The value of the last_modified attribute of this
         Runtime instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._last_modified
@@ -289,7 +289,7 @@ class Runtime(EcobeeObject):
 
         :return: The value of the last_status_modified attribute of this
         Runtime instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._last_status_modified
@@ -301,7 +301,7 @@ class Runtime(EcobeeObject):
 
         :return: The value of the runtime_date attribute of this Runtime
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._runtime_date
@@ -421,7 +421,7 @@ class Runtime(EcobeeObject):
 
         :return: The value of the desired_fan_mode attribute of this
         Runtime instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._desired_fan_mode

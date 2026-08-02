@@ -66,16 +66,16 @@ class Climate(EcobeeObject):
     }
 
     attribute_type_map = {
-        "name": "six.text_type",
-        "climate_ref": "six.text_type",
+        "name": "str",
+        "climate_ref": "str",
         "is_occupied": "bool",
         "is_optimized": "bool",
-        "cool_fan": "six.text_type",
-        "heat_fan": "six.text_type",
-        "vent": "six.text_type",
+        "cool_fan": "str",
+        "heat_fan": "str",
+        "vent": "str",
         "ventilator_min_on_time": "int",
-        "owner": "six.text_type",
-        "type": "six.text_type",
+        "owner": "str",
+        "type": "str",
         "colour": "int",
         "cool_temp": "int",
         "heat_temp": "int",
@@ -124,7 +124,7 @@ class Climate(EcobeeObject):
 
         :return: The value of the name attribute of this Climate
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._name
@@ -136,7 +136,7 @@ class Climate(EcobeeObject):
 
         :param name: The name value to set for the name attribute of
         this Climate instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._name = name
@@ -148,7 +148,7 @@ class Climate(EcobeeObject):
 
         :return: The value of the climate_ref attribute of this Climate
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._climate_ref
@@ -208,7 +208,7 @@ class Climate(EcobeeObject):
 
         :return: The value of the cool_fan attribute of this Climate
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._cool_fan
@@ -220,7 +220,7 @@ class Climate(EcobeeObject):
 
         :param cool_fan: The cool_fan value to set for the cool_fan
         attribute of this Climate instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._cool_fan = cool_fan
@@ -232,7 +232,7 @@ class Climate(EcobeeObject):
 
         :return: The value of the heat_fan attribute of this Climate
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._heat_fan
@@ -244,7 +244,7 @@ class Climate(EcobeeObject):
 
         :param heat_fan: The heat_fan value to set for the heat_fan
         attribute of this Climate instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._heat_fan = heat_fan
@@ -256,7 +256,7 @@ class Climate(EcobeeObject):
 
         :return: The value of the vent attribute of this Climate
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._vent
@@ -268,7 +268,7 @@ class Climate(EcobeeObject):
 
         :param vent: The vent value to set for the vent attribute of
         this Climate instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._vent = vent
@@ -307,7 +307,7 @@ class Climate(EcobeeObject):
 
         :return: The value of the owner attribute of this Climate
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._owner
@@ -319,7 +319,7 @@ class Climate(EcobeeObject):
 
         :param owner: The owner value to set for the owner attribute of
         this Climate instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._owner = owner
@@ -331,7 +331,7 @@ class Climate(EcobeeObject):
 
         :return: The value of the type attribute of this Climate
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._type
@@ -343,7 +343,7 @@ class Climate(EcobeeObject):
 
         :param type: The type value to set for the type attribute of
         this Climate instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._type = type_

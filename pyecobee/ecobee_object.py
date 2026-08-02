@@ -40,8 +40,7 @@ class EcobeeObject:
         recursive level
         :param level: The recursion level
         :param sort_attributes: Whether to sort the attributes or not
-        :return: six.text_type (This is unicode() in Python 2 and str in
-        Python 3)
+        :return: str
         """
         pretty_formatted = [f"{self.__class__.__name__}(\n"]
         level = level + 1

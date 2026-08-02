@@ -47,6 +47,25 @@ def test_meter_report_validates_dates_before_request():
         service().request_meter_reports(selection(), start, start + timedelta(days=32))
 
 
+@pytest.mark.parametrize(
+    ("method", "kwargs"),
+    [
+        ("request_meter_reports", {}),
+        ("request_runtime_reports", {"columns": "auxHeat1"}),
+    ],
+)
+def test_report_requests_reject_naive_datetimes(method, kwargs):
+    start = DateTime(2020, 1, 2)
+    end = DateTime(2020, 1, 3)
+
+    with pytest.raises(ValueError, match="start_date_time must be timezone-aware"):
+        getattr(service(), method)(selection(), start, end, **kwargs)
+    with pytest.raises(ValueError, match="end_date_time must be timezone-aware"):
+        getattr(service(), method)(
+            selection(), start.replace(tzinfo=datetime.UTC), end, **kwargs
+        )
+
+
 def test_meter_report_converts_aware_dates_to_utc(monkeypatch):
     captured = {}
 

@@ -35,9 +35,9 @@ class RuntimeReport(EcobeeObject):
     }
 
     attribute_type_map = {
-        "thermostat_identifier": "six.text_type",
+        "thermostat_identifier": "str",
         "row_count": "int",
-        "row_list": "List[six.text_type]",
+        "row_list": "List[str]",
     }
 
     def __init__(self, thermostat_identifier=None, row_count=None, row_list=None):
@@ -56,7 +56,7 @@ class RuntimeReport(EcobeeObject):
 
         :return: The value of the thermostat_identifier attribute of
         this RuntimeReport instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._thermostat_identifier
@@ -80,7 +80,7 @@ class RuntimeReport(EcobeeObject):
 
         :return: The value of the row_list attribute of this
         RuntimeReport instance.
-        :rtype: List[six.text_type]
+        :rtype: List[str]
         """
 
         return self._row_list

@@ -65,13 +65,13 @@ class Sensor(EcobeeObject):
     }
 
     attribute_type_map = {
-        "name": "six.text_type",
-        "manufacturer": "six.text_type",
-        "model": "six.text_type",
+        "name": "str",
+        "manufacturer": "str",
+        "model": "str",
         "zone": "int",
         "sensor_id": "int",
-        "type": "six.text_type",
-        "usage": "six.text_type",
+        "type": "str",
+        "usage": "str",
         "number_of_bits": "int",
         "bconstant": "int",
         "thermistor_size": "int",
@@ -126,7 +126,7 @@ class Sensor(EcobeeObject):
 
         :return: The value of the name attribute of this Sensor
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._name
@@ -138,7 +138,7 @@ class Sensor(EcobeeObject):
 
         :return: The value of the manufacturer attribute of this Sensor
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._manufacturer
@@ -150,7 +150,7 @@ class Sensor(EcobeeObject):
 
         :return: The value of the model attribute of this Sensor
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._model
@@ -186,7 +186,7 @@ class Sensor(EcobeeObject):
 
         :return: The value of the type attribute of this Sensor
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._type
@@ -198,7 +198,7 @@ class Sensor(EcobeeObject):
 
         :return: The value of the usage attribute of this Sensor
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._usage

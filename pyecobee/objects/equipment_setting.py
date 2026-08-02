@@ -49,11 +49,11 @@ class EquipmentSetting(EcobeeObject):
     }
 
     attribute_type_map = {
-        "type": "six.text_type",
-        "filter_last_changed": "six.text_type",
+        "type": "str",
+        "filter_last_changed": "str",
         "filter_life": "int",
-        "filter_life_units": "six.text_type",
-        "remind_me_date": "six.text_type",
+        "filter_life_units": "str",
+        "remind_me_date": "str",
         "enabled": "bool",
         "remind_technician": "bool",
     }
@@ -86,7 +86,7 @@ class EquipmentSetting(EcobeeObject):
 
         :return: The value of the type attribute of this
         EquipmentSetting instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._type
@@ -99,7 +99,7 @@ class EquipmentSetting(EcobeeObject):
 
         :return: The value of the filter_last_changed attribute of this
         EquipmentSetting instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._filter_last_changed
@@ -113,7 +113,7 @@ class EquipmentSetting(EcobeeObject):
         :param filter_last_changed: The filter_last_changed value to set
         for the filter_last_changed attribute of this EquipmentSetting
         instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._filter_last_changed = filter_last_changed
@@ -152,7 +152,7 @@ class EquipmentSetting(EcobeeObject):
 
         :return: The value of the filter_life_units attribute of this
         EquipmentSetting instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._filter_life_units
@@ -166,7 +166,7 @@ class EquipmentSetting(EcobeeObject):
         :param filter_life_units: The filter_life_units value to set for
         the filter_life_units attribute of this EquipmentSetting
         instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._filter_life_units = filter_life_units
@@ -179,7 +179,7 @@ class EquipmentSetting(EcobeeObject):
 
         :return: The value of the remind_me_date attribute of this
         EquipmentSetting instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._remind_me_date

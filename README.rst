@@ -298,13 +298,13 @@ Meter Report
 
 .. code-block:: python
 
-    eastern = timezone('US/Eastern')
+    eastern = ZoneInfo('America/New_York')
     meter_reports_response = ecobee_service.request_meter_reports(
             selection=Selection(
                 selection_type=SelectionType.THERMOSTATS.value,
                 selection_match='123456789012'),
-            start_date_time=eastern.localize(datetime(2013, 4, 4, 0, 0, 0), is_dst=True),
-            end_date_time=eastern.localize(datetime(2013, 4, 4, 23, 59, 0), is_dst=True))
+            start_date_time=datetime(2013, 4, 4, 0, 0, 0).replace(tzinfo=eastern),
+            end_date_time=datetime(2013, 4, 4, 23, 59, 0).replace(tzinfo=eastern))
     logger.info(meter_report_response.pretty_format())
     assert meter_report_response.status.code == 0, 'Failure while executing request_meter_reports:\n{0}'.format(
         meter_report_response.pretty_format())
@@ -320,13 +320,13 @@ Runtime Report
 
 .. code-block:: python
 
-    eastern = timezone('US/Eastern')
+    eastern = ZoneInfo('America/New_York')
     runtime_report_response = ecobee_service.request_runtime_reports(
             selection=Selection(
                 selection_type=SelectionType.THERMOSTATS.value,
                 selection_match='123456789012'),
-            start_date_time=eastern.localize(datetime(2010, 1, 1, 0, 0, 0), is_dst=False),
-            end_date_time=eastern.localize(datetime(2010, 1, 2, 0, 0, 0), is_dst=False),
+            start_date_time=datetime(2010, 1, 1, 0, 0, 0).replace(tzinfo=eastern),
+            end_date_time=datetime(2010, 1, 2, 0, 0, 0).replace(tzinfo=eastern),
             columns='auxHeat1,auxHeat2,auxHeat3,compCool1,compCool2,compHeat1,compHeat2,dehumidifier,dmOffset,'
                     'economizer,fan,humidifier,hvacMode,outdoorHumidity,outdoorTemp,sky,ventilator,wind,zoneAveTemp,'
                     'zoneCalendarEvent,zoneClimate,zoneCoolTemp,zoneHeatTemp,zoneHumidity,zoneHumidityHigh,'
@@ -922,25 +922,23 @@ Set Hold
         update_thermostat_response.pretty_format())
 
     # Using specific start/end date and time
-    eastern = timezone('US/Eastern')
+    eastern = ZoneInfo('America/New_York')
     update_thermostat_response = ecobee_service.set_hold(hold_climate_ref='away',
-                                                         start_date_time=eastern.localize(datetime(
-                                                             2017, 5, 10, 13, 0, 0),
-                                                             is_dst=True),
-                                                         end_date_time=eastern.localize(datetime(
-                                                             2017, 5, 10, 14, 0, 0),
-                                                             is_dst=True),
+                                                         start_date_time=datetime(
+                                                             2017, 5, 10, 13, 0, 0,
+                                                             tzinfo=eastern),
+                                                         end_date_time=datetime(
+                                                             2017, 5, 10, 14, 0, 0).replace(tzinfo=eastern),
                                                          hold_type=HoldType.DATE_TIME)
     logger.info(update_thermostat_response.pretty_format())
     assert update_thermostat_response.status.code == 0, 'Failure while executing set_hold:\n{0}'.format(
         update_thermostat_response.pretty_format())
 
     # Using duration
-    eastern = timezone('US/Eastern')
+    eastern = ZoneInfo('America/New_York')
     update_thermostat_response = ecobee_service.set_hold(hold_climate_ref='away',
-                                                         start_date_time=eastern.localize(datetime(
-                                                             2017, 5, 10, 13, 0, 0),
-                                                             is_dst=True),
+                                                         start_date_time=datetime(
+                                                             2017, 5, 10, 13, 0, 0).replace(tzinfo=eastern),
                                                          hold_type=HoldType.HOLD_HOURS,
                                                          hold_hours=1)
     logger.info(update_thermostat_response.pretty_format())
@@ -974,16 +972,14 @@ Create Vacation
 
 .. code-block:: python
 
-    eastern = timezone('US/Eastern')
+    eastern = ZoneInfo('America/New_York')
     update_thermostat_response = ecobee_service.create_vacation(name='Christmas Vacation!',
                                                                 cool_hold_temp=104,
                                                                 heat_hold_temp=59,
-                                                                start_date_time=eastern.localize(datetime(
-                                                                    2017, 12, 23, 10, 0, 0),
-                                                                    is_dst=True),
-                                                                end_date_time=eastern.localize(datetime(
-                                                                    2017, 12, 28, 17, 0, 0),
-                                                                    is_dst=True),
+                                                                start_date_time=datetime(
+                                                                    2017, 12, 23, 10, 0, 0).replace(tzinfo=eastern),
+                                                                end_date_time=datetime(
+                                                                    2017, 12, 28, 17, 0, 0).replace(tzinfo=eastern),
                                                                 fan_mode=FanMode.AUTO,
                                                                 fan_min_on_time=0)
     logger.info(update_thermostat_response.pretty_format())
@@ -1018,10 +1014,8 @@ The ecobee API specifies that all tokens issued must be stored by the applicatio
 .. code-block:: python
 
     import shelve
-    from datetime import datetime
-
-    import pytz
-    from six.moves import input
+    from datetime import UTC, datetime
+    from zoneinfo import ZoneInfo
 
     from pyecobee import *
 
@@ -1092,7 +1086,7 @@ The ecobee API specifies that all tokens issued must be stored by the applicatio
         if ecobee_service.access_token is None:
             request_tokens(ecobee_service)
 
-        now_utc = datetime.now(pytz.utc)
+        now_utc = datetime.now(UTC)
         if now_utc > ecobee_service.refresh_token_expires_on:
             authorize(ecobee_service)
             request_tokens(ecobee_service)
@@ -1116,7 +1110,7 @@ Pro-active
 
 .. code-block:: python
 
-        now_utc = datetime.now(pytz.utc)
+        now_utc = datetime.now(UTC)
         if now_utc > ecobee_service.refresh_token_expires_on:
             authorize(ecobee_service)
             request_tokens(ecobee_service)
@@ -1148,13 +1142,11 @@ Any EcobeeService method that accepts a datetime object as an argument expects t
 
 .. code-block:: python
 
-    import pytz
     from datetime import datetime
+    from zoneinfo import ZoneInfo
 
-    from pytz import timezone
-
-    eastern = timezone('US/Eastern')
-    start_date_time=eastern.localize(datetime(2017, 5, 1, 10, 0, 0), is_dst=True) # 2017/05/01 10:00:00 -0400
+    eastern = ZoneInfo('America/New_York')
+    start_date_time=datetime(2017, 5, 1, 10, 0, 0, tzinfo=eastern) # 2017/05/01 10:00:00 -0400
 
 The method will then either use the passed in datetime object as is, or convert it to its UTC time equivalent depending on the requirements of the ecobee API request being executed.
 

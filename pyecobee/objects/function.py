@@ -28,8 +28,8 @@ class Function(EcobeeObject):
     attribute_name_map = {"type": "type", "params": "params"}
 
     attribute_type_map = {
-        "type": "six.text_type",
-        "params": "Dict[six.text_type, object]",
+        "type": "str",
+        "params": "Dict[str, object]",
     }
 
     def __init__(self, type_=None, params=None):
@@ -46,7 +46,7 @@ class Function(EcobeeObject):
 
         :return: The value of the type attribute of this Function
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._type
@@ -58,7 +58,7 @@ class Function(EcobeeObject):
 
         :param type: The type value to set for the type attribute of
         this Function instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._type = type_
@@ -70,7 +70,7 @@ class Function(EcobeeObject):
 
         :return: The value of the params attribute of this Function
         instance.
-        :rtype: Dict[six.text_type, object]
+        :rtype: Dict[str, object]
         """
 
         return self._params
@@ -82,7 +82,7 @@ class Function(EcobeeObject):
 
         :param params: The params value to set for the params attribute
         of this Function instance.
-        :type: Dict[six.text_type, object]
+        :type: Dict[str, object]
         """
 
         self._params = params

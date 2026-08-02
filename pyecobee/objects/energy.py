@@ -41,9 +41,9 @@ class Energy(EcobeeObject):
 
     attribute_type_map = {
         "tou": "TimeOfUse",
-        "energy_feature_state": "six.text_type",
-        "feels_like_mode": "six.text_type",
-        "comfort_preferences": "six.text_type",
+        "energy_feature_state": "str",
+        "feels_like_mode": "str",
+        "comfort_preferences": "str",
     }
 
     def __init__(
@@ -80,7 +80,7 @@ class Energy(EcobeeObject):
 
         :return: The value of the energy_feature_state attribute of this Energy
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._energy_feature_state
@@ -92,7 +92,7 @@ class Energy(EcobeeObject):
 
         :return: The value of the feels_like_mode attribute of this Energy
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._feels_like_mode
@@ -104,7 +104,7 @@ class Energy(EcobeeObject):
 
         :return: The value of the comfort_preferences attribute of this Energy
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._comfort_preferences

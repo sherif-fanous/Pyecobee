@@ -33,7 +33,7 @@ class DemandManagement(EcobeeObject):
     }
 
     attribute_type_map = {
-        "date": "six.text_type",
+        "date": "str",
         "hour": "int",
         "temp_offsets": "List[int]",
     }
@@ -53,7 +53,7 @@ class DemandManagement(EcobeeObject):
 
         :return: The value of the date attribute of this
         DemandManagement instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._date
@@ -65,7 +65,7 @@ class DemandManagement(EcobeeObject):
 
         :param date: The date value to set for the date attribute of
         this DemandManagement instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._date = date

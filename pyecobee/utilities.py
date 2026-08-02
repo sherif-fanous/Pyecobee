@@ -4,7 +4,6 @@ import json
 import keyword
 import logging
 import sys
-import traceback
 
 import requests
 
@@ -383,13 +382,9 @@ class Utilities:
             return requests_http_method(
                 url, headers=headers, params=params, json=json_, timeout=timeout
             )
-        except requests.exceptions.RequestException:
-            (type_, value_, traceback_) = sys.exc_info()
-            logger.error(
-                "\n".join(traceback.format_exception(type_, value_, traceback_))
-            )
-
-            raise value_.with_traceback(traceback_)
+        except requests.exceptions.RequestException as exc:
+            logger.exception("HTTP request failed")
+            raise EcobeeRequestsException(str(exc)) from exc
 
     @classmethod
     def object_to_dictionary(cls, object_, class_):

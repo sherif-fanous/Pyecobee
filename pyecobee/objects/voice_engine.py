@@ -27,7 +27,7 @@ class VoiceEngine(EcobeeObject):
 
     attribute_name_map = {"name": "name", "enabled": "enabled"}
 
-    attribute_type_map = {"name": "six.text_type", "enabled": "bool"}
+    attribute_type_map = {"name": "str", "enabled": "bool"}
 
     def __init__(self, name=None, enabled=None):
         """
@@ -43,7 +43,7 @@ class VoiceEngine(EcobeeObject):
 
         :return: The value of the name attribute of this VoiceEngine
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._name

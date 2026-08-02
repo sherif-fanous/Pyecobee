@@ -34,7 +34,7 @@ class LimitSetting(EcobeeObject):
     }
 
     attribute_type_map = {
-        "type": "six.text_type",
+        "type": "str",
         "limit": "int",
         "enabled": "bool",
         "remind_technician": "bool",
@@ -56,7 +56,7 @@ class LimitSetting(EcobeeObject):
 
         :return: The value of the type attribute of this LimitSetting
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._type

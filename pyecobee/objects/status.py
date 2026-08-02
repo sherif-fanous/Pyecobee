@@ -27,7 +27,7 @@ class Status(EcobeeObject):
 
     attribute_name_map = {"code": "code", "message": "message"}
 
-    attribute_type_map = {"code": "int", "message": "six.text_type"}
+    attribute_type_map = {"code": "int", "message": "str"}
 
     def __init__(self, code=None, message=None):
         """
@@ -55,7 +55,7 @@ class Status(EcobeeObject):
 
         :return: The value of the message attribute of this Status
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._message

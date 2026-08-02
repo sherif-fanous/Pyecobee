@@ -114,16 +114,16 @@ class Thermostat(EcobeeObject):
     }
 
     attribute_type_map = {
-        "identifier": "six.text_type",
-        "name": "six.text_type",
-        "thermostat_rev": "six.text_type",
+        "identifier": "str",
+        "name": "str",
+        "thermostat_rev": "str",
         "is_registered": "bool",
-        "model_number": "six.text_type",
-        "brand": "six.text_type",
-        "features": "six.text_type",
-        "last_modified": "six.text_type",
-        "thermostat_time": "six.text_type",
-        "utc_time": "six.text_type",
+        "model_number": "str",
+        "brand": "str",
+        "features": "str",
+        "last_modified": "str",
+        "thermostat_time": "str",
+        "utc_time": "str",
         "audio": "Audio",
         "alerts": "List[Alert]",
         "reminders": "List[ThermostatReminder2]",
@@ -142,7 +142,7 @@ class Thermostat(EcobeeObject):
         "program": "Program",
         "house_details": "HouseDetails",
         "oem_cfg": "ThermostatOemCfg",
-        "equipment_status": "six.text_type",
+        "equipment_status": "str",
         "notification_settings": "NotificationSettings",
         "privacy": "ThermostatPrivacy",
         "version": "Version",
@@ -235,7 +235,7 @@ class Thermostat(EcobeeObject):
 
         :return: The value of the identifier attribute of this
         Thermostat instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._identifier
@@ -247,7 +247,7 @@ class Thermostat(EcobeeObject):
 
         :return: The value of the name attribute of this Thermostat
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._name
@@ -259,7 +259,7 @@ class Thermostat(EcobeeObject):
 
         :param name: The name value to set for the name attribute of
         this Thermostat instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._name = name
@@ -271,7 +271,7 @@ class Thermostat(EcobeeObject):
 
         :return: The value of the thermostat_rev attribute of this
         Thermostat instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._thermostat_rev
@@ -295,7 +295,7 @@ class Thermostat(EcobeeObject):
 
         :return: The value of the model_number attribute of this
         Thermostat instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._model_number
@@ -307,7 +307,7 @@ class Thermostat(EcobeeObject):
 
         :return: The value of the brand attribute of this Thermostat
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._brand
@@ -319,7 +319,7 @@ class Thermostat(EcobeeObject):
 
         :return: The value of the features attribute of this Thermostat
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._features
@@ -331,7 +331,7 @@ class Thermostat(EcobeeObject):
 
         :return: The value of the last_modified attribute of this
         Thermostat instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._last_modified
@@ -343,7 +343,7 @@ class Thermostat(EcobeeObject):
 
         :return: The value of the thermostat_time attribute of this
         Thermostat instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._thermostat_time
@@ -355,7 +355,7 @@ class Thermostat(EcobeeObject):
 
         :return: The value of the utc_time attribute of this Thermostat
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._utc_time
@@ -667,7 +667,7 @@ class Thermostat(EcobeeObject):
 
         :return: The value of the equipment_status attribute of this
         Thermostat instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._equipment_status

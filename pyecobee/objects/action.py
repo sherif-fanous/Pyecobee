@@ -59,7 +59,7 @@ class Action(EcobeeObject):
     }
 
     attribute_type_map = {
-        "type": "six.text_type",
+        "type": "str",
         "send_alert": "bool",
         "send_update": "bool",
         "activation_delay": "int",
@@ -67,7 +67,7 @@ class Action(EcobeeObject):
         "min_action_duration": "int",
         "heat_adjust_temp": "int",
         "cool_adjust_temp": "int",
-        "activate_relay": "six.text_type",
+        "activate_relay": "str",
         "activate_relay_open": "bool",
     }
 
@@ -105,7 +105,7 @@ class Action(EcobeeObject):
 
         :return: The value of the type attribute of this Action
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._type
@@ -201,7 +201,7 @@ class Action(EcobeeObject):
 
         :return: The value of the activate_relay attribute of this
         Action instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._activate_relay

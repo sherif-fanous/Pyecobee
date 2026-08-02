@@ -35,7 +35,7 @@ class Device(EcobeeObject):
 
     attribute_type_map = {
         "device_id": "int",
-        "name": "six.text_type",
+        "name": "str",
         "sensors": "List[Sensor]",
         "outputs": "List[Output]",
     }
@@ -68,7 +68,7 @@ class Device(EcobeeObject):
 
         :return: The value of the name attribute of this Device
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._name

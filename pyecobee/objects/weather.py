@@ -33,8 +33,8 @@ class Weather(EcobeeObject):
     }
 
     attribute_type_map = {
-        "timestamp": "six.text_type",
-        "weather_station": "six.text_type",
+        "timestamp": "str",
+        "weather_station": "str",
         "forecasts": "List[WeatherForecast]",
     }
 
@@ -53,7 +53,7 @@ class Weather(EcobeeObject):
 
         :return: The value of the timestamp attribute of this Weather
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._timestamp
@@ -65,7 +65,7 @@ class Weather(EcobeeObject):
 
         :return: The value of the weather_station attribute of this
         Weather instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._weather_station

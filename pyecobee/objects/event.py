@@ -112,20 +112,20 @@ class Event(EcobeeObject):
     }
 
     attribute_type_map = {
-        "type": "six.text_type",
-        "name": "six.text_type",
+        "type": "str",
+        "name": "str",
         "running": "bool",
-        "start_date": "six.text_type",
-        "start_time": "six.text_type",
-        "end_date": "six.text_type",
-        "end_time": "six.text_type",
+        "start_date": "str",
+        "start_time": "str",
+        "end_date": "str",
+        "end_time": "str",
         "is_occupied": "bool",
         "is_cool_off": "bool",
         "is_heat_off": "bool",
         "cool_hold_temp": "int",
         "heat_hold_temp": "int",
-        "fan": "six.text_type",
-        "vent": "six.text_type",
+        "fan": "str",
+        "vent": "str",
         "ventilator_min_on_time": "int",
         "is_optional": "bool",
         "is_temperature_relative": "bool",
@@ -138,9 +138,9 @@ class Event(EcobeeObject):
         "unoccupied_sensor_active": "bool",
         "dr_ramp_up_temp": "int",
         "dr_ramp_up_time": "int",
-        "link_ref": "six.text_type",
-        "hold_climate_ref": "six.text_type",
-        "fan_speed": "six.text_type",
+        "link_ref": "str",
+        "hold_climate_ref": "str",
+        "fan_speed": "str",
     }
 
     def __init__(
@@ -214,7 +214,7 @@ class Event(EcobeeObject):
         Gets the type attribute of this Event instance.
 
         :return: The value of the type attribute of this Event instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._type
@@ -225,7 +225,7 @@ class Event(EcobeeObject):
         Gets the name attribute of this Event instance.
 
         :return: The value of the name attribute of this Event instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._name
@@ -249,7 +249,7 @@ class Event(EcobeeObject):
 
         :return: The value of the start_date attribute of this Event
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._start_date
@@ -261,7 +261,7 @@ class Event(EcobeeObject):
 
         :return: The value of the start_time attribute of this Event
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._start_time
@@ -273,7 +273,7 @@ class Event(EcobeeObject):
 
         :return: The value of the end_date attribute of this Event
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._end_date
@@ -285,7 +285,7 @@ class Event(EcobeeObject):
 
         :return: The value of the end_time attribute of this Event
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._end_time
@@ -356,7 +356,7 @@ class Event(EcobeeObject):
         Gets the fan attribute of this Event instance.
 
         :return: The value of the fan attribute of this Event instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._fan
@@ -367,7 +367,7 @@ class Event(EcobeeObject):
         Gets the vent attribute of this Event instance.
 
         :return: The value of the vent attribute of this Event instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._vent
@@ -528,7 +528,7 @@ class Event(EcobeeObject):
 
         :return: The value of the link_ref attribute of this Event
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._link_ref
@@ -540,7 +540,7 @@ class Event(EcobeeObject):
 
         :return: The value of the hold_climate_ref attribute of this
         Event instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._hold_climate_ref
@@ -552,7 +552,7 @@ class Event(EcobeeObject):
 
         :return: The value of the fan_speed attribute of this Event
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._fan_speed

@@ -37,7 +37,7 @@ class State(EcobeeObject):
     attribute_type_map = {
         "max_value": "int",
         "min_value": "int",
-        "type": "six.text_type",
+        "type": "str",
         "actions": "List[Action]",
     }
 
@@ -80,7 +80,7 @@ class State(EcobeeObject):
         Gets the type attribute of this State instance.
 
         :return: The value of the type attribute of this State instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._type

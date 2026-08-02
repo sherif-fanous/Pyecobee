@@ -34,10 +34,10 @@ class RuntimeSensorReport(EcobeeObject):
     }
 
     attribute_type_map = {
-        "thermostat_identifier": "six.text_type",
+        "thermostat_identifier": "str",
         "sensors": "List[RuntimeSensorMetadata]",
-        "columns": "List[six.text_type]",
-        "data": "List[six.text_type]",
+        "columns": "List[str]",
+        "data": "List[str]",
     }
 
     def __init__(
@@ -59,7 +59,7 @@ class RuntimeSensorReport(EcobeeObject):
 
         :return: The value of the thermostat_identifier attribute of
         this RuntimeSensorReport instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._thermostat_identifier
@@ -83,7 +83,7 @@ class RuntimeSensorReport(EcobeeObject):
 
         :return: The value of the columns attribute of this
         RuntimeSensorReport instance.
-        :rtype: List[six.text_type]
+        :rtype: List[str]
         """
 
         return self._columns
@@ -95,7 +95,7 @@ class RuntimeSensorReport(EcobeeObject):
 
         :return: The value of the data attribute of this
         RuntimeSensorReport instance.
-        :rtype: List[six.text_type]
+        :rtype: List[str]
         """
 
         return self._data

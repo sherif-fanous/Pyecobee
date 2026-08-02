@@ -37,10 +37,10 @@ class RuntimeSensorMetadata(EcobeeObject):
     }
 
     attribute_type_map = {
-        "sensor_id": "six.text_type",
-        "sensor_name": "six.text_type",
-        "sensor_type": "six.text_type",
-        "sensor_usage": "six.text_type",
+        "sensor_id": "str",
+        "sensor_name": "str",
+        "sensor_type": "str",
+        "sensor_usage": "str",
     }
 
     def __init__(
@@ -62,7 +62,7 @@ class RuntimeSensorMetadata(EcobeeObject):
 
         :return: The value of the sensor_id attribute of this
         RuntimeSensorMetadata instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._sensor_id
@@ -75,7 +75,7 @@ class RuntimeSensorMetadata(EcobeeObject):
 
         :return: The value of the sensor_name attribute of this
         RuntimeSensorMetadata instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._sensor_name
@@ -88,7 +88,7 @@ class RuntimeSensorMetadata(EcobeeObject):
 
         :return: The value of the sensor_type attribute of this
         RuntimeSensorMetadata instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._sensor_type
@@ -101,7 +101,7 @@ class RuntimeSensorMetadata(EcobeeObject):
 
         :return: The value of the sensor_usage attribute of this
         RuntimeSensorMetadata instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._sensor_usage
