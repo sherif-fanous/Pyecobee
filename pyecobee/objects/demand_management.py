@@ -1,6 +1,7 @@
 """
 This module is home to the DemandManagement class
 """
+
 from pyecobee.ecobee_object import EcobeeObject
 
 
@@ -22,19 +23,19 @@ class DemandManagement(EcobeeObject):
     if the value of REQUIRED is "no".
     """
 
-    __slots__ = ['_date', '_hour', '_temp_offsets']
+    __slots__ = ["_date", "_hour", "_temp_offsets"]
 
     attribute_name_map = {
-        'date': 'date',
-        'hour': 'hour',
-        'temp_offsets': 'tempOffsets',
-        'tempOffsets': 'temp_offsets',
+        "date": "date",
+        "hour": "hour",
+        "temp_offsets": "tempOffsets",
+        "tempOffsets": "temp_offsets",
     }
 
     attribute_type_map = {
-        'date': 'six.text_type',
-        'hour': 'int',
-        'temp_offsets': 'List[int]',
+        "date": "six.text_type",
+        "hour": "int",
+        "temp_offsets": "List[int]",
     }
 
     def __init__(self, date, hour, temp_offsets):

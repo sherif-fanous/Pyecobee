@@ -1,6 +1,7 @@
 """
 This module is home to the Energy class
 """
+
 from pyecobee.ecobee_object import EcobeeObject
 
 
@@ -22,27 +23,27 @@ class Energy(EcobeeObject):
     """
 
     __slots__ = [
-        '_tou',
-        '_energy_feature_state',
-        '_feels_like_mode',
-        '_comfort_preferences',
+        "_tou",
+        "_energy_feature_state",
+        "_feels_like_mode",
+        "_comfort_preferences",
     ]
 
     attribute_name_map = {
-        'tou': 'tou',
-        'energy_feature_state': 'energyFeatureState',
-        'energyFeatureState': 'energy_feature_state',
-        'feels_like_mode': 'feelsLikeMode',
-        'feelsLikeMode': 'feels_like_mode',
-        'comfort_preferences': 'comfortPreferences',
-        'comfortPreferences': 'comfort_preferences',
+        "tou": "tou",
+        "energy_feature_state": "energyFeatureState",
+        "energyFeatureState": "energy_feature_state",
+        "feels_like_mode": "feelsLikeMode",
+        "feelsLikeMode": "feels_like_mode",
+        "comfort_preferences": "comfortPreferences",
+        "comfortPreferences": "comfort_preferences",
     }
 
     attribute_type_map = {
-        'tou': 'TimeOfUse',
-        'energy_feature_state': 'six.text_type',
-        'feels_like_mode': 'six.text_type',
-        'comfort_preferences': 'six.text_type',
+        "tou": "TimeOfUse",
+        "energy_feature_state": "six.text_type",
+        "feels_like_mode": "six.text_type",
+        "comfort_preferences": "six.text_type",
     }
 
     def __init__(

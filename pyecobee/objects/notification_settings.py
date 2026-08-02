@@ -1,6 +1,7 @@
 """
 This module is home to the NotificationSettings class
 """
+
 from pyecobee.ecobee_object import EcobeeObject
 
 
@@ -23,29 +24,29 @@ class NotificationSettings(EcobeeObject):
     """
 
     __slots__ = [
-        '_email_addresses',
-        '_email_notifications_enabled',
-        '_equipment',
-        '_general',
-        '_limit',
+        "_email_addresses",
+        "_email_notifications_enabled",
+        "_equipment",
+        "_general",
+        "_limit",
     ]
 
     attribute_name_map = {
-        'email_addresses': 'emailAddresses',
-        'emailAddresses': 'email_addresses',
-        'email_notifications_enabled': 'emailNotificationsEnabled',
-        'emailNotificationsEnabled': 'email_notifications_enabled',
-        'equipment': 'equipment',
-        'general': 'general',
-        'limit': 'limit',
+        "email_addresses": "emailAddresses",
+        "emailAddresses": "email_addresses",
+        "email_notifications_enabled": "emailNotificationsEnabled",
+        "emailNotificationsEnabled": "email_notifications_enabled",
+        "equipment": "equipment",
+        "general": "general",
+        "limit": "limit",
     }
 
     attribute_type_map = {
-        'email_addresses': 'List[six.text_type]',
-        'email_notifications_enabled': 'bool',
-        'equipment': 'List[EquipmentSetting]',
-        'general': 'List[GeneralSetting]',
-        'limit': 'List[LimitSetting]',
+        "email_addresses": "List[six.text_type]",
+        "email_notifications_enabled": "bool",
+        "equipment": "List[EquipmentSetting]",
+        "general": "List[GeneralSetting]",
+        "limit": "List[LimitSetting]",
     }
 
     def __init__(

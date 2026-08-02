@@ -8,13 +8,13 @@ import traceback
 
 import requests
 
-from pyecobee.exceptions import EcobeeApiException
-from pyecobee.exceptions import EcobeeAuthorizationException
-from pyecobee.exceptions import EcobeeException
-from pyecobee.exceptions import EcobeeHttpException
-from pyecobee.exceptions import EcobeeRequestsException
-
-# pylint: disable=unused-import
+from pyecobee.exceptions import (
+    EcobeeApiException,
+    EcobeeAuthorizationException,
+    EcobeeException,
+    EcobeeHttpException,
+    EcobeeRequestsException,
+)
 from pyecobee.objects.action import Action
 from pyecobee.objects.alert import Alert
 from pyecobee.objects.audio import Audio
@@ -67,34 +67,36 @@ from pyecobee.objects.version import Version
 from pyecobee.objects.voice_engine import VoiceEngine
 from pyecobee.objects.weather import Weather
 from pyecobee.objects.weather_forecast import WeatherForecast
-from pyecobee.responses import EcobeeAuthorizeResponse
-from pyecobee.responses import EcobeeCreateRuntimeReportJobResponse
-from pyecobee.responses import EcobeeErrorResponse
-from pyecobee.responses import EcobeeGroupsResponse
-from pyecobee.responses import EcobeeIssueDemandResponsesResponse
-from pyecobee.responses import EcobeeListDemandResponsesResponse
-from pyecobee.responses import EcobeeListHierarchySetsResponse
-from pyecobee.responses import EcobeeListHierarchyUsersResponse
-from pyecobee.responses import EcobeeListRuntimeReportJobStatusResponse
-from pyecobee.responses import EcobeeMeterReportsResponse
-from pyecobee.responses import EcobeeRuntimeReportsResponse
-from pyecobee.responses import EcobeeStatusResponse
-from pyecobee.responses import EcobeeThermostatResponse
-from pyecobee.responses import EcobeeThermostatsSummaryResponse
-from pyecobee.responses import EcobeeTokensResponse
+from pyecobee.responses import (
+    EcobeeAuthorizeResponse,
+    EcobeeCreateRuntimeReportJobResponse,
+    EcobeeErrorResponse,
+    EcobeeGroupsResponse,
+    EcobeeIssueDemandResponsesResponse,
+    EcobeeListDemandResponsesResponse,
+    EcobeeListHierarchySetsResponse,
+    EcobeeListHierarchyUsersResponse,
+    EcobeeListRuntimeReportJobStatusResponse,
+    EcobeeMeterReportsResponse,
+    EcobeeRuntimeReportsResponse,
+    EcobeeStatusResponse,
+    EcobeeThermostatResponse,
+    EcobeeThermostatsSummaryResponse,
+    EcobeeTokensResponse,
+)
 
 logger = logging.getLogger(__name__)
 
 
-class Utilities(object):
+class Utilities:
     __slots__ = []
 
-    _class_name_map = {'tou': 'TimeOfUse'}
+    _class_name_map = {"tou": "TimeOfUse"}
 
     @classmethod
     def _object_class(cls, key):
         """Return the class for an API object name, if it is supported."""
-        class_name = '{0}{1}'.format(key[:1].upper(), key[1:])
+        class_name = f"{key[:1].upper()}{key[1:]}"
 
         try:
             return getattr(sys.modules[__name__], class_name)
@@ -117,7 +119,7 @@ class Utilities(object):
         is_top_level=False,
     ):
         if isinstance(data, dict):
-            for (i, key) in enumerate(data):
+            for i, key in enumerate(data):
                 if isinstance(data[key], dict):  # Object
                     # An API response may contain an object introduced after
                     # this library was released.  Do not let that object make
@@ -126,11 +128,11 @@ class Utilities(object):
 
                     if object_class is None:
                         logger.error(
-                            'Missing object definition\n'
-                            'Object name    => %s\n'
-                            'Object value   => %s\n\n'
-                            'Please open a new issue here '
-                            '(https://github.com/sfanous/Pyecobee/issues/new)',
+                            "Missing object definition\n"
+                            "Object name    => %s\n"
+                            "Object value   => %s\n\n"
+                            "Please open a new issue here "
+                            "(https://github.com/sfanous/Pyecobee/issues/new)",
                             key,
                             data[key],
                         )
@@ -149,8 +151,8 @@ class Utilities(object):
                         # This object is parent_classes[-1]
                         #
                         # This object's parent is parent_classes[-2]
-                        generated_code = '{0}{1}={2}(\n'.format(
-                            ' ' * indent,
+                        generated_code = "{0}{1}={2}(\n".format(
+                            " " * indent,
                             parent_classes[-2].attribute_name_map[key],
                             parent_classes[-1].__name__,
                         )
@@ -161,8 +163,8 @@ class Utilities(object):
                         parent_classes.append(object_class)
 
                         response_properties[parent_classes[0]] = []
-                        generated_code = '{0}{1}(\n'.format(
-                            ' ' * indent, parent_classes[-1].__name__
+                        generated_code = "{0}{1}(\n".format(
+                            " " * indent, parent_classes[-1].__name__
                         )
                         response_properties[parent_classes[0]].append(generated_code)
 
@@ -174,12 +176,12 @@ class Utilities(object):
                         indent + 4,
                     )
 
-                    generated_code = '{0})'.format(' ' * indent)
+                    generated_code = "{0})".format(" " * indent)
                     response_properties[parent_classes[0]].append(generated_code)
 
                     # The parent object's constructor will have a
                     # trailing ',' if its last argument is an object
-                    generated_code = ',\n' if len(parent_classes) > 2 else '\n'
+                    generated_code = ",\n" if len(parent_classes) > 2 else "\n"
                     response_properties[parent_classes[0]].append(generated_code)
 
                     parent_classes.pop()
@@ -188,8 +190,8 @@ class Utilities(object):
                         # Nested list (i.e. This list is passed as an
                         # argument to its parent constructor (__init__)
                         # and must be passed as a keyword argument)
-                        generated_code = '{0}{1}=[\n'.format(
-                            ' ' * indent, parent_classes[-1].attribute_name_map[key]
+                        generated_code = "{0}{1}=[\n".format(
+                            " " * indent, parent_classes[-1].attribute_name_map[key]
                         )
                         response_properties[parent_classes[0]].append(generated_code)
                     else:
@@ -197,10 +199,10 @@ class Utilities(object):
                         parent_classes = [key]
                         response_properties[parent_classes[0]] = []
 
-                        generated_code = '{0}[\n'.format(' ' * indent)
+                        generated_code = "{0}[\n".format(" " * indent)
                         response_properties[parent_classes[0]].append(generated_code)
 
-                    for (j, list_entry) in enumerate(data[key]):
+                    for j, list_entry in enumerate(data[key]):
                         parent_class_appended = False
 
                         if len(parent_classes) > 1:
@@ -211,7 +213,7 @@ class Utilities(object):
                                 parent_classes[-1].attribute_name_map[key]
                             ]
 
-                            if class_name.find('List') != -1:
+                            if class_name.find("List") != -1:
                                 try:
                                     # Append class of user defined
                                     # object within list to
@@ -236,8 +238,8 @@ class Utilities(object):
 
                         if parent_class_appended:
                             # De-serialize list of user defined objects
-                            generated_code = '{0}{1}(\n'.format(
-                                ' ' * (indent + 4), parent_classes[-1].__name__
+                            generated_code = "{0}{1}(\n".format(
+                                " " * (indent + 4), parent_classes[-1].__name__
                             )
                             response_properties[parent_classes[0]].append(
                                 generated_code
@@ -253,7 +255,7 @@ class Utilities(object):
 
                             parent_classes.pop()
 
-                            generated_code = '{0})'.format(' ' * (indent + 4))
+                            generated_code = "{0})".format(" " * (indent + 4))
                             response_properties[parent_classes[0]].append(
                                 generated_code
                             )
@@ -268,16 +270,16 @@ class Utilities(object):
                                 indent + 4,
                             )
 
-                        generated_code = ',\n' if j != len(data[key]) - 1 else '\n'
+                        generated_code = ",\n" if j != len(data[key]) - 1 else "\n"
                         response_properties[parent_classes[0]].append(generated_code)
 
-                    generated_code = '{0}]'.format(' ' * indent)
+                    generated_code = "{0}]".format(" " * indent)
                     response_properties[parent_classes[0]].append(generated_code)
 
-                    generated_code = ',\n' if i != len(data) - 1 else '\n'
+                    generated_code = ",\n" if i != len(data) - 1 else "\n"
                     response_properties[parent_classes[0]].append(generated_code)
                 else:  # Object attributes
-                    generated_code = ' ' * indent
+                    generated_code = " " * indent
                     response_properties[parent_classes[0]].append(generated_code)
 
                     if parent_classes:
@@ -288,21 +290,19 @@ class Utilities(object):
                                 in list(zip(*inspect.getmembers(builtins)))[0]
                                 or argument_name in keyword.kwlist
                             ):
-                                argument_name = '{0}_'.format(argument_name)
+                                argument_name = f"{argument_name}_"
 
-                            generated_code = '{0}={1!r}'.format(
-                                argument_name, data[key]
-                            )
+                            generated_code = f"{argument_name}={data[key]!r}"
                             response_properties[parent_classes[0]].append(
                                 generated_code
                             )
                         except KeyError:
                             logger.error(
-                                'Missing attribute in class %s\n'
-                                'Attribute name  => %s\n'
-                                'Attribute value => %s\n\n'
-                                'Please open a new issue here '
-                                '(https://github.com/sfanous/Pyecobee/issues/new)',
+                                "Missing attribute in class %s\n"
+                                "Attribute name  => %s\n"
+                                "Attribute value => %s\n\n"
+                                "Please open a new issue here "
+                                "(https://github.com/sfanous/Pyecobee/issues/new)",
                                 parent_classes[-1].__name__,
                                 key,
                                 data[key],
@@ -310,18 +310,18 @@ class Utilities(object):
 
                             continue
                     else:
-                        generated_code = '{0}={1!r}'.format(key, data[key])
+                        generated_code = f"{key}={data[key]!r}"
                         response_properties[parent_classes[0]].append(generated_code)
 
-                    generated_code = ',\n' if i != len(data) - 1 else '\n'
+                    generated_code = ",\n" if i != len(data) - 1 else "\n"
                     response_properties[parent_classes[0]].append(generated_code)
         elif isinstance(data, list):
-            generated_code = '{0}[\n'.format(' ' * indent)
+            generated_code = "{0}[\n".format(" " * indent)
             response_properties[parent_classes[0]].append(generated_code)
 
-            for (i, list_entry) in enumerate(data):
+            for i, list_entry in enumerate(data):
                 if i:
-                    generated_code = ',\n'
+                    generated_code = ",\n"
                     response_properties[parent_classes[0]].append(generated_code)
 
                 cls.dictionary_to_object(
@@ -332,20 +332,20 @@ class Utilities(object):
                     indent + 4,
                 )
 
-            generated_code = '\n{0}]'.format(' ' * indent)
+            generated_code = "\n{0}]".format(" " * indent)
             response_properties[parent_classes[0]].append(generated_code)
         else:  # Built-in data type
             if isinstance(data, bool):
-                generated_code = '{0}bool({1!r})'.format(' ' * indent, format(data))
+                generated_code = "{0}bool({1!r})".format(" " * indent, format(data))
             elif isinstance(data, int):
-                generated_code = '{0}int({1!r})'.format(' ' * indent, format(data))
+                generated_code = "{0}int({1!r})".format(" " * indent, format(data))
             else:
-                generated_code = '{0}{1!r}'.format(' ' * indent, format(data))
+                generated_code = "{0}{1!r}".format(" " * indent, format(data))
 
             response_properties[parent_classes[0]].append(generated_code)
 
         if is_top_level:
-            return eval(''.join(response_properties[parent_classes[0]]))
+            return eval("".join(response_properties[parent_classes[0]]))
 
         return None
 
@@ -355,43 +355,29 @@ class Utilities(object):
     ):
         try:
             logger.debug(
-                'Request\n'
-                '[Method]\n'
-                '========\n%s\n\n'
-                '[URL]\n'
-                '=====\n%s\n'
-                '%s%s%s'.strip(),
+                "Request\n[Method]\n========\n%s\n\n[URL]\n=====\n%s\n%s%s%s".strip(),
                 requests_http_method.__name__.upper(),
                 url,
-                '\n'
-                '[Query Parameters]\n'
-                '==================\n{0}\n'.format(
-                    '\n'.join(
-                        [
-                            '{0:32} => {1!s}'.format(key, params[key])
-                            for key in sorted(params)
-                        ]
+                "\n[Query Parameters]\n==================\n{0}\n".format(
+                    "\n".join(
+                        [f"{key:32} => {params[key]!s}" for key in sorted(params)]
                     )
                 )
                 if params is not None
-                else '',
-                '\n'
-                '[Headers]\n'
-                '=========\n{0}\n'.format(
-                    '\n'.join(
+                else "",
+                "\n[Headers]\n=========\n{0}\n".format(
+                    "\n".join(
                         [
-                            '{0:32} => {1!s}'.format(header, headers[header])
+                            f"{header:32} => {headers[header]!s}"
                             for header in sorted(headers)
                         ]
                     )
                 )
                 if headers is not None
-                else '',
-                '\n'
-                '[JSON]\n'
-                '======\n{0}\n'.format(json.dumps(json_, sort_keys=True, indent=2))
+                else "",
+                f"\n[JSON]\n======\n{json.dumps(json_, sort_keys=True, indent=2)}\n"
                 if json_ is not None
-                else '',
+                else "",
             )
 
             return requests_http_method(
@@ -400,7 +386,7 @@ class Utilities(object):
         except requests.exceptions.RequestException:
             (type_, value_, traceback_) = sys.exc_info()
             logger.error(
-                '\n'.join(traceback.format_exception(type_, value_, traceback_))
+                "\n".join(traceback.format_exception(type_, value_, traceback_))
             )
 
             raise value_.with_traceback(traceback_)
@@ -419,7 +405,7 @@ class Utilities(object):
                     ] = []
 
                     for entry in attribute_value:
-                        if hasattr(entry, '__slots__'):
+                        if hasattr(entry, "__slots__"):
                             dictionary[object_.__class__.__name__][
                                 class_.attribute_name_map[attribute_name[1:]]
                             ].append(cls.object_to_dictionary(entry, type(entry)))
@@ -454,14 +440,7 @@ class Utilities(object):
             )
 
             logger.debug(
-                'EcobeeResponse:\n'
-                '[JSON]\n'
-                '======\n'
-                '%s\n'
-                '\n'
-                '[Object]\n'
-                '========\n'
-                '%s'.strip(),
+                "EcobeeResponse:\n[JSON]\n======\n%s\n\n[Object]\n========\n%s".strip(),
                 json.dumps(response.json(), sort_keys=True, indent=2),
                 response_object.pretty_format(),
             )
@@ -469,62 +448,48 @@ class Utilities(object):
             return response_object
 
         try:
-            if 'error' in response.json():
+            if "error" in response.json():
                 error_response = cls.dictionary_to_object(
-                    {'EcobeeErrorResponse': response.json()},
-                    {'EcobeeErrorResponse': EcobeeErrorResponse},
-                    {'EcobeeErrorResponse': None},
+                    {"EcobeeErrorResponse": response.json()},
+                    {"EcobeeErrorResponse": EcobeeErrorResponse},
+                    {"EcobeeErrorResponse": None},
                     is_top_level=True,
                 )
 
                 raise EcobeeAuthorizationException(
-                    'ecobee authorization error encountered for URL => {0}\n'
-                    'HTTP error code => {1}\n'
-                    'Error type => {2}\n'
-                    'Error description => {3}\n'
-                    'Error URI => {4}'.format(
-                        response.request.url,
-                        response.status_code,
-                        error_response.error,
-                        error_response.error_description,
-                        error_response.error_uri,
-                    ),
+                    f"ecobee authorization error encountered for URL => {response.request.url}\n"
+                    f"HTTP error code => {response.status_code}\n"
+                    f"Error type => {error_response.error}\n"
+                    f"Error description => {error_response.error_description}\n"
+                    f"Error URI => {error_response.error_uri}",
                     error_response.error,
                     error_response.error_description,
                     error_response.error_uri,
                 )
 
-            if 'status' in response.json():
+            if "status" in response.json():
                 status = cls.dictionary_to_object(
-                    {'Status': response.json()['status']},
-                    {'Status': Status},
-                    {'Status': None},
+                    {"Status": response.json()["status"]},
+                    {"Status": Status},
+                    {"Status": None},
                     is_top_level=True,
                 )
 
                 raise EcobeeApiException(
-                    'ecobee API error encountered for URL => {0}\n'
-                    'HTTP error code => {1}\n'
-                    'Status code => {2}\n'
-                    'Status message => {3}'.format(
-                        response.request.url,
-                        response.status_code,
-                        status.code,
-                        status.message,
-                    ),
+                    f"ecobee API error encountered for URL => {response.request.url}\n"
+                    f"HTTP error code => {response.status_code}\n"
+                    f"Status code => {status.code}\n"
+                    f"Status message => {status.message}",
                     status.code,
                     status.message,
                 )
 
             raise EcobeeHttpException(
-                'HTTP error encountered for URL => {0}\n'
-                'HTTP error code => {1}'.format(
-                    response.request.url, response.status_code
-                )
+                f"HTTP error encountered for URL => {response.request.url}\nHTTP error code => {response.status_code}"
             )
         except EcobeeException as ecobee_exception:
             logger.exception(
-                '%s raised:\n', type(ecobee_exception).__name__, exc_info=True
+                "%s raised:\n", type(ecobee_exception).__name__, exc_info=True
             )
 
             raise

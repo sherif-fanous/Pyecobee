@@ -6,9 +6,7 @@ from datetime import datetime
 
 import pytz
 from pytz import timezone
-from six.moves import input
 
-# pylint: disable=unused-wildcard-import
 from pyecobee import *
 
 logger = logging.getLogger(__name__)
@@ -274,7 +272,7 @@ def validate_dictionary_to_object(object_, parents=[], expected_type_of_object=N
                 )
 
                 assert attribute_value_actual_type == attribute_value_expected_type, (
-                    "{0}{1}. Type of {2} is {3} , expected {4}".format(
+                    "{}{}. Type of {} is {} , expected {}".format(
                         ".".join(parents),
                         object_.__class__.__name__,
                         attribute_name,
@@ -305,7 +303,7 @@ def validate_dictionary_to_object(object_, parents=[], expected_type_of_object=N
             validate_dictionary_to_object(list_entry, parents, expected_type_of_object)
     else:
         assert type(object_).__name__ == expected_type_of_object, (
-            "{0}. Type of {1} is {2}, expected {3}".format(
+            "{}. Type of {} is {}, expected {}".format(
                 ".".join(parents),
                 object_,
                 type(object_).__name__,

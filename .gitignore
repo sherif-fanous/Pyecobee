@@ -1,6 +1,6 @@
 __pycache__/
-.pylintrc
-.vscode/
+.vscode/*
+!.vscode/settings.json
 *.pyc
 build/
 dist/

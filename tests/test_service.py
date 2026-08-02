@@ -1,6 +1,7 @@
 import datetime
 import json
-from datetime import datetime as DateTime, timedelta
+from datetime import datetime as DateTime
+from datetime import timedelta
 from zoneinfo import ZoneInfo
 
 import pytest

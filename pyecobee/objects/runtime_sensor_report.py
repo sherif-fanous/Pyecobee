@@ -1,6 +1,7 @@
 """
 This module is home to the RuntimeSensorReport class
 """
+
 from pyecobee.ecobee_object import EcobeeObject
 
 
@@ -22,21 +23,21 @@ class RuntimeSensorReport(EcobeeObject):
     if the value of REQUIRED is "no".
     """
 
-    __slots__ = ['_thermostat_identifier', '_sensors', '_columns', '_data']
+    __slots__ = ["_thermostat_identifier", "_sensors", "_columns", "_data"]
 
     attribute_name_map = {
-        'thermostat_identifier': 'thermostatIdentifier',
-        'thermostatIdentifier': 'thermostat_identifier',
-        'sensors': 'sensors',
-        'columns': 'columns',
-        'data': 'data',
+        "thermostat_identifier": "thermostatIdentifier",
+        "thermostatIdentifier": "thermostat_identifier",
+        "sensors": "sensors",
+        "columns": "columns",
+        "data": "data",
     }
 
     attribute_type_map = {
-        'thermostat_identifier': 'six.text_type',
-        'sensors': 'List[RuntimeSensorMetadata]',
-        'columns': 'List[six.text_type]',
-        'data': 'List[six.text_type]',
+        "thermostat_identifier": "six.text_type",
+        "sensors": "List[RuntimeSensorMetadata]",
+        "columns": "List[six.text_type]",
+        "data": "List[six.text_type]",
     }
 
     def __init__(

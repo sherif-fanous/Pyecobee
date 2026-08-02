@@ -1,6 +1,7 @@
 """
 This module is home to the Version class
 """
+
 from pyecobee.ecobee_object import EcobeeObject
 
 
@@ -22,14 +23,14 @@ class Version(EcobeeObject):
     if the value of REQUIRED is "no".
     """
 
-    __slots__ = ['_thermostat_firmware_version']
+    __slots__ = ["_thermostat_firmware_version"]
 
     attribute_name_map = {
-        'thermostat_firmware_version': 'thermostatFirmwareVersion',
-        'thermostatFirmwareVersion': 'thermostat_firmware_version',
+        "thermostat_firmware_version": "thermostatFirmwareVersion",
+        "thermostatFirmwareVersion": "thermostat_firmware_version",
     }
 
-    attribute_type_map = {'thermostat_firmware_version': 'six.text_type'}
+    attribute_type_map = {"thermostat_firmware_version": "six.text_type"}
 
     def __init__(self, thermostat_firmware_version=None):
         """

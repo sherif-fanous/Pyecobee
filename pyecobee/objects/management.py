@@ -1,6 +1,7 @@
 """
 This module is home to the Management class
 """
+
 from pyecobee.ecobee_object import EcobeeObject
 
 
@@ -23,40 +24,40 @@ class Management(EcobeeObject):
     """
 
     __slots__ = [
-        '_administrative_contact',
-        '_billing_contact',
-        '_name',
-        '_phone',
-        '_email',
-        '_web',
-        '_show_alert_idt',
-        '_show_alert_web',
+        "_administrative_contact",
+        "_billing_contact",
+        "_name",
+        "_phone",
+        "_email",
+        "_web",
+        "_show_alert_idt",
+        "_show_alert_web",
     ]
 
     attribute_name_map = {
-        'administrative_contact': 'administrativeContact',
-        'administrativeContact': 'administrative_contact',
-        'billing_contact': 'billingContact',
-        'billingContact': 'billing_contact',
-        'name': 'name',
-        'phone': 'phone',
-        'email': 'email',
-        'web': 'web',
-        'show_alert_idt': 'showAlertIdt',
-        'showAlertIdt': 'show_alert_idt',
-        'show_alert_web': 'showAlertWeb',
-        'showAlertWeb': 'show_alert_web',
+        "administrative_contact": "administrativeContact",
+        "administrativeContact": "administrative_contact",
+        "billing_contact": "billingContact",
+        "billingContact": "billing_contact",
+        "name": "name",
+        "phone": "phone",
+        "email": "email",
+        "web": "web",
+        "show_alert_idt": "showAlertIdt",
+        "showAlertIdt": "show_alert_idt",
+        "show_alert_web": "showAlertWeb",
+        "showAlertWeb": "show_alert_web",
     }
 
     attribute_type_map = {
-        'administrative_contact': 'six.text_type',
-        'billing_contact': 'six.text_type',
-        'name': 'six.text_type',
-        'phone': 'six.text_type',
-        'email': 'six.text_type',
-        'web': 'six.text_type',
-        'show_alert_idt': 'bool',
-        'show_alert_web': 'bool',
+        "administrative_contact": "six.text_type",
+        "billing_contact": "six.text_type",
+        "name": "six.text_type",
+        "phone": "six.text_type",
+        "email": "six.text_type",
+        "web": "six.text_type",
+        "show_alert_idt": "bool",
+        "show_alert_web": "bool",
     }
 
     def __init__(

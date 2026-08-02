@@ -1,6 +1,7 @@
 """
 This module is home to the MeterReport class
 """
+
 from pyecobee.ecobee_object import EcobeeObject
 
 
@@ -22,18 +23,18 @@ class MeterReport(EcobeeObject):
     if the value of REQUIRED is "no".
     """
 
-    __slots__ = ['_thermostat_identifier', '_meter_list']
+    __slots__ = ["_thermostat_identifier", "_meter_list"]
 
     attribute_name_map = {
-        'thermostat_identifier': 'thermostatIdentifier',
-        'thermostatIdentifier': 'thermostat_identifier',
-        'meter_list': 'meterList',
-        'meterList': 'meter_list',
+        "thermostat_identifier": "thermostatIdentifier",
+        "thermostatIdentifier": "thermostat_identifier",
+        "meter_list": "meterList",
+        "meterList": "meter_list",
     }
 
     attribute_type_map = {
-        'thermostat_identifier': 'six.text_type',
-        'meter_list': 'List[MeterReportData]',
+        "thermostat_identifier": "six.text_type",
+        "meter_list": "List[MeterReportData]",
     }
 
     def __init__(self, thermostat_identifier=None, meter_list=None):

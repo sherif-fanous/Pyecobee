@@ -1,6 +1,7 @@
 """
 This module is home to the EquipmentSetting class
 """
+
 from pyecobee.ecobee_object import EcobeeObject
 
 
@@ -23,38 +24,38 @@ class EquipmentSetting(EcobeeObject):
     """
 
     __slots__ = [
-        '_type',
-        '_filter_last_changed',
-        '_filter_life',
-        '_filter_life_units',
-        '_remind_me_date',
-        '_enabled',
-        '_remind_technician',
+        "_type",
+        "_filter_last_changed",
+        "_filter_life",
+        "_filter_life_units",
+        "_remind_me_date",
+        "_enabled",
+        "_remind_technician",
     ]
 
     attribute_name_map = {
-        'type': 'type',
-        'filter_last_changed': 'filterLastChanged',
-        'filterLastChanged': 'filter_last_changed',
-        'filter_life': 'filterLife',
-        'filterLife': 'filter_life',
-        'filter_life_units': 'filterLifeUnits',
-        'filterLifeUnits': 'filter_life_units',
-        'remind_me_date': 'remindMeDate',
-        'remindMeDate': 'remind_me_date',
-        'enabled': 'enabled',
-        'remind_technician': 'remindTechnician',
-        'remindTechnician': 'remind_technician',
+        "type": "type",
+        "filter_last_changed": "filterLastChanged",
+        "filterLastChanged": "filter_last_changed",
+        "filter_life": "filterLife",
+        "filterLife": "filter_life",
+        "filter_life_units": "filterLifeUnits",
+        "filterLifeUnits": "filter_life_units",
+        "remind_me_date": "remindMeDate",
+        "remindMeDate": "remind_me_date",
+        "enabled": "enabled",
+        "remind_technician": "remindTechnician",
+        "remindTechnician": "remind_technician",
     }
 
     attribute_type_map = {
-        'type': 'six.text_type',
-        'filter_last_changed': 'six.text_type',
-        'filter_life': 'int',
-        'filter_life_units': 'six.text_type',
-        'remind_me_date': 'six.text_type',
-        'enabled': 'bool',
-        'remind_technician': 'bool',
+        "type": "six.text_type",
+        "filter_last_changed": "six.text_type",
+        "filter_life": "int",
+        "filter_life_units": "six.text_type",
+        "remind_me_date": "six.text_type",
+        "enabled": "bool",
+        "remind_technician": "bool",
     }
 
     def __init__(

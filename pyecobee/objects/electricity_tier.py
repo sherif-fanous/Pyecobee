@@ -1,6 +1,7 @@
 """
 This module is home to the ElectricityTier class
 """
+
 from pyecobee.ecobee_object import EcobeeObject
 
 
@@ -22,14 +23,14 @@ class ElectricityTier(EcobeeObject):
     if the value of REQUIRED is "no".
     """
 
-    __slots__ = ['_name', '_consumption', '_cost']
+    __slots__ = ["_name", "_consumption", "_cost"]
 
-    attribute_name_map = {'name': 'name', 'consumption': 'consumption', 'cost': 'cost'}
+    attribute_name_map = {"name": "name", "consumption": "consumption", "cost": "cost"}
 
     attribute_type_map = {
-        'name': 'six.text_type',
-        'consumption': 'six.text_type',
-        'cost': 'six.text_type',
+        "name": "six.text_type",
+        "consumption": "six.text_type",
+        "cost": "six.text_type",
     }
 
     def __init__(self, name=None, consumption=None, cost=None):

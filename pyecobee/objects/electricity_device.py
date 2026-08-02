@@ -1,6 +1,7 @@
 """
 This module is home to the ElectricityDevice class
 """
+
 from pyecobee.ecobee_object import EcobeeObject
 
 
@@ -22,23 +23,23 @@ class ElectricityDevice(EcobeeObject):
     if the value of REQUIRED is "no".
     """
 
-    __slots__ = ['_name', '_tiers', '_last_update', '_cost', '_consumption']
+    __slots__ = ["_name", "_tiers", "_last_update", "_cost", "_consumption"]
 
     attribute_name_map = {
-        'name': 'name',
-        'tiers': 'tiers',
-        'last_update': 'lastUpdate',
-        'lastUpdate': 'last_update',
-        'cost': 'cost',
-        'consumption': 'consumption',
+        "name": "name",
+        "tiers": "tiers",
+        "last_update": "lastUpdate",
+        "lastUpdate": "last_update",
+        "cost": "cost",
+        "consumption": "consumption",
     }
 
     attribute_type_map = {
-        'name': 'six.text_type',
-        'tiers': 'List[ElectricityTier]',
-        'last_update': 'six.text_type',
-        'cost': 'List[six.text_type]',
-        'consumption': 'List[six.text_type]',
+        "name": "six.text_type",
+        "tiers": "List[ElectricityTier]",
+        "last_update": "six.text_type",
+        "cost": "List[six.text_type]",
+        "consumption": "List[six.text_type]",
     }
 
     def __init__(

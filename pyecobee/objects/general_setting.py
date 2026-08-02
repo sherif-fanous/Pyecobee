@@ -1,6 +1,7 @@
 """
 This module is home to the GeneralSetting class
 """
+
 from pyecobee.ecobee_object import EcobeeObject
 
 
@@ -22,19 +23,19 @@ class GeneralSetting(EcobeeObject):
     if the value of REQUIRED is "no".
     """
 
-    __slots__ = ['_type', '_enabled', '_remind_technician']
+    __slots__ = ["_type", "_enabled", "_remind_technician"]
 
     attribute_name_map = {
-        'type': 'type',
-        'enabled': 'enabled',
-        'remind_technician': 'remindTechnician',
-        'remindTechnician': 'remind_technician',
+        "type": "type",
+        "enabled": "enabled",
+        "remind_technician": "remindTechnician",
+        "remindTechnician": "remind_technician",
     }
 
     attribute_type_map = {
-        'type': 'six.text_type',
-        'enabled': 'bool',
-        'remind_technician': 'bool',
+        "type": "six.text_type",
+        "enabled": "bool",
+        "remind_technician": "bool",
     }
 
     def __init__(self, type_, enabled=None, remind_technician=None):

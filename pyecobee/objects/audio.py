@@ -1,6 +1,7 @@
 """
 This module is home to the Audio class
 """
+
 from pyecobee.ecobee_object import EcobeeObject
 
 
@@ -23,32 +24,32 @@ class Audio(EcobeeObject):
     """
 
     __slots__ = [
-        '_playback_volume',
-        '_microphone_enabled',
-        '_sound_alert_volume',
-        '_sound_tick_volume',
-        '_voice_engines',
+        "_playback_volume",
+        "_microphone_enabled",
+        "_sound_alert_volume",
+        "_sound_tick_volume",
+        "_voice_engines",
     ]
 
     attribute_name_map = {
-        'playback_volume': 'playbackVolume',
-        'playbackVolume': 'playback_volume',
-        'microphone_enabled': 'microphoneEnabled',
-        'microphoneEnabled': 'microphone_enabled',
-        'sound_alert_volume': 'soundAlertVolume',
-        'soundAlertVolume': 'sound_alert_volume',
-        'sound_tick_volume': 'soundTickVolume',
-        'soundTickVolume': 'sound_tick_volume',
-        'voice_engines': 'voiceEngines',
-        'voiceEngines': 'voice_engines',
+        "playback_volume": "playbackVolume",
+        "playbackVolume": "playback_volume",
+        "microphone_enabled": "microphoneEnabled",
+        "microphoneEnabled": "microphone_enabled",
+        "sound_alert_volume": "soundAlertVolume",
+        "soundAlertVolume": "sound_alert_volume",
+        "sound_tick_volume": "soundTickVolume",
+        "soundTickVolume": "sound_tick_volume",
+        "voice_engines": "voiceEngines",
+        "voiceEngines": "voice_engines",
     }
 
     attribute_type_map = {
-        'playback_volume': 'int',
-        'microphone_enabled': 'bool',
-        'sound_alert_volume': 'int',
-        'sound_tick_volume': 'int',
-        'voice_engines': 'List[VoiceEngine]',
+        "playback_volume": "int",
+        "microphone_enabled": "bool",
+        "sound_alert_volume": "int",
+        "sound_tick_volume": "int",
+        "voice_engines": "List[VoiceEngine]",
     }
 
     def __init__(

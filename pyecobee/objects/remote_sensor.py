@@ -1,6 +1,7 @@
 """
 This module is home to the RemoteSensor class
 """
+
 from pyecobee.ecobee_object import EcobeeObject
 
 
@@ -22,25 +23,25 @@ class RemoteSensor(EcobeeObject):
     if the value of REQUIRED is "no".
     """
 
-    __slots__ = ['_id', '_name', '_type', '_code', '_in_use', '_capability']
+    __slots__ = ["_id", "_name", "_type", "_code", "_in_use", "_capability"]
 
     attribute_name_map = {
-        'id': 'id',
-        'name': 'name',
-        'type': 'type',
-        'code': 'code',
-        'in_use': 'inUse',
-        'inUse': 'in_use',
-        'capability': 'capability',
+        "id": "id",
+        "name": "name",
+        "type": "type",
+        "code": "code",
+        "in_use": "inUse",
+        "inUse": "in_use",
+        "capability": "capability",
     }
 
     attribute_type_map = {
-        'id': 'six.text_type',
-        'name': 'six.text_type',
-        'type': 'six.text_type',
-        'code': 'six.text_type',
-        'in_use': 'bool',
-        'capability': 'List[RemoteSensorCapability]',
+        "id": "six.text_type",
+        "name": "six.text_type",
+        "type": "six.text_type",
+        "code": "six.text_type",
+        "in_use": "bool",
+        "capability": "List[RemoteSensorCapability]",
     }
 
     def __init__(
