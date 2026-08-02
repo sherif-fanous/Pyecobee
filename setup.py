@@ -41,4 +41,10 @@ setup(
         'six>=1.10.0',
     ],
     package_data={'license': ['LICENSE'],},
+    extras_require={
+        'dev': [
+            'pytest>=7',
+            'pytest-cov>=4',
+        ],
+    },
 )

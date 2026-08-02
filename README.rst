@@ -1147,3 +1147,21 @@ Your code should be prepared to handle the following Exceptions
 Ecobee Exceptions Class Diagram
 -------------------------------
 .. image:: https://gist.githubusercontent.com/sfanous/58a8e5b281b6e40035fb80b097154fc8/raw/3766a676ccc2942bc9a18c1d0dc0a284683f1b39/EcobeeExceptions.svg
+
+Testing
+-------
+Install development dependencies and run the offline suite:
+
+.. code-block:: bash
+
+    pip install -e '.[dev]'
+    pytest
+
+The default suite uses local fixtures and mocks only. The former live integration
+script is retained as ``tests/live_integration.py`` and is not collected by
+pytest. Run it explicitly, with configured ecobee credentials, only when you
+intend to contact the live API:
+
+.. code-block:: bash
+
+    python tests/live_integration.py
