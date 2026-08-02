@@ -1,5 +1,4 @@
 __pycache__/
-.devcontainer/
 .pylintrc
 .vscode/
 *.pyc

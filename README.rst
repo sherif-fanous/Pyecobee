@@ -3,7 +3,7 @@ Pyecobee: A Python implementation of the `ecobee API <https://www.ecobee.com/hom
 
 Introduction
 ============
-Pyecobee is a simple, elegant, and object oriented implementation of the ecobee API in Python. It is compatible with Python 2.6/2.7/3.3+
+Pyecobee is a simple, elegant, and object oriented implementation of the ecobee API in Python. It requires Python 3.12+.
 
 **Warning:** Pyecobee has been tested with an ecobee Smart Si. Though the following methods have not been tested I
 believe they should work find. Please create an `issue <https://github.com/sfanous/Pyecobee/issues>`_ or even better
@@ -70,7 +70,13 @@ Pyecobee response from an authorize request
 
 Installation
 ============
-To install Pyecobee:
+Pyecobee requires Python 3.12 or newer. To create the locked development environment:
+
+.. code-block:: bash
+
+    $ uv sync --locked
+
+To install the published package:
 
 .. code-block:: bash
 

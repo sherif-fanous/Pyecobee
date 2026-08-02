@@ -2,6 +2,11 @@
 
 Release History
 ===============
+
+2.0.0 (2026-08-02)
+------------------
+* Require Python 3.12+ and migrate dependency management to uv.
+
 1.3.13 (2026-07-31)
 -------------------
 * Skip unsupported API objects during response deserialization

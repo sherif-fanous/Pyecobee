@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyecobee"
+version = "2.0.0"
+description = "A Python implementation of the ecobee API"
+readme = { file = "README.rst", content-type = "text/x-rst" }
+requires-python = ">=3.12"
+license = "MIT"
+authors = [{ name = "Sherif Fanous", email = "pyecobee_support@gmail.com" }]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: Implementation :: CPython",
+]
+dependencies = ["requests>=2.13.0"]
+
+[project.urls]
+Homepage = "https://github.com/sfanous/Pyecobee"
+
+[dependency-groups]
+dev = [
+    "coverage[toml]>=7",
+    "pytest>=8",
+    "ruff>=0.8",
+]
+
+[tool.setuptools.packages.find]
+include = ["pyecobee*"]
