@@ -28,9 +28,9 @@ class RemoteSensorCapability(EcobeeObject):
     attribute_name_map = {"id": "id", "type": "type", "value": "value"}
 
     attribute_type_map = {
-        "id": "six.text_type",
-        "type": "six.text_type",
-        "value": "six.text_type",
+        "id": "str",
+        "type": "str",
+        "value": "str",
     }
 
     def __init__(self, id_=None, type_=None, value=None):
@@ -48,7 +48,7 @@ class RemoteSensorCapability(EcobeeObject):
 
         :return: The value of the id attribute of this
         RemoteSensorCapability instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._id
@@ -60,7 +60,7 @@ class RemoteSensorCapability(EcobeeObject):
 
         :return: The value of the type attribute of this
         RemoteSensorCapability instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._type
@@ -73,7 +73,7 @@ class RemoteSensorCapability(EcobeeObject):
 
         :return: The value of the value attribute of this
         RemoteSensorCapability instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._value

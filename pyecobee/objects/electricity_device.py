@@ -35,11 +35,11 @@ class ElectricityDevice(EcobeeObject):
     }
 
     attribute_type_map = {
-        "name": "six.text_type",
+        "name": "str",
         "tiers": "List[ElectricityTier]",
-        "last_update": "six.text_type",
-        "cost": "List[six.text_type]",
-        "consumption": "List[six.text_type]",
+        "last_update": "str",
+        "cost": "List[str]",
+        "consumption": "List[str]",
     }
 
     def __init__(
@@ -61,7 +61,7 @@ class ElectricityDevice(EcobeeObject):
 
         :return: The value of the name attribute of this
         ElectricityDevice instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._name
@@ -86,7 +86,7 @@ class ElectricityDevice(EcobeeObject):
 
         :return: The value of the last_update attribute of this
         ElectricityDevice instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._last_update
@@ -98,7 +98,7 @@ class ElectricityDevice(EcobeeObject):
 
         :return: The value of the cost attribute of this
         ElectricityDevice instance.
-        :rtype: List[six.text_type]
+        :rtype: List[str]
         """
 
         return self._cost
@@ -111,7 +111,7 @@ class ElectricityDevice(EcobeeObject):
 
         :return: The value of the consumption attribute of this
         ElectricityDevice instance.
-        :rtype: List[six.text_type]
+        :rtype: List[str]
         """
 
         return self._consumption

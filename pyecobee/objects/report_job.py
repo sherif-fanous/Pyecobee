@@ -34,10 +34,10 @@ class ReportJob(EcobeeObject):
     }
 
     attribute_type_map = {
-        "job_id": "six.text_type",
-        "status": "six.text_type",
-        "message": "six.text_type",
-        "files": "List[six.text_type]",
+        "job_id": "str",
+        "status": "str",
+        "message": "str",
+        "files": "List[str]",
     }
 
     def __init__(self, job_id=None, status=None, message=None, files=None):
@@ -56,7 +56,7 @@ class ReportJob(EcobeeObject):
 
         :return: The value of the job_id attribute of this ReportJob
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._job_id
@@ -68,7 +68,7 @@ class ReportJob(EcobeeObject):
 
         :return: The value of the status attribute of this ReportJob
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._status
@@ -80,7 +80,7 @@ class ReportJob(EcobeeObject):
 
         :return: The value of the message attribute of this ReportJob
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._message
@@ -92,7 +92,7 @@ class ReportJob(EcobeeObject):
 
         :return: The value of the files attribute of this ReportJob
         instance.
-        :rtype: List[six.text_type]
+        :rtype: List[str]
         """
 
         return self._files

@@ -33,9 +33,9 @@ class Program(EcobeeObject):
     }
 
     attribute_type_map = {
-        "schedule": "List[six.text_type]",
+        "schedule": "List[str]",
         "climates": "List[Climate]",
-        "current_climate_ref": "six.text_type",
+        "current_climate_ref": "str",
     }
 
     def __init__(self, schedule, climates, current_climate_ref=None):
@@ -53,7 +53,7 @@ class Program(EcobeeObject):
 
         :return: The value of the schedule attribute of this Program
         instance.
-        :rtype: List[six.text_type]
+        :rtype: List[str]
         """
 
         return self._schedule
@@ -65,7 +65,7 @@ class Program(EcobeeObject):
 
         :param schedule: The schedule value to set for the schedule
         attribute of this Program instance.
-        :type: List[six.text_type]
+        :type: List[str]
         """
 
         self._schedule = schedule
@@ -101,7 +101,7 @@ class Program(EcobeeObject):
 
         :return: The value of the current_climate_ref attribute of this
         Program instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._current_climate_ref

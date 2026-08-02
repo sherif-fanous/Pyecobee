@@ -41,9 +41,9 @@ class EcobeeAuthorizeResponse(EcobeeObject):
     }
 
     attribute_type_map = {
-        "ecobee_pin": "six.text_type",
-        "code": "six.text_type",
-        "scope": "six.text_type",
+        "ecobee_pin": "str",
+        "code": "str",
+        "scope": "str",
         "expires_in": "int",
         "interval": "int",
     }
@@ -74,8 +74,7 @@ class EcobeeAuthorizeResponse(EcobeeObject):
 
         :return: The value of the ecobee_pin attribute of this
         EcobeeAuthorizeResponse instance.
-        :rtype: six.text_type (This is unicode() in Python 2 and str in
-        Python 3)
+        :rtype: str
         """
         return self._ecobee_pin
 
@@ -87,8 +86,7 @@ class EcobeeAuthorizeResponse(EcobeeObject):
 
         :return: The value of the code attribute of this
         EcobeeAuthorizeResponse instance.
-        :rtype: six.text_type (This is unicode() in Python 2 and str in
-        Python 3)
+        :rtype: str
         """
         return self._code
 
@@ -100,8 +98,7 @@ class EcobeeAuthorizeResponse(EcobeeObject):
 
         :return: The value of the scope attribute of this
         EcobeeAuthorizeResponse instance.
-        :rtype: six.text_type (This is unicode() in Python 2 and str in
-        Python 3)
+        :rtype: str
         """
         return self._scope
 
@@ -142,8 +139,8 @@ class EcobeeCreateRuntimeReportJobResponse(EcobeeStatusResponse):
     }
 
     attribute_type_map = {
-        "job_id": "six.text_type",
-        "job_status": "six.text_type",
+        "job_id": "str",
+        "job_status": "str",
         "status": "Status",
     }
 
@@ -169,8 +166,7 @@ class EcobeeCreateRuntimeReportJobResponse(EcobeeStatusResponse):
 
         :return: The value of the job_id attribute of this
         EcobeeCreateRuntimeReportJobResponse instance.
-        :rtype: six.text_type (This is unicode() in Python 2 and str in
-        Python 3)
+        :rtype: str
         """
         return self._job_id
 
@@ -182,8 +178,7 @@ class EcobeeCreateRuntimeReportJobResponse(EcobeeStatusResponse):
 
         :return: The value of the job_status attribute of this
         EcobeeCreateRuntimeReportJobResponse instance.
-        :rtype: six.text_type (This is unicode() in Python 2 and str in
-        Python 3)
+        :rtype: str
         """
         return self._job_status
 
@@ -198,9 +193,9 @@ class EcobeeErrorResponse(EcobeeObject):
     }
 
     attribute_type_map = {
-        "error": "six.text_type",
-        "error_description": "six.text_type",
-        "error_uri": "six.text_type",
+        "error": "str",
+        "error_description": "str",
+        "error_uri": "str",
     }
 
     def __init__(self, error, error_description, error_uri):
@@ -222,8 +217,7 @@ class EcobeeErrorResponse(EcobeeObject):
 
         :return: The value of the error attribute of this
         EcobeeErrorResponse instance.
-        :rtype: six.text_type (This is unicode() in Python 2 and str in
-        Python 3)
+        :rtype: str
         """
         return self._error
 
@@ -235,8 +229,7 @@ class EcobeeErrorResponse(EcobeeObject):
 
         :return: The value of the error_description attribute of this
         EcobeeErrorResponse instance.
-        :rtype: six.text_type (This is unicode() in Python 2 and str in
-        Python 3)
+        :rtype: str
         """
         return self._error_description
 
@@ -248,8 +241,7 @@ class EcobeeErrorResponse(EcobeeObject):
 
         :return: The value of the error_uri attribute of this
         EcobeeErrorResponse instance.
-        :rtype: six.text_type (This is unicode() in Python 2 and str in
-        Python 3)
+        :rtype: str
         """
         return self._error_uri
 
@@ -292,7 +284,7 @@ class EcobeeIssueDemandResponsesResponse(EcobeeStatusResponse):
         "status": "status",
     }
 
-    attribute_type_map = {"demand_response_ref": "six.text_type", "status": "Status"}
+    attribute_type_map = {"demand_response_ref": "str", "status": "Status"}
 
     def __init__(self, demand_response_ref, status):
         """
@@ -313,8 +305,7 @@ class EcobeeIssueDemandResponsesResponse(EcobeeStatusResponse):
 
         :return: The value of the demand_response_ref attribute of this
         EcobeeIssueDemandResponsesResponse instance.
-        :rtype: six.text_type (This is unicode() in Python 2 and str in
-        Python 3)
+        :rtype: str
         """
         return self._demand_response_ref
 
@@ -533,11 +524,11 @@ class EcobeeRuntimeReportsResponse(EcobeeStatusResponse):
     }
 
     attribute_type_map = {
-        "start_date": "six.text_type",
+        "start_date": "str",
         "start_interval": "int",
-        "end_date": "six.text_type",
+        "end_date": "str",
         "end_interval": "int",
-        "columns": "six.text_type",
+        "columns": "str",
         "report_list": "List[RuntimeReport]",
         "sensor_list": "List[RuntimeSensorReport]",
         "status": "Status",
@@ -583,8 +574,7 @@ class EcobeeRuntimeReportsResponse(EcobeeStatusResponse):
 
         :return: The value of the start_date attribute of this
         EcobeeRuntimeReportsResponse instance.
-        :rtype: six.text_type (This is unicode() in Python 2 and str in
-        Python 3)
+        :rtype: str
         """
         return self._start_date
 
@@ -608,8 +598,7 @@ class EcobeeRuntimeReportsResponse(EcobeeStatusResponse):
 
         :return: The value of the end_date attribute of this
         EcobeeRuntimeReportsResponse instance.
-        :rtype: six.text_type (This is unicode() in Python 2 and str in
-        Python 3)
+        :rtype: str
         """
         return self._end_date
 
@@ -633,8 +622,7 @@ class EcobeeRuntimeReportsResponse(EcobeeStatusResponse):
 
         :return: The value of the columns attribute of this
         EcobeeRuntimeReportsResponse instance.
-        :rtype: six.text_type (This is unicode() in Python 2 and str in
-        Python 3)
+        :rtype: str
         """
         return self._columns
 
@@ -731,9 +719,9 @@ class EcobeeThermostatsSummaryResponse(EcobeeStatusResponse):
     }
 
     attribute_type_map = {
-        "revision_list": "List[six.text_type]",
+        "revision_list": "List[str]",
         "thermostat_count": "int",
-        "status_list": "List[six.text_type]",
+        "status_list": "List[str]",
         "status": "Status",
     }
 
@@ -760,8 +748,7 @@ class EcobeeThermostatsSummaryResponse(EcobeeStatusResponse):
 
         :return: The value of the revision_list attribute of this
         EcobeeThermostatsSummaryResponse instance.
-        :rtype: List[six.text_type] (This is List[unicode()] in Python 2
-        and List[str] in Python 3)
+        :rtype: List[str]
         """
         return self._revision_list
 
@@ -785,8 +772,7 @@ class EcobeeThermostatsSummaryResponse(EcobeeStatusResponse):
 
         :return: The value of the status_list attribute of this
         EcobeeThermostatsSummaryResponse instance.
-        :rtype: List[six.text_type] (This is List[unicode()] in Python 2
-        and List[str] in Python 3)
+        :rtype: List[str]
         """
         return self._status_list
 
@@ -809,11 +795,11 @@ class EcobeeTokensResponse(EcobeeObject):
     }
 
     attribute_type_map = {
-        "access_token": "six.text_type",
-        "token_type": "six.text_type",
+        "access_token": "str",
+        "token_type": "str",
         "expires_in": "int",
-        "refresh_token": "six.text_type",
-        "scope": "six.text_type",
+        "refresh_token": "str",
+        "scope": "str",
     }
 
     def __init__(self, access_token, token_type, expires_in, refresh_token, scope):
@@ -842,8 +828,7 @@ class EcobeeTokensResponse(EcobeeObject):
 
         :return: The value of the access_token attribute of this
         EcobeeTokensResponse instance.
-        :rtype: six.text_type (This is unicode() in Python 2 and str in
-        Python 3)
+        :rtype: str
         """
         return self._access_token
 
@@ -855,8 +840,7 @@ class EcobeeTokensResponse(EcobeeObject):
 
         :return: The value of the token_type attribute of this
         EcobeeTokensResponse instance.
-        :rtype: six.text_type (This is unicode() in Python 2 and str in
-        Python 3)
+        :rtype: str
         """
         return self._token_type
 
@@ -880,8 +864,7 @@ class EcobeeTokensResponse(EcobeeObject):
 
         :return: The value of the refresh_token attribute of this
         EcobeeTokensResponse instance.
-        :rtype: six.text_type (This is unicode() in Python 2 and str in
-        Python 3)
+        :rtype: str
         """
         return self._refresh_token
 
@@ -892,7 +875,6 @@ class EcobeeTokensResponse(EcobeeObject):
 
         :return: The value of the scope attribute of this
         EcobeeTokensResponse instance.
-        :rtype: six.text_type (This is unicode() in Python 2 and str in
-        Python 3)
+        :rtype: str
         """
         return self._scope

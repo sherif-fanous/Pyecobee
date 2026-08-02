@@ -369,15 +369,15 @@ class Settings(EcobeeObject):
     }
 
     attribute_type_map = {
-        "hvac_mode": "six.text_type",
-        "last_service_date": "six.text_type",
+        "hvac_mode": "str",
+        "last_service_date": "str",
         "service_remind_me": "bool",
         "months_between_service": "int",
-        "remind_me_date": "six.text_type",
-        "vent": "six.text_type",
+        "remind_me_date": "str",
+        "vent": "str",
         "ventilator_min_on_time": "int",
         "service_remind_technician": "bool",
-        "ei_location": "six.text_type",
+        "ei_location": "str",
         "cold_temp_alert": "int",
         "cold_temp_alert_enabled": "bool",
         "hot_temp_alert": "int",
@@ -397,9 +397,9 @@ class Settings(EcobeeObject):
         "condensation_avoid": "bool",
         "use_celsius": "bool",
         "use_time_format12": "bool",
-        "locale": "six.text_type",
-        "humidity": "six.text_type",
-        "humidifier_mode": "six.text_type",
+        "locale": "str",
+        "humidity": "str",
+        "humidifier_mode": "str",
         "backlight_on_intensity": "int",
         "backlight_sleep_intensity": "int",
         "backlight_off_time": "int",
@@ -416,11 +416,11 @@ class Settings(EcobeeObject):
         "fan_min_on_time": "int",
         "heat_cool_min_delta": "int",
         "temp_correction": "int",
-        "hold_action": "six.text_type",
+        "hold_action": "str",
         "heat_pump_ground_water": "bool",
         "has_electric": "bool",
         "has_dehumidifier": "bool",
-        "dehumidifier_mode": "six.text_type",
+        "dehumidifier_mode": "str",
         "dehumidifier_level": "int",
         "dehumidify_with_a_c": "bool",
         "dehumidify_overcool_offset": "int",
@@ -434,7 +434,7 @@ class Settings(EcobeeObject):
         "heat_range_low": "int",
         "cool_range_high": "int",
         "cool_range_low": "int",
-        "user_access_code": "six.text_type",
+        "user_access_code": "str",
         "user_access_setting": "int",
         "aux_runtime_alert": "int",
         "aux_outdoor_temp_alert": "int",
@@ -446,7 +446,7 @@ class Settings(EcobeeObject):
         "disable_pre_heating": "bool",
         "disable_pre_cooling": "bool",
         "installer_code_required": "bool",
-        "dr_accept": "six.text_type",
+        "dr_accept": "str",
         "is_rental_property": "bool",
         "use_zone_controller": "bool",
         "random_start_delay_cool": "int",
@@ -471,18 +471,18 @@ class Settings(EcobeeObject):
         "auto_away": "bool",
         "smart_circulation": "bool",
         "follow_me_comfort": "bool",
-        "ventilator_type": "six.text_type",
+        "ventilator_type": "str",
         "is_ventilator_timer_on": "bool",
-        "ventilator_off_date_time": "six.text_type",
+        "ventilator_off_date_time": "str",
         "has_u_v_filter": "bool",
         "cooling_lockout": "bool",
         "ventilator_free_cooling": "bool",
         "dehumidify_when_heating": "bool",
         "ventilator_dehumidify": "bool",
-        "group_ref": "six.text_type",
-        "group_name": "six.text_type",
+        "group_ref": "str",
+        "group_name": "str",
         "group_setting": "int",
-        "fan_speed": "six.text_type",
+        "fan_speed": "str",
     }
 
     def __init__(
@@ -731,7 +731,7 @@ class Settings(EcobeeObject):
 
         :return: The value of the hvac_mode attribute of this Settings
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._hvac_mode
@@ -743,7 +743,7 @@ class Settings(EcobeeObject):
 
         :param hvac_mode: The hvac_mode value to set for the hvac_mode
         attribute of this Settings instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._hvac_mode = hvac_mode
@@ -755,7 +755,7 @@ class Settings(EcobeeObject):
 
         :return: The value of the last_service_date attribute of this
         Settings instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._last_service_date
@@ -767,7 +767,7 @@ class Settings(EcobeeObject):
 
         :param last_service_date: The last_service_date value to set for
         the last_service_date attribute of this Settings instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._last_service_date = last_service_date
@@ -830,7 +830,7 @@ class Settings(EcobeeObject):
 
         :return: The value of the remind_me_date attribute of this
         Settings instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._remind_me_date
@@ -842,7 +842,7 @@ class Settings(EcobeeObject):
 
         :param remind_me_date: The remind_me_date value to set for the
         remind_me_date attribute of this Settings instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._remind_me_date = remind_me_date
@@ -854,7 +854,7 @@ class Settings(EcobeeObject):
 
         :return: The value of the vent attribute of this Settings
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._vent
@@ -866,7 +866,7 @@ class Settings(EcobeeObject):
 
         :param vent: The vent value to set for the vent attribute of
         this Settings instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._vent = vent
@@ -932,7 +932,7 @@ class Settings(EcobeeObject):
 
         :return: The value of the ei_location attribute of this Settings
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._ei_location
@@ -944,7 +944,7 @@ class Settings(EcobeeObject):
 
         :param ei_location: The ei_location value to set for the
         ei_location attribute of this Settings instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._ei_location = ei_location
@@ -1327,7 +1327,7 @@ class Settings(EcobeeObject):
 
         :return: The value of the locale attribute of this Settings
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._locale
@@ -1339,7 +1339,7 @@ class Settings(EcobeeObject):
 
         :param locale: The locale value to set for the locale attribute
         of this Settings instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._locale = locale
@@ -1351,7 +1351,7 @@ class Settings(EcobeeObject):
 
         :return: The value of the humidity attribute of this Settings
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._humidity
@@ -1363,7 +1363,7 @@ class Settings(EcobeeObject):
 
         :param humidity: The humidity value to set for the humidity
         attribute of this Settings instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._humidity = humidity
@@ -1375,7 +1375,7 @@ class Settings(EcobeeObject):
 
         :return: The value of the humidifier_mode attribute of this
         Settings instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._humidifier_mode
@@ -1387,7 +1387,7 @@ class Settings(EcobeeObject):
 
         :param humidifier_mode: The humidifier_mode value to set for the
         humidifier_mode attribute of this Settings instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._humidifier_mode = humidifier_mode
@@ -1821,7 +1821,7 @@ class Settings(EcobeeObject):
 
         :return: The value of the hold_action attribute of this Settings
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._hold_action
@@ -1833,7 +1833,7 @@ class Settings(EcobeeObject):
 
         :param hold_action: The hold_action value to set for the
         hold_action attribute of this Settings instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._hold_action = hold_action
@@ -1882,7 +1882,7 @@ class Settings(EcobeeObject):
 
         :return: The value of the dehumidifier_mode attribute of this
         Settings instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._dehumidifier_mode
@@ -1894,7 +1894,7 @@ class Settings(EcobeeObject):
 
         :param dehumidifier_mode: The dehumidifier_mode value to set for
         the dehumidifier_mode attribute of this Settings instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._dehumidifier_mode = dehumidifier_mode
@@ -2179,7 +2179,7 @@ class Settings(EcobeeObject):
 
         :return: The value of the user_access_code attribute of this
         Settings instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._user_access_code
@@ -2477,7 +2477,7 @@ class Settings(EcobeeObject):
 
         :return: The value of the dr_accept attribute of this Settings
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._dr_accept
@@ -2489,7 +2489,7 @@ class Settings(EcobeeObject):
 
         :param dr_accept: The dr_accept value to set for the dr_accept
         attribute of this Settings instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._dr_accept = dr_accept
@@ -3142,7 +3142,7 @@ class Settings(EcobeeObject):
 
         :return: The value of the ventilator_type attribute of this
         Settings instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._ventilator_type
@@ -3182,7 +3182,7 @@ class Settings(EcobeeObject):
 
         :return: The value of the ventilator_off_date_time attribute of
         this Settings instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._ventilator_off_date_time
@@ -3323,7 +3323,7 @@ class Settings(EcobeeObject):
 
         :return: The value of the group_ref attribute of this Settings
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._group_ref
@@ -3335,7 +3335,7 @@ class Settings(EcobeeObject):
 
         :param group_ref: The group_ref value to set for the group_ref
         attribute of this Settings instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._group_ref = group_ref
@@ -3347,7 +3347,7 @@ class Settings(EcobeeObject):
 
         :return: The value of the group_name attribute of this Settings
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._group_name
@@ -3359,7 +3359,7 @@ class Settings(EcobeeObject):
 
         :param group_name: The group_name value to set for the
         group_name attribute of this Settings instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._group_name = group_name
@@ -3395,7 +3395,7 @@ class Settings(EcobeeObject):
 
         :return: The value of the fan_speed attribute of this Settings
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._fan_speed
@@ -3407,7 +3407,7 @@ class Settings(EcobeeObject):
 
         :param fan_speed: The fan_speed value to set for the fan_speed
         attribute of this Settings instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._fan_speed = fan_speed

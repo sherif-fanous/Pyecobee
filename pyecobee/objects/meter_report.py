@@ -33,7 +33,7 @@ class MeterReport(EcobeeObject):
     }
 
     attribute_type_map = {
-        "thermostat_identifier": "six.text_type",
+        "thermostat_identifier": "str",
         "meter_list": "List[MeterReportData]",
     }
 
@@ -52,7 +52,7 @@ class MeterReport(EcobeeObject):
 
         :return: The value of the thermostat_identifier attribute of
         this MeterReport instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._thermostat_identifier

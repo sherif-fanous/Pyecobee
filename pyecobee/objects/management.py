@@ -50,12 +50,12 @@ class Management(EcobeeObject):
     }
 
     attribute_type_map = {
-        "administrative_contact": "six.text_type",
-        "billing_contact": "six.text_type",
-        "name": "six.text_type",
-        "phone": "six.text_type",
-        "email": "six.text_type",
-        "web": "six.text_type",
+        "administrative_contact": "str",
+        "billing_contact": "str",
+        "name": "str",
+        "phone": "str",
+        "email": "str",
+        "web": "str",
         "show_alert_idt": "bool",
         "show_alert_web": "bool",
     }
@@ -91,7 +91,7 @@ class Management(EcobeeObject):
 
         :return: The value of the administrative_contact attribute of
         this Management instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._administrative_contact
@@ -103,7 +103,7 @@ class Management(EcobeeObject):
 
         :return: The value of the billing_contact attribute of this
         Management instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._billing_contact
@@ -115,7 +115,7 @@ class Management(EcobeeObject):
 
         :return: The value of the name attribute of this Management
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._name
@@ -127,7 +127,7 @@ class Management(EcobeeObject):
 
         :return: The value of the phone attribute of this Management
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._phone
@@ -139,7 +139,7 @@ class Management(EcobeeObject):
 
         :return: The value of the email attribute of this Management
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._email
@@ -151,7 +151,7 @@ class Management(EcobeeObject):
 
         :return: The value of the web attribute of this Management
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._web

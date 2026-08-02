@@ -72,8 +72,8 @@ class WeatherForecast(EcobeeObject):
 
     attribute_type_map = {
         "weather_symbol": "int",
-        "date_time": "six.text_type",
-        "condition": "six.text_type",
+        "date_time": "str",
+        "condition": "str",
         "temperature": "int",
         "pressure": "int",
         "relative_humidity": "int",
@@ -81,7 +81,7 @@ class WeatherForecast(EcobeeObject):
         "visibility": "int",
         "wind_speed": "int",
         "wind_gust": "int",
-        "wind_direction": "six.text_type",
+        "wind_direction": "str",
         "wind_bearing": "int",
         "pop": "int",
         "temp_high": "int",
@@ -148,7 +148,7 @@ class WeatherForecast(EcobeeObject):
 
         :return: The value of the date_time attribute of this
         WeatherForecast instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._date_time
@@ -160,7 +160,7 @@ class WeatherForecast(EcobeeObject):
 
         :return: The value of the condition attribute of this
         WeatherForecast instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._condition
@@ -258,7 +258,7 @@ class WeatherForecast(EcobeeObject):
 
         :return: The value of the wind_direction attribute of this
         WeatherForecast instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._wind_direction

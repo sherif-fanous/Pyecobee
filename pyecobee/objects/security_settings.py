@@ -48,7 +48,7 @@ class SecuritySettings(EcobeeObject):
     }
 
     attribute_type_map = {
-        "user_access_code": "six.text_type",
+        "user_access_code": "str",
         "all_user_access": "bool",
         "program_access": "bool",
         "details_access": "bool",
@@ -83,7 +83,7 @@ class SecuritySettings(EcobeeObject):
 
         :return: The value of the user_access_code attribute of this
         SecuritySettings instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._user_access_code
@@ -97,7 +97,7 @@ class SecuritySettings(EcobeeObject):
         :param user_access_code: The user_access_code value to set for
         the user_access_code attribute of this SecuritySettings
         instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._user_access_code = user_access_code

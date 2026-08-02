@@ -2,10 +2,8 @@ import logging.handlers
 import shelve
 import sys
 import traceback
-from datetime import datetime
-
-import pytz
-from pytz import timezone
+from datetime import UTC, datetime
+from zoneinfo import ZoneInfo
 
 from pyecobee import *
 
@@ -49,7 +47,7 @@ def test_request_groups(ecobee_service):
 
 
 def test_runtime_reports(ecobee_service, thermostat):
-    eastern = timezone("US/Eastern")
+    eastern = ZoneInfo("America/New_York")
 
     logger.info("Requesting Runtime Report")
     selection = Selection(
@@ -58,8 +56,8 @@ def test_runtime_reports(ecobee_service, thermostat):
     )
     runtime_reports_response = ecobee_service.request_runtime_reports(
         selection,
-        start_date_time=eastern.localize(datetime(2017, 5, 1, 0, 0, 0), is_dst=False),
-        end_date_time=eastern.localize(datetime(2017, 5, 2, 0, 0, 0), is_dst=False),
+        start_date_time=datetime(2017, 5, 1, 0, 0, 0).replace(tzinfo=eastern),
+        end_date_time=datetime(2017, 5, 2, 0, 0, 0).replace(tzinfo=eastern),
         columns="auxHeat1,auxHeat2,auxHeat3,compCool1,"
         "compCool2,compHeat1,compHeat2,"
         "dehumidifier,dmOffset,economizer,"
@@ -79,7 +77,7 @@ def test_runtime_reports(ecobee_service, thermostat):
 
 
 def test_request_meter_reports(ecobee_service, thermostat):
-    eastern = timezone("US/Eastern")
+    eastern = ZoneInfo("America/New_York")
 
     logger.info("Requesting Meter Report")
     selection = Selection(
@@ -88,8 +86,8 @@ def test_request_meter_reports(ecobee_service, thermostat):
     )
     meter_reports_response = ecobee_service.request_meter_reports(
         selection,
-        start_date_time=eastern.localize(datetime(2017, 4, 1, 0, 0, 0), is_dst=False),
-        end_date_time=eastern.localize(datetime(2017, 4, 2, 0, 0, 0), is_dst=False),
+        start_date_time=datetime(2017, 4, 1, 0, 0, 0).replace(tzinfo=eastern),
+        end_date_time=datetime(2017, 4, 2, 0, 0, 0).replace(tzinfo=eastern),
     )
     validate_dictionary_to_object(meter_reports_response)
     assert meter_reports_response.status.code == 0, (
@@ -234,17 +232,15 @@ def test_delete_vacation(ecobee_service, vacation_name):
 
 
 def test_create_vacation(ecobee_service, vacation_name):
-    eastern = timezone("US/Eastern")
+    eastern = ZoneInfo("America/New_York")
 
     logger.info("Creating Vacation: %s", vacation_name)
     update_thermostat_response = ecobee_service.create_vacation(
         name=vacation_name,
         cool_hold_temp=104,
         heat_hold_temp=59,
-        start_date_time=eastern.localize(
-            datetime(2017, 12, 23, 10, 0, 0), is_dst=False
-        ),
-        end_date_time=eastern.localize(datetime(2018, 1, 9, 4, 0, 0), is_dst=False),
+        start_date_time=datetime(2017, 12, 23, 10, 0, 0).replace(tzinfo=eastern),
+        end_date_time=datetime(2018, 1, 9, 4, 0, 0).replace(tzinfo=eastern),
         fan_mode=FanMode.AUTO,
         fan_min_on_time=0,
     )
@@ -408,7 +404,7 @@ def main():
         if not ecobee_service.access_token:
             request_tokens(ecobee_service)
 
-        now_utc = datetime.now(pytz.utc)
+        now_utc = datetime.now(UTC)
         if now_utc > ecobee_service.refresh_token_expires_on:
             authorize(ecobee_service)
             request_tokens(ecobee_service)

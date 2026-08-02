@@ -98,8 +98,8 @@ class ExtendedRuntime(EcobeeObject):
     }
 
     attribute_type_map = {
-        "last_reading_timestamp": "six.text_type",
-        "runtime_date": "six.text_type",
+        "last_reading_timestamp": "str",
+        "runtime_date": "str",
         "runtime_interval": "int",
         "actual_temperature": "List[int]",
         "actual_humidity": "List[int]",
@@ -108,7 +108,7 @@ class ExtendedRuntime(EcobeeObject):
         "desired_humidity": "List[int]",
         "desired_dehumidity": "List[int]",
         "dm_offset": "List[int]",
-        "hvac_mode": "List[six.text_type]",
+        "hvac_mode": "List[str]",
         "heat_pump1": "List[int]",
         "heat_pump2": "List[int]",
         "aux_heat1": "List[int]",
@@ -190,7 +190,7 @@ class ExtendedRuntime(EcobeeObject):
 
         :return: The value of the last_reading_timestamp attribute of
         this ExtendedRuntime instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._last_reading_timestamp
@@ -203,7 +203,7 @@ class ExtendedRuntime(EcobeeObject):
 
         :return: The value of the runtime_date attribute of this
         ExtendedRuntime instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._runtime_date
@@ -318,7 +318,7 @@ class ExtendedRuntime(EcobeeObject):
 
         :return: The value of the hvac_mode attribute of this
         ExtendedRuntime instance.
-        :rtype: List[six.text_type]
+        :rtype: List[str]
         """
 
         return self._hvac_mode

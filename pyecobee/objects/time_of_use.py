@@ -30,7 +30,7 @@ class TimeOfUse(EcobeeObject):
         "savings": "savings",
     }
 
-    attribute_type_map = {"feature_state": "six.text_type", "savings": "six.text_type"}
+    attribute_type_map = {"feature_state": "str", "savings": "str"}
 
     def __init__(self, feature_state=None, savings=None):
         """
@@ -46,7 +46,7 @@ class TimeOfUse(EcobeeObject):
 
         :return: The value of the feature_state attribute of this TimeOfUse
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._feature_state
@@ -58,7 +58,7 @@ class TimeOfUse(EcobeeObject):
 
         :return: The value of the savings attribute of this TimeOfUse
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self.savings

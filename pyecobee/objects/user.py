@@ -86,20 +86,20 @@ class User(EcobeeObject):
     }
 
     attribute_type_map = {
-        "user_name": "six.text_type",
-        "display_name": "six.text_type",
-        "first_name": "six.text_type",
-        "last_name": "six.text_type",
-        "honorific": "six.text_type",
-        "register_date": "six.text_type",
-        "register_time": "six.text_type",
-        "default_thermostat_identifier": "six.text_type",
-        "management_ref": "six.text_type",
-        "utility_ref": "six.text_type",
-        "support_ref": "six.text_type",
-        "phone_number": "six.text_type",
-        "utility_time_zone": "six.text_type",
-        "management_time_zone": "six.text_type",
+        "user_name": "str",
+        "display_name": "str",
+        "first_name": "str",
+        "last_name": "str",
+        "honorific": "str",
+        "register_date": "str",
+        "register_time": "str",
+        "default_thermostat_identifier": "str",
+        "management_ref": "str",
+        "utility_ref": "str",
+        "support_ref": "str",
+        "phone_number": "str",
+        "utility_time_zone": "str",
+        "management_time_zone": "str",
         "is_residential": "bool",
         "is_developer": "bool",
         "is_management": "bool",
@@ -159,7 +159,7 @@ class User(EcobeeObject):
 
         :return: The value of the user_name attribute of this User
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._user_name
@@ -171,7 +171,7 @@ class User(EcobeeObject):
 
         :return: The value of the display_name attribute of this User
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._display_name
@@ -183,7 +183,7 @@ class User(EcobeeObject):
 
         :param display_name: The display_name value to set for the
         display_name attribute of this User instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._display_name = display_name
@@ -195,7 +195,7 @@ class User(EcobeeObject):
 
         :return: The value of the first_name attribute of this User
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._first_name
@@ -207,7 +207,7 @@ class User(EcobeeObject):
 
         :param first_name: The first_name value to set for the
         first_name attribute of this User instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._first_name = first_name
@@ -219,7 +219,7 @@ class User(EcobeeObject):
 
         :return: The value of the last_name attribute of this User
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._last_name
@@ -231,7 +231,7 @@ class User(EcobeeObject):
 
         :param last_name: The last_name value to set for the last_name
         attribute of this User instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._last_name = last_name
@@ -243,7 +243,7 @@ class User(EcobeeObject):
 
         :return: The value of the honorific attribute of this User
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._honorific
@@ -255,7 +255,7 @@ class User(EcobeeObject):
 
         :return: The value of the register_date attribute of this User
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._register_date
@@ -267,7 +267,7 @@ class User(EcobeeObject):
 
         :return: The value of the register_time attribute of this User
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._register_time
@@ -280,7 +280,7 @@ class User(EcobeeObject):
 
         :return: The value of the default_thermostat_identifier
         attribute of this User instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._default_thermostat_identifier
@@ -292,7 +292,7 @@ class User(EcobeeObject):
 
         :return: The value of the management_ref attribute of this User
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._management_ref
@@ -304,7 +304,7 @@ class User(EcobeeObject):
 
         :return: The value of the utility_ref attribute of this User
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._utility_ref
@@ -316,7 +316,7 @@ class User(EcobeeObject):
 
         :return: The value of the support_ref attribute of this User
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._support_ref
@@ -328,7 +328,7 @@ class User(EcobeeObject):
 
         :return: The value of the phone_number attribute of this User
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._phone_number
@@ -340,7 +340,7 @@ class User(EcobeeObject):
 
         :param phone_number: The phone_number value to set for the
         phone_number attribute of this User instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._phone_number = phone_number
@@ -352,7 +352,7 @@ class User(EcobeeObject):
 
         :return: The value of the utility_time_zone attribute of this
         User instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._utility_time_zone
@@ -364,7 +364,7 @@ class User(EcobeeObject):
 
         :param utility_time_zone: The utility_time_zone value to set for
         the utility_time_zone attribute of this User instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._utility_time_zone = utility_time_zone
@@ -376,7 +376,7 @@ class User(EcobeeObject):
 
         :return: The value of the management_time_zone attribute of this
         User instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._management_time_zone
@@ -389,7 +389,7 @@ class User(EcobeeObject):
         :param management_time_zone: The management_time_zone value to
         set for the management_time_zone attribute of this User
         instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._management_time_zone = management_time_zone

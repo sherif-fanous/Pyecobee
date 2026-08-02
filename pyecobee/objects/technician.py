@@ -54,16 +54,16 @@ class Technician(EcobeeObject):
     }
 
     attribute_type_map = {
-        "contractor_ref": "six.text_type",
-        "name": "six.text_type",
-        "phone": "six.text_type",
-        "street_address": "six.text_type",
-        "city": "six.text_type",
-        "province_state": "six.text_type",
-        "country": "six.text_type",
-        "postal_code": "six.text_type",
-        "email": "six.text_type",
-        "web": "six.text_type",
+        "contractor_ref": "str",
+        "name": "str",
+        "phone": "str",
+        "street_address": "str",
+        "city": "str",
+        "province_state": "str",
+        "country": "str",
+        "postal_code": "str",
+        "email": "str",
+        "web": "str",
     }
 
     def __init__(
@@ -100,7 +100,7 @@ class Technician(EcobeeObject):
 
         :return: The value of the contractor_ref attribute of this
         Technician instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._contractor_ref
@@ -112,7 +112,7 @@ class Technician(EcobeeObject):
 
         :return: The value of the name attribute of this Technician
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._name
@@ -124,7 +124,7 @@ class Technician(EcobeeObject):
 
         :return: The value of the phone attribute of this Technician
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._phone
@@ -136,7 +136,7 @@ class Technician(EcobeeObject):
 
         :return: The value of the street_address attribute of this
         Technician instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._street_address
@@ -148,7 +148,7 @@ class Technician(EcobeeObject):
 
         :return: The value of the city attribute of this Technician
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._city
@@ -160,7 +160,7 @@ class Technician(EcobeeObject):
 
         :return: The value of the province_state attribute of this
         Technician instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._province_state
@@ -172,7 +172,7 @@ class Technician(EcobeeObject):
 
         :return: The value of the country attribute of this Technician
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._country
@@ -184,7 +184,7 @@ class Technician(EcobeeObject):
 
         :return: The value of the postal_code attribute of this
         Technician instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._postal_code
@@ -196,7 +196,7 @@ class Technician(EcobeeObject):
 
         :return: The value of the email attribute of this Technician
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._email
@@ -208,7 +208,7 @@ class Technician(EcobeeObject):
 
         :return: The value of the web attribute of this Technician
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._web

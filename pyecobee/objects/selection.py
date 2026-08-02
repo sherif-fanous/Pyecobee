@@ -108,8 +108,8 @@ class Selection(EcobeeObject):
     }
 
     attribute_type_map = {
-        "selection_type": "six.text_type",
-        "selection_match": "six.text_type",
+        "selection_type": "str",
+        "selection_match": "str",
         "include_runtime": "boolean",
         "include_extended_runtime": "boolean",
         "include_electricity": "boolean",
@@ -202,7 +202,7 @@ class Selection(EcobeeObject):
 
         :return: The value of the selection_type attribute of this
         Selection instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._selection_type
@@ -214,7 +214,7 @@ class Selection(EcobeeObject):
 
         :param selection_type: The selection_type value to set for the
         selection_type attribute of this Selection instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._selection_type = selection_type
@@ -226,7 +226,7 @@ class Selection(EcobeeObject):
 
         :return: The value of the selection_match attribute of this
         Selection instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._selection_match
@@ -238,7 +238,7 @@ class Selection(EcobeeObject):
 
         :param selection_match: The selection_match value to set for the
         selection_match attribute of this Selection instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._selection_match = selection_match

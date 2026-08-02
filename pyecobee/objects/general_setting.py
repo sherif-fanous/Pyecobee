@@ -33,7 +33,7 @@ class GeneralSetting(EcobeeObject):
     }
 
     attribute_type_map = {
-        "type": "six.text_type",
+        "type": "str",
         "enabled": "bool",
         "remind_technician": "bool",
     }
@@ -53,7 +53,7 @@ class GeneralSetting(EcobeeObject):
 
         :return: The value of the type attribute of this GeneralSetting
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._type

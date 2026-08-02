@@ -5,6 +5,7 @@ from pyecobee import (
     EcobeeApiException,
     EcobeeAuthorizationException,
     EcobeeHttpException,
+    EcobeeRequestsException,
     EcobeeStatusResponse,
     Utilities,
 )
@@ -55,9 +56,11 @@ def test_unstructured_http_error_raises_typed_exception():
         Utilities.process_http_response(Response(500, {}), EcobeeStatusResponse)
 
 
-def test_requests_error_preserves_underlying_exception():
+def test_requests_error_chains_underlying_exception():
     def fail(*args, **kwargs):
         raise requests.exceptions.ConnectionError("offline")
 
-    with pytest.raises(requests.exceptions.ConnectionError):
+    with pytest.raises(EcobeeRequestsException) as raised:
         Utilities.make_http_request(fail, "https://example.test")
+
+    assert isinstance(raised.value.__cause__, requests.exceptions.ConnectionError)

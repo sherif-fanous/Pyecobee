@@ -49,11 +49,11 @@ class HierarchyUser(EcobeeObject):
     }
 
     attribute_type_map = {
-        "user_name": "six.text_type",
-        "first_name": "six.text_type",
-        "last_name": "six.text_type",
-        "phone": "six.text_type",
-        "last_login": "six.text_type",
+        "user_name": "str",
+        "first_name": "str",
+        "last_name": "str",
+        "phone": "str",
+        "last_login": "str",
         "active": "bool",
         "email_alerts": "bool",
     }
@@ -86,7 +86,7 @@ class HierarchyUser(EcobeeObject):
 
         :return: The value of the user_name attribute of this
         HierarchyUser instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._user_name
@@ -98,7 +98,7 @@ class HierarchyUser(EcobeeObject):
 
         :param user_name: The user_name value to set for the user_name
         attribute of this HierarchyUser instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._user_name = user_name
@@ -110,7 +110,7 @@ class HierarchyUser(EcobeeObject):
 
         :return: The value of the first_name attribute of this
         HierarchyUser instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._first_name
@@ -122,7 +122,7 @@ class HierarchyUser(EcobeeObject):
 
         :param first_name: The first_name value to set for the
         first_name attribute of this HierarchyUser instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._first_name = first_name
@@ -134,7 +134,7 @@ class HierarchyUser(EcobeeObject):
 
         :return: The value of the last_name attribute of this
         HierarchyUser instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._last_name
@@ -146,7 +146,7 @@ class HierarchyUser(EcobeeObject):
 
         :param last_name: The last_name value to set for the last_name
         attribute of this HierarchyUser instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._last_name = last_name
@@ -158,7 +158,7 @@ class HierarchyUser(EcobeeObject):
 
         :return: The value of the phone attribute of this HierarchyUser
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._phone
@@ -170,7 +170,7 @@ class HierarchyUser(EcobeeObject):
 
         :param phone: The phone value to set for the phone attribute of
         this HierarchyUser instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._phone = phone
@@ -182,7 +182,7 @@ class HierarchyUser(EcobeeObject):
 
         :return: The value of the last_login attribute of this
         HierarchyUser instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._last_login

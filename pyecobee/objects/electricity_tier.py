@@ -28,9 +28,9 @@ class ElectricityTier(EcobeeObject):
     attribute_name_map = {"name": "name", "consumption": "consumption", "cost": "cost"}
 
     attribute_type_map = {
-        "name": "six.text_type",
-        "consumption": "six.text_type",
-        "cost": "six.text_type",
+        "name": "str",
+        "consumption": "str",
+        "cost": "str",
     }
 
     def __init__(self, name=None, consumption=None, cost=None):
@@ -48,7 +48,7 @@ class ElectricityTier(EcobeeObject):
 
         :return: The value of the name attribute of this ElectricityTier
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._name
@@ -60,7 +60,7 @@ class ElectricityTier(EcobeeObject):
 
         :return: The value of the consumption attribute of this
         ElectricityTier instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._consumption
@@ -72,7 +72,7 @@ class ElectricityTier(EcobeeObject):
 
         :return: The value of the cost attribute of this ElectricityTier
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._cost

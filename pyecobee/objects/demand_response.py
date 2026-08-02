@@ -78,12 +78,12 @@ class DemandResponse(EcobeeObject):
     }
 
     attribute_type_map = {
-        "name": "six.text_type",
-        "demand_response_ref": "six.text_type",
-        "comments": "six.text_type",
-        "message": "six.text_type",
-        "deferred_date": "six.text_type",
-        "deferred_time": "six.text_type",
+        "name": "str",
+        "demand_response_ref": "str",
+        "comments": "str",
+        "message": "str",
+        "deferred_date": "str",
+        "deferred_time": "str",
         "show_idt": "bool",
         "show_web": "bool",
         "send_email": "bool",
@@ -92,9 +92,9 @@ class DemandResponse(EcobeeObject):
         "randomize_end_time": "bool",
         "random_end_time_seconds": "int",
         "event": "Event",
-        "thermostats": "List[six.text_type]",
-        "external_ref": "six.text_type",
-        "external_ref_type": "six.text_type",
+        "thermostats": "List[str]",
+        "external_ref": "str",
+        "external_ref_type": "str",
         "priority": "Long",
     }
 
@@ -148,7 +148,7 @@ class DemandResponse(EcobeeObject):
 
         :return: The value of the name attribute of this DemandResponse
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._name
@@ -160,7 +160,7 @@ class DemandResponse(EcobeeObject):
 
         :param name: The name value to set for the name attribute of
         this DemandResponse instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._name = name
@@ -173,7 +173,7 @@ class DemandResponse(EcobeeObject):
 
         :return: The value of the demand_response_ref attribute of this
         DemandResponse instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._demand_response_ref
@@ -185,7 +185,7 @@ class DemandResponse(EcobeeObject):
 
         :return: The value of the comments attribute of this
         DemandResponse instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._comments
@@ -197,7 +197,7 @@ class DemandResponse(EcobeeObject):
 
         :param comments: The comments value to set for the comments
         attribute of this DemandResponse instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._comments = comments
@@ -209,7 +209,7 @@ class DemandResponse(EcobeeObject):
 
         :return: The value of the message attribute of this
         DemandResponse instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._message
@@ -221,7 +221,7 @@ class DemandResponse(EcobeeObject):
 
         :param message: The message value to set for the message
         attribute of this DemandResponse instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._message = message
@@ -234,7 +234,7 @@ class DemandResponse(EcobeeObject):
 
         :return: The value of the deferred_date attribute of this
         DemandResponse instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._deferred_date
@@ -247,7 +247,7 @@ class DemandResponse(EcobeeObject):
 
         :param deferred_date: The deferred_date value to set for the
         deferred_date attribute of this DemandResponse instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._deferred_date = deferred_date
@@ -260,7 +260,7 @@ class DemandResponse(EcobeeObject):
 
         :return: The value of the deferred_time attribute of this
         DemandResponse instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._deferred_time
@@ -273,7 +273,7 @@ class DemandResponse(EcobeeObject):
 
         :param deferred_time: The deferred_time value to set for the
         deferred_time attribute of this DemandResponse instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._deferred_time = deferred_time
@@ -489,7 +489,7 @@ class DemandResponse(EcobeeObject):
 
         :return: The value of the thermostats attribute of this
         DemandResponse instance.
-        :rtype: List[six.text_type]
+        :rtype: List[str]
         """
 
         return self._thermostats
@@ -501,7 +501,7 @@ class DemandResponse(EcobeeObject):
 
         :return: The value of the external_ref attribute of this
         DemandResponse instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._external_ref
@@ -513,7 +513,7 @@ class DemandResponse(EcobeeObject):
 
         :param external_ref: The external_ref value to set for the
         external_ref attribute of this DemandResponse instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._external_ref = external_ref
@@ -526,7 +526,7 @@ class DemandResponse(EcobeeObject):
 
         :return: The value of the external_ref_type attribute of this
         DemandResponse instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._external_ref_type
@@ -539,7 +539,7 @@ class DemandResponse(EcobeeObject):
 
         :param external_ref_type: The external_ref_type value to set for
         the external_ref_type attribute of this DemandResponse instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._external_ref_type = external_ref_type

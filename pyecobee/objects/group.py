@@ -71,8 +71,8 @@ class Group(EcobeeObject):
     }
 
     attribute_type_map = {
-        "group_name": "six.text_type",
-        "group_ref": "six.text_type",
+        "group_name": "str",
+        "group_ref": "str",
         "synchronize_alerts": "bool",
         "synchronize_system_mode": "bool",
         "synchronize_schedule": "bool",
@@ -84,7 +84,7 @@ class Group(EcobeeObject):
         "synchronize_location": "bool",
         "synchronize_reset": "bool",
         "synchronize_vacation": "bool",
-        "thermostats": "List[six.text_type]",
+        "thermostats": "List[str]",
     }
 
     def __init__(
@@ -129,7 +129,7 @@ class Group(EcobeeObject):
 
         :return: The value of the group_name attribute of this Group
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._group_name
@@ -141,7 +141,7 @@ class Group(EcobeeObject):
 
         :param group_name: The group_name value to set for the
         group_name attribute of this Group instance.
-        :type: six.text_type
+        :type: str
         """
 
         self._group_name = group_name
@@ -153,7 +153,7 @@ class Group(EcobeeObject):
 
         :return: The value of the group_ref attribute of this Group
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._group_ref
@@ -448,7 +448,7 @@ class Group(EcobeeObject):
 
         :return: The value of the thermostats attribute of this Group
         instance.
-        :rtype: List[six.text_type]
+        :rtype: List[str]
         """
 
         return self._thermostats
@@ -460,7 +460,7 @@ class Group(EcobeeObject):
 
         :param thermostats: The thermostats value to set for the
         thermostats attribute of this Group instance.
-        :type: List[six.text_type]
+        :type: List[str]
         """
 
         self._thermostats = thermostats

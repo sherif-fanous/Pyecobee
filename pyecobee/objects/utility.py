@@ -33,10 +33,10 @@ class Utility(EcobeeObject):
     }
 
     attribute_type_map = {
-        "name": "six.text_type",
-        "phone": "six.text_type",
-        "email": "six.text_type",
-        "web": "six.text_type",
+        "name": "str",
+        "phone": "str",
+        "email": "str",
+        "web": "str",
     }
 
     def __init__(self, name=None, phone=None, email=None, web=None):
@@ -55,7 +55,7 @@ class Utility(EcobeeObject):
 
         :return: The value of the name attribute of this Utility
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._name
@@ -67,7 +67,7 @@ class Utility(EcobeeObject):
 
         :return: The value of the phone attribute of this Utility
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._phone
@@ -79,7 +79,7 @@ class Utility(EcobeeObject):
 
         :return: The value of the email attribute of this Utility
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._email
@@ -91,7 +91,7 @@ class Utility(EcobeeObject):
 
         :return: The value of the web attribute of this Utility
         instance.
-        :rtype: six.text_type
+        :rtype: str
         """
 
         return self._web
