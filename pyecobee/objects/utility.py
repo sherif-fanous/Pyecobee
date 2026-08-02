@@ -1,6 +1,7 @@
 """
 This module is home to the Utility class
 """
+
 from pyecobee.ecobee_object import EcobeeObject
 
 
@@ -22,20 +23,20 @@ class Utility(EcobeeObject):
     if the value of REQUIRED is "no".
     """
 
-    __slots__ = ['_name', '_phone', '_email', '_web']
+    __slots__ = ["_name", "_phone", "_email", "_web"]
 
     attribute_name_map = {
-        'name': 'name',
-        'phone': 'phone',
-        'email': 'email',
-        'web': 'web',
+        "name": "name",
+        "phone": "phone",
+        "email": "email",
+        "web": "web",
     }
 
     attribute_type_map = {
-        'name': 'six.text_type',
-        'phone': 'six.text_type',
-        'email': 'six.text_type',
-        'web': 'six.text_type',
+        "name": "six.text_type",
+        "phone": "six.text_type",
+        "email": "six.text_type",
+        "web": "six.text_type",
     }
 
     def __init__(self, name=None, phone=None, email=None, web=None):

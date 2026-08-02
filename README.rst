@@ -76,6 +76,23 @@ Pyecobee requires Python 3.12 or newer. To create the locked development environ
 
     $ uv sync --locked
 
+Code quality
+============
+Run Ruff's lint and formatting checks from the repository root:
+
+.. code-block:: bash
+
+    $ uv run ruff check .
+    $ uv run ruff format --check .
+
+To apply safe lint fixes, sort imports, and format the source tree:
+
+.. code-block:: bash
+
+    $ uv run ruff check . --select I --fix
+    $ uv run ruff check . --fix
+    $ uv run ruff format .
+
 To install the published package:
 
 .. code-block:: bash

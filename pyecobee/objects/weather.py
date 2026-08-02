@@ -1,6 +1,7 @@
 """
 This module is home to the Weather class
 """
+
 from pyecobee.ecobee_object import EcobeeObject
 
 
@@ -22,19 +23,19 @@ class Weather(EcobeeObject):
     if the value of REQUIRED is "no".
     """
 
-    __slots__ = ['_timestamp', '_weather_station', '_forecasts']
+    __slots__ = ["_timestamp", "_weather_station", "_forecasts"]
 
     attribute_name_map = {
-        'timestamp': 'timestamp',
-        'weather_station': 'weatherStation',
-        'weatherStation': 'weather_station',
-        'forecasts': 'forecasts',
+        "timestamp": "timestamp",
+        "weather_station": "weatherStation",
+        "weatherStation": "weather_station",
+        "forecasts": "forecasts",
     }
 
     attribute_type_map = {
-        'timestamp': 'six.text_type',
-        'weather_station': 'six.text_type',
-        'forecasts': 'List[WeatherForecast]',
+        "timestamp": "six.text_type",
+        "weather_station": "six.text_type",
+        "forecasts": "List[WeatherForecast]",
     }
 
     def __init__(self, timestamp=None, weather_station=None, forecasts=None):

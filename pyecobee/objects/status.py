@@ -1,6 +1,7 @@
 """
 This module is home to the Status class
 """
+
 from pyecobee.ecobee_object import EcobeeObject
 
 
@@ -22,11 +23,11 @@ class Status(EcobeeObject):
     if the value of REQUIRED is "no".
     """
 
-    __slots__ = ['_code', '_message']
+    __slots__ = ["_code", "_message"]
 
-    attribute_name_map = {'code': 'code', 'message': 'message'}
+    attribute_name_map = {"code": "code", "message": "message"}
 
-    attribute_type_map = {'code': 'int', 'message': 'six.text_type'}
+    attribute_type_map = {"code": "int", "message": "six.text_type"}
 
     def __init__(self, code=None, message=None):
         """

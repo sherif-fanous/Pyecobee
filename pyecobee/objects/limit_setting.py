@@ -1,6 +1,7 @@
 """
 This module is home to the LimitSetting class
 """
+
 from pyecobee.ecobee_object import EcobeeObject
 
 
@@ -22,21 +23,21 @@ class LimitSetting(EcobeeObject):
     if the value of REQUIRED is "no".
     """
 
-    __slots__ = ['_type', '_limit', '_enabled', '_remind_technician']
+    __slots__ = ["_type", "_limit", "_enabled", "_remind_technician"]
 
     attribute_name_map = {
-        'type': 'type',
-        'limit': 'limit',
-        'enabled': 'enabled',
-        'remind_technician': 'remindTechnician',
-        'remindTechnician': 'remind_technician',
+        "type": "type",
+        "limit": "limit",
+        "enabled": "enabled",
+        "remind_technician": "remindTechnician",
+        "remindTechnician": "remind_technician",
     }
 
     attribute_type_map = {
-        'type': 'six.text_type',
-        'limit': 'int',
-        'enabled': 'bool',
-        'remind_technician': 'bool',
+        "type": "six.text_type",
+        "limit": "int",
+        "enabled": "bool",
+        "remind_technician": "bool",
     }
 
     def __init__(self, type_, limit=None, enabled=None, remind_technician=None):

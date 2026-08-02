@@ -1,6 +1,7 @@
 """
 This module is home to the TimeOfUse class
 """
+
 from pyecobee.ecobee_object import EcobeeObject
 
 
@@ -21,15 +22,15 @@ class TimeOfUse(EcobeeObject):
     if the value of REQUIRED is "no".
     """
 
-    __slots__ = ['_feature_state', '_savings']
+    __slots__ = ["_feature_state", "_savings"]
 
     attribute_name_map = {
-        'feature_state': 'featureState',
-        'featureState': 'feature_state',
-        'savings': 'savings',
+        "feature_state": "featureState",
+        "featureState": "feature_state",
+        "savings": "savings",
     }
 
-    attribute_type_map = {'feature_state': 'six.text_type', 'savings': 'six.text_type'}
+    attribute_type_map = {"feature_state": "six.text_type", "savings": "six.text_type"}
 
     def __init__(self, feature_state=None, savings=None):
         """

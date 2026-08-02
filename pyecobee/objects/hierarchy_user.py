@@ -1,6 +1,7 @@
 """
 This module is home to the HierarchyUser class
 """
+
 from pyecobee.ecobee_object import EcobeeObject
 
 
@@ -23,38 +24,38 @@ class HierarchyUser(EcobeeObject):
     """
 
     __slots__ = [
-        '_user_name',
-        '_first_name',
-        '_last_name',
-        '_phone',
-        '_last_login',
-        '_active',
-        '_email_alerts',
+        "_user_name",
+        "_first_name",
+        "_last_name",
+        "_phone",
+        "_last_login",
+        "_active",
+        "_email_alerts",
     ]
 
     attribute_name_map = {
-        'user_name': 'userName',
-        'userName': 'user_name',
-        'first_name': 'firstName',
-        'firstName': 'first_name',
-        'last_name': 'lastName',
-        'lastName': 'last_name',
-        'phone': 'phone',
-        'last_login': 'lastLogin',
-        'lastLogin': 'last_login',
-        'active': 'active',
-        'email_alerts': 'emailAlerts',
-        'emailAlerts': 'email_alerts',
+        "user_name": "userName",
+        "userName": "user_name",
+        "first_name": "firstName",
+        "firstName": "first_name",
+        "last_name": "lastName",
+        "lastName": "last_name",
+        "phone": "phone",
+        "last_login": "lastLogin",
+        "lastLogin": "last_login",
+        "active": "active",
+        "email_alerts": "emailAlerts",
+        "emailAlerts": "email_alerts",
     }
 
     attribute_type_map = {
-        'user_name': 'six.text_type',
-        'first_name': 'six.text_type',
-        'last_name': 'six.text_type',
-        'phone': 'six.text_type',
-        'last_login': 'six.text_type',
-        'active': 'bool',
-        'email_alerts': 'bool',
+        "user_name": "six.text_type",
+        "first_name": "six.text_type",
+        "last_name": "six.text_type",
+        "phone": "six.text_type",
+        "last_login": "six.text_type",
+        "active": "bool",
+        "email_alerts": "bool",
     }
 
     def __init__(

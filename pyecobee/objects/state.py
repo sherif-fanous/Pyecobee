@@ -1,6 +1,7 @@
 """
 This module is home to the State class
 """
+
 from pyecobee.ecobee_object import EcobeeObject
 
 
@@ -22,22 +23,22 @@ class State(EcobeeObject):
     if the value of REQUIRED is "no".
     """
 
-    __slots__ = ['_max_value', '_min_value', '_type', '_actions']
+    __slots__ = ["_max_value", "_min_value", "_type", "_actions"]
 
     attribute_name_map = {
-        'max_value': 'maxValue',
-        'maxValue': 'max_value',
-        'min_value': 'minValue',
-        'minValue': 'min_value',
-        'type': 'type',
-        'actions': 'actions',
+        "max_value": "maxValue",
+        "maxValue": "max_value",
+        "min_value": "minValue",
+        "minValue": "min_value",
+        "type": "type",
+        "actions": "actions",
     }
 
     attribute_type_map = {
-        'max_value': 'int',
-        'min_value': 'int',
-        'type': 'six.text_type',
-        'actions': 'List[Action]',
+        "max_value": "int",
+        "min_value": "int",
+        "type": "six.text_type",
+        "actions": "List[Action]",
     }
 
     def __init__(self, max_value=None, min_value=None, type_=None, actions=None):

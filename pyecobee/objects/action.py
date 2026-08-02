@@ -1,6 +1,7 @@
 """
 This module is home to the Action class
 """
+
 from pyecobee.ecobee_object import EcobeeObject
 
 
@@ -23,51 +24,51 @@ class Action(EcobeeObject):
     """
 
     __slots__ = [
-        '_type',
-        '_send_alert',
-        '_send_update',
-        '_activation_delay',
-        '_deactivation_delay',
-        '_min_action_duration',
-        '_heat_adjust_temp',
-        '_cool_adjust_temp',
-        '_activate_relay',
-        '_activate_relay_open',
+        "_type",
+        "_send_alert",
+        "_send_update",
+        "_activation_delay",
+        "_deactivation_delay",
+        "_min_action_duration",
+        "_heat_adjust_temp",
+        "_cool_adjust_temp",
+        "_activate_relay",
+        "_activate_relay_open",
     ]
 
     attribute_name_map = {
-        'type': 'type',
-        'send_alert': 'sendAlert',
-        'sendAlert': 'send_alert',
-        'send_update': 'sendUpdate',
-        'sendUpdate': 'send_update',
-        'activation_delay': 'activationDelay',
-        'activationDelay': 'activation_delay',
-        'deactivation_delay': 'deactivationDelay',
-        'deactivationDelay': 'deactivation_delay',
-        'min_action_duration': 'minActionDuration',
-        'minActionDuration': 'min_action_duration',
-        'heat_adjust_temp': 'heatAdjustTemp',
-        'heatAdjustTemp': 'heat_adjust_temp',
-        'cool_adjust_temp': 'coolAdjustTemp',
-        'coolAdjustTemp': 'cool_adjust_temp',
-        'activate_relay': 'activateRelay',
-        'activateRelay': 'activate_relay',
-        'activate_relay_open': 'activateRelayOpen',
-        'activateRelayOpen': 'activate_relay_open',
+        "type": "type",
+        "send_alert": "sendAlert",
+        "sendAlert": "send_alert",
+        "send_update": "sendUpdate",
+        "sendUpdate": "send_update",
+        "activation_delay": "activationDelay",
+        "activationDelay": "activation_delay",
+        "deactivation_delay": "deactivationDelay",
+        "deactivationDelay": "deactivation_delay",
+        "min_action_duration": "minActionDuration",
+        "minActionDuration": "min_action_duration",
+        "heat_adjust_temp": "heatAdjustTemp",
+        "heatAdjustTemp": "heat_adjust_temp",
+        "cool_adjust_temp": "coolAdjustTemp",
+        "coolAdjustTemp": "cool_adjust_temp",
+        "activate_relay": "activateRelay",
+        "activateRelay": "activate_relay",
+        "activate_relay_open": "activateRelayOpen",
+        "activateRelayOpen": "activate_relay_open",
     }
 
     attribute_type_map = {
-        'type': 'six.text_type',
-        'send_alert': 'bool',
-        'send_update': 'bool',
-        'activation_delay': 'int',
-        'deactivation_delay': 'int',
-        'min_action_duration': 'int',
-        'heat_adjust_temp': 'int',
-        'cool_adjust_temp': 'int',
-        'activate_relay': 'six.text_type',
-        'activate_relay_open': 'bool',
+        "type": "six.text_type",
+        "send_alert": "bool",
+        "send_update": "bool",
+        "activation_delay": "int",
+        "deactivation_delay": "int",
+        "min_action_duration": "int",
+        "heat_adjust_temp": "int",
+        "cool_adjust_temp": "int",
+        "activate_relay": "six.text_type",
+        "activate_relay_open": "bool",
     }
 
     def __init__(

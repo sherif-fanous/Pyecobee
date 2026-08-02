@@ -1,6 +1,7 @@
 """
 This module is home to the HouseDetails class
 """
+
 from pyecobee.ecobee_object import EcobeeObject
 
 
@@ -23,37 +24,37 @@ class HouseDetails(EcobeeObject):
     """
 
     __slots__ = [
-        '_style',
-        '_size',
-        '_number_of_floors',
-        '_number_of_rooms',
-        '_number_of_occupants',
-        '_age',
-        '_window_efficiency',
+        "_style",
+        "_size",
+        "_number_of_floors",
+        "_number_of_rooms",
+        "_number_of_occupants",
+        "_age",
+        "_window_efficiency",
     ]
 
     attribute_name_map = {
-        'style': 'style',
-        'size': 'size',
-        'number_of_floors': 'numberOfFloors',
-        'numberOfFloors': 'number_of_floors',
-        'number_of_rooms': 'numberOfRooms',
-        'numberOfRooms': 'number_of_rooms',
-        'number_of_occupants': 'numberOfOccupants',
-        'numberOfOccupants': 'number_of_occupants',
-        'age': 'age',
-        'window_efficiency': 'windowEfficiency',
-        'windowEfficiency': 'window_efficiency',
+        "style": "style",
+        "size": "size",
+        "number_of_floors": "numberOfFloors",
+        "numberOfFloors": "number_of_floors",
+        "number_of_rooms": "numberOfRooms",
+        "numberOfRooms": "number_of_rooms",
+        "number_of_occupants": "numberOfOccupants",
+        "numberOfOccupants": "number_of_occupants",
+        "age": "age",
+        "window_efficiency": "windowEfficiency",
+        "windowEfficiency": "window_efficiency",
     }
 
     attribute_type_map = {
-        'style': 'six.text_type',
-        'size': 'int',
-        'number_of_floors': 'int',
-        'number_of_rooms': 'int',
-        'number_of_occupants': 'int',
-        'age': 'int',
-        'window_efficiency': 'int',
+        "style": "six.text_type",
+        "size": "int",
+        "number_of_floors": "int",
+        "number_of_rooms": "int",
+        "number_of_occupants": "int",
+        "age": "int",
+        "window_efficiency": "int",
     }
 
     def __init__(

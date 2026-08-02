@@ -1,6 +1,7 @@
 """
 This module is home to the VoiceEngine class
 """
+
 from pyecobee.ecobee_object import EcobeeObject
 
 
@@ -22,11 +23,11 @@ class VoiceEngine(EcobeeObject):
     if the value of REQUIRED is "no".
     """
 
-    __slots__ = ['_name', '_enabled']
+    __slots__ = ["_name", "_enabled"]
 
-    attribute_name_map = {'name': 'name', 'enabled': 'enabled'}
+    attribute_name_map = {"name": "name", "enabled": "enabled"}
 
-    attribute_type_map = {'name': 'six.text_type', 'enabled': 'bool'}
+    attribute_type_map = {"name": "six.text_type", "enabled": "bool"}
 
     def __init__(self, name=None, enabled=None):
         """

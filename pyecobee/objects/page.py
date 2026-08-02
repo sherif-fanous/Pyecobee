@@ -1,6 +1,7 @@
 """
 This module is home to the Page class
 """
+
 from pyecobee.ecobee_object import EcobeeObject
 
 
@@ -22,22 +23,22 @@ class Page(EcobeeObject):
     if the value of REQUIRED is "no".
     """
 
-    __slots__ = ['_page', '_total_pages', '_page_size', '_total']
+    __slots__ = ["_page", "_total_pages", "_page_size", "_total"]
 
     attribute_name_map = {
-        'page': 'page',
-        'total_pages': 'totalPages',
-        'totalPages': 'total_pages',
-        'page_size': 'pageSize',
-        'pageSize': 'page_size',
-        'total': 'total',
+        "page": "page",
+        "total_pages": "totalPages",
+        "totalPages": "total_pages",
+        "page_size": "pageSize",
+        "pageSize": "page_size",
+        "total": "total",
     }
 
     attribute_type_map = {
-        'page': 'int',
-        'total_pages': 'int',
-        'page_size': 'int',
-        'total': 'int',
+        "page": "int",
+        "total_pages": "int",
+        "page_size": "int",
+        "total": "int",
     }
 
     def __init__(self, page=None, total_pages=None, page_size=None, total=None):

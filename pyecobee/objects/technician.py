@@ -1,6 +1,7 @@
 """
 This module is home to the Technician class
 """
+
 from pyecobee.ecobee_object import EcobeeObject
 
 
@@ -23,46 +24,46 @@ class Technician(EcobeeObject):
     """
 
     __slots__ = [
-        '_contractor_ref',
-        '_name',
-        '_phone',
-        '_street_address',
-        '_city',
-        '_province_state',
-        '_country',
-        '_postal_code',
-        '_email',
-        '_web',
+        "_contractor_ref",
+        "_name",
+        "_phone",
+        "_street_address",
+        "_city",
+        "_province_state",
+        "_country",
+        "_postal_code",
+        "_email",
+        "_web",
     ]
 
     attribute_name_map = {
-        'contractor_ref': 'contractorRef',
-        'contractorRef': 'contractor_ref',
-        'name': 'name',
-        'phone': 'phone',
-        'street_address': 'streetAddress',
-        'streetAddress': 'street_address',
-        'city': 'city',
-        'province_state': 'provinceState',
-        'provinceState': 'province_state',
-        'country': 'country',
-        'postal_code': 'postalCode',
-        'postalCode': 'postal_code',
-        'email': 'email',
-        'web': 'web',
+        "contractor_ref": "contractorRef",
+        "contractorRef": "contractor_ref",
+        "name": "name",
+        "phone": "phone",
+        "street_address": "streetAddress",
+        "streetAddress": "street_address",
+        "city": "city",
+        "province_state": "provinceState",
+        "provinceState": "province_state",
+        "country": "country",
+        "postal_code": "postalCode",
+        "postalCode": "postal_code",
+        "email": "email",
+        "web": "web",
     }
 
     attribute_type_map = {
-        'contractor_ref': 'six.text_type',
-        'name': 'six.text_type',
-        'phone': 'six.text_type',
-        'street_address': 'six.text_type',
-        'city': 'six.text_type',
-        'province_state': 'six.text_type',
-        'country': 'six.text_type',
-        'postal_code': 'six.text_type',
-        'email': 'six.text_type',
-        'web': 'six.text_type',
+        "contractor_ref": "six.text_type",
+        "name": "six.text_type",
+        "phone": "six.text_type",
+        "street_address": "six.text_type",
+        "city": "six.text_type",
+        "province_state": "six.text_type",
+        "country": "six.text_type",
+        "postal_code": "six.text_type",
+        "email": "six.text_type",
+        "web": "six.text_type",
     }
 
     def __init__(

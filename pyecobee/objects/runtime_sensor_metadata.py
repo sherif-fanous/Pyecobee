@@ -1,6 +1,7 @@
 """
 This module is home to the RuntimeSensorMetadata class
 """
+
 from pyecobee.ecobee_object import EcobeeObject
 
 
@@ -22,24 +23,24 @@ class RuntimeSensorMetadata(EcobeeObject):
     if the value of REQUIRED is "no".
     """
 
-    __slots__ = ['_sensor_id', '_sensor_name', '_sensor_type', '_sensor_usage']
+    __slots__ = ["_sensor_id", "_sensor_name", "_sensor_type", "_sensor_usage"]
 
     attribute_name_map = {
-        'sensor_id': 'sensorId',
-        'sensorId': 'sensor_id',
-        'sensor_name': 'sensorName',
-        'sensorName': 'sensor_name',
-        'sensor_type': 'sensorType',
-        'sensorType': 'sensor_type',
-        'sensor_usage': 'sensorUsage',
-        'sensorUsage': 'sensor_usage',
+        "sensor_id": "sensorId",
+        "sensorId": "sensor_id",
+        "sensor_name": "sensorName",
+        "sensorName": "sensor_name",
+        "sensor_type": "sensorType",
+        "sensorType": "sensor_type",
+        "sensor_usage": "sensorUsage",
+        "sensorUsage": "sensor_usage",
     }
 
     attribute_type_map = {
-        'sensor_id': 'six.text_type',
-        'sensor_name': 'six.text_type',
-        'sensor_type': 'six.text_type',
-        'sensor_usage': 'six.text_type',
+        "sensor_id": "six.text_type",
+        "sensor_name": "six.text_type",
+        "sensor_type": "six.text_type",
+        "sensor_usage": "six.text_type",
     }
 
     def __init__(

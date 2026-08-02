@@ -1,6 +1,7 @@
 """
 This module is home to the Electricity class
 """
+
 from pyecobee.ecobee_object import EcobeeObject
 
 
@@ -22,11 +23,11 @@ class Electricity(EcobeeObject):
     if the value of REQUIRED is "no".
     """
 
-    __slots__ = ['_devices']
+    __slots__ = ["_devices"]
 
-    attribute_name_map = {'devices': 'devices'}
+    attribute_name_map = {"devices": "devices"}
 
-    attribute_type_map = {'devices': 'List[ElectricityDevice]'}
+    attribute_type_map = {"devices": "List[ElectricityDevice]"}
 
     def __init__(self, devices=None):
         """

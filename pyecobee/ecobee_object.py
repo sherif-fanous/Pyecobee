@@ -1,7 +1,7 @@
 from itertools import chain
 
 
-class EcobeeObject(object):
+class EcobeeObject:
     __slots__ = []
 
     attribute_name_map = {}
@@ -10,31 +10,26 @@ class EcobeeObject(object):
 
     def __repr__(self):
         return (
-            '{0}('.format(self.__class__.__name__)
-            + ', '.join(
+            f"{self.__class__.__name__}("
+            + ", ".join(
                 [
-                    '{0}={1!r}'.format(
-                        attribute_name[1:], getattr(self, attribute_name)
-                    )
+                    f"{attribute_name[1:]}={getattr(self, attribute_name)!r}"
                     for attribute_name in self.slots()
                 ]
             )
-            + ')'
+            + ")"
         )
 
     def __str__(self):
         return (
-            '{0}('.format(self.__class__.__name__)
-            + ', '.join(
+            f"{self.__class__.__name__}("
+            + ", ".join(
                 [
-                    '{0}={1!s}'.format(
-                        type(self).attribute_name_map[attribute_name[1:]],
-                        getattr(self, attribute_name),
-                    )
+                    f"{type(self).attribute_name_map[attribute_name[1:]]}={getattr(self, attribute_name)!s}"
                     for attribute_name in self.slots()
                 ]
             )
-            + ')'
+            + ")"
         )
 
     def pretty_format(self, indent=2, level=0, sort_attributes=True):
@@ -48,32 +43,32 @@ class EcobeeObject(object):
         :return: six.text_type (This is unicode() in Python 2 and str in
         Python 3)
         """
-        pretty_formatted = ['{0}(\n'.format(self.__class__.__name__)]
+        pretty_formatted = [f"{self.__class__.__name__}(\n"]
         level = level + 1
 
-        for (i, attribute_name) in enumerate(
+        for i, attribute_name in enumerate(
             sorted(self.slots()) if sort_attributes else self.slots()
         ):
             if i:
-                pretty_formatted.append(',\n')
+                pretty_formatted.append(",\n")
 
             if isinstance(getattr(self, attribute_name), list):
                 pretty_formatted.append(
-                    '{0}{1}=[\n'.format(
-                        ' ' * (indent * level),
+                    "{}{}=[\n".format(
+                        " " * (indent * level),
                         self.attribute_name_map[attribute_name[1:]],
                     )
                 )
                 level = level + 1
 
-                for (j, list_entry) in enumerate(getattr(self, attribute_name)):
+                for j, list_entry in enumerate(getattr(self, attribute_name)):
                     if j:
-                        pretty_formatted.append(',\n')
+                        pretty_formatted.append(",\n")
 
-                    if hasattr(list_entry, 'pretty_format'):
+                    if hasattr(list_entry, "pretty_format"):
                         pretty_formatted.append(
-                            '{0}{1}'.format(
-                                ' ' * (indent * level),
+                            "{}{}".format(
+                                " " * (indent * level),
                                 list_entry.pretty_format(
                                     indent, level, sort_attributes
                                 ),
@@ -82,44 +77,44 @@ class EcobeeObject(object):
                     else:
                         if isinstance(list_entry, list):
                             pretty_formatted.append(
-                                '{0}[\n'.format(' ' * (indent * level))
+                                "{}[\n".format(" " * (indent * level))
                             )
 
                             level = level + 1
 
-                            for (k, sub_list_entry) in enumerate(list_entry):
+                            for k, sub_list_entry in enumerate(list_entry):
                                 if k:
-                                    pretty_formatted.append(',\n')
+                                    pretty_formatted.append(",\n")
 
                                 pretty_formatted.append(
-                                    '{0}{1}'.format(
-                                        ' ' * (indent * level), sub_list_entry
+                                    "{}{}".format(
+                                        " " * (indent * level), sub_list_entry
                                     )
                                 )
 
                             if list_entry:
-                                pretty_formatted.append('\n')
+                                pretty_formatted.append("\n")
 
                             level = level - 1
                             pretty_formatted.append(
-                                '{0}]'.format(' ' * (indent * level))
+                                "{}]".format(" " * (indent * level))
                             )
                         else:
                             pretty_formatted.append(
-                                '{0}{1}'.format(' ' * (indent * level), list_entry)
+                                "{}{}".format(" " * (indent * level), list_entry)
                             )
 
                 if getattr(self, attribute_name):
-                    pretty_formatted.append('\n')
+                    pretty_formatted.append("\n")
 
                 level = level - 1
-                pretty_formatted.append('{0}]'.format(' ' * (indent * level)))
+                pretty_formatted.append("{}]".format(" " * (indent * level)))
             else:
-                pretty_formatted.append(' ' * (indent * level))
+                pretty_formatted.append(" " * (indent * level))
 
-                if hasattr(getattr(self, attribute_name), 'pretty_format'):
+                if hasattr(getattr(self, attribute_name), "pretty_format"):
                     pretty_formatted.append(
-                        '{0}={1!s}'.format(
+                        "{}={!s}".format(
                             self.attribute_name_map[attribute_name[1:]],
                             getattr(self, attribute_name).pretty_format(
                                 indent, level, sort_attributes
@@ -128,18 +123,15 @@ class EcobeeObject(object):
                     )
                 else:
                     pretty_formatted.append(
-                        '{0}={1!s}'.format(
-                            self.attribute_name_map[attribute_name[1:]],
-                            getattr(self, attribute_name),
-                        )
+                        f"{self.attribute_name_map[attribute_name[1:]]}={getattr(self, attribute_name)!s}"
                     )
 
         level = level - 1
-        pretty_formatted.append('\n{0})'.format(' ' * (indent * level)))
+        pretty_formatted.append("\n{})".format(" " * (indent * level)))
 
-        return ''.join(pretty_formatted)
+        return "".join(pretty_formatted)
 
     def slots(self):
         return chain.from_iterable(
-            getattr(cls, '__slots__', []) for cls in type(self).__mro__
+            getattr(cls, "__slots__", []) for cls in type(self).__mro__
         )

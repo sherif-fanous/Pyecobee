@@ -1,6 +1,7 @@
 """
 This module is home to the Location class
 """
+
 from pyecobee.ecobee_object import EcobeeObject
 
 
@@ -23,50 +24,50 @@ class Location(EcobeeObject):
     """
 
     __slots__ = [
-        '_time_zone_offset_minutes',
-        '_time_zone',
-        '_is_daylight_saving',
-        '_street_address',
-        '_city',
-        '_province_state',
-        '_country',
-        '_postal_code',
-        '_phone_number',
-        '_map_coordinates',
+        "_time_zone_offset_minutes",
+        "_time_zone",
+        "_is_daylight_saving",
+        "_street_address",
+        "_city",
+        "_province_state",
+        "_country",
+        "_postal_code",
+        "_phone_number",
+        "_map_coordinates",
     ]
 
     attribute_name_map = {
-        'time_zone_offset_minutes': 'timeZoneOffsetMinutes',
-        'timeZoneOffsetMinutes': 'time_zone_offset_minutes',
-        'time_zone': 'timeZone',
-        'timeZone': 'time_zone',
-        'is_daylight_saving': 'isDaylightSaving',
-        'isDaylightSaving': 'is_daylight_saving',
-        'street_address': 'streetAddress',
-        'streetAddress': 'street_address',
-        'city': 'city',
-        'province_state': 'provinceState',
-        'provinceState': 'province_state',
-        'country': 'country',
-        'postal_code': 'postalCode',
-        'postalCode': 'postal_code',
-        'phone_number': 'phoneNumber',
-        'phoneNumber': 'phone_number',
-        'map_coordinates': 'mapCoordinates',
-        'mapCoordinates': 'map_coordinates',
+        "time_zone_offset_minutes": "timeZoneOffsetMinutes",
+        "timeZoneOffsetMinutes": "time_zone_offset_minutes",
+        "time_zone": "timeZone",
+        "timeZone": "time_zone",
+        "is_daylight_saving": "isDaylightSaving",
+        "isDaylightSaving": "is_daylight_saving",
+        "street_address": "streetAddress",
+        "streetAddress": "street_address",
+        "city": "city",
+        "province_state": "provinceState",
+        "provinceState": "province_state",
+        "country": "country",
+        "postal_code": "postalCode",
+        "postalCode": "postal_code",
+        "phone_number": "phoneNumber",
+        "phoneNumber": "phone_number",
+        "map_coordinates": "mapCoordinates",
+        "mapCoordinates": "map_coordinates",
     }
 
     attribute_type_map = {
-        'time_zone_offset_minutes': 'int',
-        'time_zone': 'six.text_type',
-        'is_daylight_saving': 'bool',
-        'street_address': 'six.text_type',
-        'city': 'six.text_type',
-        'province_state': 'six.text_type',
-        'country': 'six.text_type',
-        'postal_code': 'six.text_type',
-        'phone_number': 'six.text_type',
-        'map_coordinates': 'six.text_type',
+        "time_zone_offset_minutes": "int",
+        "time_zone": "six.text_type",
+        "is_daylight_saving": "bool",
+        "street_address": "six.text_type",
+        "city": "six.text_type",
+        "province_state": "six.text_type",
+        "country": "six.text_type",
+        "postal_code": "six.text_type",
+        "phone_number": "six.text_type",
+        "map_coordinates": "six.text_type",
     }
 
     def __init__(

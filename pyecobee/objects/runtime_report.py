@@ -1,6 +1,7 @@
 """
 This module is home to the RuntimeReport class
 """
+
 from pyecobee.ecobee_object import EcobeeObject
 
 
@@ -22,21 +23,21 @@ class RuntimeReport(EcobeeObject):
     if the value of REQUIRED is "no".
     """
 
-    __slots__ = ['_thermostat_identifier', '_row_count', '_row_list']
+    __slots__ = ["_thermostat_identifier", "_row_count", "_row_list"]
 
     attribute_name_map = {
-        'thermostat_identifier': 'thermostatIdentifier',
-        'thermostatIdentifier': 'thermostat_identifier',
-        'row_count': 'rowCount',
-        'rowCount': 'row_count',
-        'row_list': 'rowList',
-        'rowList': 'row_list',
+        "thermostat_identifier": "thermostatIdentifier",
+        "thermostatIdentifier": "thermostat_identifier",
+        "row_count": "rowCount",
+        "rowCount": "row_count",
+        "row_list": "rowList",
+        "rowList": "row_list",
     }
 
     attribute_type_map = {
-        'thermostat_identifier': 'six.text_type',
-        'row_count': 'int',
-        'row_list': 'List[six.text_type]',
+        "thermostat_identifier": "six.text_type",
+        "row_count": "int",
+        "row_list": "List[six.text_type]",
     }
 
     def __init__(self, thermostat_identifier=None, row_count=None, row_list=None):

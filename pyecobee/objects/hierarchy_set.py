@@ -1,6 +1,7 @@
 """
 This module is home to the HierarchySet class
 """
+
 from pyecobee.ecobee_object import EcobeeObject
 
 
@@ -22,24 +23,24 @@ class HierarchySet(EcobeeObject):
     if the value of REQUIRED is "no".
     """
 
-    __slots__ = ['_set_name', '_set_path', '_children', '_privileges', '_thermostats']
+    __slots__ = ["_set_name", "_set_path", "_children", "_privileges", "_thermostats"]
 
     attribute_name_map = {
-        'set_name': 'setName',
-        'setName': 'set_name',
-        'set_path': 'setPath',
-        'setPath': 'set_path',
-        'children': 'children',
-        'privileges': 'privileges',
-        'thermostats': 'thermostats',
+        "set_name": "setName",
+        "setName": "set_name",
+        "set_path": "setPath",
+        "setPath": "set_path",
+        "children": "children",
+        "privileges": "privileges",
+        "thermostats": "thermostats",
     }
 
     attribute_type_map = {
-        'set_name': 'six.text_type',
-        'set_path': 'six.text_type',
-        'children': 'List[HierarchySet]',
-        'privileges': 'List[HierarchyPrivilege]',
-        'thermostats': 'List[six.text_type]',
+        "set_name": "six.text_type",
+        "set_path": "six.text_type",
+        "children": "List[HierarchySet]",
+        "privileges": "List[HierarchyPrivilege]",
+        "thermostats": "List[six.text_type]",
     }
 
     def __init__(

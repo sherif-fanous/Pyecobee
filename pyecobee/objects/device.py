@@ -1,6 +1,7 @@
 """
 This module is home to the Device class
 """
+
 from pyecobee.ecobee_object import EcobeeObject
 
 
@@ -22,21 +23,21 @@ class Device(EcobeeObject):
     if the value of REQUIRED is "no".
     """
 
-    __slots__ = ['_device_id', '_name', '_sensors', '_outputs']
+    __slots__ = ["_device_id", "_name", "_sensors", "_outputs"]
 
     attribute_name_map = {
-        'device_id': 'deviceId',
-        'deviceId': 'device_id',
-        'name': 'name',
-        'sensors': 'sensors',
-        'outputs': 'outputs',
+        "device_id": "deviceId",
+        "deviceId": "device_id",
+        "name": "name",
+        "sensors": "sensors",
+        "outputs": "outputs",
     }
 
     attribute_type_map = {
-        'device_id': 'int',
-        'name': 'six.text_type',
-        'sensors': 'List[Sensor]',
-        'outputs': 'List[Output]',
+        "device_id": "int",
+        "name": "six.text_type",
+        "sensors": "List[Sensor]",
+        "outputs": "List[Output]",
     }
 
     def __init__(self, device_id=None, name=None, sensors=None, outputs=None):

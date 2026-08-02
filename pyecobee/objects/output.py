@@ -1,6 +1,7 @@
 """
 This module is home to the Output class
 """
+
 from pyecobee.ecobee_object import EcobeeObject
 
 
@@ -23,41 +24,41 @@ class Output(EcobeeObject):
     """
 
     __slots__ = [
-        '_name',
-        '_zone',
-        '_output_id',
-        '_type',
-        '_send_update',
-        '_active_closed',
-        '_activation_time',
-        '_deactivation_time',
+        "_name",
+        "_zone",
+        "_output_id",
+        "_type",
+        "_send_update",
+        "_active_closed",
+        "_activation_time",
+        "_deactivation_time",
     ]
 
     attribute_name_map = {
-        'name': 'name',
-        'zone': 'zone',
-        'output_id': 'outputId',
-        'outputId': 'output_id',
-        'type': 'type',
-        'send_update': 'sendUpdate',
-        'sendUpdate': 'send_update',
-        'active_closed': 'activeClosed',
-        'activeClosed': 'active_closed',
-        'activation_time': 'activationTime',
-        'activationTime': 'activation_time',
-        'deactivation_time': 'deactivationTime',
-        'deactivationTime': 'deactivation_time',
+        "name": "name",
+        "zone": "zone",
+        "output_id": "outputId",
+        "outputId": "output_id",
+        "type": "type",
+        "send_update": "sendUpdate",
+        "sendUpdate": "send_update",
+        "active_closed": "activeClosed",
+        "activeClosed": "active_closed",
+        "activation_time": "activationTime",
+        "activationTime": "activation_time",
+        "deactivation_time": "deactivationTime",
+        "deactivationTime": "deactivation_time",
     }
 
     attribute_type_map = {
-        'name': 'six.text_type',
-        'zone': 'int',
-        'output_id': 'int',
-        'type': 'six.text_type',
-        'send_update': 'bool',
-        'active_closed': 'bool',
-        'activation_time': 'int',
-        'deactivation_time': 'int',
+        "name": "six.text_type",
+        "zone": "int",
+        "output_id": "int",
+        "type": "six.text_type",
+        "send_update": "bool",
+        "active_closed": "bool",
+        "activation_time": "int",
+        "deactivation_time": "int",
     }
 
     def __init__(

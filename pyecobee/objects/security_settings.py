@@ -1,6 +1,7 @@
 """
 This module is home to the SecuritySettings class
 """
+
 from pyecobee.ecobee_object import EcobeeObject
 
 
@@ -23,36 +24,36 @@ class SecuritySettings(EcobeeObject):
     """
 
     __slots__ = [
-        '_user_access_code',
-        '_all_user_access',
-        '_program_access',
-        '_details_access',
-        '_quick_save_access',
-        '_vacation_access',
+        "_user_access_code",
+        "_all_user_access",
+        "_program_access",
+        "_details_access",
+        "_quick_save_access",
+        "_vacation_access",
     ]
 
     attribute_name_map = {
-        'user_access_code': 'userAccessCode',
-        'userAccessCode': 'user_access_code',
-        'all_user_access': 'allUserAccess',
-        'allUserAccess': 'all_user_access',
-        'program_access': 'programAccess',
-        'programAccess': 'program_access',
-        'details_access': 'detailsAccess',
-        'detailsAccess': 'details_access',
-        'quick_save_access': 'quickSaveAccess',
-        'quickSaveAccess': 'quick_save_access',
-        'vacation_access': 'vacationAccess',
-        'vacationAccess': 'vacation_access',
+        "user_access_code": "userAccessCode",
+        "userAccessCode": "user_access_code",
+        "all_user_access": "allUserAccess",
+        "allUserAccess": "all_user_access",
+        "program_access": "programAccess",
+        "programAccess": "program_access",
+        "details_access": "detailsAccess",
+        "detailsAccess": "details_access",
+        "quick_save_access": "quickSaveAccess",
+        "quickSaveAccess": "quick_save_access",
+        "vacation_access": "vacationAccess",
+        "vacationAccess": "vacation_access",
     }
 
     attribute_type_map = {
-        'user_access_code': 'six.text_type',
-        'all_user_access': 'bool',
-        'program_access': 'bool',
-        'details_access': 'bool',
-        'quick_save_access': 'bool',
-        'vacation_access': 'bool',
+        "user_access_code": "six.text_type",
+        "all_user_access": "bool",
+        "program_access": "bool",
+        "details_access": "bool",
+        "quick_save_access": "bool",
+        "vacation_access": "bool",
     }
 
     def __init__(
