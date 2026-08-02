@@ -1,8 +1,10 @@
 __pycache__/
+.pi/
 *.pyc
 build/
 dist/
 Notes.txt
+openspec/changes/*
 plantuml/
 pyecobee_db*
 Pyecobee.code-workspace
@@ -12,3 +14,5 @@ tests/*_response.txt
 tests/pyecobee_db*
 tests/pyecobee_log_*.txt*
 TODO
+!openspec/changes/archive/
+!openspec/changes/archive/**
