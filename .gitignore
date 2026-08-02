@@ -10,5 +10,8 @@ plantuml/
 pyecobee_db*
 Pyecobee.code-workspace
 pyecobee.egg-info
-tests/
+tests/__init__.py
+tests/*_response.txt
+tests/pyecobee_db*
+tests/pyecobee_log_*.txt*
 TODO

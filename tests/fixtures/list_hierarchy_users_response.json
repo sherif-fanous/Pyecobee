@@ -1,0 +1,96 @@
+{
+  "users": [
+    {
+      "userName": "api@ecobee.com",
+      "firstName": "",
+      "lastName": "",
+      "phone": "",
+      "lastLogin": "2008-01-02 00:00:00",
+      "active": true,
+      "emailAlerts": true
+    },
+    {
+      "userName": "api2@ecobee.com",
+      "firstName": "",
+      "lastName": "",
+      "phone": "",
+      "lastLogin": "2008-01-02 00:00:00",
+      "active": true,
+      "emailAlerts": true
+    }
+  ],
+  "privileges": [
+    {
+      "setPath": "/",
+      "setName": "My Sets",
+      "userName": "api@ecobee.com",
+      "allowAll": true,
+      "allowNone": false,
+      "allowView": false,
+      "allowProgram": false,
+      "allowVacation": false,
+      "allowSettings": false,
+      "allowDetails": false,
+      "allowReport": false,
+      "allowSecurity": false,
+      "allowHierarchy": false,
+      "allowAlerts": false,
+      "allowManageAccount": false
+    },
+    {
+      "setPath": "/",
+      "setName": "My Sets",
+      "userName": "api2@ecobee.com",
+      "allowAll": false,
+      "allowNone": true,
+      "allowView": false,
+      "allowProgram": false,
+      "allowVacation": false,
+      "allowSettings": false,
+      "allowDetails": false,
+      "allowReport": false,
+      "allowSecurity": false,
+      "allowHierarchy": false,
+      "allowAlerts": false,
+      "allowManageAccount": false
+    },
+    {
+      "setPath": "/MainNode/SubNode1",
+      "setName": "SubNode1",
+      "userName": "api2@ecobee.com",
+      "allowAll": false,
+      "allowNone": false,
+      "allowView": true,
+      "allowProgram": false,
+      "allowVacation": false,
+      "allowSettings": false,
+      "allowDetails": false,
+      "allowReport": false,
+      "allowSecurity": false,
+      "allowHierarchy": false,
+      "allowAlerts": false,
+      "allowManageAccount": false
+    },
+    {
+      "setPath": "/OtherNode",
+      "setName": "OtherNode",
+      "userName": "api2@ecobee.com",
+      "allowAll": false,
+      "allowNone": false,
+      "allowView": false,
+      "allowProgram": false,
+      "allowVacation": false,
+      "allowSettings": false,
+      "allowDetails": false,
+      "allowReport": false,
+      "allowSecurity": false,
+      "allowHierarchy": true,
+      "allowAlerts": false,
+      "allowManageAccount": false
+    }
+  ],
+  "status": {
+    "code": 0,
+    "message": ""
+  }
+}

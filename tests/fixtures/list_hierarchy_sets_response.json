@@ -1,0 +1,117 @@
+{
+  "sets": [
+    {
+      "setName": "My Sets",
+      "setPath": "/",
+      "children": [
+        {
+          "setName": "MainNode",
+          "setPath": "/MainNode",
+          "children": [
+            {
+              "setName": "SubNode1",
+              "setPath": "/MainNode/SubNode1",
+              "children": [
+                {
+                  "setName": "SubNode2",
+                  "setPath": "/MainNode/SubNode1/SubNode2",
+                  "children": [],
+                  "privileges": [],
+                  "thermostats": []
+                }
+              ],
+              "privileges": [
+                {
+                  "setPath": "/MainNode/SubNode1",
+                  "setName": "SubNode1",
+                  "userName": "api2@ecobee.com",
+                  "allowAll": false,
+                  "allowNone": false,
+                  "allowView": true,
+                  "allowProgram": false,
+                  "allowVacation": false,
+                  "allowSettings": false,
+                  "allowDetails": false,
+                  "allowReport": false,
+                  "allowSecurity": false,
+                  "allowHierarchy": false,
+                  "allowAlerts": false,
+                  "allowManageAccount": false
+                }
+              ],
+              "thermostats": []
+            }
+          ],
+          "privileges": [],
+          "thermostats": ["123456789012", "123456789013"]
+        },
+        {
+          "setName": "OtherNode",
+          "setPath": "/OtherNode",
+          "children": [],
+          "privileges": [
+            {
+              "setPath": "/OtherNode",
+              "setName": "OtherNode",
+              "userName": "api2@ecobee.com",
+              "allowAll": false,
+              "allowNone": false,
+              "allowView": false,
+              "allowProgram": false,
+              "allowVacation": false,
+              "allowSettings": false,
+              "allowDetails": false,
+              "allowReport": false,
+              "allowSecurity": false,
+              "allowHierarchy": true,
+              "allowAlerts": false,
+              "allowManageAccount": false
+            }
+          ],
+          "thermostats": ["123456789014"]
+        }
+      ],
+      "privileges": [
+        {
+          "setPath": "/",
+          "setName": "My Sets",
+          "userName": "api@ecobee.com",
+          "allowAll": true,
+          "allowNone": false,
+          "allowView": false,
+          "allowProgram": false,
+          "allowVacation": false,
+          "allowSettings": false,
+          "allowDetails": false,
+          "allowReport": false,
+          "allowSecurity": false,
+          "allowHierarchy": false,
+          "allowAlerts": false,
+          "allowManageAccount": false
+        },
+        {
+          "setPath": "/",
+          "setName": "My Sets",
+          "userName": "api2@ecobee.com",
+          "allowAll": false,
+          "allowNone": true,
+          "allowView": false,
+          "allowProgram": false,
+          "allowVacation": false,
+          "allowSettings": false,
+          "allowDetails": false,
+          "allowReport": false,
+          "allowSecurity": false,
+          "allowHierarchy": false,
+          "allowAlerts": false,
+          "allowManageAccount": false
+        }
+      ],
+      "thermostats": []
+    }
+  ],
+  "status": {
+    "code": 0,
+    "message": ""
+  }
+}

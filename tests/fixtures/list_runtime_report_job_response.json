@@ -1,0 +1,28 @@
+{
+  "jobs": [
+    {
+      "jobId": "123",
+      "status": "queued"
+    },
+    {
+      "jobId": "234",
+      "status": "cancelled"
+    },
+    {
+      "jobId": "345",
+      "status": "completed",
+      "files": [
+        "https://s3.amazonaws.com/ecobee-utl/example_dir/examplefile-1.tar.gz.gpg"
+      ]
+    },
+    {
+      "jobId": "456",
+      "status": "error",
+      "message": "Error occured while trying to encrypt bundle."
+    }
+  ],
+  "status": {
+    "code": 0,
+    "message": ""
+  }
+}
