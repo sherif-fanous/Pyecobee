@@ -1,8 +1,9 @@
+import datetime
 import json
-from datetime import datetime, timedelta
+from datetime import datetime as DateTime, timedelta
+from zoneinfo import ZoneInfo
 
 import pytest
-import pytz
 
 from pyecobee import EcobeeService, Selection, SelectionType, Utilities
 
@@ -37,7 +38,7 @@ def test_service_constructor_and_argument_validation():
 
 
 def test_meter_report_validates_dates_before_request():
-    start = pytz.utc.localize(datetime(2020, 1, 2))
+    start = DateTime(2020, 1, 2, tzinfo=datetime.UTC)
 
     with pytest.raises(ValueError, match="later than start_date_time"):
         service().request_meter_reports(selection(), start, start)
@@ -53,9 +54,9 @@ def test_meter_report_converts_aware_dates_to_utc(monkeypatch):
         return Response()
 
     monkeypatch.setattr(Utilities, "make_http_request", request)
-    eastern = pytz.timezone("US/Eastern")
-    start = eastern.localize(datetime(2020, 1, 2, 0, 0))
-    end = eastern.localize(datetime(2020, 1, 2, 1, 0))
+    eastern = ZoneInfo("America/New_York")
+    start = DateTime(2020, 1, 2, 0, 0, tzinfo=eastern)
+    end = DateTime(2020, 1, 2, 1, 0, tzinfo=eastern)
 
     response = service().request_meter_reports(selection(), start, end)
     body = json.loads(captured["params"]["body"])

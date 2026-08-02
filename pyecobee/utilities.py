@@ -7,7 +7,6 @@ import sys
 import traceback
 
 import requests
-import six
 
 from pyecobee.exceptions import EcobeeApiException
 from pyecobee.exceptions import EcobeeAuthorizationException
@@ -404,7 +403,7 @@ class Utilities(object):
                 '\n'.join(traceback.format_exception(type_, value_, traceback_))
             )
 
-            six.reraise(EcobeeRequestsException, value_, traceback_)
+            raise value_.with_traceback(traceback_)
 
     @classmethod
     def object_to_dictionary(cls, object_, class_):
