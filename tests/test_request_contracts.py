@@ -1,8 +1,7 @@
 import json
 
-import requests
-
-from pyecobee import EcobeeService, Selection, SelectionType, Utilities
+from pyecobee import EcobeeService, Selection, SelectionType
+from pyecobee.transport import HttpTransport
 
 
 def service():
@@ -20,11 +19,11 @@ def selection():
 def capture_request(monkeypatch, mock_response, payload):
     captured = {}
 
-    def request(method, url, **kwargs):
+    def request(_transport, method, url, **kwargs):
         captured.update(method=method, url=url, **kwargs)
         return mock_response(payload=payload)
 
-    monkeypatch.setattr(Utilities, "make_http_request", request)
+    monkeypatch.setattr(HttpTransport, "request", request)
     return captured
 
 
@@ -47,7 +46,7 @@ def test_authorize_request_uses_expected_method_url_parameters_and_timeout(
 
     assert response.code == "authorization-code"
     assert captured == {
-        "method": requests.get,
+        "method": "get",
         "url": EcobeeService.AUTHORIZE_URL,
         "params": {
             "client_id": "a" * 32,
@@ -76,7 +75,7 @@ def test_token_request_uses_post_and_updates_service_tokens(monkeypatch, mock_re
 
     assert response.access_token == "new-access"
     assert ecobee_service.access_token == "new-access"
-    assert captured["method"].__name__ == "post"
+    assert captured["method"] == "post"
     assert captured["url"] == EcobeeService.TOKENS_URL
     assert captured["params"] == {
         "client_id": "a" * 32,
@@ -101,7 +100,7 @@ def test_thermostat_request_sends_headers_selection_payload_and_timeout(
 
     service().request_thermostats(selection(), timeout=13)
 
-    assert captured["method"].__name__ == "get"
+    assert captured["method"] == "get"
     assert captured["url"] == EcobeeService.THERMOSTAT_URL
     assert captured["headers"] == {
         "Authorization": "Bearer access",
