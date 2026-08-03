@@ -5,7 +5,17 @@ import traceback
 from datetime import UTC, datetime
 from zoneinfo import ZoneInfo
 
-from pyecobee import *
+from pyecobee import (
+    AckType,
+    EcobeeException,
+    EcobeeService,
+    FanMode,
+    HoldType,
+    Selection,
+    SelectionType,
+    Settings,
+    Thermostat,
+)
 
 logger = logging.getLogger(__name__)
 
