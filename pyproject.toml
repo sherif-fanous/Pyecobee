@@ -29,6 +29,7 @@ Homepage = "https://github.com/sfanous/Pyecobee"
 dev = [
     "coverage[toml]>=7",
     "pytest>=8",
+    "pytest-cov>=6",
     "ruff>=0.8",
 ]
 
