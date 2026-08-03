@@ -12,7 +12,6 @@ from pyecobee.exceptions import (
     EcobeeAuthorizationException,
     EcobeeException,
     EcobeeHttpException,
-    EcobeeRequestsException,
 )
 from pyecobee.objects.action import Action
 from pyecobee.objects.alert import Alert
@@ -83,8 +82,10 @@ from pyecobee.responses import (
     EcobeeThermostatsSummaryResponse,
     EcobeeTokensResponse,
 )
+from pyecobee.transport import HttpTransport, redact
 
 logger = logging.getLogger(__name__)
+transport = HttpTransport()
 
 
 class Utilities:
@@ -352,39 +353,15 @@ class Utilities:
     def make_http_request(
         cls, requests_http_method, url, headers=None, params=None, json_=None, timeout=5
     ):
-        try:
-            logger.debug(
-                "Request\n[Method]\n========\n%s\n\n[URL]\n=====\n%s\n%s%s%s".strip(),
-                requests_http_method.__name__.upper(),
-                url,
-                "\n[Query Parameters]\n==================\n{0}\n".format(
-                    "\n".join(
-                        [f"{key:32} => {params[key]!s}" for key in sorted(params)]
-                    )
-                )
-                if params is not None
-                else "",
-                "\n[Headers]\n=========\n{0}\n".format(
-                    "\n".join(
-                        [
-                            f"{header:32} => {headers[header]!s}"
-                            for header in sorted(headers)
-                        ]
-                    )
-                )
-                if headers is not None
-                else "",
-                f"\n[JSON]\n======\n{json.dumps(json_, sort_keys=True, indent=2)}\n"
-                if json_ is not None
-                else "",
-            )
-
-            return requests_http_method(
-                url, headers=headers, params=params, json=json_, timeout=timeout
-            )
-        except requests.exceptions.RequestException as exc:
-            logger.exception("HTTP request failed")
-            raise EcobeeRequestsException(str(exc)) from exc
+        """Send a request through the shared session-backed transport."""
+        return transport.request(
+            requests_http_method.__name__,
+            url,
+            headers=headers,
+            params=params,
+            json_=json_,
+            timeout=timeout,
+        )
 
     @classmethod
     def object_to_dictionary(cls, object_, class_):
@@ -434,10 +411,10 @@ class Utilities:
                 is_top_level=True,
             )
 
+            response_object.pretty_format()
             logger.debug(
-                "EcobeeResponse:\n[JSON]\n======\n%s\n\n[Object]\n========\n%s".strip(),
-                json.dumps(response.json(), sort_keys=True, indent=2),
-                response_object.pretty_format(),
+                "EcobeeResponse:\n[JSON]\n======\n%s".strip(),
+                json.dumps(redact(response.json()), sort_keys=True, indent=2),
             )
 
             return response_object

@@ -5,8 +5,6 @@ import numbers
 from datetime import date, timedelta
 from datetime import datetime as DateTime
 
-import requests
-
 from pyecobee.ecobee_object import EcobeeObject
 from pyecobee.enumerations import (
     AckType,
@@ -40,6 +38,7 @@ from pyecobee.responses import (
     EcobeeThermostatsSummaryResponse,
     EcobeeTokensResponse,
 )
+from pyecobee.transport import HttpTransport
 from pyecobee.utilities import Utilities
 
 logger = logging.getLogger(__name__)
@@ -55,6 +54,7 @@ class EcobeeService(EcobeeObject):
         "_access_token_expires_on",
         "_refresh_token_expires_on",
         "_scope",
+        "_transport",
     ]
 
     AUTHORIZE_URL = "https://api.ecobee.com/authorize"
@@ -143,6 +143,7 @@ class EcobeeService(EcobeeObject):
         self._access_token_expires_on = access_token_expires_on
         self._refresh_token_expires_on = refresh_token_expires_on
         self._scope = scope
+        self._transport = HttpTransport()
 
     def authorize(self, response_type="ecobeePin", timeout=5):
         """
@@ -170,8 +171,8 @@ class EcobeeService(EcobeeObject):
         if response_type != "ecobeePin":
             raise ValueError('response_type must be "ecobeePin"')
 
-        response = Utilities.make_http_request(
-            requests.get,
+        response = self._transport.request(
+            "get",
             EcobeeService.AUTHORIZE_URL,
             params={
                 "client_id": self._application_key,
@@ -212,8 +213,8 @@ class EcobeeService(EcobeeObject):
             raise ValueError('grant_type must be "ecobeePin"')
 
         now_utc = DateTime.now(datetime.UTC)
-        response = Utilities.make_http_request(
-            requests.post,
+        response = self._transport.request(
+            "post",
             EcobeeService.TOKENS_URL,
             params={
                 "client_id": self._application_key,
@@ -262,8 +263,8 @@ class EcobeeService(EcobeeObject):
             raise ValueError('grant_type must be "refresh_token"')
 
         now_utc = DateTime.now(datetime.UTC)
-        response = Utilities.make_http_request(
-            requests.post,
+        response = self._transport.request(
+            "post",
             EcobeeService.TOKENS_URL,
             params={
                 "client_id": self._application_key,
@@ -322,8 +323,8 @@ class EcobeeService(EcobeeObject):
             "selection": Utilities.object_to_dictionary(selection, type(selection))
         }
 
-        response = Utilities.make_http_request(
-            requests.get,
+        response = self._transport.request(
+            "get",
             EcobeeService.THERMOSTAT_SUMMARY_URL,
             headers={
                 "Authorization": f"Bearer {self._access_token}",
@@ -365,8 +366,8 @@ class EcobeeService(EcobeeObject):
             "selection": Utilities.object_to_dictionary(selection, type(selection))
         }
 
-        response = Utilities.make_http_request(
-            requests.get,
+        response = self._transport.request(
+            "get",
             EcobeeService.THERMOSTAT_URL,
             headers={
                 "Authorization": f"Bearer {self._access_token}",
@@ -448,8 +449,8 @@ class EcobeeService(EcobeeObject):
                 for function_ in functions
             ]
 
-        response = Utilities.make_http_request(
-            requests.post,
+        response = self._transport.request(
+            "post",
             EcobeeService.THERMOSTAT_URL,
             headers={
                 "Authorization": f"Bearer {self._access_token}",
@@ -582,8 +583,8 @@ class EcobeeService(EcobeeObject):
             "meters": meters,
         }
 
-        response = Utilities.make_http_request(
-            requests.get,
+        response = self._transport.request(
+            "get",
             EcobeeService.METER_REPORT_URL,
             headers={
                 "Authorization": f"Bearer {self._access_token}",
@@ -718,8 +719,8 @@ class EcobeeService(EcobeeObject):
             "includeSensors": include_sensors,
         }
 
-        response = Utilities.make_http_request(
-            requests.get,
+        response = self._transport.request(
+            "get",
             EcobeeService.RUNTIME_REPORT_URL,
             headers={
                 "Authorization": f"Bearer {self._access_token}",
@@ -765,8 +766,8 @@ class EcobeeService(EcobeeObject):
             "selection": Utilities.object_to_dictionary(selection, type(selection))
         }
 
-        response = Utilities.make_http_request(
-            requests.get,
+        response = self._transport.request(
+            "get",
             EcobeeService.GROUP_URL,
             headers={
                 "Authorization": f"Bearer {self._access_token}",
@@ -817,8 +818,8 @@ class EcobeeService(EcobeeObject):
             ],
         }
 
-        response = Utilities.make_http_request(
-            requests.post,
+        response = self._transport.request(
+            "post",
             EcobeeService.GROUP_URL,
             headers={
                 "Authorization": f"Bearer {self._access_token}",
@@ -880,8 +881,8 @@ class EcobeeService(EcobeeObject):
             "includeThermostats": include_thermostats,
         }
 
-        response = Utilities.make_http_request(
-            requests.get,
+        response = self._transport.request(
+            "get",
             EcobeeService.HIERARCHY_SET_URL,
             headers={
                 "Authorization": f"Bearer {self._access_token}",
@@ -935,8 +936,8 @@ class EcobeeService(EcobeeObject):
             "includePrivileges": include_privileges,
         }
 
-        response = Utilities.make_http_request(
-            requests.get,
+        response = self._transport.request(
+            "get",
             EcobeeService.HIERARCHY_USER_URL,
             headers={
                 "Authorization": f"Bearer {self._access_token}",
@@ -981,8 +982,8 @@ class EcobeeService(EcobeeObject):
             "parentPath": parent_path,
         }
 
-        response = Utilities.make_http_request(
-            requests.post,
+        response = self._transport.request(
+            "post",
             EcobeeService.HIERARCHY_SET_URL,
             headers={
                 "Authorization": f"Bearer {self._access_token}",
@@ -1016,8 +1017,8 @@ class EcobeeService(EcobeeObject):
 
         dictionary = {"operation": "remove", "setPath": set_path}
 
-        response = Utilities.make_http_request(
-            requests.post,
+        response = self._transport.request(
+            "post",
             EcobeeService.HIERARCHY_SET_URL,
             headers={
                 "Authorization": f"Bearer {self._access_token}",
@@ -1055,8 +1056,8 @@ class EcobeeService(EcobeeObject):
 
         dictionary = {"operation": "rename", "setPath": set_path, "newName": new_name}
 
-        response = Utilities.make_http_request(
-            requests.post,
+        response = self._transport.request(
+            "post",
             EcobeeService.HIERARCHY_SET_URL,
             headers={
                 "Authorization": f"Bearer {self._access_token}",
@@ -1095,8 +1096,8 @@ class EcobeeService(EcobeeObject):
 
         dictionary = {"operation": "move", "setPath": set_path, "toPath": to_path}
 
-        response = Utilities.make_http_request(
-            requests.post,
+        response = self._transport.request(
+            "post",
             EcobeeService.HIERARCHY_SET_URL,
             headers={
                 "Authorization": f"Bearer {self._access_token}",
@@ -1167,8 +1168,8 @@ class EcobeeService(EcobeeObject):
                 for privilege in privileges
             ]
 
-        response = Utilities.make_http_request(
-            requests.post,
+        response = self._transport.request(
+            "post",
             EcobeeService.HIERARCHY_USER_URL,
             headers={
                 "Authorization": f"Bearer {self._access_token}",
@@ -1219,8 +1220,8 @@ class EcobeeService(EcobeeObject):
             ],
         }
 
-        response = Utilities.make_http_request(
-            requests.post,
+        response = self._transport.request(
+            "post",
             EcobeeService.HIERARCHY_USER_URL,
             headers={
                 "Authorization": f"Bearer {self._access_token}",
@@ -1266,8 +1267,8 @@ class EcobeeService(EcobeeObject):
             ],
         }
 
-        response = Utilities.make_http_request(
-            requests.post,
+        response = self._transport.request(
+            "post",
             EcobeeService.HIERARCHY_USER_URL,
             headers={
                 "Authorization": f"Bearer {self._access_token}",
@@ -1335,8 +1336,8 @@ class EcobeeService(EcobeeObject):
                 Utilities.object_to_dictionary(privilege, type(privilege))
                 for privilege in privileges
             ]
-        response = Utilities.make_http_request(
-            requests.post,
+        response = self._transport.request(
+            "post",
             EcobeeService.HIERARCHY_USER_URL,
             headers={
                 "Authorization": f"Bearer {self._access_token}",
@@ -1380,8 +1381,8 @@ class EcobeeService(EcobeeObject):
         if set_path is not None:
             dictionary["setPath"] = set_path
 
-        response = Utilities.make_http_request(
-            requests.post,
+        response = self._transport.request(
+            "post",
             EcobeeService.HIERARCHY_THERMOSTAT_URL,
             headers={
                 "Authorization": f"Bearer {self._access_token}",
@@ -1417,8 +1418,8 @@ class EcobeeService(EcobeeObject):
 
         dictionary = {"operation": "unregister", "thermostats": thermostats}
 
-        response = Utilities.make_http_request(
-            requests.post,
+        response = self._transport.request(
+            "post",
             EcobeeService.HIERARCHY_THERMOSTAT_URL,
             headers={
                 "Authorization": f"Bearer {self._access_token}",
@@ -1468,8 +1469,8 @@ class EcobeeService(EcobeeObject):
         if thermostats is not None:
             dictionary["thermostats"] = thermostats
 
-        response = Utilities.make_http_request(
-            requests.post,
+        response = self._transport.request(
+            "post",
             EcobeeService.HIERARCHY_THERMOSTAT_URL,
             headers={
                 "Authorization": f"Bearer {self._access_token}",
@@ -1514,8 +1515,8 @@ class EcobeeService(EcobeeObject):
             "thermostats": thermostats,
         }
 
-        response = Utilities.make_http_request(
-            requests.post,
+        response = self._transport.request(
+            "post",
             EcobeeService.HIERARCHY_THERMOSTAT_URL,
             headers={
                 "Authorization": f"Bearer {self._access_token}",
@@ -1544,8 +1545,8 @@ class EcobeeService(EcobeeObject):
         """
         dictionary = {"operation": "list"}
 
-        response = Utilities.make_http_request(
-            requests.get,
+        response = self._transport.request(
+            "get",
             EcobeeService.DEMAND_RESPONSE_URL,
             headers={
                 "Authorization": f"Bearer {self._access_token}",
@@ -1597,8 +1598,8 @@ class EcobeeService(EcobeeObject):
             ),
         }
 
-        response = Utilities.make_http_request(
-            requests.post,
+        response = self._transport.request(
+            "post",
             EcobeeService.DEMAND_RESPONSE_URL,
             headers={
                 "Authorization": f"Bearer {self._access_token}",
@@ -1639,8 +1640,8 @@ class EcobeeService(EcobeeObject):
             "demandResponse": {"demandResponseRef": demand_response_ref},
         }
 
-        response = Utilities.make_http_request(
-            requests.post,
+        response = self._transport.request(
+            "post",
             EcobeeService.DEMAND_RESPONSE_URL,
             headers={
                 "Authorization": f"Bearer {self._access_token}",
@@ -1698,8 +1699,8 @@ class EcobeeService(EcobeeObject):
             ],
         }
 
-        response = Utilities.make_http_request(
-            requests.post,
+        response = self._transport.request(
+            "post",
             EcobeeService.DEMAND_MANAGEMENT_URL,
             headers={
                 "Authorization": f"Bearer {self._access_token}",
@@ -1845,8 +1846,8 @@ class EcobeeService(EcobeeObject):
             "includeSensors": include_sensors,
         }
 
-        response = Utilities.make_http_request(
-            requests.post,
+        response = self._transport.request(
+            "post",
             f"{EcobeeService.RUNTIME_REPORT_JOB_URL}/create",
             headers={
                 "Authorization": f"Bearer {self._access_token}",
@@ -1887,8 +1888,8 @@ class EcobeeService(EcobeeObject):
         if job_id is not None:
             dictionary["jobId"] = job_id
 
-        response = Utilities.make_http_request(
-            requests.post,
+        response = self._transport.request(
+            "post",
             f"{EcobeeService.RUNTIME_REPORT_JOB_URL}/status",
             headers={
                 "Authorization": f"Bearer {self._access_token}",
@@ -1928,8 +1929,8 @@ class EcobeeService(EcobeeObject):
 
         dictionary = {"jobId": job_id}
 
-        response = Utilities.make_http_request(
-            requests.post,
+        response = self._transport.request(
+            "post",
             f"{EcobeeService.RUNTIME_REPORT_JOB_URL}/cancel",
             headers={
                 "Authorization": f"Bearer {self._access_token}",

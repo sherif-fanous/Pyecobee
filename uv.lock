@@ -207,10 +207,10 @@ requires-dist = [{ name = "requests", specifier = ">=2.13.0" }]
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "coverage", extras = ["toml"], specifier = ">=7" },
-    { name = "pytest", specifier = ">=8" },
-    { name = "pytest-cov", specifier = ">=6" },
-    { name = "ruff", specifier = ">=0.8" },
+    { name = "coverage", extras = ["toml"], specifier = ">=7.15.2" },
+    { name = "pytest", specifier = ">=9.1.1" },
+    { name = "pytest-cov", specifier = ">=7.1.0" },
+    { name = "ruff", specifier = ">=0.16.1" },
 ]
 
 [[package]]

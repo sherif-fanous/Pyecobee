@@ -9,6 +9,7 @@ from pyecobee import (
     EcobeeStatusResponse,
     Utilities,
 )
+from pyecobee.transport import HttpTransport
 
 
 class Response:
@@ -59,11 +60,12 @@ def test_unstructured_http_error_raises_typed_exception():
 
 
 def test_requests_error_chains_underlying_exception():
-    def fail(*args, **kwargs):
-        raise requests.exceptions.ConnectionError("offline")
+    class FailingSession:
+        def request(self, *args, **kwargs):
+            raise requests.exceptions.ConnectionError("offline")
 
     with pytest.raises(EcobeeRequestsException) as raised:
-        Utilities.make_http_request(fail, "https://example.test")
+        HttpTransport(FailingSession()).request("get", "https://example.test")
 
     assert isinstance(raised.value.__cause__, requests.exceptions.ConnectionError)
 

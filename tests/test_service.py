@@ -6,7 +6,8 @@ from zoneinfo import ZoneInfo
 
 import pytest
 
-from pyecobee import EcobeeService, Selection, SelectionType, Utilities
+from pyecobee import EcobeeService, Selection, SelectionType
+from pyecobee.transport import HttpTransport
 
 
 class Response:
@@ -80,9 +81,7 @@ def test_report_requests_reject_naive_datetimes(method, kwargs):
     ],
 )
 def test_meter_report_accepts_inclusive_date_boundaries(monkeypatch, start, end):
-    monkeypatch.setattr(
-        Utilities, "make_http_request", lambda *args, **kwargs: Response()
-    )
+    monkeypatch.setattr(HttpTransport, "request", lambda *args, **kwargs: Response())
 
     assert service().request_meter_reports(selection(), start, end).status.code == 0
 
@@ -94,7 +93,7 @@ def test_meter_report_converts_aware_dates_to_utc(monkeypatch):
         captured.update(kwargs)
         return Response()
 
-    monkeypatch.setattr(Utilities, "make_http_request", request)
+    monkeypatch.setattr(HttpTransport, "request", request)
     eastern = ZoneInfo("America/New_York")
     start = DateTime(2020, 1, 2, 0, 0, tzinfo=eastern)
     end = DateTime(2020, 1, 2, 1, 0, tzinfo=eastern)
