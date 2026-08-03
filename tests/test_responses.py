@@ -6,6 +6,7 @@ import pytest
 from pyecobee import (
     EcobeeAuthorizeResponse,
     EcobeeCreateRuntimeReportJobResponse,
+    EcobeeDeserializationException,
     EcobeeListDemandResponsesResponse,
     EcobeeListHierarchySetsResponse,
     EcobeeListHierarchyUsersResponse,
@@ -112,5 +113,45 @@ def test_unsupported_nested_object_is_ignored():
 
 
 def test_malformed_success_shape_raises():
-    with pytest.raises(Exception):
+    with pytest.raises(EcobeeDeserializationException, match="EcobeeStatusResponse"):
         Utilities.process_http_response(Response(200, []), EcobeeStatusResponse)
+
+
+def test_unknown_fields_and_unsupported_objects_do_not_block_siblings(caplog):
+    response = Utilities.process_http_response(
+        Response(
+            200,
+            {
+                "page": {"page": 1, "totalPages": 1, "pageSize": 1, "total": 1},
+                "thermostatList": [{"identifier": "abc", "oemCfg": {"new": True}}],
+                "status": {"code": 0, "message": ""},
+                "futureField": "ignored",
+            },
+        ),
+        EcobeeThermostatResponse,
+    )
+
+    assert response.status.code == 0
+    assert response.thermostat_list[0].identifier == "abc"
+    assert any("Ignoring" in message for message in caplog.messages)
+
+
+def test_empty_lists_and_malformed_known_fields_are_handled():
+    response = Utilities.process_http_response(
+        Response(
+            200,
+            {
+                "page": {"page": 1, "totalPages": 1, "pageSize": 1, "total": 0},
+                "thermostatList": [],
+                "status": {"code": 0, "message": ""},
+            },
+        ),
+        EcobeeThermostatResponse,
+    )
+
+    assert response.thermostat_list == []
+    with pytest.raises(EcobeeDeserializationException, match="status.code"):
+        Utilities.process_http_response(
+            Response(200, {"status": {"code": "not-a-number", "message": ""}}),
+            EcobeeStatusResponse,
+        )
