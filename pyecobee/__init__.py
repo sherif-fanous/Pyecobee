@@ -1,5 +1,6 @@
 import logging
 
+from pyecobee.deserialization import EcobeeDeserializationException
 from pyecobee.ecobee_object import EcobeeObject
 from pyecobee.enumerations import (
     AckType,
