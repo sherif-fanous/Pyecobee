@@ -1,83 +1,58 @@
-import datetime
-import json
 import logging
-import numbers
-from datetime import date, timedelta
-from datetime import datetime as DateTime
 
 from pyecobee.ecobee_object import EcobeeObject
 from pyecobee.enumerations import (
-    AckType,
     FanMode,
     HoldType,
-    PlugState,
     Scope,
     SelectionType,
 )
-from pyecobee.objects.demand_management import DemandManagement
-from pyecobee.objects.demand_response import DemandResponse
-from pyecobee.objects.function import Function
-from pyecobee.objects.group import Group
-from pyecobee.objects.hierarchy_privilege import HierarchyPrivilege
-from pyecobee.objects.hierarchy_user import HierarchyUser
 from pyecobee.objects.selection import Selection
-from pyecobee.objects.thermostat import Thermostat
-from pyecobee.responses import (
-    EcobeeAuthorizeResponse,
-    EcobeeCreateRuntimeReportJobResponse,
-    EcobeeGroupsResponse,
-    EcobeeIssueDemandResponsesResponse,
-    EcobeeListDemandResponsesResponse,
-    EcobeeListHierarchySetsResponse,
-    EcobeeListHierarchyUsersResponse,
-    EcobeeListRuntimeReportJobStatusResponse,
-    EcobeeMeterReportsResponse,
-    EcobeeRuntimeReportsResponse,
-    EcobeeStatusResponse,
-    EcobeeThermostatResponse,
-    EcobeeThermostatsSummaryResponse,
-    EcobeeTokensResponse,
+from pyecobee.services import (
+    AuthorizationService,
+    DemandService,
+    GroupsService,
+    HierarchyService,
+    ReportsService,
+    ThermostatsService,
 )
-from pyecobee.transport import HttpTransport
-from pyecobee.utilities import Utilities
+from pyecobee.services.context import ClientContext
 
 logger = logging.getLogger(__name__)
 
 
 class EcobeeService(EcobeeObject):
-    __slots__ = [
-        "_thermostat_name",
-        "_application_key",
-        "_authorization_token",
-        "_access_token",
-        "_refresh_token",
-        "_access_token_expires_on",
-        "_refresh_token_expires_on",
-        "_scope",
-        "_transport",
-    ]
+    """Compatibility facade delegating API operations to domain components."""
 
-    AUTHORIZE_URL = "https://api.ecobee.com/authorize"
-    TOKENS_URL = "https://api.ecobee.com/token"
-    THERMOSTAT_SUMMARY_URL = "https://api.ecobee.com/1/thermostatSummary"
-    THERMOSTAT_URL = "https://api.ecobee.com/1/thermostat"
-    METER_REPORT_URL = "https://api.ecobee.com/1/meterReport"
-    RUNTIME_REPORT_URL = "https://api.ecobee.com/1/runtimeReport"
-    GROUP_URL = "https://api.ecobee.com/1/group"
-    HIERARCHY_SET_URL = "https://api.ecobee.com/1/hierarchy/set"
-    HIERARCHY_USER_URL = "https://api.ecobee.com/1/hierarchy/user"
-    HIERARCHY_THERMOSTAT_URL = "https://api.ecobee.com/1/hierarchy/thermostat"
-    DEMAND_RESPONSE_URL = "https://api.ecobee.com/1/demandResponse"
-    DEMAND_MANAGEMENT_URL = "https://api.ecobee.com/1/demandManagement"
-    RUNTIME_REPORT_JOB_URL = "https://api.ecobee.com/1/runtimeReportJob"
+    __slots__ = (
+        "_context",
+        "_authorization",
+        "_thermostats",
+        "_groups",
+        "_hierarchy",
+        "_demand",
+        "_reports",
+    )
 
-    BEFORE_TIME_BEGAN_DATE_TIME = DateTime(2008, 1, 2, 0, 0, 0, tzinfo=datetime.UTC)
-    END_OF_TIME_DATE_TIME = DateTime(2035, 1, 1, 0, 0, 0, tzinfo=datetime.UTC)
-
-    MINIMUM_COOLING_TEMPERATURE = -10.0
-    MAXIMUM_COOLING_TEMPERATURE = 120.0
-    MINIMUM_HEATING_TEMPERATURE = 45.0
-    MAXIMUM_HEATING_TEMPERATURE = 120.0
+    AUTHORIZE_URL = ClientContext.AUTHORIZE_URL
+    TOKENS_URL = ClientContext.TOKENS_URL
+    THERMOSTAT_SUMMARY_URL = ClientContext.THERMOSTAT_SUMMARY_URL
+    THERMOSTAT_URL = ClientContext.THERMOSTAT_URL
+    METER_REPORT_URL = ClientContext.METER_REPORT_URL
+    RUNTIME_REPORT_URL = ClientContext.RUNTIME_REPORT_URL
+    GROUP_URL = ClientContext.GROUP_URL
+    HIERARCHY_SET_URL = ClientContext.HIERARCHY_SET_URL
+    HIERARCHY_USER_URL = ClientContext.HIERARCHY_USER_URL
+    HIERARCHY_THERMOSTAT_URL = ClientContext.HIERARCHY_THERMOSTAT_URL
+    DEMAND_RESPONSE_URL = ClientContext.DEMAND_RESPONSE_URL
+    DEMAND_MANAGEMENT_URL = ClientContext.DEMAND_MANAGEMENT_URL
+    RUNTIME_REPORT_JOB_URL = ClientContext.RUNTIME_REPORT_JOB_URL
+    BEFORE_TIME_BEGAN_DATE_TIME = ClientContext.BEFORE_TIME_BEGAN_DATE_TIME
+    END_OF_TIME_DATE_TIME = ClientContext.END_OF_TIME_DATE_TIME
+    MINIMUM_COOLING_TEMPERATURE = ClientContext.MINIMUM_COOLING_TEMPERATURE
+    MAXIMUM_COOLING_TEMPERATURE = ClientContext.MAXIMUM_COOLING_TEMPERATURE
+    MINIMUM_HEATING_TEMPERATURE = ClientContext.MINIMUM_HEATING_TEMPERATURE
+    MAXIMUM_HEATING_TEMPERATURE = ClientContext.MAXIMUM_HEATING_TEMPERATURE
 
     attribute_name_map = {
         "thermostat_name": "thermostat_name",
@@ -89,7 +64,6 @@ class EcobeeService(EcobeeObject):
         "refresh_token_expires_on": "refresh_token_expires_on",
         "scope": "scope",
     }
-
     attribute_type_map = {
         "thermostat_name": "str",
         "application_key": "str",
@@ -135,1813 +109,55 @@ class EcobeeService(EcobeeObject):
         if len(application_key) != 32:
             raise ValueError("application_key must be a 32 alphanumeric string")
 
-        self._thermostat_name = thermostat_name
-        self._application_key = application_key
-        self._authorization_token = authorization_token
-        self._access_token = access_token
-        self._refresh_token = refresh_token
-        self._access_token_expires_on = access_token_expires_on
-        self._refresh_token_expires_on = refresh_token_expires_on
-        self._scope = scope
-        self._transport = HttpTransport()
+        self._context = ClientContext(
+            thermostat_name,
+            application_key,
+            authorization_token,
+            access_token,
+            refresh_token,
+            access_token_expires_on,
+            refresh_token_expires_on,
+            scope,
+        )
+        self._authorization = AuthorizationService(self._context)
+        self._thermostats = ThermostatsService(self._context)
+        self._groups = GroupsService(self._context)
+        self._hierarchy = HierarchyService(self._context)
+        self._demand = DemandService(self._context)
+        self._reports = ReportsService(self._context)
 
     def authorize(self, response_type="ecobeePin", timeout=5):
-        """
-        The authorize method allows a 3rd party application to obtain an
-        authorization code and a 4 byte alphabetic string which can be
-        displayed to the user. The user then logs into the ecobee Portal
-        and registers the application using the PIN provided. Once this
-        step is completed, the 3rd party application is able to request
-        the access and refresh tokens using the request_tokens method.
-
-        :param response_type: This is always "ecobeePin"
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: An AuthorizeResponse object
-        :rtype: EcobeeAuthorizeResponse
-        :raises EcobeeAuthorizationException: If the request results in
-        a standard or extended OAuth error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        :raises TypeError: If response_type is not a string
-        :raises ValueError: If response_type is not set to "ecobeePin"
-        """
-        if not isinstance(response_type, str):
-            raise TypeError(f"response_type must be an instance of {str}")
-        if response_type != "ecobeePin":
-            raise ValueError('response_type must be "ecobeePin"')
-
-        response = self._transport.request(
-            "get",
-            EcobeeService.AUTHORIZE_URL,
-            params={
-                "client_id": self._application_key,
-                "response_type": response_type,
-                "scope": self._scope.value,
-            },
-            timeout=timeout,
+        return self._authorization.authorize(
+            response_type=response_type, timeout=timeout
         )
-        authorize_response = Utilities.process_http_response(
-            response, EcobeeAuthorizeResponse
-        )
-
-        self._authorization_token = authorize_response.code
-
-        return authorize_response
 
     def request_tokens(self, grant_type="ecobeePin", timeout=5):
-        """
-        The request_tokens method is used to request the access and
-        refresh tokens once the user has authorized the application
-        within the ecobee Web Portal.
-
-        :param grant_type: This is always "ecobeePin"
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: A TokensResponse object
-        :rtype: EcobeeTokensResponse
-        :raises EcobeeAuthorizationException: If the request results in
-        a standard or extended OAuth error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        :raises TypeError: If grant_type is not a string
-        :raises ValueError: If grant_type is not set to "ecobeePin"
-        """
-        if not isinstance(grant_type, str):
-            raise TypeError(f"grant_type must be an instance of {str}")
-        if grant_type != "ecobeePin":
-            raise ValueError('grant_type must be "ecobeePin"')
-
-        now_utc = DateTime.now(datetime.UTC)
-        response = self._transport.request(
-            "post",
-            EcobeeService.TOKENS_URL,
-            params={
-                "client_id": self._application_key,
-                "code": self._authorization_token,
-                "grant_type": grant_type,
-            },
-            timeout=timeout,
+        return self._authorization.request_tokens(
+            grant_type=grant_type, timeout=timeout
         )
-        tokens_response = Utilities.process_http_response(
-            response, EcobeeTokensResponse
-        )
-
-        self._access_token = tokens_response.access_token
-        self._access_token_expires_on = now_utc + timedelta(
-            seconds=tokens_response.expires_in
-        )
-        self._refresh_token = tokens_response.refresh_token
-        self._refresh_token_expires_on = now_utc + timedelta(days=365)
-
-        return tokens_response
 
     def refresh_tokens(self, grant_type="refresh_token", timeout=5):
-        """
-        All access tokens must be refreshed periodically. Token refresh
-        reduces the potential and benefit of token theft. Since all
-        tokens expire, stolen tokens may only be used for a limited
-        time. The refresh_tokens method immediately expires the
-        previously issued access and refresh tokens and issues brand new
-        tokens.
-
-        :param grant_type: This is always "refresh_token"
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: A TokensResponse object
-        :rtype: EcobeeTokensResponse
-        :raises EcobeeAuthorizationException: If the request results in
-        a standard or extended OAuth error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        :raises TypeError: If grant_type is not a string
-        :raises ValueError: If grant_type is not set to "refresh_token"
-        """
-        if not isinstance(grant_type, str):
-            raise TypeError(f"grant_type must be an instance of {str}")
-        if grant_type != "refresh_token":
-            raise ValueError('grant_type must be "refresh_token"')
-
-        now_utc = DateTime.now(datetime.UTC)
-        response = self._transport.request(
-            "post",
-            EcobeeService.TOKENS_URL,
-            params={
-                "client_id": self._application_key,
-                "code": self._refresh_token,
-                "grant_type": grant_type,
-            },
-            timeout=timeout,
+        return self._authorization.refresh_tokens(
+            grant_type=grant_type, timeout=timeout
         )
-        tokens_response = Utilities.process_http_response(
-            response, EcobeeTokensResponse
-        )
-
-        self._access_token = tokens_response.access_token
-        self._access_token_expires_on = now_utc + timedelta(
-            seconds=tokens_response.expires_in
-        )
-        self._refresh_token = tokens_response.refresh_token
-        self._refresh_token_expires_on = now_utc + timedelta(days=365)
-
-        return tokens_response
 
     def request_thermostats_summary(self, selection, timeout=5):
-        """
-        The request_thermostats_summary method retrieves a list of
-        thermostat configuration and state revisions. This is a light-
-        weight polling method which will only return the revision
-        numbers for the significant portions of the thermostat data. It
-        is the responsibility of the caller to store these revisions for
-        future determination of whether changes occurred at the next
-        poll interval.
-
-        The intent is to permit the caller to determine whether a
-        thermostat has changed since the last poll. Retrieval of a whole
-        thermostat including runtime data is expensive and impractical
-        for large amounts of thermostats such as a management set
-        hierarchy, especially if nothing has changed. By storing the
-        retrieved revisions, the caller may determine whether to get a
-        thermostat and which sections of the thermostat should be
-        retrieved.
-
-        :param selection: The selection criteria for the request
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: A ThermostatSummaryResponse object
-        :rtype: EcobeeThermostatsSummaryResponse
-        :raises EcobeeApiException: If the request results in an ecobee
-        API error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        :raises TypeError: If selection is not an instance of Selection
-        """
-        if not isinstance(selection, Selection):
-            raise TypeError(f"selection must be an instance of {Selection}")
-
-        dictionary = {
-            "selection": Utilities.object_to_dictionary(selection, type(selection))
-        }
-
-        response = self._transport.request(
-            "get",
-            EcobeeService.THERMOSTAT_SUMMARY_URL,
-            headers={
-                "Authorization": f"Bearer {self._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
-            params={"json": json.dumps(dictionary, sort_keys=True, indent=2)},
-            timeout=timeout,
-        )
-
-        return Utilities.process_http_response(
-            response, EcobeeThermostatsSummaryResponse
+        return self._thermostats.request_thermostats_summary(
+            selection=selection, timeout=timeout
         )
 
     def request_thermostats(self, selection, timeout=5):
-        """
-        The request_thermostats method retrieves a selection of
-        thermostat data for one or more thermostats. The type of data
-        retrieved is determined by the selection argument. The include*
-        attributes of the selection argument retrieve specific portions
-        of the thermostat. When retrieving thermostats, request only the
-        parts of the thermostat you require as the whole thermostat with
-        everything can be quite large and generally unnecessary.
-
-        :param selection: The selection criteria for the request
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: A ThermostatResponse object
-        :rtype: EcobeeThermostatResponse
-        :raises EcobeeApiException: If the request results in an ecobee
-        API error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        :raises TypeError: If selection is not an instance of Selection
-        """
-        if not isinstance(selection, Selection):
-            raise TypeError(f"selection must be an instance of {Selection}")
-
-        dictionary = {
-            "selection": Utilities.object_to_dictionary(selection, type(selection))
-        }
-
-        response = self._transport.request(
-            "get",
-            EcobeeService.THERMOSTAT_URL,
-            headers={
-                "Authorization": f"Bearer {self._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
-            params={"json": json.dumps(dictionary, sort_keys=True, indent=2)},
-            timeout=timeout,
+        return self._thermostats.request_thermostats(
+            selection=selection, timeout=timeout
         )
-
-        return Utilities.process_http_response(response, EcobeeThermostatResponse)
 
     def update_thermostats(self, selection, thermostat=None, functions=None, timeout=5):
-        """
-        The update_thermostats method permits the modification of any
-        writable Thermostat or sub-object property. Thermostats may be
-        updated by their writeable properties directly or through the
-        Thermostat Functions.
-
-        By including the Thermostat object in the request, any writable
-        property may be directly updated in the thermostat. Some
-        thermostat child objects are read-only due to either complexity
-        in their configuration for which the thermostat functions have
-        been created to support, or the object is not modifiable outside
-        the physical thermostat (i.e. devices, wifi, etc.)
-
-        Thermostats may also be updated using Thermostat Functions.
-        Thermostat Functions provide a way to make more complex updates
-        to a thermostat than just setting one or more properties. The
-        functions emulate much of the same functionality found on the
-        thermostat itself, such as setting a hold, for example. An
-        update request may contain any number of functions in the
-        request. Each function will be applied in the order they are
-        listed in the request.
-
-        :param selection: The selection criteria for the update
-        :param thermostat: The thermostat object with properties to
-        update
-        :param functions: The list of functions to perform on all
-        selected thermostats
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: An UpdateThermostatResponse object indicating the
-        status of this request
-        :rtype: EcobeeStatusResponse
-        :raises EcobeeApiException: If the request results in an ecobee
-        API error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        :raises TypeError: If selection is not an instance of Selection,
-        thermostat is not an instance of Thermostat, functions is not a
-        list, or any member of functions is not an instance of Function
-        """
-        if not isinstance(selection, Selection):
-            raise TypeError(f"selection must be an instance of {Selection}")
-        if thermostat is not None:
-            if not isinstance(thermostat, Thermostat):
-                raise TypeError(f"thermostat must be an instance of {Thermostat}")
-        if functions is not None:
-            if not isinstance(functions, list):
-                raise TypeError(f"functions must be an instance of {list}")
-        if functions is not None:
-            for function_ in functions:
-                if not isinstance(function_, Function):
-                    raise TypeError(
-                        f"All members of functions must be a an instance of {Function}"
-                    )
-
-        dictionary = {
-            "selection": Utilities.object_to_dictionary(selection, type(selection))
-        }
-
-        if thermostat is not None:
-            dictionary["thermostat"] = Utilities.object_to_dictionary(
-                thermostat, type(thermostat)
-            )
-        if functions is not None:
-            dictionary["functions"] = [
-                Utilities.object_to_dictionary(function_, type(function_))
-                for function_ in functions
-            ]
-
-        response = self._transport.request(
-            "post",
-            EcobeeService.THERMOSTAT_URL,
-            headers={
-                "Authorization": f"Bearer {self._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
-            params={"format": "json"},
-            json_=dictionary,
+        return self._thermostats.update_thermostats(
+            selection=selection,
+            thermostat=thermostat,
+            functions=functions,
             timeout=timeout,
         )
-
-        return Utilities.process_http_response(response, EcobeeStatusResponse)
-
-    def request_meter_reports(
-        self, selection, start_date_time, end_date_time, meters="energy", timeout=5
-    ):
-        """
-        The request_meter_reports method retrieves the historical meter
-        reading information for a selection of thermostats.
-
-        The report request is limited to retrieving information for up
-        to 25 thermostats with a maximum period of 31 days, per request.
-        The amount of data returned is considerable for 31 days of data
-        for 25 thermostats (25 thermostats * 288 intervals per day * 31
-        days = 223,200 rows of data).
-
-        The data in the report is at 5 minute intervals for a whole day.
-        The data represented in terms of runtime is for the 5 minute
-        interval (up to 300 seconds).
-
-        :param selection: The selection criteria for the request. Must
-        have selection_type = 'thermostats' and selection_match = A CSV
-        string of thermostat identifiers.
-        :param start_date_time: The start date and time in thermostat
-        time. Must be a timezone aware datetime
-        :param end_date_time: The end date and time in thermostat time.
-        Must be a timezone aware datetime
-        :param meters: A CSV string of meter types. Only supported meter
-        type is "energy"
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: A MeterReportResponse object
-        :rtype: EcobeeMeterReportsResponse
-        :raises EcobeeApiException: If the request results in an ecobee
-        API error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        :raises TypeError: If selection is not an instance of Selection,
-        start_date_time is not a datetime, end_date_time is not a
-        datetime, or meters is not a string
-        :raises ValueError: If selection.selection_type is not
-        thermostats, selection specifies more than 25 thermostats,
-        start/end date_times are earlier than 2008-01-02 00:00:00 +0000,
-        start/end date_times are later than 2035-01-01 00:00:00 +0000,
-        start_date_time is later than end_date_time, the duration
-        between start_date_time and end_date_time is more than 31 days,
-        meters is not a CSV string of "energy", or selection and meters
-        don't have the same number of CSV entries
-        """
-        if not isinstance(selection, Selection):
-            raise TypeError(f"selection must be an instance of {Selection}")
-        if selection.selection_type != SelectionType.THERMOSTATS.value:
-            raise ValueError(
-                f"selection.selection_type must be set to {SelectionType.THERMOSTATS.value}"
-            )
-        if len(selection.selection_match.split(",")) > 25:
-            raise ValueError("selection must not specify more than 25 thermostats")
-        if not isinstance(start_date_time, DateTime):
-            raise TypeError(f"start_date must be an instance of {DateTime}")
-        if start_date_time.tzinfo is None or start_date_time.utcoffset() is None:
-            raise ValueError("start_date_time must be timezone-aware")
-        if start_date_time < EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME:
-            raise ValueError(
-                "start_date must be later than {}".format(
-                    EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime(
-                        "%Y-%m-%d %H:%M:%S %Z"
-                    )
-                )
-            )
-        if start_date_time > EcobeeService.END_OF_TIME_DATE_TIME:
-            raise ValueError(
-                "start_date must be earlier than {}".format(
-                    EcobeeService.END_OF_TIME_DATE_TIME.strftime("%Y-%m-%d %H:%M:%S %Z")
-                )
-            )
-        if not isinstance(end_date_time, DateTime):
-            raise TypeError(f"end_date must be an instance of {DateTime}")
-        if end_date_time.tzinfo is None or end_date_time.utcoffset() is None:
-            raise ValueError("end_date_time must be timezone-aware")
-        if end_date_time < EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME:
-            raise ValueError(
-                "end_date must be later than {}".format(
-                    EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime(
-                        "%Y-%m-%d %H:%M:%S %Z"
-                    )
-                )
-            )
-        if end_date_time > EcobeeService.END_OF_TIME_DATE_TIME:
-            raise ValueError(
-                "end_date must be earlier than {}".format(
-                    EcobeeService.END_OF_TIME_DATE_TIME.strftime("%Y-%m-%d %H:%M:%S %Z")
-                )
-            )
-        if start_date_time >= end_date_time:
-            raise ValueError("end_date_time must be later than start_date_time")
-        if (end_date_time - start_date_time).days > 31:
-            raise ValueError(
-                "Duration between start_date_time and end_date_time must not be more "
-                "than 31 days"
-            )
-        if not isinstance(meters, str):
-            raise TypeError(f"meters must be an instance of {str}")
-        if not all(meter == "energy" for meter in meters.split(",")):
-            raise ValueError('meters must be a CSV string of "energy"')
-        if len(selection.selection_match.split(",")) != len(meters.split(",")):
-            raise ValueError(
-                "selection and meters must have the same number of CSV entries"
-            )
-
-        utc = datetime.UTC
-        start_date_time = start_date_time.astimezone(utc)
-        end_date_time = end_date_time.astimezone(utc)
-
-        dictionary = {
-            "selection": Utilities.object_to_dictionary(selection, type(selection)),
-            "startDate": f"{start_date_time.year}-{start_date_time.month:02}-{start_date_time.day:02}",
-            "startInterval": (start_date_time.hour * 12)
-            + (start_date_time.minute // 5),
-            "endDate": f"{end_date_time.year}-{end_date_time.month:02}-{end_date_time.day:02}",
-            "endInterval": end_date_time.hour * 12 + (end_date_time.minute // 5),
-            "meters": meters,
-        }
-
-        response = self._transport.request(
-            "get",
-            EcobeeService.METER_REPORT_URL,
-            headers={
-                "Authorization": f"Bearer {self._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
-            params={
-                "format": "json",
-                "body": json.dumps(dictionary, sort_keys=True, indent=2),
-            },
-            timeout=timeout,
-        )
-
-        return Utilities.process_http_response(response, EcobeeMeterReportsResponse)
-
-    def request_runtime_reports(
-        self,
-        selection,
-        start_date_time,
-        end_date_time,
-        columns,
-        include_sensors=False,
-        timeout=5,
-    ):
-        """
-        The request_runtime_reports request is limited to retrieving
-        information for up to 25 thermostats with a maximum period of 31
-        days, per request. The amount of data returned is considerable
-        for 31 days of data for 25 thermostats (25 thermostats * 288
-        intervals per day * 31 days = 223,200 rows of data).
-
-        The data in the report is at 5 minute intervals for a whole day.
-        The data represented in terms of runtime is for the 5 minute
-        interval (up to 300 seconds).
-
-        :param selection: The selection criteria for the request. Must
-        have selection_type = 'thermostats' and selection_match = A CSV
-        string of thermostat identifiers.
-        :param start_date_time: The start date and time in thermostat
-        time. Must be a timezone aware datetime.
-        :param end_date_time: The end date and time in thermostat time.
-        Must be a timezone aware datetime
-        :param columns: A CSV string of column names
-        :param include_sensors: Whether to include sensor runtime report
-        data for those thermostats which have it. Default: False
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: A RuntimeReportResponse object
-        :rtype: EcobeeRuntimeReportsResponse
-        :raises EcobeeApiException: If the request results in an ecobee
-        API error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        :raises TypeError: If selection is not an instance of Selection,
-        start_date_time is not a datetime, end_date_time is not a
-        datetime, columns is not a string, or include_sensors is not a
-        boolean
-        :raises ValueError: If selection.selection_type is not
-        "thermostats", selection specifies more than 25 thermostats,
-        start/end date_times are earlier than 2008-01-02 00:00:00 +0000,
-        start/end date_times are later than 2035-01-01 00:00:00 +0000,
-        start_date_time is later than end_date_time, or the duration
-        between start_date_time and end_date_time is more than 31 days
-        """
-        if not isinstance(selection, Selection):
-            raise TypeError(f"selection must be an instance of {Selection}")
-        if selection.selection_type != SelectionType.THERMOSTATS.value:
-            raise ValueError(
-                f"selection.selection_type must be set to {SelectionType.THERMOSTATS.value}"
-            )
-        if len(selection.selection_match.split(",")) > 25:
-            raise ValueError("selection must not specify more than 25 thermostats")
-        if not isinstance(start_date_time, DateTime):
-            raise TypeError(f"start_date must be an instance of {DateTime}")
-        if start_date_time.tzinfo is None or start_date_time.utcoffset() is None:
-            raise ValueError("start_date_time must be timezone-aware")
-        if start_date_time < EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME:
-            raise ValueError(
-                "start_date must be later than {}".format(
-                    EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime(
-                        "%Y-%m-%d %H:%M:%S %Z"
-                    )
-                )
-            )
-        if start_date_time > EcobeeService.END_OF_TIME_DATE_TIME:
-            raise ValueError(
-                "start_date must be earlier than {}".format(
-                    EcobeeService.END_OF_TIME_DATE_TIME.strftime("%Y-%m-%d %H:%M:%S %Z")
-                )
-            )
-        if not isinstance(end_date_time, DateTime):
-            raise TypeError(f"end_date must be an instance of {DateTime}")
-        if end_date_time.tzinfo is None or end_date_time.utcoffset() is None:
-            raise ValueError("end_date_time must be timezone-aware")
-        if end_date_time < EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME:
-            raise ValueError(
-                "end_date must be later than {}".format(
-                    EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime(
-                        "%Y-%m-%d %H:%M:%S %Z"
-                    )
-                )
-            )
-        if end_date_time > EcobeeService.END_OF_TIME_DATE_TIME:
-            raise ValueError(
-                "end_date must be earlier than {}".format(
-                    EcobeeService.END_OF_TIME_DATE_TIME.strftime("%Y-%m-%d %H:%M:%S %Z")
-                )
-            )
-        if start_date_time >= end_date_time:
-            raise ValueError("end_date_time must be later than start_date_time")
-        if (end_date_time - start_date_time).days > 31:
-            raise ValueError(
-                "Duration between start_date_time and end_date_time must not be more "
-                "than 31 days"
-            )
-        if not isinstance(columns, str):
-            raise TypeError(f"columns must be an instance of {str}")
-        if not isinstance(include_sensors, bool):
-            raise TypeError(f"include_sensors must be an instance of {bool}")
-
-        utc = datetime.UTC
-        start_date_time = start_date_time.astimezone(utc)
-        end_date_time = end_date_time.astimezone(utc)
-
-        dictionary = {
-            "selection": Utilities.object_to_dictionary(selection, type(selection)),
-            "startDate": f"{start_date_time.year}-{start_date_time.month:02}-{start_date_time.day:02}",
-            "startInterval": (start_date_time.hour * 12)
-            + (start_date_time.minute // 5),
-            "endDate": f"{end_date_time.year}-{end_date_time.month:02}-{end_date_time.day:02}",
-            "endInterval": end_date_time.hour * 12 + (end_date_time.minute // 5),
-            "columns": columns,
-            "includeSensors": include_sensors,
-        }
-
-        response = self._transport.request(
-            "get",
-            EcobeeService.RUNTIME_REPORT_URL,
-            headers={
-                "Authorization": f"Bearer {self._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
-            params={
-                "format": "json",
-                "body": json.dumps(dictionary, sort_keys=True, indent=2),
-            },
-            timeout=timeout,
-        )
-
-        return Utilities.process_http_response(response, EcobeeRuntimeReportsResponse)
-
-    def request_groups(self, selection, timeout=5):
-        """
-        The request_groups method retrieves the Group and grouping data
-        for the Thermostats registered to the particular User. The User
-        here refers to the calling application's user authorization.
-
-        :param selection: The selection criteria for the request. Must
-        have selection_type = 'registered'.
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: A GroupResponse object
-        :rtype: EcobeeGroupsResponse
-        :raises EcobeeApiException: If the request results in an ecobee
-        API error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        :raises TypeError: If selection is not an instance of Selection
-        :raises ValueError: If selection.selection_type is not
-        "registered"
-        """
-        if not isinstance(selection, Selection):
-            raise TypeError(f"selection must be an instance of {Selection}")
-        if selection.selection_type != SelectionType.REGISTERED.value:
-            raise ValueError(
-                f"selection.selection_type must be set to {SelectionType.REGISTERED.value}"
-            )
-
-        dictionary = {
-            "selection": Utilities.object_to_dictionary(selection, type(selection))
-        }
-
-        response = self._transport.request(
-            "get",
-            EcobeeService.GROUP_URL,
-            headers={
-                "Authorization": f"Bearer {self._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
-            params={
-                "format": "json",
-                "body": json.dumps(dictionary, sort_keys=True, indent=2),
-            },
-            timeout=timeout,
-        )
-
-        return Utilities.process_http_response(response, EcobeeGroupsResponse)
-
-    def update_groups(self, selection, groups, timeout=5):
-        """
-        The update_groups method permits the modification of any
-        writable Group object properties.
-
-        :param selection: The selection criteria for the request
-        :param groups: The list of Groups to update
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: A GroupResponse object
-        :rtype: EcobeeGroupsResponse
-        :raises EcobeeApiException: If the request results in an ecobee
-        API error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        :raises TypeError: If selection is not an instance of Selection,
-        groups is not a list, or any member of groups is not an instance
-        of Group
-        """
-        if not isinstance(selection, Selection):
-            raise TypeError(f"selection must be an instance of {Selection}")
-        if not isinstance(groups, list):
-            raise TypeError(f"groups must be an instance of {list}")
-        for group in groups:
-            if not isinstance(group, Group):
-                raise TypeError(
-                    f"All members of groups must be a an instance of {Group}"
-                )
-
-        dictionary = {
-            "selection": Utilities.object_to_dictionary(selection, type(selection)),
-            "groups": [
-                Utilities.object_to_dictionary(group, type(group)) for group in groups
-            ],
-        }
-
-        response = self._transport.request(
-            "post",
-            EcobeeService.GROUP_URL,
-            headers={
-                "Authorization": f"Bearer {self._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
-            params={"format": "json"},
-            json_=dictionary,
-            timeout=timeout,
-        )
-
-        return Utilities.process_http_response(response, EcobeeGroupsResponse)
-
-    def list_hierarchy_sets(
-        self,
-        set_path,
-        recursive=False,
-        include_privileges=False,
-        include_thermostats=False,
-        timeout=5,
-    ):
-        """
-        The list_hierarchy_sets method returns the management set
-        hierarchy either at a single node depth and its children or
-        recursively starting from the node path specified.
-
-        :param set_path: The management set path
-        :param recursive: Whether to also return the children of the
-        children, recursively. Default: False
-        :param include_privileges: Whether to include the privileges
-        with each set. Default: False
-        :param include_thermostats: Whether to include a list of all
-        thermostat identifiers assigned to each set. Default: False
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: A ListHierarchySetsResponse object
-        :rtype: EcobeeListHierarchySetsResponse
-        :raises EcobeeApiException: If the request results in an ecobee
-        API error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        :raises TypeError: If set_path is not a string, recursive is not
-        a boolean, include_privileges is not a boolean, or
-        include_thermostats is not a boolean
-        """
-        if not isinstance(set_path, str):
-            raise TypeError(f"set_path must be an instance of {str}")
-        if not isinstance(recursive, bool):
-            raise TypeError(f"recursive must be an instance of {bool}")
-        if not isinstance(include_privileges, bool):
-            raise TypeError(f"include_privileges must be an instance of {bool}")
-        if not isinstance(include_thermostats, bool):
-            raise TypeError(f"include_thermostats must be an instance of {bool}")
-
-        dictionary = {
-            "operation": "list",
-            "setPath": set_path,
-            "recursive": recursive,
-            "includePrivileges": include_privileges,
-            "includeThermostats": include_thermostats,
-        }
-
-        response = self._transport.request(
-            "get",
-            EcobeeService.HIERARCHY_SET_URL,
-            headers={
-                "Authorization": f"Bearer {self._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
-            params={
-                "format": "json",
-                "body": json.dumps(dictionary, sort_keys=True, indent=2),
-            },
-            timeout=timeout,
-        )
-
-        return Utilities.process_http_response(
-            response, EcobeeListHierarchySetsResponse
-        )
-
-    def list_hierarchy_users(
-        self, set_path, recursive=False, include_privileges=False, timeout=5
-    ):
-        """
-        The list_hierarchy_users method returns a list hierarchy users
-        and privileges.
-
-        :param set_path: The management set path
-        :param recursive: Whether to also return the children of the
-        children, recursively. Default: False
-        :param include_privileges: Whether to include the privileges
-        with each set. Default: False
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: A ListHierarchyUsersResponse object
-        :rtype: EcobeeListHierarchyUsersResponse
-        :raises EcobeeApiException: If the request results in an ecobee
-        API error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        :raises TypeError: If set_path is not a string, recursive is not
-        a boolean, of include_privileges is not a boolean
-        """
-        if not isinstance(set_path, str):
-            raise TypeError(f"set_path must be an instance of {str}")
-        if not isinstance(recursive, bool):
-            raise TypeError(f"recursive must be an instance of {bool}")
-        if not isinstance(include_privileges, bool):
-            raise TypeError(f"include_privileges must be an instance of {bool}")
-
-        dictionary = {
-            "operation": "list",
-            "setPath": set_path,
-            "recursive": recursive,
-            "includePrivileges": include_privileges,
-        }
-
-        response = self._transport.request(
-            "get",
-            EcobeeService.HIERARCHY_USER_URL,
-            headers={
-                "Authorization": f"Bearer {self._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
-            params={
-                "format": "json",
-                "body": json.dumps(dictionary, sort_keys=True, indent=2),
-            },
-            timeout=timeout,
-        )
-
-        return Utilities.process_http_response(
-            response, EcobeeListHierarchyUsersResponse
-        )
-
-    def add_hierarchy_set(self, set_name, parent_path, timeout=5):
-        """
-        The add_hierarchy_set adds a new set to the hierarchy.
-
-        :param set_name: The name of the new set
-        :param parent_path: The path to the parent for the new set
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: A HierarchyResponse object
-        :rtype: EcobeeStatusResponse
-        :raises EcobeeApiException: If the request results in an ecobee
-        API error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        :raises TypeError: If set_path is not a string, or parent_path
-        is not a string
-        """
-        if not isinstance(set_name, str):
-            raise TypeError(f"set_name must be an instance of {str}")
-        if not isinstance(parent_path, str):
-            raise TypeError(f"parent_path must be an instance of {str}")
-
-        dictionary = {
-            "operation": "add",
-            "setName": set_name,
-            "parentPath": parent_path,
-        }
-
-        response = self._transport.request(
-            "post",
-            EcobeeService.HIERARCHY_SET_URL,
-            headers={
-                "Authorization": f"Bearer {self._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
-            params={"format": "json"},
-            json_=dictionary,
-            timeout=timeout,
-        )
-
-        return Utilities.process_http_response(response, EcobeeStatusResponse)
-
-    def remove_hierarchy_set(self, set_path, timeout=5):
-        """
-        The remove_hierarchy_set method removes a set from the
-        hierarchy.
-
-        :param set_path: The path of the set to delete
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: A HierarchyResponse object
-        :rtype: EcobeeStatusResponse
-        :raises EcobeeApiException: If the request results in an ecobee
-        API error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        :raises TypeError: If set_path is not a string
-        """
-        if not isinstance(set_path, str):
-            raise TypeError(f"set_path must be an instance of {str}")
-
-        dictionary = {"operation": "remove", "setPath": set_path}
-
-        response = self._transport.request(
-            "post",
-            EcobeeService.HIERARCHY_SET_URL,
-            headers={
-                "Authorization": f"Bearer {self._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
-            params={"format": "json"},
-            json_=dictionary,
-            timeout=timeout,
-        )
-
-        return Utilities.process_http_response(response, EcobeeStatusResponse)
-
-    def rename_hierarchy_set(self, set_path, new_name, timeout=5):
-        """
-        The rename_hierarchy_set method renames a set in the hierarchy.
-
-        :param set_path: The path of the set to rename
-        :param new_name: The new name to assign. Must be unique to that
-        parent
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: A HierarchyResponse object
-        :rtype: EcobeeStatusResponse
-        :raises EcobeeApiException: If the request results in an ecobee
-        API error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        :raises TypeError: If set_path is not a string, or new_name is
-        not a string
-        """
-        if not isinstance(set_path, str):
-            raise TypeError(f"set_path must be an instance of {str}")
-        if not isinstance(new_name, str):
-            raise TypeError(f"new_name must be an instance of {str}")
-
-        dictionary = {"operation": "rename", "setPath": set_path, "newName": new_name}
-
-        response = self._transport.request(
-            "post",
-            EcobeeService.HIERARCHY_SET_URL,
-            headers={
-                "Authorization": f"Bearer {self._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
-            params={"format": "json"},
-            json_=dictionary,
-            timeout=timeout,
-        )
-
-        return Utilities.process_http_response(response, EcobeeStatusResponse)
-
-    def move_hierarchy_set(self, set_path, to_path, timeout=5):
-        """
-        The move_hierarchy_set method moves a set to a new parent in the
-        hierarchy. A parent may not be moved into its own child, nor can
-        a set be moved into itself.
-
-        :param set_path: The path of the set to move
-        :param to_path: The path of the new parent to move to
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: A HierarchyResponse object
-        :rtype: EcobeeStatusResponse
-        :raises EcobeeApiException: If the request results in an ecobee
-        API error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        :raises TypeError: If set_path is not a string, or to_path is
-        not a string
-        """
-        if not isinstance(set_path, str):
-            raise TypeError(f"set_path must be an instance of {str}")
-        if not isinstance(to_path, str):
-            raise TypeError(f"to_path must be an instance of {str}")
-
-        dictionary = {"operation": "move", "setPath": set_path, "toPath": to_path}
-
-        response = self._transport.request(
-            "post",
-            EcobeeService.HIERARCHY_SET_URL,
-            headers={
-                "Authorization": f"Bearer {self._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
-            params={"format": "json"},
-            json_=dictionary,
-            timeout=timeout,
-        )
-
-        return Utilities.process_http_response(response, EcobeeStatusResponse)
-
-    def add_hierarchy_users(self, users, privileges=None, timeout=5):
-        """
-        The add_hierarchy_users method adds one or more new users to the
-        hierarchy and optionally assigns privileges to the new users.
-        The privileges being added must be only for the new users being
-        added. If no privileges are provided, the user will be a member
-        of the hierarchy but will not have access to any sets.
-
-        When a new user is added, an invitation email is sent to the
-        email provided as the userName property, which must be a valid
-        email address. The user must then click on the invitation link
-        to complete their registration.
-
-        :param users: The list of users to add
-        :param privileges: The privileges to assign to the new users
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: A HierarchyResponse object
-        :rtype: EcobeeStatusResponse
-        :raises EcobeeApiException: If the request results in an ecobee
-        API error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        :raises TypeError: If users is not a list, any member of users
-        is not an instance of HierarchyUser, privileges is not a list,
-        or any member of privileges is not an instance of
-        HierarchyPrivilege
-        """
-        if not isinstance(users, list):
-            raise TypeError(f"users must be an instance of {list}")
-        for user in users:
-            if not isinstance(user, HierarchyUser):
-                raise TypeError(
-                    f"All members of users must be a an instance of {HierarchyUser}"
-                )
-        if privileges is not None:
-            if not isinstance(privileges, list):
-                raise TypeError(f"privileges must be an instance of {list}")
-            for privilege in privileges:
-                if not isinstance(privilege, HierarchyPrivilege):
-                    raise TypeError(
-                        "All members of privileges must be a an instance of "
-                        f"{HierarchyPrivilege}"
-                    )
-
-        dictionary = {
-            "operation": "add",
-            "users": [
-                Utilities.object_to_dictionary(user, type(user)) for user in users
-            ],
-        }
-
-        if privileges is not None:
-            dictionary["privileges"] = [
-                Utilities.object_to_dictionary(privilege, type(privilege))
-                for privilege in privileges
-            ]
-
-        response = self._transport.request(
-            "post",
-            EcobeeService.HIERARCHY_USER_URL,
-            headers={
-                "Authorization": f"Bearer {self._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
-            params={"format": "json"},
-            json_=dictionary,
-            timeout=timeout,
-        )
-
-        return Utilities.process_http_response(response, EcobeeStatusResponse)
-
-    def remove_hierarchy_users(self, set_path, users, timeout=5):
-        """
-        The remove_hierarchy_users method removes one or more user
-        privileges from a set. Only the privileges are removed from the
-        specified set, the user remains in the hierarchy.
-
-        :param set_path: The path to the set to remove user privileges
-        from
-        :param users: The users whose privileges to remove from the set
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: A HierarchyResponse object
-        :rtype: EcobeeStatusResponse
-        :raises EcobeeApiException: If the request results in an ecobee
-        API error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        :raises TypeError: If set_path is not a string, users is not a
-        list, or any member of users is not an instance of HierarchyUser
-        """
-        if not isinstance(set_path, str):
-            raise TypeError(f"set_path must be an instance of {str}")
-        if not isinstance(users, list):
-            raise TypeError(f"users must be an instance of {list}")
-        for user in users:
-            if not isinstance(user, HierarchyUser):
-                raise TypeError(
-                    f"All members of users must be a an instance of {HierarchyUser}"
-                )
-
-        dictionary = {
-            "operation": "remove",
-            "setPath": set_path,
-            "users": [
-                Utilities.object_to_dictionary(user, type(user)) for user in users
-            ],
-        }
-
-        response = self._transport.request(
-            "post",
-            EcobeeService.HIERARCHY_USER_URL,
-            headers={
-                "Authorization": f"Bearer {self._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
-            params={"format": "json"},
-            json_=dictionary,
-            timeout=timeout,
-        )
-
-        return Utilities.process_http_response(response, EcobeeStatusResponse)
-
-    def unregister_hierarchy_users(self, users, timeout=5):
-        """
-        The unregister_hierarchy_users method unregisters the user
-        completely from the hierarchy and deletes the account. All set
-        privileges are revoked.
-
-        :param users: The users whose privileges to unregister
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: A HierarchyResponse object
-        :rtype: EcobeeStatusResponse
-        :raises EcobeeApiException: If the request results in an ecobee
-        API error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        :raises TypeError: If users is not a list, or any member of
-        users is not an instance of HierarchyUser
-        """
-        if not isinstance(users, list):
-            raise TypeError(f"users must be an instance of {list}")
-        for user in users:
-            if not isinstance(user, HierarchyUser):
-                raise TypeError(
-                    f"All members of users must be a an instance of {HierarchyUser}"
-                )
-
-        dictionary = {
-            "operation": "unregister",
-            "users": [
-                Utilities.object_to_dictionary(user, type(user)) for user in users
-            ],
-        }
-
-        response = self._transport.request(
-            "post",
-            EcobeeService.HIERARCHY_USER_URL,
-            headers={
-                "Authorization": f"Bearer {self._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
-            params={"format": "json"},
-            json_=dictionary,
-            timeout=timeout,
-        )
-
-        return Utilities.process_http_response(response, EcobeeStatusResponse)
-
-    def update_hierarchy_users(self, users=None, privileges=None, timeout=5):
-        """
-        The update_hierarchy_users method updates hierarchy user
-        information and may update or add privileges to existing
-        hierarchy users.
-
-        :param users: The list of users to update
-        :param privileges: The privileges to update or add
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: A HierarchyResponse object
-        :rtype: EcobeeStatusResponse
-        :raises EcobeeApiException: If the request results in an ecobee
-        API error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        :raises TypeError: If users is not a list, any member of users
-        is not an instance of HierarchyUser, privileges is not a list,
-        or any member of privileges is not an instance of
-        HierarchyPrivilege
-        :raises ValueError: If users is None and privileges is None
-        """
-        if users is not None:
-            if not isinstance(users, list):
-                raise TypeError(f"users must be an instance of {list}")
-            for user in users:
-                if not isinstance(user, HierarchyUser):
-                    raise TypeError(
-                        f"All members of users must be a an instance of {HierarchyUser}"
-                    )
-        if privileges is not None:
-            if not isinstance(privileges, list):
-                raise TypeError(f"privileges must be an instance of {list}")
-            for privilege in privileges:
-                if not isinstance(privilege, HierarchyPrivilege):
-                    raise TypeError(
-                        "All members of privileges must be a an instance of "
-                        f"{HierarchyPrivilege}"
-                    )
-        if users is None and privileges is None:
-            raise ValueError(
-                "Either users must not be None or privileges must not be None"
-            )
-
-        dictionary = {"operation": "update"}
-
-        if users is not None:
-            dictionary["users"] = [
-                Utilities.object_to_dictionary(user, type(user)) for user in users
-            ]
-        if privileges is not None:
-            dictionary["privileges"] = [
-                Utilities.object_to_dictionary(privilege, type(privilege))
-                for privilege in privileges
-            ]
-        response = self._transport.request(
-            "post",
-            EcobeeService.HIERARCHY_USER_URL,
-            headers={
-                "Authorization": f"Bearer {self._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
-            params={"format": "json"},
-            json_=dictionary,
-            timeout=timeout,
-        )
-
-        return Utilities.process_http_response(response, EcobeeStatusResponse)
-
-    def register_hierarchy_thermostats(self, thermostats, set_path=None, timeout=5):
-        """
-        The register_hierarchy_thermostats method registers one or more
-        thermostats with the hierarchy and optionally assigns them to a
-        hierarchy set.
-
-        :param set_path: The set path to assign thermostat to
-        :param thermostats: Comma separated list of thermostat
-        identifiers to register
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: A HierarchyResponse object
-        :rtype: EcobeeStatusResponse
-        :raises EcobeeApiException: If the request results in an ecobee
-        API error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        :raises TypeError: If thermostats is not a string, or set_path
-        is not a string
-        """
-        if not isinstance(thermostats, str):
-            raise TypeError(f"thermostats must be an instance of {str}")
-        if set_path is not None:
-            if not isinstance(set_path, str):
-                raise TypeError(f"set_path must be an instance of {str}")
-
-        dictionary = {"operation": "register", "thermostats": thermostats}
-
-        if set_path is not None:
-            dictionary["setPath"] = set_path
-
-        response = self._transport.request(
-            "post",
-            EcobeeService.HIERARCHY_THERMOSTAT_URL,
-            headers={
-                "Authorization": f"Bearer {self._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
-            params={"format": "json"},
-            json_=dictionary,
-            timeout=timeout,
-        )
-
-        return Utilities.process_http_response(response, EcobeeStatusResponse)
-
-    def unregister_hierarchy_thermostats(self, thermostats, timeout=5):
-        """
-        The unregister_hierarchy_thermostats method unregisters one or
-        more thermostat from the hierarchy. The thermostat is completely
-        disassociated from the hierarchy.
-
-        :param thermostats: Comma separated list of thermostat
-        identifiers to unregister
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: A HierarchyResponse object
-        :rtype: EcobeeStatusResponse
-        :raises EcobeeApiException: If the request results in an ecobee
-        API error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        :raises TypeError: If thermostats is not a string
-        """
-        if not isinstance(thermostats, str):
-            raise TypeError(f"thermostats must be an instance of {str}")
-
-        dictionary = {"operation": "unregister", "thermostats": thermostats}
-
-        response = self._transport.request(
-            "post",
-            EcobeeService.HIERARCHY_THERMOSTAT_URL,
-            headers={
-                "Authorization": f"Bearer {self._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
-            params={"format": "json"},
-            json_=dictionary,
-            timeout=timeout,
-        )
-
-        return Utilities.process_http_response(response, EcobeeStatusResponse)
-
-    def move_hierarchy_thermostats(
-        self, set_path, to_path, thermostats=None, timeout=5
-    ):
-        """
-        The move_hierarchy_thermostats method moves thermostats between
-        hierarchy sets. A thermostat may only reside inside a single
-        set. Users may be moved in and out of the Unassigned set.
-        :param set_path: The set path the thermostats are being moved
-        from
-        :param to_path: The set path the thermostats are being moved to
-        :param thermostats: Comma separated list of thermostat
-        identifiers to move. If this argument is None, all thermostats
-        which reside in the set_path will be moved
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: A HierarchyResponse object
-        :rtype: EcobeeStatusResponse
-        :raises EcobeeApiException: If the request results in an ecobee
-        API error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        :raises TypeError: If set_path is not a string, to_path is not a
-        string, or thermostats is not a string
-        """
-        if not isinstance(set_path, str):
-            raise TypeError(f"set_path must be an instance of {str}")
-        if not isinstance(to_path, str):
-            raise TypeError(f"to_path must be an instance of {str}")
-        if thermostats is not None:
-            if not isinstance(thermostats, str):
-                raise TypeError(f"thermostats must be an instance of {str}")
-
-        dictionary = {"operation": "move", "setPath": set_path, "toPath": to_path}
-
-        if thermostats is not None:
-            dictionary["thermostats"] = thermostats
-
-        response = self._transport.request(
-            "post",
-            EcobeeService.HIERARCHY_THERMOSTAT_URL,
-            headers={
-                "Authorization": f"Bearer {self._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
-            params={"format": "json"},
-            json_=dictionary,
-            timeout=timeout,
-        )
-
-        return Utilities.process_http_response(response, EcobeeStatusResponse)
-
-    def assign_hierarchy_thermostats(self, set_path, thermostats, timeout=5):
-        """
-        The assign_hierarchy_thermostats method forcefully moves one or
-        more thermostats from their current set to the specified set. At
-        the end of the successful operation the thermostat(s) will be in
-        the specified set.
-
-        :param set_path: The set path the thermostats are being moved to
-        :param thermostats: Comma separated list of thermostat
-        identifiers to assign
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: A HierarchyResponse object
-        :rtype: EcobeeStatusResponse
-        :raises EcobeeApiException: If the request results in an ecobee
-        API error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        :raises TypeError: If set_path is not a string, or thermostats
-        is not a string
-        """
-        if not isinstance(set_path, str):
-            raise TypeError(f"set_path must be an instance of {str}")
-        if not isinstance(thermostats, str):
-            raise TypeError(f"thermostats must be an instance of {str}")
-
-        dictionary = {
-            "operation": "assign",
-            "setPath": set_path,
-            "thermostats": thermostats,
-        }
-
-        response = self._transport.request(
-            "post",
-            EcobeeService.HIERARCHY_THERMOSTAT_URL,
-            headers={
-                "Authorization": f"Bearer {self._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
-            params={"format": "json"},
-            json_=dictionary,
-            timeout=timeout,
-        )
-
-        return Utilities.process_http_response(response, EcobeeStatusResponse)
-
-    def list_demand_responses(self, timeout=5):
-        """
-        The list_demand_responses method returns a list of all demand
-        response event which have been issued and have not yet expired.
-
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: A ListDemandResponses object
-        :rtype: EcobeeListDemandResponsesResponse
-        :raises EcobeeApiException: If the request results in an ecobee
-        API error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        """
-        dictionary = {"operation": "list"}
-
-        response = self._transport.request(
-            "get",
-            EcobeeService.DEMAND_RESPONSE_URL,
-            headers={
-                "Authorization": f"Bearer {self._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
-            params={
-                "format": "json",
-                "body": json.dumps(dictionary, sort_keys=True, indent=2),
-            },
-            timeout=timeout,
-        )
-
-        return Utilities.process_http_response(
-            response, EcobeeListDemandResponsesResponse
-        )
-
-    def issue_demand_response(self, selection, demand_response, timeout=5):
-        """
-        The issue_demand_response method creates a demand response
-        event. Demand EcobeeResponse events may be issued to a set of
-        thermostats in order to adjust their program. Demand
-        EcobeeResponse events are either optional or mandatory.
-        Mandatory events may not be cancelled by the user and must run
-        their course.
-
-        :param selection: The selection criteria for update
-        :param demand_response: The demand response object to create
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: A StatusResponse object
-        :rtype: EcobeeStatusResponse
-        :raises EcobeeApiException: If the request results in an ecobee
-        API error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        :raises TypeError: If selection is not an instance of Selection,
-        or demand_response is not an instance of DemandResponse
-        """
-        if not isinstance(selection, Selection):
-            raise TypeError(f"selection must be an instance of {Selection}")
-        if not isinstance(demand_response, DemandResponse):
-            raise TypeError(f"demand_response must be an instance of {DemandResponse}")
-
-        dictionary = {
-            "selection": Utilities.object_to_dictionary(selection, type(selection)),
-            "operation": "create",
-            "demandResponse": Utilities.object_to_dictionary(
-                demand_response, type(demand_response)
-            ),
-        }
-
-        response = self._transport.request(
-            "post",
-            EcobeeService.DEMAND_RESPONSE_URL,
-            headers={
-                "Authorization": f"Bearer {self._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
-            params={"format": "json"},
-            json_=dictionary,
-            timeout=timeout,
-        )
-
-        return Utilities.process_http_response(
-            response, EcobeeIssueDemandResponsesResponse
-        )
-
-    def cancel_demand_response(self, demand_response_ref, timeout=5):
-        """
-        The cancel_demand_response method cancels a scheduled demand
-        response event. When cancelled, the demand response event will
-        be removed from all thermostats in the selection.
-
-        :param demand_response_ref: The system generated ID of the
-        demand response to cancel
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: A StatusResponse object
-        :rtype: EcobeeStatusResponse
-        :raises EcobeeApiException: If the request results in an ecobee
-        API error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        :raises TypeError: If demand_response_ref is not a string
-        """
-        if not isinstance(demand_response_ref, str):
-            raise TypeError(f"demand_response_ref must be an instance of {str}")
-
-        dictionary = {
-            "operation": "cancel",
-            "demandResponse": {"demandResponseRef": demand_response_ref},
-        }
-
-        response = self._transport.request(
-            "post",
-            EcobeeService.DEMAND_RESPONSE_URL,
-            headers={
-                "Authorization": f"Bearer {self._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
-            params={"format": "json"},
-            json_=dictionary,
-            timeout=timeout,
-        )
-
-        return Utilities.process_http_response(response, EcobeeStatusResponse)
-
-    def issue_demand_managements(self, selection, demand_managements, timeout=5):
-        """
-        The issue_demand_managements method creates demand management
-        objects that permit a Utility to forecast and adjust the
-        thermostat runtime dynamically with a 5 minute granularity per
-        adjustment. Each DM object defines a single hour of a day with
-        its 12 5-minute intervals which specify the temperature
-        adjustment . The thermostat will apply this temperature
-        adjustment on top of the user's program.
-
-        :param selection: The selection criteria for update
-        :param demand_managements: A list of demand management objects
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: A StatusResponse object
-        :rtype: EcobeeStatusResponse
-        :raises EcobeeApiException: If the request results in an ecobee
-        API error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        :raises TypeError: If selection is not an instance of Selection,
-        demand_managements is not a list, or any member of privileges is
-        not an instance of DemandManagement
-        """
-        if not isinstance(selection, Selection):
-            raise TypeError(f"selection must be an instance of {Selection}")
-        if not isinstance(demand_managements, list):
-            raise TypeError(f"demand_managements must be an instance of {list}")
-        for demand_management in demand_managements:
-            if not isinstance(demand_management, DemandManagement):
-                raise TypeError(
-                    "All members of demand_managements must be a an instance "
-                    f"of {DemandManagement}"
-                )
-
-        dictionary = {
-            "selection": Utilities.object_to_dictionary(selection, type(selection)),
-            "dmList": [
-                Utilities.object_to_dictionary(
-                    demand_management, type(demand_management)
-                )
-                for demand_management in demand_managements
-            ],
-        }
-
-        response = self._transport.request(
-            "post",
-            EcobeeService.DEMAND_MANAGEMENT_URL,
-            headers={
-                "Authorization": f"Bearer {self._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
-            params={"format": "json"},
-            json_=dictionary,
-            timeout=timeout,
-        )
-
-        return Utilities.process_http_response(response, EcobeeStatusResponse)
-
-    def create_runtime_report_job(
-        self, selection, start_date, end_date, columns, include_sensors=False, timeout=5
-    ):
-        """
-        The create_runtime_report_job method creates a new runtime
-        report job to be processed. Reports can only be processed for
-        thermostats associated with the user carrying out the request.
-        If a user's queue limit has been reached, please either wait for
-        the current job to be processed or cancel it and create a new
-        job.
-
-        :param selection: The selection criteria for the request. Must
-        have selection_type = 'thermostats' or 'managementSet'
-        :param start_date: The report start date
-        :param end_date: The report end date
-        :param columns: A CSV string of column names
-        :param include_sensors: Whether to include sensor runtime report
-        data for those thermostats which have it. Default: False
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: A CreateRuntimeReportResponse object
-        :rtype: EcobeeCreateRuntimeReportJobResponse
-        :raises EcobeeApiException: If the request results in an ecobee
-        API error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        :raises TypeError: If selection is not an instance of Selection,
-        start_date is not a date, end_date is not a date, columns is not
-        a string, or include_sensors is not a boolean
-        :raises ValueError: If start/end date are earlier than
-        2008-01-02, start/end date_times are later than 2035-01-01, or
-        start_date is later than end_date
-        """
-        if not isinstance(selection, Selection):
-            raise TypeError(f"selection must be an instance of {Selection}")
-        if (
-            selection.selection_type != SelectionType.MANAGEMENT_SET.value
-            and selection.selection_type != SelectionType.THERMOSTATS.value
-        ):
-            raise ValueError(
-                f"selection.selection_type must be set to {SelectionType.MANAGEMENT_SET.value} or {SelectionType.THERMOSTATS.value}"
-            )
-        if not isinstance(start_date, date):
-            raise TypeError(f"start_date must be an instance of {date}")
-        if (
-            DateTime(
-                start_date.year,
-                start_date.month,
-                start_date.day,
-                0,
-                0,
-                0,
-                tzinfo=datetime.UTC,
-            )
-            < EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME
-        ):
-            raise ValueError(
-                "start_date must be later than {}".format(
-                    EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime(
-                        "%Y-%m-%d %H:%M:%S %Z"
-                    )
-                )
-            )
-        if (
-            DateTime(
-                start_date.year,
-                start_date.month,
-                start_date.day,
-                0,
-                0,
-                0,
-                tzinfo=datetime.UTC,
-            )
-            > EcobeeService.END_OF_TIME_DATE_TIME
-        ):
-            raise ValueError(
-                "start_date must be earlier than {}".format(
-                    EcobeeService.END_OF_TIME_DATE_TIME.strftime("%Y-%m-%d %H:%M:%S %Z")
-                )
-            )
-        if not isinstance(end_date, date):
-            raise TypeError(f"end_date must be an instance of {date}")
-        if (
-            DateTime(
-                end_date.year,
-                end_date.month,
-                end_date.day,
-                0,
-                0,
-                0,
-                tzinfo=datetime.UTC,
-            )
-            < EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME
-        ):
-            raise ValueError(
-                "end_date must be later than {}".format(
-                    EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime(
-                        "%Y-%m-%d %H:%M:%S %Z"
-                    )
-                )
-            )
-        if (
-            DateTime(
-                end_date.year,
-                end_date.month,
-                end_date.day,
-                0,
-                0,
-                0,
-                tzinfo=datetime.UTC,
-            )
-            > EcobeeService.END_OF_TIME_DATE_TIME
-        ):
-            raise ValueError(
-                "end_date must be earlier than {}".format(
-                    EcobeeService.END_OF_TIME_DATE_TIME.strftime("%Y-%m-%d %H:%M:%S %Z")
-                )
-            )
-        if start_date >= end_date:
-            raise ValueError("end_date must be later than start_date")
-        if not isinstance(columns, str):
-            raise TypeError(f"columns must be an instance of {str}")
-        if not isinstance(include_sensors, bool):
-            raise TypeError(f"include_sensors must be an instance of {bool}")
-
-        dictionary = {
-            "selection": Utilities.object_to_dictionary(selection, type(selection)),
-            "startDate": f"{start_date.year}-{start_date.month:02}-{start_date.day:02}",
-            "endDate": f"{end_date.year}-{end_date.month:02}-{end_date.day:02}",
-            "columns": columns,
-            "includeSensors": include_sensors,
-        }
-
-        response = self._transport.request(
-            "post",
-            f"{EcobeeService.RUNTIME_REPORT_JOB_URL}/create",
-            headers={
-                "Authorization": f"Bearer {self._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
-            params={"format": "json"},
-            json_=dictionary,
-            timeout=timeout,
-        )
-
-        return Utilities.process_http_response(
-            response, EcobeeCreateRuntimeReportJobResponse
-        )
-
-    def list_runtime_report_job_status(self, job_id=None, timeout=5):
-        """
-        The list_runtime_report_job_status method gets the status of the
-        job for the given id or all current job statuses for the account
-        carrying out the request.
-
-        :param job_id: The id of the report job to get the status
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: A ListRuntimeReportJobStatusResponse object
-        :rtype: EcobeeListRuntimeReportJobStatusResponse
-        :raises EcobeeApiException: If the request results in an ecobee
-        API error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        :raises TypeError: If job_id is not a string
-        """
-        if job_id is not None:
-            if not isinstance(job_id, str):
-                raise TypeError(f"job_id must be an instance of {str}")
-
-        dictionary = {}
-
-        if job_id is not None:
-            dictionary["jobId"] = job_id
-
-        response = self._transport.request(
-            "post",
-            f"{EcobeeService.RUNTIME_REPORT_JOB_URL}/status",
-            headers={
-                "Authorization": f"Bearer {self._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
-            params={
-                "format": "json",
-                "body": json.dumps(dictionary, sort_keys=True, indent=2),
-            },
-            timeout=timeout,
-        )
-
-        return Utilities.process_http_response(
-            response, EcobeeListRuntimeReportJobStatusResponse
-        )
-
-    def cancel_runtime_report_job(self, job_id, timeout=5):
-        """
-        The cancel_runtime_report_job method cancels any queued report
-        job to avoid getting processed and to allow for queuing
-        additional report jobs. A job that is already being processed
-        will be completed, even if a request has been made to cancel it.
-
-        :param job_id: The id of the report job to cancel
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: A StatusResponse object
-        :rtype: EcobeeStatusResponse
-        :raises EcobeeApiException: If the request results in an ecobee
-        API error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        :raises TypeError: If job_id is not a string
-        """
-        if not isinstance(job_id, str):
-            raise TypeError(f"job_id must be an instance of {str}")
-
-        dictionary = {"jobId": job_id}
-
-        response = self._transport.request(
-            "post",
-            f"{EcobeeService.RUNTIME_REPORT_JOB_URL}/cancel",
-            headers={
-                "Authorization": f"Bearer {self._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
-            params={"format": "json"},
-            json_=dictionary,
-            timeout=timeout,
-        )
-
-        return Utilities.process_http_response(response, EcobeeStatusResponse)
 
     def acknowledge(
         self,
@@ -1954,56 +170,12 @@ class EcobeeService(EcobeeObject):
         ),
         timeout=5,
     ):
-        """
-        The acknowledge method allows an alert to be acknowledged.
-
-        :param thermostat_identifier: The thermostat identifier to
-        acknowledge the alert for
-        :param ack_ref: The acknowledge ref of alert
-        :param ack_type: The type of acknowledgement. Valid values:
-        accept, decline, defer, unacknowledged
-        :param remind_me_later: Whether to remind at a later date, if
-        this is a defer acknowledgement
-        :param selection: The selection criteria for the update
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: An UpdateThermostatResponse object indicating the
-        status of this request
-        :rtype: EcobeeStatusResponse
-        :raises EcobeeApiException: If the request results in an ecobee
-        API error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        :raises TypeError: If thermostat_identifier is not a string,
-        ack_ref is not a string, ack_type is not a member of AckType,
-        remind_me_later is not a boolean, or selection is not an
-        instance of Selection
-        """
-        if not isinstance(thermostat_identifier, str):
-            raise TypeError(f"thermostat_identifier must be an instance of {str}")
-        if not isinstance(ack_ref, str):
-            raise TypeError(f"ack_ref must be an instance of {str}")
-        if not isinstance(ack_type, AckType):
-            raise TypeError(f"ack_type must be an instance of {AckType}")
-        if not isinstance(remind_me_later, bool):
-            raise TypeError(f"remind_me_later must be an instance of {bool}")
-        if not isinstance(selection, Selection):
-            raise TypeError(f"selection must be an instance of {Selection}")
-
-        return self.update_thermostats(
-            selection,
-            thermostat=None,
-            functions=[
-                Function(
-                    type_="acknowledge",
-                    params={
-                        "thermostatIdentifier": thermostat_identifier,
-                        "ackRef": ack_ref,
-                        "ackType": ack_type.value,
-                        "remindMeLater": remind_me_later,
-                    },
-                )
-            ],
+        return self._thermostats.acknowledge(
+            thermostat_identifier=thermostat_identifier,
+            ack_ref=ack_ref,
+            ack_type=ack_type,
+            remind_me_later=remind_me_later,
+            selection=selection,
             timeout=timeout,
         )
 
@@ -2020,140 +192,14 @@ class EcobeeService(EcobeeObject):
         ),
         timeout=5,
     ):
-        """
-        The control_plug method controls the on/off state of a plug by
-        setting a hold on the plug, creating a hold for the on or off
-        state of the plug for the specified duration.
-
-        Note that an event is created regardless of whether the program
-        is in the same state as the requested state.
-
-        :param plug_name: The name of the plug. Ensure each plug has a
-        unique name
-        :param plug_state: The state to put the plug into. Valid values:
-        PlugState.ON, PlugState.OFF, PlugState.RESUME
-        :param start_date_time: The start date and time in thermostat
-        time. Must be a timezone aware datetime
-        :param end_date_time: The end date and time in thermostat time.
-        Must be a timezone aware datetime
-        :param hold_type: The hold duration type. Valid values:
-        HoldType.DATE_TIME, HoldType.NEXT_TRANSITION,
-        HoldType.INDEFINITE, and HoldType.HOLD_HOURS
-        :param hold_hours: The number of hours to hold for, used and
-        required if holdType='holdHours'
-        :param selection: The selection criteria for the update
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: An UpdateThermostatResponse object indicating the
-        status of this request
-        :rtype: EcobeeStatusResponse
-        :raises EcobeeApiException: If the request results in an ecobee
-        API error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        :raises TypeError: If plug_name is not a string, plug_state is
-        not a member of PlugState, start_date_time is not a datetime,
-        end_date_time is not a datetime, hold_type is not a member of
-        HoldType, hold_hours is not an integer, or selection is not an
-        instance of Selection
-        :raises ValueError: If start/end date_times are earlier than
-        2008-01-02 00:00:00 +0000, start/end date_times are later than
-        2035-01-01 00:00:00 +0000, start_date_time is later than
-        end_date_time, end_date_time is None while hold_type is
-        HoldType.DATE_TIME, or hold_hours is None while hold_type is
-        HoldType.HOLD_HOURS
-        """
-        if not isinstance(plug_name, str):
-            raise TypeError(f"plug_name must be an instance of {str}")
-        if not isinstance(plug_state, PlugState):
-            raise TypeError(f"plug_state must be an instance of {PlugState}")
-        if start_date_time is not None:
-            if not isinstance(start_date_time, DateTime):
-                raise TypeError(f"start_date_time must be an instance of {DateTime}")
-            if start_date_time < EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME:
-                raise ValueError(
-                    "start_date_time must be later than {}".format(
-                        EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime(
-                            "%Y-%m-%d %H:%M:%S %Z"
-                        )
-                    )
-                )
-            if start_date_time > EcobeeService.END_OF_TIME_DATE_TIME:
-                raise ValueError(
-                    "start_date_time must be earlier than {}".format(
-                        EcobeeService.END_OF_TIME_DATE_TIME.strftime(
-                            "%Y-%m-%d %H:%M:%S %Z"
-                        )
-                    )
-                )
-        if end_date_time is not None:
-            if not isinstance(end_date_time, DateTime):
-                raise TypeError(f"end_date_time must be an instance of {DateTime}")
-            if end_date_time < EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME:
-                raise ValueError(
-                    "end_date_time must be later than {}".format(
-                        EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime(
-                            "%Y-%m-%d %H:%M:%S %Z"
-                        )
-                    )
-                )
-            if end_date_time > EcobeeService.END_OF_TIME_DATE_TIME:
-                raise ValueError(
-                    "end_date_time must be earlier than {}".format(
-                        EcobeeService.END_OF_TIME_DATE_TIME.strftime(
-                            "%Y-%m-%d %H:%M:%S %Z"
-                        )
-                    )
-                )
-        if (
-            start_date_time is not None
-            and end_date_time is not None
-            and start_date_time >= end_date_time
-        ):
-            raise ValueError("end_date_time must be later than start_date_time")
-        if not isinstance(hold_type, HoldType):
-            raise TypeError(f"hold_type must be an instance of {HoldType}")
-        if hold_type == HoldType.DATE_TIME and end_date_time is None:
-            raise ValueError(
-                f"hold_type is {HoldType.DATE_TIME.value}. end_date_time must not be None"
-            )
-        if hold_hours is not None and not isinstance(hold_hours, int):
-            raise TypeError(f"hold_hours must be an instance of {int}")
-        if hold_type == HoldType.HOLD_HOURS and hold_hours is None:
-            raise ValueError(
-                f"hold_type is {HoldType.HOLD_HOURS.value}. hold_hours must not be None"
-            )
-        if not isinstance(selection, Selection):
-            raise TypeError(f"selection must be an instance of {Selection}")
-
-        control_plug_parameters = {
-            "plugName": plug_name,
-            "plugState": plug_state.value,
-            "holdType": hold_type.value,
-        }
-
-        if start_date_time is not None:
-            control_plug_parameters["startDate"] = (
-                f"{start_date_time.year}-{start_date_time.month:02}-{start_date_time.day:02}"
-            )
-            control_plug_parameters["startTime"] = (
-                f"{start_date_time.hour:02}:{start_date_time.minute:02}:{start_date_time.second:02}"
-            )
-
-        if end_date_time is not None:
-            control_plug_parameters["endDate"] = (
-                f"{end_date_time.year}-{end_date_time.month:02}-{end_date_time.day:02}"
-            )
-            control_plug_parameters["endTime"] = (
-                f"{end_date_time.hour:02}:{end_date_time.minute:02}:{end_date_time.second:02}"
-            )
-        if hold_hours is not None:
-            control_plug_parameters["holdHours"] = hold_hours
-
-        return self.update_thermostats(
-            selection,
-            thermostat=None,
-            functions=[Function(type_="controlPlug", params=control_plug_parameters)],
+        return self._thermostats.control_plug(
+            plug_name=plug_name,
+            plug_state=plug_state,
+            start_date_time=start_date_time,
+            end_date_time=end_date_time,
+            hold_type=hold_type,
+            hold_hours=hold_hours,
+            selection=selection,
             timeout=timeout,
         )
 
@@ -2171,159 +217,15 @@ class EcobeeService(EcobeeObject):
         ),
         timeout=5,
     ):
-        """
-        The create_vacation method creates a vacation event on the
-        thermostat. If the start/end date_times are not provided for the
-        vacation event, the vacation event will begin immediately and
-        last 14 days.
-
-        If both the cool_hold_temp and heat_hold_temp arguments provided
-        to this method have the same value, and the Thermostat is in
-        auto mode, then the two values will be adjusted during
-        processing to be separated by the value stored in
-        Thermostat.Settings.heatCoolMinDelta.
-
-        :param name: The vacation event name. It must be unique
-        :param cool_hold_temp: The temperature in Fahrenheit to set the
-        cool vacation hold at
-        :param heat_hold_temp: The temperature in Fahrenheit to set the
-        heat vacation hold at
-        :param start_date_time: The start date and time in thermostat
-        time. Must be a timezone aware datetime
-        :param end_date_time: The end date and time in thermostat time.
-        Must be a timezone aware datetime
-        :param fan_mode: The fan mode during the vacation. Values: auto,
-        on. Default: auto
-        :param fan_min_on_time: The minimum number of minutes to run the
-        fan each hour. Range: 0-60. Default: 0
-        :param selection: The selection criteria for the update
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: An UpdateThermostatResponse object indicating the
-        status of this request
-        :rtype: EcobeeStatusResponse
-        :raises EcobeeApiException: If the request results in an ecobee
-        API error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        :raises TypeError: If name is not a string, cool_hold_temp is
-        not a real number, heat_hold_temp is not a real number,
-        start_date_time is not a datetime, end_date_time is not a
-        datetime, fan_mode is not a member of FanMode, fan_min_on_time
-        is not an integer, or selection is not an instance of Selection
-        :raises ValueError: If cool_hold_temp is lower than -10F,
-        cool_hold_temp is higher than 120F, heat_hold_temp is lower than
-        45F, heat_hold_temp is higher than 120F, start/end date_times
-        are earlier than 2008-01-02 00:00:00 +0000, start/end date_times
-        are later than 2035-01-01 00:00:00 +0000, start_date_time is
-        later than end_date_time, or fan_min_on_time is less than 0 or
-        greater than 60
-        """
-        if not isinstance(name, str):
-            raise TypeError(f"name must be an instance of {str}")
-        if not isinstance(cool_hold_temp, numbers.Real):
-            raise TypeError(f"cool_hold_temp must be an instance of {numbers.Real}")
-        if not (
-            EcobeeService.MINIMUM_COOLING_TEMPERATURE
-            <= float(cool_hold_temp)
-            <= EcobeeService.MAXIMUM_COOLING_TEMPERATURE
-        ):
-            raise ValueError(
-                f"cool_hold_temp must be between {EcobeeService.MINIMUM_COOLING_TEMPERATURE}F and {EcobeeService.MAXIMUM_COOLING_TEMPERATURE}F"
-            )
-        if not isinstance(heat_hold_temp, numbers.Real):
-            raise TypeError(f"heat_hold_temp must be an instance of {numbers.Real}")
-        if not (
-            EcobeeService.MINIMUM_HEATING_TEMPERATURE
-            <= float(heat_hold_temp)
-            <= EcobeeService.MAXIMUM_HEATING_TEMPERATURE
-        ):
-            raise ValueError(
-                f"heat_hold_temp must be between {EcobeeService.MINIMUM_HEATING_TEMPERATURE}F and {EcobeeService.MAXIMUM_HEATING_TEMPERATURE}F"
-            )
-        if start_date_time is not None:
-            if not isinstance(start_date_time, DateTime):
-                raise TypeError(f"start_date_time must be an instance of {DateTime}")
-            if start_date_time < EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME:
-                raise ValueError(
-                    "start_date_time must be later than {}".format(
-                        EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime(
-                            "%Y-%m-%d %H:%M:%S %Z"
-                        )
-                    )
-                )
-            if start_date_time > EcobeeService.END_OF_TIME_DATE_TIME:
-                raise ValueError(
-                    "start_date_time must be earlier than {}".format(
-                        EcobeeService.END_OF_TIME_DATE_TIME.strftime(
-                            "%Y-%m-%d %H:%M:%S %Z"
-                        )
-                    )
-                )
-        if end_date_time is not None:
-            if not isinstance(end_date_time, DateTime):
-                raise TypeError(f"end_date_time must be an instance of {DateTime}")
-            if end_date_time < EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME:
-                raise ValueError(
-                    "end_date_time must be later than {}".format(
-                        EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime(
-                            "%Y-%m-%d %H:%M:%S %Z"
-                        )
-                    )
-                )
-            if end_date_time > EcobeeService.END_OF_TIME_DATE_TIME:
-                raise ValueError(
-                    "end_date_time must be earlier than {}".format(
-                        EcobeeService.END_OF_TIME_DATE_TIME.strftime(
-                            "%Y-%m-%d %H:%M:%S %Z"
-                        )
-                    )
-                )
-        if (
-            start_date_time is not None
-            and end_date_time is not None
-            and start_date_time >= end_date_time
-        ):
-            raise ValueError("end_date_time must be later than start_date_time")
-        if not isinstance(fan_mode, FanMode):
-            raise TypeError(f"fan_mode must be an instance of {FanMode}")
-        if not isinstance(fan_min_on_time, int):
-            raise TypeError(f"fan_min_on_time must be an instance of {int}")
-        if fan_min_on_time not in range(0, 61):
-            raise ValueError("fan_min_on_time must be between 0 and 60")
-        if not isinstance(selection, Selection):
-            raise TypeError(f"selection must be an instance of {Selection}")
-
-        create_vacation_parameters = {
-            "name": name,
-            "coolHoldTemp": int(cool_hold_temp * 10),
-            "heatHoldTemp": int(heat_hold_temp * 10),
-            "fan": fan_mode.value,
-            "fanMinOnTime": str(fan_min_on_time),
-        }
-
-        if start_date_time is not None:
-            create_vacation_parameters["startDate"] = (
-                f"{start_date_time.year}-{start_date_time.month:02}-{start_date_time.day:02}"
-            )
-            create_vacation_parameters["startTime"] = (
-                f"{start_date_time.hour:02}:{start_date_time.minute:02}:{start_date_time.second:02}"
-            )
-
-        if end_date_time is not None:
-            create_vacation_parameters["endDate"] = (
-                f"{end_date_time.year}-{end_date_time.month:02}-{end_date_time.day:02}"
-            )
-            create_vacation_parameters["endTime"] = (
-                f"{end_date_time.hour:02}:{end_date_time.minute:02}:{end_date_time.second:02}"
-            )
-
-        return self.update_thermostats(
-            selection,
-            thermostat=None,
-            functions=[
-                Function(type_="createVacation", params=create_vacation_parameters)
-            ],
+        return self._thermostats.create_vacation(
+            name=name,
+            cool_hold_temp=cool_hold_temp,
+            heat_hold_temp=heat_hold_temp,
+            start_date_time=start_date_time,
+            end_date_time=end_date_time,
+            fan_mode=fan_mode,
+            fan_min_on_time=fan_min_on_time,
+            selection=selection,
             timeout=timeout,
         )
 
@@ -2335,36 +237,8 @@ class EcobeeService(EcobeeObject):
         ),
         timeout=5,
     ):
-        """
-        The delete_vacation method deletes a vacation event from a
-        thermostat. This is the only way to cancel a vacation event.
-        This method is able to remove vacation events not yet started
-        and scheduled in the future.
-
-        :param name: The vacation event name to delete
-        :param selection: The selection criteria for the update
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: An UpdateThermostatResponse object indicating the
-        status of this request
-        :rtype: EcobeeStatusResponse
-        :raises EcobeeApiException: If the request results in an ecobee
-        API error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        :raises TypeError: If name is not a string, or selection is not
-        an instance of Selection
-        """
-        if not isinstance(name, str):
-            raise TypeError(f"name must be an instance of {str}")
-        if not isinstance(selection, Selection):
-            raise TypeError(f"selection must be an instance of {Selection}")
-
-        return self.update_thermostats(
-            selection,
-            thermostat=None,
-            functions=[Function(type_="deleteVacation", params={"name": name})],
-            timeout=timeout,
+        return self._thermostats.delete_vacation(
+            name=name, selection=selection, timeout=timeout
         )
 
     def reset_preferences(
@@ -2374,38 +248,7 @@ class EcobeeService(EcobeeObject):
         ),
         timeout=5,
     ):
-        """
-        The reset_preferences method sets all of the user configurable
-        settings back to the factory default values. This method call
-        will not only reset the top level thermostat settings such as
-        hvacMode, lastServiceDate and vent, but also all of the user
-        configurable fields of the Thermostat.Settings and
-        Thermostat.Program objects.
-
-        Note that this does not reset all values. For example, the
-        installer settings and wifi details remain untouched.
-
-        :param selection: The selection criteria for the update
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: An UpdateThermostatResponse object indicating the
-        status of this request
-        :rtype: EcobeeStatusResponse
-        :raises EcobeeApiException: If the request results in an ecobee
-        API error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        :raises TypeError: If selection is not an instance of Selection
-        """
-        if not isinstance(selection, Selection):
-            raise TypeError(f"selection must be an instance of {Selection}")
-
-        return self.update_thermostats(
-            selection,
-            thermostat=None,
-            functions=[Function(type_="resetPreferences")],
-            timeout=timeout,
-        )
+        return self._thermostats.reset_preferences(selection=selection, timeout=timeout)
 
     def resume_program(
         self,
@@ -2415,42 +258,8 @@ class EcobeeService(EcobeeObject):
         ),
         timeout=5,
     ):
-        """
-        The resume_program method removes the currently running event
-        providing the event is not a mandatory demand response event. If
-        the resume_all argument is set to False, the top active event is
-        removed from the stack and the thermostat resumes its program or
-        enters the next event in the stack if one exists. If the
-        resume_all argument is set to True, the method resumes all
-        events and returns the thermostat to its program.
-
-        :param resume_all: Should the thermostat be resumed to the next
-        event (False) or to it's program (True)
-        :param selection: The selection criteria for the update
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: An UpdateThermostatResponse object indicating the
-        status of this request
-        :rtype: EcobeeStatusResponse
-        :raises EcobeeApiException: If the request results in an ecobee
-        API error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        :raises TypeError: If resume_all is not a boolean, or selection
-        is not an instance of Selection
-        """
-        if not isinstance(resume_all, bool):
-            raise TypeError(f"resume_all must be an instance of {bool}")
-        if not isinstance(selection, Selection):
-            raise TypeError(f"selection must be an instance of {Selection}")
-
-        return self.update_thermostats(
-            selection,
-            thermostat=None,
-            functions=[
-                Function(type_="resumeProgram", params={"resumeAll": resume_all})
-            ],
-            timeout=timeout,
+        return self._thermostats.resume_program(
+            resume_all=resume_all, selection=selection, timeout=timeout
         )
 
     def send_message(
@@ -2461,36 +270,8 @@ class EcobeeService(EcobeeObject):
         ),
         timeout=5,
     ):
-        """
-        The send_message method allows an alert message to be sent to
-        the thermostat. The message properties are same as those of the
-        Alert Object.
-
-        :param text: The message text to send. Text will be truncated to
-        500 characters if longer
-        :param selection: The selection criteria for the update
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: An UpdateThermostatResponse object indicating the
-        status of this request
-        :rtype: EcobeeStatusResponse
-        :raises EcobeeApiException: If the request results in an ecobee
-        API error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        :raises TypeError: If text is not a string, or selection is not
-        an instance of Selection
-        """
-        if not isinstance(text, str):
-            raise TypeError(f"text must be an instance of {str}")
-        if not isinstance(selection, Selection):
-            raise TypeError(f"selection must be an instance of {Selection}")
-
-        return self.update_thermostats(
-            selection,
-            thermostat=None,
-            functions=[Function(type_="sendMessage", params={"text": text})],
-            timeout=timeout,
+        return self._thermostats.send_message(
+            text=text, selection=selection, timeout=timeout
         )
 
     def set_hold(
@@ -2508,206 +289,16 @@ class EcobeeService(EcobeeObject):
         ),
         timeout=5,
     ):
-        """
-        The set_hold method sets the thermostat into a hold with the
-        specified temperature creating a hold for the specified
-        duration. Note that an event is created regardless of whether
-        the program is in the same state as the requested state.
-
-        There is also support for creating a hold by passing a
-        hold_climate_ref argument to this method. When an existing and
-        valid Climate.climate_ref value is passed to this method, the
-        cool_hold_temp, heat_hold_temp and fan mode from that Climate
-        are used in the creation of the hold event. The values from that
-        Climate will take precedence over any cool_hold_temp,
-        heat_hold_temp and fan mode parameters passed into this method
-        separately.
-
-        :param cool_hold_temp: The temperature in Fahrenheit to set the
-        cool vacation hold at
-        :param heat_hold_temp: The temperature in Fahrenheit to set the
-        heat vacation hold at
-        :param fan_mode: The fan mode during the hold. Valid values:
-        FanMode.AUTO and FanMode.ON
-        :param hold_climate_ref: The Climate to use as reference for
-        setting the cool_hold_temp, heat_hold_temp and fan settings for
-        this hold. If this value is passed the cool_hold_temp and
-        heat_hold_temp are not required
-        :param start_date_time: The start date and time in thermostat
-        time. Must be a timezone aware datetime
-        :param end_date_time: The end date and time in thermostat time.
-        Must be a timezone aware datetime
-        :param hold_type: The hold duration type. Valid values:
-        HoldType.DATE_TIME, HoldType.NEXT_TRANSITION,
-        HoldType.INDEFINITE, and HoldType.HOLD_HOURS
-        :param hold_hours: The number of hours to hold for, used and
-        required if holdType='holdHours'
-        :param selection: The selection criteria for the update
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: An UpdateThermostatResponse object indicating the
-        status of this request
-        :rtype: EcobeeStatusResponse
-        :raises EcobeeApiException: If the request results in an ecobee
-        API error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        :raises TypeError: If cool_hold_temp is not a real,
-        heat_hold_temp is not a real, fan_mode is not a member of
-        FanMode, hold_climate_ref is not a string, start_date_time is
-        not a datetime, end_date_time is not a datetime, hold_type is
-        not a member of HoldType, hold_hours is not an integer, or
-        selection is not an instance of Selection
-        :raises ValueError: If cool_hold_temp is lower than -10F,
-        cool_hold_temp is higher than 120F, heat_hold_temp is lower than
-        45F, heat_hold_temp is higher than 120F, cool_hold_temp,
-        heat_hold_temp, and hold_climate_ref are None, hold_climate_ref
-        is None and either cool_hold_temp or heat_hold_temp are None,
-        start/end date_times are earlier than 2008-01-02 00:00:00 +0000,
-        start/end date_times are later than 2035-01-01 00:00:00 +0000,
-        start_date_time is later than end_date_time, end_date_time is
-        None while hold_type is HoldType.DATE_TIME, or hold_hours is
-        None while hold_type is HoldType.HOLD_HOURS
-        """
-        if cool_hold_temp is not None:
-            if not isinstance(cool_hold_temp, numbers.Real):
-                raise TypeError(f"cool_hold_temp must be an instance of {numbers.Real}")
-            if not (
-                EcobeeService.MINIMUM_COOLING_TEMPERATURE
-                <= float(cool_hold_temp)
-                <= EcobeeService.MAXIMUM_COOLING_TEMPERATURE
-            ):
-                raise ValueError(
-                    f"cool_hold_temp must be between {EcobeeService.MINIMUM_COOLING_TEMPERATURE}F and {EcobeeService.MAXIMUM_COOLING_TEMPERATURE}F"
-                )
-        if heat_hold_temp is not None:
-            if not isinstance(heat_hold_temp, numbers.Real):
-                raise TypeError(f"heat_hold_temp must be an instance of {numbers.Real}")
-            if not (
-                EcobeeService.MINIMUM_HEATING_TEMPERATURE
-                <= float(heat_hold_temp)
-                <= EcobeeService.MAXIMUM_HEATING_TEMPERATURE
-            ):
-                raise ValueError(
-                    f"heat_hold_temp must be between {EcobeeService.MINIMUM_HEATING_TEMPERATURE}F and {EcobeeService.MAXIMUM_HEATING_TEMPERATURE}F"
-                )
-        if fan_mode is not None and not isinstance(fan_mode, FanMode):
-            raise TypeError(f"fan_mode must be an instance of {FanMode}")
-        if hold_climate_ref is not None and not isinstance(hold_climate_ref, str):
-            raise TypeError(f"hold_climate_ref must be an instance of {str}")
-        if (
-            cool_hold_temp is None
-            and heat_hold_temp is None
-            and hold_climate_ref is None
-        ):
-            raise ValueError(
-                "cool_hold_temp, heat_hold_temp, and hold_climate_ref must not all "
-                "be None. Either cool_hold_temp and heat_hold_temp must not be None "
-                "or hold_climate_ref must not be None"
-            )
-        if hold_climate_ref is None and (
-            cool_hold_temp is None or heat_hold_temp is None
-        ):
-            raise ValueError(
-                "hold_climate_ref is None. cool_hold_temp and heat_hold_temp must "
-                "not be None."
-            )
-        if start_date_time is not None:
-            if not isinstance(start_date_time, DateTime):
-                raise TypeError(f"start_date_time must be an instance of {DateTime}")
-            if start_date_time < EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME:
-                raise ValueError(
-                    "start_date_time must be later than {}".format(
-                        EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime(
-                            "%Y-%m-%d %H:%M:%S %Z"
-                        )
-                    )
-                )
-            if start_date_time > EcobeeService.END_OF_TIME_DATE_TIME:
-                raise ValueError(
-                    "start_date_time must be earlier than {}".format(
-                        EcobeeService.END_OF_TIME_DATE_TIME.strftime(
-                            "%Y-%m-%d %H:%M:%S %Z"
-                        )
-                    )
-                )
-        if end_date_time is not None:
-            if not isinstance(end_date_time, DateTime):
-                raise TypeError(f"end_date_time must be an instance of {DateTime}")
-            if end_date_time < EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME:
-                raise ValueError(
-                    "end_date_time must be later than {}".format(
-                        EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime(
-                            "%Y-%m-%d %H:%M:%S %Z"
-                        )
-                    )
-                )
-            if end_date_time > EcobeeService.END_OF_TIME_DATE_TIME:
-                raise ValueError(
-                    "end_date_time must be earlier than {}".format(
-                        EcobeeService.END_OF_TIME_DATE_TIME.strftime(
-                            "%Y-%m-%d %H:%M:%S %Z"
-                        )
-                    )
-                )
-        if (
-            start_date_time is not None
-            and end_date_time is not None
-            and start_date_time >= end_date_time
-        ):
-            raise ValueError("end_date_time must be later than start_date_time")
-        if not isinstance(hold_type, HoldType):
-            raise TypeError(f"hold_type must be an instance of {HoldType}")
-        if hold_type == HoldType.DATE_TIME and end_date_time is None:
-            raise ValueError(
-                f"hold_type is {HoldType.DATE_TIME.value}. end_date_time must not be None"
-            )
-        if hold_hours is not None and not isinstance(hold_hours, int):
-            raise TypeError(f"hold_hours must be an instance of {int}")
-        if hold_type == HoldType.HOLD_HOURS and hold_hours is None:
-            raise ValueError(
-                f"hold_type is {HoldType.HOLD_HOURS.value}. hold_hours must not be None"
-            )
-        if not isinstance(selection, Selection):
-            raise TypeError(f"selection must be an instance of {Selection}")
-
-        set_hold_parameters = {"holdType": hold_type.value}
-
-        if cool_hold_temp is not None:
-            set_hold_parameters["coolHoldTemp"] = int(cool_hold_temp * 10)
-
-        if heat_hold_temp is not None:
-            set_hold_parameters["heatHoldTemp"] = int(heat_hold_temp * 10)
-
-        if fan_mode is not None:
-            set_hold_parameters["fan"] = fan_mode.value
-
-        if hold_climate_ref is not None:
-            set_hold_parameters["holdClimateRef"] = hold_climate_ref
-
-        if start_date_time is not None:
-            set_hold_parameters["startDate"] = (
-                f"{start_date_time.year}-{start_date_time.month:02}-{start_date_time.day:02}"
-            )
-            set_hold_parameters["startTime"] = (
-                f"{start_date_time.hour:02}:{start_date_time.minute:02}:{start_date_time.second:02}"
-            )
-
-        if end_date_time is not None:
-            set_hold_parameters["endDate"] = (
-                f"{end_date_time.year}-{end_date_time.month:02}-{end_date_time.day:02}"
-            )
-            set_hold_parameters["endTime"] = (
-                f"{end_date_time.hour:02}:{end_date_time.minute:02}:{end_date_time.second:02}"
-            )
-
-        if hold_hours is not None:
-            set_hold_parameters["holdHours"] = hold_hours
-
-        return self.update_thermostats(
-            selection,
-            thermostat=None,
-            functions=[Function(type_="setHold", params=set_hold_parameters)],
+        return self._thermostats.set_hold(
+            cool_hold_temp=cool_hold_temp,
+            heat_hold_temp=heat_hold_temp,
+            fan_mode=fan_mode,
+            hold_climate_ref=hold_climate_ref,
+            start_date_time=start_date_time,
+            end_date_time=end_date_time,
+            hold_type=hold_type,
+            hold_hours=hold_hours,
+            selection=selection,
             timeout=timeout,
         )
 
@@ -2723,140 +314,13 @@ class EcobeeService(EcobeeObject):
         ),
         timeout=5,
     ):
-        """
-        The set_occupied method may only be used by EMS thermostats. The
-        method switches a thermostat from occupied mode to unoccupied,
-        or vice versa. If used on a Smart thermostat, the method will
-        throw an error. Switch occupancy events are treated as Holds.
-        There may only be one Switch Occupancy at one time, and the new
-        event will replace any previous event.
-
-        Note that an occupancy event is created regardless what the
-        program on the thermostat is set to. For example, if the program
-        is currently unoccupied and you set occupied=False, an occupancy
-        event will be created using the heat/cool settings of the
-        unoccupied program climate. If your intent is to go back to the
-        program and remove the occupancy event, use resumeProgram
-        instead.
-
-        :param occupied: The climate to use for the temperature,
-        occupied (True) or unoccupied (False)
-        :param start_date_time: The start date and time in thermostat
-        time. Must be a timezone aware datetime
-        :param end_date_time: The end date and time in thermostat time.
-        Must be a timezone aware datetime
-        :param hold_type: The hold duration type. Valid values:
-        HoldType.DATE_TIME, HoldType.NEXT_TRANSITION,
-        HoldType.INDEFINITE, and HoldType.HOLD_HOURS
-        :param hold_hours: The number of hours to hold for, used and
-        required if holdType='holdHours'
-        :param selection: The selection criteria for the update
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: An UpdateThermostatResponse object indicating the
-        status of this request
-        :rtype: EcobeeStatusResponse
-        :raises EcobeeApiException: If the request results in an ecobee
-        API error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        :raises TypeError: If occupied is not a boolean, start_date_time
-        is not a datetime, end_date_time is not a datetime, hold_type is
-        not a member of HoldType, hold_hours is not an integer, or
-        selection is not an instance of Selection
-        :raises ValueError: If start/end date_times are earlier than
-        2008-01-02 00:00:00 +0000, start/end date_times are later than
-        2035-01-01 00:00:00 +0000, start_date_time is later than
-        end_date_time, end_date_time is None while hold_type is
-        HoldType.DATE_TIME, or hold_hours is None while hold_type is
-        HoldType.HOLD_HOURS
-        """
-        if not isinstance(occupied, bool):
-            raise TypeError(f"occupied must be an instance of {bool}")
-        if start_date_time is not None:
-            if not isinstance(start_date_time, DateTime):
-                raise TypeError(f"start_date_time must be an instance of {DateTime}")
-            if start_date_time < EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME:
-                raise ValueError(
-                    "start_date_time must be later than {}".format(
-                        EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime(
-                            "%Y-%m-%d %H:%M:%S %Z"
-                        )
-                    )
-                )
-            if start_date_time > EcobeeService.END_OF_TIME_DATE_TIME:
-                raise ValueError(
-                    "start_date_time must be earlier than {}".format(
-                        EcobeeService.END_OF_TIME_DATE_TIME.strftime(
-                            "%Y-%m-%d %H:%M:%S %Z"
-                        )
-                    )
-                )
-        if end_date_time is not None:
-            if not isinstance(end_date_time, DateTime):
-                raise TypeError(f"end_date_time must be an instance of {DateTime}")
-            if end_date_time < EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME:
-                raise ValueError(
-                    "end_date_time must be later than {}".format(
-                        EcobeeService.BEFORE_TIME_BEGAN_DATE_TIME.strftime(
-                            "%Y-%m-%d %H:%M:%S %Z"
-                        )
-                    )
-                )
-            if end_date_time > EcobeeService.END_OF_TIME_DATE_TIME:
-                raise ValueError(
-                    "end_date_time must be earlier than {}".format(
-                        EcobeeService.END_OF_TIME_DATE_TIME.strftime(
-                            "%Y-%m-%d %H:%M:%S %Z"
-                        )
-                    )
-                )
-        if (
-            start_date_time is not None
-            and end_date_time is not None
-            and start_date_time >= end_date_time
-        ):
-            raise ValueError("end_date_time must be later than start_date_time")
-        if not isinstance(hold_type, HoldType):
-            raise TypeError(f"hold_type must be an instance of {HoldType}")
-        if hold_type == HoldType.DATE_TIME and end_date_time is None:
-            raise ValueError(
-                f"hold_type is {HoldType.DATE_TIME.value}. end_date_time must not be None"
-            )
-        if hold_hours is not None and not isinstance(hold_hours, int):
-            raise TypeError(f"hold_hours must be an instance of {int}")
-        if hold_type == HoldType.HOLD_HOURS and hold_hours is None:
-            raise ValueError(
-                f"hold_type is {HoldType.HOLD_HOURS.value}. hold_hours must not be None"
-            )
-        if not isinstance(selection, Selection):
-            raise TypeError(f"selection must be an instance of {Selection}")
-
-        set_occupied_parameters = {"occupied": occupied, "holdType": hold_type.value}
-
-        if start_date_time is not None:
-            set_occupied_parameters["startDate"] = (
-                f"{start_date_time.year}-{start_date_time.month:02}-{start_date_time.day:02}"
-            )
-            set_occupied_parameters["startTime"] = (
-                f"{start_date_time.hour:02}:{start_date_time.minute:02}:{start_date_time.second:02}"
-            )
-
-        if end_date_time is not None:
-            set_occupied_parameters["endDate"] = (
-                f"{end_date_time.year}-{end_date_time.month:02}-{end_date_time.day:02}"
-            )
-            set_occupied_parameters["endTime"] = (
-                f"{end_date_time.hour:02}:{end_date_time.minute:02}:{end_date_time.second:02}"
-            )
-
-        if hold_hours is not None:
-            set_occupied_parameters["holdHours"] = hold_hours
-
-        return self.update_thermostats(
-            selection,
-            thermostat=None,
-            functions=[Function(type_="setOccupied", params=set_occupied_parameters)],
+        return self._thermostats.set_occupied(
+            occupied=occupied,
+            start_date_time=start_date_time,
+            end_date_time=end_date_time,
+            hold_type=hold_type,
+            hold_hours=hold_hours,
+            selection=selection,
             timeout=timeout,
         )
 
@@ -2868,36 +332,8 @@ class EcobeeService(EcobeeObject):
         ),
         timeout=5,
     ):
-        """
-        The unlink voice engine function allows you to disable voice
-        assistant for the selected thermostat.
-
-        :param engine_name: The name of the engine to unlink
-        :param selection: The selection criteria for the update
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: An UpdateThermostatResponse object indicating the
-        status of this request
-        :rtype: EcobeeStatusResponse
-        :raises EcobeeApiException: If the request results in an ecobee
-        API error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        :raises TypeError: If engine_name is not a string or selection
-        is not an instance of Selection
-        """
-        if not isinstance(engine_name, str):
-            raise TypeError(f"engine_name must be an instance of {str}")
-        if not isinstance(selection, Selection):
-            raise TypeError(f"selection must be an instance of {Selection}")
-
-        return self.update_thermostats(
-            selection,
-            thermostat=None,
-            functions=[
-                Function(type_="unlinkVoiceEngine", params={"engineName": engine_name})
-            ],
-            timeout=timeout,
+        return self._thermostats.unlink_voice_engine(
+            engine_name=engine_name, selection=selection, timeout=timeout
         )
 
     def update_sensor(
@@ -2910,112 +346,225 @@ class EcobeeService(EcobeeObject):
         ),
         timeout=5,
     ):
-        """
-        The update_sensor method allows the caller to update the name of
-        an ecobee3 remote sensor. Each ecobee3 remote sensor "enclosure"
-        contains two distinct sensors types temperature and occupancy.
-        Only one of the sensors is required in the request. Both of the
-        sensors' names will be updated to ensure consistency as they are
-        part of the same remote sensor enclosure. This also reflects
-        accurately what happens on the Thermostat itself.
-
-        :param name: The updated name to give the sensor
-        :param device_id: The device_id for the sensor, typically this
-        indicates the enclosure and corresponds to the
-        ThermostatRemoteSensor.id attribute
-        :param sensor_id: The identifier for the sensor within the
-        enclosure. Corresponds to the RemoteSensorCapability.id
-        attribute
-        :param selection: The selection criteria for the update
-        :param timeout: Number of seconds requests will wait to
-        establish a connection and to receive a response
-        :return: An UpdateThermostatResponse object indicating the
-        status of this request
-        :rtype: EcobeeStatusResponse
-        :raises EcobeeApiException: If the request results in an ecobee
-        API error response
-        :raises EcobeeRequestsException: If an exception is raised by
-        the underlying requests module
-        :raises TypeError: If name is not a string, device_id is not a
-        string, sensor_id is not a string, or selection is not an
-        instance of Selection
-        :raises ValueError: If name has a length greater than 32
-        """
-        if not isinstance(name, str):
-            raise TypeError(f"name must be an instance of {str}")
-        if len(name) > 32:
-            raise ValueError("name maximum length must not be greater than 32")
-        if not isinstance(device_id, str):
-            raise TypeError(f"device_id must be an instance of {str}")
-        if not isinstance(sensor_id, str):
-            raise TypeError(f"sensor_id must be an instance of {str}")
-        if not isinstance(selection, Selection):
-            raise TypeError(f"selection must be an instance of {Selection}")
-
-        return self.update_thermostats(
-            selection,
-            thermostat=None,
-            functions=[
-                Function(
-                    type_="updateSensor",
-                    params={"name": name, "deviceId": device_id, "sensorId": sensor_id},
-                )
-            ],
+        return self._thermostats.update_sensor(
+            name=name,
+            device_id=device_id,
+            sensor_id=sensor_id,
+            selection=selection,
             timeout=timeout,
         )
 
+    def request_groups(self, selection, timeout=5):
+        return self._groups.request_groups(selection=selection, timeout=timeout)
+
+    def update_groups(self, selection, groups, timeout=5):
+        return self._groups.update_groups(
+            selection=selection, groups=groups, timeout=timeout
+        )
+
+    def list_hierarchy_sets(
+        self,
+        set_path,
+        recursive=False,
+        include_privileges=False,
+        include_thermostats=False,
+        timeout=5,
+    ):
+        return self._hierarchy.list_hierarchy_sets(
+            set_path=set_path,
+            recursive=recursive,
+            include_privileges=include_privileges,
+            include_thermostats=include_thermostats,
+            timeout=timeout,
+        )
+
+    def list_hierarchy_users(
+        self, set_path, recursive=False, include_privileges=False, timeout=5
+    ):
+        return self._hierarchy.list_hierarchy_users(
+            set_path=set_path,
+            recursive=recursive,
+            include_privileges=include_privileges,
+            timeout=timeout,
+        )
+
+    def add_hierarchy_set(self, set_name, parent_path, timeout=5):
+        return self._hierarchy.add_hierarchy_set(
+            set_name=set_name, parent_path=parent_path, timeout=timeout
+        )
+
+    def remove_hierarchy_set(self, set_path, timeout=5):
+        return self._hierarchy.remove_hierarchy_set(set_path=set_path, timeout=timeout)
+
+    def rename_hierarchy_set(self, set_path, new_name, timeout=5):
+        return self._hierarchy.rename_hierarchy_set(
+            set_path=set_path, new_name=new_name, timeout=timeout
+        )
+
+    def move_hierarchy_set(self, set_path, to_path, timeout=5):
+        return self._hierarchy.move_hierarchy_set(
+            set_path=set_path, to_path=to_path, timeout=timeout
+        )
+
+    def add_hierarchy_users(self, users, privileges=None, timeout=5):
+        return self._hierarchy.add_hierarchy_users(
+            users=users, privileges=privileges, timeout=timeout
+        )
+
+    def remove_hierarchy_users(self, set_path, users, timeout=5):
+        return self._hierarchy.remove_hierarchy_users(
+            set_path=set_path, users=users, timeout=timeout
+        )
+
+    def unregister_hierarchy_users(self, users, timeout=5):
+        return self._hierarchy.unregister_hierarchy_users(users=users, timeout=timeout)
+
+    def update_hierarchy_users(self, users=None, privileges=None, timeout=5):
+        return self._hierarchy.update_hierarchy_users(
+            users=users, privileges=privileges, timeout=timeout
+        )
+
+    def register_hierarchy_thermostats(self, thermostats, set_path=None, timeout=5):
+        return self._hierarchy.register_hierarchy_thermostats(
+            thermostats=thermostats, set_path=set_path, timeout=timeout
+        )
+
+    def unregister_hierarchy_thermostats(self, thermostats, timeout=5):
+        return self._hierarchy.unregister_hierarchy_thermostats(
+            thermostats=thermostats, timeout=timeout
+        )
+
+    def move_hierarchy_thermostats(
+        self, set_path, to_path, thermostats=None, timeout=5
+    ):
+        return self._hierarchy.move_hierarchy_thermostats(
+            set_path=set_path, to_path=to_path, thermostats=thermostats, timeout=timeout
+        )
+
+    def assign_hierarchy_thermostats(self, set_path, thermostats, timeout=5):
+        return self._hierarchy.assign_hierarchy_thermostats(
+            set_path=set_path, thermostats=thermostats, timeout=timeout
+        )
+
+    def list_demand_responses(self, timeout=5):
+        return self._demand.list_demand_responses(timeout=timeout)
+
+    def issue_demand_response(self, selection, demand_response, timeout=5):
+        return self._demand.issue_demand_response(
+            selection=selection, demand_response=demand_response, timeout=timeout
+        )
+
+    def cancel_demand_response(self, demand_response_ref, timeout=5):
+        return self._demand.cancel_demand_response(
+            demand_response_ref=demand_response_ref, timeout=timeout
+        )
+
+    def issue_demand_managements(self, selection, demand_managements, timeout=5):
+        return self._demand.issue_demand_managements(
+            selection=selection, demand_managements=demand_managements, timeout=timeout
+        )
+
+    def request_meter_reports(
+        self, selection, start_date_time, end_date_time, meters="energy", timeout=5
+    ):
+        return self._reports.request_meter_reports(
+            selection=selection,
+            start_date_time=start_date_time,
+            end_date_time=end_date_time,
+            meters=meters,
+            timeout=timeout,
+        )
+
+    def request_runtime_reports(
+        self,
+        selection,
+        start_date_time,
+        end_date_time,
+        columns,
+        include_sensors=False,
+        timeout=5,
+    ):
+        return self._reports.request_runtime_reports(
+            selection=selection,
+            start_date_time=start_date_time,
+            end_date_time=end_date_time,
+            columns=columns,
+            include_sensors=include_sensors,
+            timeout=timeout,
+        )
+
+    def create_runtime_report_job(
+        self, selection, start_date, end_date, columns, include_sensors=False, timeout=5
+    ):
+        return self._reports.create_runtime_report_job(
+            selection=selection,
+            start_date=start_date,
+            end_date=end_date,
+            columns=columns,
+            include_sensors=include_sensors,
+            timeout=timeout,
+        )
+
+    def list_runtime_report_job_status(self, job_id=None, timeout=5):
+        return self._reports.list_runtime_report_job_status(
+            job_id=job_id, timeout=timeout
+        )
+
+    def cancel_runtime_report_job(self, job_id, timeout=5):
+        return self._reports.cancel_runtime_report_job(job_id=job_id, timeout=timeout)
+
     @property
     def thermostat_name(self):
-        return self._thermostat_name
+        return self._context._thermostat_name
 
     @property
     def application_key(self):
-        return self._application_key
+        return self._context._application_key
 
     @application_key.setter
     def application_key(self, application_key):
-        self._application_key = application_key
+        self._context._application_key = application_key
 
     @property
     def authorization_token(self):
-        return self._authorization_token
+        return self._context._authorization_token
 
     @authorization_token.setter
     def authorization_token(self, authorization_token):
-        self._authorization_token = authorization_token
+        self._context._authorization_token = authorization_token
 
     @property
     def access_token(self):
-        return self._access_token
+        return self._context._access_token
 
     @access_token.setter
     def access_token(self, access_token):
-        self._access_token = access_token
+        self._context._access_token = access_token
 
     @property
     def refresh_token(self):
-        return self._refresh_token
+        return self._context._refresh_token
 
     @refresh_token.setter
     def refresh_token(self, refresh_token):
-        self._refresh_token = refresh_token
+        self._context._refresh_token = refresh_token
 
     @property
     def access_token_expires_on(self):
-        return self._access_token_expires_on
+        return self._context._access_token_expires_on
 
     @access_token_expires_on.setter
     def access_token_expires_on(self, access_token_expires_on):
-        self._access_token_expires_on = access_token_expires_on
+        self._context._access_token_expires_on = access_token_expires_on
 
     @property
     def refresh_token_expires_on(self):
-        return self._refresh_token_expires_on
+        return self._context._refresh_token_expires_on
 
     @refresh_token_expires_on.setter
     def refresh_token_expires_on(self, refresh_token_expires_on):
-        self._refresh_token_expires_on = refresh_token_expires_on
+        self._context._refresh_token_expires_on = refresh_token_expires_on
 
     @property
     def scope(self):
-        return self._scope
+        return self._context._scope

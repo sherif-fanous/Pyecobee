@@ -113,7 +113,7 @@ Documentation
 Pyecobee comes with extensive documentation. Use dir and help to explore all the details.
 .. code-block:: python
 
-    >>> from pyecobee import *
+    >>> from pyecobee import EcobeeService
     >>> dir(EcobeeService)
     >>> help(EcobeeService)
 
@@ -156,7 +156,10 @@ Import the modules
 ------------------
 .. code-block:: python
 
-    from pyecobee import *
+    from pyecobee import EcobeeService, Selection, SelectionType
+    from pyecobee.objects.thermostat import Thermostat
+
+    # Import other models, enums, and exceptions by their explicit names.
 
 Instantiate an EcobeeService object
 -----------------------------------
@@ -1023,7 +1026,7 @@ The ecobee API specifies that all tokens issued must be stored by the applicatio
     from datetime import UTC, datetime
     from zoneinfo import ZoneInfo
 
-    from pyecobee import *
+    from pyecobee import EcobeeService
 
     logger = logging.getLogger(__name__)
 
