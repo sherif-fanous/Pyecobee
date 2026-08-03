@@ -66,6 +66,27 @@ def test_report_requests_reject_naive_datetimes(method, kwargs):
         )
 
 
+@pytest.mark.parametrize(
+    ("start", "end"),
+    [
+        (
+            DateTime(2008, 1, 2, tzinfo=datetime.UTC),
+            DateTime(2008, 1, 3, tzinfo=datetime.UTC),
+        ),
+        (
+            DateTime(2034, 12, 31, tzinfo=datetime.UTC),
+            DateTime(2035, 1, 1, tzinfo=datetime.UTC),
+        ),
+    ],
+)
+def test_meter_report_accepts_inclusive_date_boundaries(monkeypatch, start, end):
+    monkeypatch.setattr(
+        Utilities, "make_http_request", lambda *args, **kwargs: Response()
+    )
+
+    assert service().request_meter_reports(selection(), start, end).status.code == 0
+
+
 def test_meter_report_converts_aware_dates_to_utc(monkeypatch):
     captured = {}
 

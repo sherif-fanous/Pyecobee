@@ -18,6 +18,8 @@ class Response:
         self.request = type("Request", (), {"url": "https://example.test"})()
 
     def json(self):
+        if isinstance(self._payload, Exception):
+            raise self._payload
         return self._payload
 
 
@@ -64,3 +66,10 @@ def test_requests_error_chains_underlying_exception():
         Utilities.make_http_request(fail, "https://example.test")
 
     assert isinstance(raised.value.__cause__, requests.exceptions.ConnectionError)
+
+
+def test_malformed_json_is_propagated():
+    with pytest.raises(ValueError, match="invalid JSON"):
+        Utilities.process_http_response(
+            Response(200, ValueError("invalid JSON")), EcobeeStatusResponse
+        )
