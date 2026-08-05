@@ -45,12 +45,8 @@ select = ["E", "F", "I", "UP", "B"]
 ignore = ["E501"]  # Ruff's formatter is the line-length authority.
 
 [tool.ruff.lint.per-file-ignores]
-"pyecobee/__init__.py" = ["F401"]  # Public API re-exports.
 "pyecobee/service.py" = ["B008"]  # Preserve established request defaults.
 "pyecobee/services/thermostats.py" = ["B008"]  # Preserve facade-compatible request defaults.
-"pyecobee/utilities.py" = ["B006", "B904", "B905", "F401", "UP030"]  # Reflective registry and established utility behavior.
-"tests/live_integration.py" = ["B006", "F403", "F405", "F841"]  # Legacy live-test harness.
-"tests/test_responses.py" = ["B017"]  # Existing broad exception regression assertion.
 
 [tool.setuptools.packages.find]
 include = ["pyecobee*"]
