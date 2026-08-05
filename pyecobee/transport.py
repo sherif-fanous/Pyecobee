@@ -30,8 +30,10 @@ def redact(value):
             key: "[REDACTED]" if key.lower() in _SECRET_FIELDS else redact(item)
             for key, item in value.items()
         }
+
     if isinstance(value, list):
         return [redact(item) for item in value]
+
     return value
 
 
@@ -43,6 +45,7 @@ class HttpTransport:
 
     def request(self, method, url, headers=None, params=None, json_=None, timeout=5):
         headers = headers or {}
+
         logger.debug(
             "Request\n[Method]\n========\n%s\n\n[URL]\n=====\n%s\n%s%s%s".strip(),
             method.upper(),
@@ -55,6 +58,7 @@ class HttpTransport:
             if json_ is not None
             else "",
         )
+
         try:
             return self._session.request(
                 method, url, headers=headers, params=params, json=json_, timeout=timeout
