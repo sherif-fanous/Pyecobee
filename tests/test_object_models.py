@@ -21,7 +21,7 @@ def test_request_models_use_aliases_nested_values_and_enum_serialization():
     )
 
     assert selection.selection_type is SelectionType.THERMOSTATS
-    assert Utilities.object_to_dictionary(selection, Selection) == {
+    assert Utilities.object_to_dictionary(selection) == {
         "selectionType": "thermostats",
         "selectionMatch": "123",
         "includeRuntime": True,
@@ -35,22 +35,28 @@ def test_request_models_use_aliases_nested_values_and_enum_serialization():
 
 def test_request_models_reject_unknown_or_invalid_fields():
     with pytest.raises(ValidationError, match="selection_type"):
-        Selection(selection_type="not-a-selection", selection_match="123")
+        Selection.model_validate(
+            {"selection_type": "not-a-selection", "selection_match": "123"}
+        )
 
     with pytest.raises(ValidationError, match="unsupported"):
-        Selection(
-            selection_type=SelectionType.THERMOSTATS,
-            selection_match="123",
-            unsupported=True,
+        Selection.model_validate(
+            {
+                "selection_type": SelectionType.THERMOSTATS,
+                "selection_match": "123",
+                "unsupported": True,
+            }
         )
 
 
 def test_response_models_reject_values_that_do_not_match_declared_types():
     with pytest.raises(ValidationError, match="job_id"):
-        EcobeeCreateRuntimeReportJobResponse(
-            job_id=123,
-            job_status="queued",
-            status=Status(code=0, message="ok"),
+        EcobeeCreateRuntimeReportJobResponse.model_validate(
+            {
+                "job_id": 123,
+                "job_status": "queued",
+                "status": Status(code=0, message="ok"),
+            }
         )
 
 

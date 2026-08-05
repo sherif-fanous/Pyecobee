@@ -23,9 +23,7 @@ def service():
 
 
 def selection():
-    return Selection(
-        selection_type=SelectionType.THERMOSTATS.value, selection_match="123"
-    )
+    return Selection(selection_type=SelectionType.THERMOSTATS, selection_match="123")
 
 
 def test_service_constructor_and_argument_validation():

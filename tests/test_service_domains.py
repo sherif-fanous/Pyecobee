@@ -33,8 +33,8 @@ def test_facade_method_signatures_match_master():
     ).stdout
 
     class NormalizeSelectionTypeValue(ast.NodeTransformer):
-        def visit_Attribute(self, node):
-            node = self.generic_visit(node)
+        def visit_Attribute(self, node: ast.Attribute) -> ast.AST:
+            self.generic_visit(node)
             if (
                 node.attr == "value"
                 and isinstance(node.value, ast.Attribute)

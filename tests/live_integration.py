@@ -30,9 +30,7 @@ class MultiLineFormatter(logging.Formatter):
 
 def test_update_groups(ecobee_service, groups):
     logger.info("Updating Groups")
-    selection = Selection(
-        selection_type=SelectionType.REGISTERED.value, selection_match=""
-    )
+    selection = Selection(selection_type=SelectionType.REGISTERED, selection_match="")
     group_response = ecobee_service.update_groups(selection, groups)
     validate_dictionary_to_object(group_response)
     assert group_response.status.code == 0, (
@@ -44,9 +42,7 @@ def test_update_groups(ecobee_service, groups):
 
 def test_request_groups(ecobee_service):
     logger.info("Requesting Groups")
-    selection = Selection(
-        selection_type=SelectionType.REGISTERED.value, selection_match=""
-    )
+    selection = Selection(selection_type=SelectionType.REGISTERED, selection_match="")
     group_response = ecobee_service.request_groups(selection)
     validate_dictionary_to_object(group_response)
     assert group_response.status.code == 0, (
@@ -61,7 +57,7 @@ def test_runtime_reports(ecobee_service, thermostat):
 
     logger.info("Requesting Runtime Report")
     selection = Selection(
-        selection_type=SelectionType.THERMOSTATS.value,
+        selection_type=SelectionType.THERMOSTATS,
         selection_match=thermostat.identifier,
     )
     runtime_reports_response = ecobee_service.request_runtime_reports(
@@ -91,7 +87,7 @@ def test_request_meter_reports(ecobee_service, thermostat):
 
     logger.info("Requesting Meter Report")
     selection = Selection(
-        selection_type=SelectionType.THERMOSTATS.value,
+        selection_type=SelectionType.THERMOSTATS,
         selection_match=thermostat.identifier,
     )
     meter_reports_response = ecobee_service.request_meter_reports(
@@ -107,9 +103,7 @@ def test_request_meter_reports(ecobee_service, thermostat):
 
 def test_update_thermosats(ecobee_service, fan_min_on_time):
     logger.info("Updating Thermostats")
-    selection = Selection(
-        selection_type=SelectionType.REGISTERED.value, selection_match=""
-    )
+    selection = Selection(selection_type=SelectionType.REGISTERED, selection_match="")
     settings = Settings(fan_min_on_time=fan_min_on_time)
     thermostat = Thermostat(identifier="250891030972", settings=settings)
     update_thermostats_response = ecobee_service.update_thermostats(
@@ -124,7 +118,7 @@ def test_update_thermosats(ecobee_service, fan_min_on_time):
 def test_request_thermostats_summary(ecobee_service):
     logger.info("Requesting Thermostat Summary")
     selection = Selection(
-        selection_type=SelectionType.REGISTERED.value,
+        selection_type=SelectionType.REGISTERED,
         selection_match="",
         include_equipment_status=False,
     )
@@ -139,13 +133,12 @@ def test_request_thermostats_summary(ecobee_service):
 def test_request_thermostats_all(ecobee_service):
     logger.info("Requesting Thermostats (All Data)")
     selection = Selection(
-        selection_type=SelectionType.REGISTERED.value,
+        selection_type=SelectionType.REGISTERED,
         selection_match="",
         include_alerts=False,
         include_audio=False,
         include_energy=False,
         include_device=False,
-        include_electricity=False,
         include_equipment_status=True,
         include_events=True,
         include_extended_runtime=False,
@@ -178,9 +171,7 @@ def test_request_thermostats_all(ecobee_service):
 
 def test_request_thermostats_minimal(ecobee_service):
     logger.info("Requesting Thermostats (Minimal Data)")
-    selection = Selection(
-        selection_type=SelectionType.REGISTERED.value, selection_match=""
-    )
+    selection = Selection(selection_type=SelectionType.REGISTERED, selection_match="")
     thermostats_response = ecobee_service.request_thermostats(selection)
     validate_dictionary_to_object(thermostats_response)
     assert thermostats_response.status.code == 0, (
@@ -260,7 +251,9 @@ def test_create_vacation(ecobee_service, vacation_name):
     )
 
 
-def validate_dictionary_to_object(object_, parents=[], expected_type_of_object=None):
+def validate_dictionary_to_object(object_, parents=None, expected_type_of_object=None):
+    if parents is None:
+        parents = []
     if hasattr(object_, "__slots__"):
         parents.append(object_.__class__.__name__)
         for attribute_name in object_.__slots__:
@@ -415,13 +408,19 @@ def main():
             request_tokens(ecobee_service)
 
         now_utc = datetime.now(UTC)
-        if now_utc > ecobee_service.refresh_token_expires_on:
+        refresh_token_expires_on = ecobee_service.refresh_token_expires_on
+        access_token_expires_on = ecobee_service.access_token_expires_on
+        if refresh_token_expires_on is None or now_utc > refresh_token_expires_on:
             authorize(ecobee_service)
             request_tokens(ecobee_service)
-        elif now_utc > ecobee_service.access_token_expires_on:
+        elif access_token_expires_on is None or now_utc > access_token_expires_on:
             refresh_tokens(ecobee_service)
 
-        logger.debug(ecobee_service.pretty_format())
+        logger.debug(
+            "Access Token Expires On  => %s\nRefresh Token Expires On => %s",
+            ecobee_service.access_token_expires_on,
+            ecobee_service.refresh_token_expires_on,
+        )
 
         # logger.info(
         #     'Access Token             => {0}\n'
@@ -502,7 +501,7 @@ def main():
         # Issue Demand EcobeeResponse
         # ecobee_service.issue_demand_response(
         #     selection=Selection(
-        #         selection_type=SelectionType.MANAGEMENT_SET.value,
+        #         selection_type=SelectionType.MANAGEMENT_SET,
         #         selection_match='/'),
         #     demand_response=DemandResponse(
         #         name='myDR',
@@ -525,7 +524,7 @@ def main():
         # Issue Demand Management
         # ecobee_service.issue_demand_managements(
         #     selection=Selection(
-        #         selection_type=SelectionType.MANAGEMENT_SET.value,
+        #         selection_type=SelectionType.MANAGEMENT_SET,
         #         selection_match='/'),
         #     demand_managements=[
         #         DemandManagement(
@@ -540,7 +539,7 @@ def main():
         # Create Runtime Report Job
         # ecobee_service.create_runtime_report_job(
         #     selection=Selection(
-        #         selection_type=SelectionType.THERMOSTATS.value,
+        #         selection_type=SelectionType.THERMOSTATS,
         #         selection_match='123456789012',
         #     ),
         #     start_date=date(2016, 7, 1),
@@ -583,7 +582,7 @@ def main():
         # test_update_thermosats(ecobee_service, fan_min_on_time)
 
         # Get Thermostats
-        thermostat = test_request_thermostats_all(ecobee_service)
+        test_request_thermostats_all(ecobee_service)
 
         # events = [event for event in thermostat.events
         #           if event.name == vacation_name]

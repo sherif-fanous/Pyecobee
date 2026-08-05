@@ -11,9 +11,7 @@ def service():
 
 
 def selection():
-    return Selection(
-        selection_type=SelectionType.THERMOSTATS.value, selection_match="123"
-    )
+    return Selection(selection_type=SelectionType.THERMOSTATS, selection_match="123")
 
 
 def capture_request(monkeypatch, mock_response, payload):
