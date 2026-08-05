@@ -110,7 +110,9 @@ class AuthorizationService(DomainComponent):
             seconds=tokens_response.expires_in
         )
         self._context._refresh_token = tokens_response.refresh_token
-        self._context._refresh_token_expires_on = now_utc + timedelta(days=365)
+        self._context._refresh_token_expires_on = (
+            now_utc + ClientContext.REFRESH_TOKEN_LIFETIME
+        )
 
         return tokens_response
 
@@ -160,6 +162,8 @@ class AuthorizationService(DomainComponent):
             seconds=tokens_response.expires_in
         )
         self._context._refresh_token = tokens_response.refresh_token
-        self._context._refresh_token_expires_on = now_utc + timedelta(days=365)
+        self._context._refresh_token_expires_on = (
+            now_utc + ClientContext.REFRESH_TOKEN_LIFETIME
+        )
 
         return tokens_response

@@ -2,6 +2,7 @@
 
 import datetime
 from datetime import datetime as DateTime
+from datetime import timedelta
 
 from pyecobee.enumerations import Scope
 from pyecobee.transport import HttpTransport
@@ -38,6 +39,8 @@ class ClientContext:
 
     BEFORE_TIME_BEGAN_DATE_TIME = DateTime(2008, 1, 2, 0, 0, tzinfo=datetime.UTC)
     END_OF_TIME_DATE_TIME = DateTime(2035, 1, 1, 0, 0, tzinfo=datetime.UTC)
+
+    REFRESH_TOKEN_LIFETIME = timedelta(days=30)
     MINIMUM_COOLING_TEMPERATURE = -10.0
     MAXIMUM_COOLING_TEMPERATURE = 120.0
     MINIMUM_HEATING_TEMPERATURE = 45.0
