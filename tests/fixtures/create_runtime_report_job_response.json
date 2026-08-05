@@ -1,5 +1,5 @@
 {
-  "jobId": 123,
+  "jobId": "123",
   "jobStatus": "queued",
   "status": {
     "code": 0,

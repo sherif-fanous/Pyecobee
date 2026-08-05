@@ -1,136 +1,39 @@
-from itertools import chain
+"""Shared Pydantic v2 configuration for ecobee API models."""
+
+from __future__ import annotations
+
+from pprint import pformat
+from typing import Any, ClassVar
+
+from pydantic import BaseModel, ConfigDict
 
 
-class EcobeeObject:
-    __slots__ = []
+class EcobeeObject(BaseModel):
+    """Strict model used when constructing an ecobee request payload."""
 
-    attribute_name_map = {}
+    model_config = ConfigDict(
+        validate_by_name=True,
+        validate_by_alias=True,
+        extra="forbid",
+    )
+    _model_namespace: ClassVar[dict[str, type[EcobeeObject]]] = {}
 
-    attribute_type_map = {}
+    def to_api_dict(self) -> dict[str, Any]:
+        """Return a JSON-compatible ecobee payload without unset values."""
 
-    def __repr__(self):
-        return (
-            f"{self.__class__.__name__}("
-            + ", ".join(
-                [
-                    f"{attribute_name[1:]}={getattr(self, attribute_name)!r}"
-                    for attribute_name in self.slots()
-                ]
-            )
-            + ")"
-        )
+        return self.model_dump(by_alias=True, exclude_none=True, mode="json")
 
-    def __str__(self):
-        return (
-            f"{self.__class__.__name__}("
-            + ", ".join(
-                [
-                    f"{type(self).attribute_name_map[attribute_name[1:]]}={getattr(self, attribute_name)!s}"
-                    for attribute_name in self.slots()
-                ]
-            )
-            + ")"
-        )
+    def pretty_format(self, indent: int = 2, sort_attributes: bool = True) -> str:
+        """Return a readable representation using ecobee field aliases."""
 
-    def pretty_format(self, indent=2, level=0, sort_attributes=True):
-        """
-        Pretty format a response object
+        return f"{type(self).__name__}({pformat(self.to_api_dict(), indent=indent, sort_dicts=sort_attributes)})"
 
-        :param indent: The amount of indentation added for each
-        recursive level
-        :param level: The recursion level
-        :param sort_attributes: Whether to sort the attributes or not
-        :return: str
-        """
-        pretty_formatted = [f"{self.__class__.__name__}(\n"]
-        level = level + 1
 
-        for i, attribute_name in enumerate(
-            sorted(self.slots()) if sort_attributes else self.slots()
-        ):
-            if i:
-                pretty_formatted.append(",\n")
+class EcobeeResponseObject(EcobeeObject):
+    """Tolerant model used for API responses, including future API fields."""
 
-            if isinstance(getattr(self, attribute_name), list):
-                pretty_formatted.append(
-                    "{}{}=[\n".format(
-                        " " * (indent * level),
-                        self.attribute_name_map[attribute_name[1:]],
-                    )
-                )
-                level = level + 1
-
-                for j, list_entry in enumerate(getattr(self, attribute_name)):
-                    if j:
-                        pretty_formatted.append(",\n")
-
-                    if hasattr(list_entry, "pretty_format"):
-                        pretty_formatted.append(
-                            "{}{}".format(
-                                " " * (indent * level),
-                                list_entry.pretty_format(
-                                    indent, level, sort_attributes
-                                ),
-                            )
-                        )
-                    else:
-                        if isinstance(list_entry, list):
-                            pretty_formatted.append(
-                                "{}[\n".format(" " * (indent * level))
-                            )
-
-                            level = level + 1
-
-                            for k, sub_list_entry in enumerate(list_entry):
-                                if k:
-                                    pretty_formatted.append(",\n")
-
-                                pretty_formatted.append(
-                                    "{}{}".format(
-                                        " " * (indent * level), sub_list_entry
-                                    )
-                                )
-
-                            if list_entry:
-                                pretty_formatted.append("\n")
-
-                            level = level - 1
-                            pretty_formatted.append(
-                                "{}]".format(" " * (indent * level))
-                            )
-                        else:
-                            pretty_formatted.append(
-                                "{}{}".format(" " * (indent * level), list_entry)
-                            )
-
-                if getattr(self, attribute_name):
-                    pretty_formatted.append("\n")
-
-                level = level - 1
-                pretty_formatted.append("{}]".format(" " * (indent * level)))
-            else:
-                pretty_formatted.append(" " * (indent * level))
-
-                if hasattr(getattr(self, attribute_name), "pretty_format"):
-                    pretty_formatted.append(
-                        "{}={!s}".format(
-                            self.attribute_name_map[attribute_name[1:]],
-                            getattr(self, attribute_name).pretty_format(
-                                indent, level, sort_attributes
-                            ),
-                        )
-                    )
-                else:
-                    pretty_formatted.append(
-                        f"{self.attribute_name_map[attribute_name[1:]]}={getattr(self, attribute_name)!s}"
-                    )
-
-        level = level - 1
-        pretty_formatted.append("\n{})".format(" " * (indent * level)))
-
-        return "".join(pretty_formatted)
-
-    def slots(self):
-        return chain.from_iterable(
-            getattr(cls, "__slots__", []) for cls in type(self).__mro__
-        )
+    model_config = ConfigDict(
+        validate_by_name=True,
+        validate_by_alias=True,
+        extra="ignore",
+    )

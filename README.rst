@@ -34,18 +34,19 @@ them.
     - list_demand_response
     - issue_demand_response
     - cancel_demand_response
-    - issue_demand_management
+    - issue_demand_managements
 - All Runtime Report Job requests: Accessible to Utility accounts only
     - create_runtime_report_job
     - list_runtime_report_job_status
     - cancel_runtime_report_job
 
-**Warning:** ecobee's documentation for the following object definitions is unavailable and as such any request returning
-any of these objects will throw an Exception
+**Documentation note:** ecobee currently returns 404 for these linked object-definition pages:
 
 - ECPDemandResponse (https://www.ecobee.com/home/developer/api/documentation/v1/objects/ECPDemandResponse.shtml)
-- Energy (https://www.ecobee.com/home/developer/api/documentation/v1/objects/Energy.shtml)
-- TimeOfUse (https://www.ecobee.com/home/developer/api/documentation/v1/objects/TimeOfUse.shtml)
+- EquipmentUtilization (https://www.ecobee.com/home/developer/api/documentation/v1/objects/EquipmentUtilization.shtml)
+
+Responses remain forward-compatible: unknown fields are ignored. ``Runtime.equipment_utilization`` is retained as an
+untyped value until ecobee publishes its shape.
 
 **Disclaimer:** Any ecobee API Keys, Authorization/Access/Refresh Tokens used in the following examples are fake.
 
@@ -55,6 +56,44 @@ Whereas JSON notation is used for the serialization/deserialization of request/r
 ecobee API, Pyecobee's interface is based on core Python data types and user defined objects instead. Pyecobee
 handles the serialization of Python objects into JSON request objects and deserialization of JSON response objects
 into Python objects thus completely alleviating the developer's need to create/parse JSON objects.
+
+Building a request
+------------------
+
+Request models accept Python field names and serialize to ecobee's camelCase field names. Use enum members for enum
+fields.
+
+.. code-block:: python
+
+    from pyecobee import Selection, SelectionType
+
+    selection = Selection(
+        selection_type=SelectionType.THERMOSTATS,
+        selection_match="123456789012",
+        include_runtime=True,
+    )
+
+    assert selection.to_api_dict() == {
+        "selectionType": "thermostats",
+        "selectionMatch": "123456789012",
+        "includeRuntime": True,
+    }
+
+Processing a response
+---------------------
+
+Service methods deserialize responses into typed models. Access Python attributes, or use ``model_dump`` when an
+alias-based JSON-compatible mapping is needed.
+
+.. code-block:: python
+
+    response = ecobee_service.request_thermostats(selection)
+    response.status.code  # 0 indicates success
+
+    thermostat = response.thermostat_list[0]
+    payload = response.model_dump(by_alias=True, exclude_none=True, mode="json")
+
+Response models ignore fields added by ecobee after this library release, including fields within nested objects.
 
 Pyecobee response from an authorize request
 -------------------------------------------
@@ -133,24 +172,15 @@ To use Pyecobee follow these steps
 - Refresh tokens if required (refresh_tokens)
 - Invoke the needed ecobee API requests/functions
 
-All Pyecobee user defined objects overload __repr__, __str__, and implement a pretty_format method.
+Pyecobee models provide Pydantic representations and ``pretty_format()`` for alias-based diagnostic output.
 
 .. code-block:: python
 
     >>> repr(authorize_response)
-    AuthorizeResponse(ecobee_pin='bv29', code='uiNQok9Uhy5iScG4gncCAilcFUMK0zWT', scope='smartWrite', expires_in=9, interval=30)
-
-    >>> str(authorize_response)
-    AuthorizeResponse(ecobeePin=bv29, code=uiNQok9Uhy5iScG4gncCAilcFUMK0zWT, scope=smartWrite, expires_in=9, interval=30)
+    EcobeeAuthorizeResponse(ecobee_pin='bv29', code='...', scope='smartWrite', expires_in=9, interval=30)
 
     >>> authorize_response.pretty_format()
-    AuthorizeResponse(
-      ecobeePin=bv29,
-      code=uiNQok9Uhy5iScG4gncCAilcFUMK0zWT,
-      scope=smartWrite,
-      expires_in=9,
-      interval=30
-    )
+    "EcobeeAuthorizeResponse({'code': '...', 'ecobeePin': 'bv29', ...})"
 
 Import the modules
 ------------------
@@ -202,9 +232,9 @@ Request Tokens
                                                      ecobee_service.refresh_token,
                                                      ecobee_service.refresh_token_expires_on))
 
-A successful invocation of request_tokens() returns an EcobeeTokenResponse instance
+A successful invocation of request_tokens() returns an EcobeeTokensResponse instance
 
-EcobeeTokenResponse Class Diagram
+EcobeeTokensResponse Class Diagram
 """""""""""""""""""""""""""""""""
 .. image:: https://gist.githubusercontent.com/sfanous/61c4e7fe3bbcae96b237da1cfcc2fa63/raw/8d93d36fa2207208e9c1093f8a7c3b8f1420f20b/EcobeeTokensResponse.svg
 
@@ -224,9 +254,9 @@ Refresh Tokens
                                                      ecobee_service.refresh_token,
                                                      ecobee_service.refresh_token_expires_on))
 
-A successful invocation of refresh_tokens() returns an EcobeeTokenResponse instance
+A successful invocation of refresh_tokens() returns an EcobeeTokensResponse instance
 
-EcobeeTokenResponse Class Diagram
+EcobeeTokensResponse Class Diagram
 """""""""""""""""""""""""""""""""
 .. image:: https://gist.githubusercontent.com/sfanous/61c4e7fe3bbcae96b237da1cfcc2fa63/raw/8d93d36fa2207208e9c1093f8a7c3b8f1420f20b/EcobeeTokensResponse.svg
 
@@ -238,7 +268,7 @@ Request Thermostat Summary
 .. code-block:: python
 
     thermostat_summary_response = ecobee_service.request_thermostats_summary(selection=Selection(
-            selection_type=SelectionType.REGISTERED.value,
+            selection_type=SelectionType.REGISTERED,
             selection_match='',
             include_equipment_status=True))
     logger.info(thermostat_summary_response.pretty_format())
@@ -255,8 +285,8 @@ Request Thermostats
 .. code-block:: python
 
     # Only set the include options you need to True. I've set most of them to True for illustrative purposes only.
-    selection = Selection(selection_type=SelectionType.REGISTERED.value, selection_match='', include_alerts=True,
-                          include_device=True, include_electricity=True, include_equipment_status=True,
+    selection = Selection(selection_type=SelectionType.REGISTERED, selection_match='', include_alerts=True,
+                          include_device=True, include_equipment_status=True,
                           include_events=True, include_extended_runtime=True, include_house_details=True,
                           include_location=True, include_management=True, include_notification_settings=True,
                           include_oem_cfg=False, include_privacy=False, include_program=True, include_reminders=True,
@@ -281,9 +311,10 @@ Update Thermostat
 
     update_thermostat_response = ecobee_service.update_thermostats(
             selection=Selection(
-                selection_type=SelectionType.REGISTERED.value,
+                selection_type=SelectionType.REGISTERED,
                 selection_match=''),
             thermostat=Thermostat(
+                identifier='123456789012',
                 settings=Settings(
                     hvac_mode='off')),
             functions=[
@@ -310,7 +341,7 @@ Meter Report
     eastern = ZoneInfo('America/New_York')
     meter_reports_response = ecobee_service.request_meter_reports(
             selection=Selection(
-                selection_type=SelectionType.THERMOSTATS.value,
+                selection_type=SelectionType.THERMOSTATS,
                 selection_match='123456789012'),
             start_date_time=datetime(2013, 4, 4, 0, 0, 0).replace(tzinfo=eastern),
             end_date_time=datetime(2013, 4, 4, 23, 59, 0).replace(tzinfo=eastern))
@@ -332,7 +363,7 @@ Runtime Report
     eastern = ZoneInfo('America/New_York')
     runtime_report_response = ecobee_service.request_runtime_reports(
             selection=Selection(
-                selection_type=SelectionType.THERMOSTATS.value,
+                selection_type=SelectionType.THERMOSTATS,
                 selection_match='123456789012'),
             start_date_time=datetime(2010, 1, 1, 0, 0, 0).replace(tzinfo=eastern),
             end_date_time=datetime(2010, 1, 2, 0, 0, 0).replace(tzinfo=eastern),
@@ -359,7 +390,8 @@ Request Groups
 
     group_response = ecobee_service.request_groups(
             selection=Selection(
-                selection_type=SelectionType.REGISTERED.value))
+                selection_type=SelectionType.REGISTERED,
+                selection_match=''))
     logger.info(group_response.pretty_format())
     assert group_response.status.code == 0, 'Failure while executing request_groups:\n{0}'.format(
         group_response.pretty_format())
@@ -378,7 +410,8 @@ Update Groups
     # Create Groups
     group_response = ecobee_service.update_groups(
             selection=Selection(
-                selection_type=SelectionType.REGISTERED.value),
+                selection_type=SelectionType.REGISTERED,
+                selection_match=''),
             groups=[
                 Group(
                     group_ref='3d03a26fd80001',
@@ -401,7 +434,8 @@ Update Groups
     # Update a Group
     group_response = ecobee_service.update_groups(
             selection=Selection(
-                selection_type=SelectionType.REGISTERED.value),
+                selection_type=SelectionType.REGISTERED,
+                selection_match=''),
             groups=[
                 Group(
                     group_ref='3d03a26fd80001',
@@ -413,7 +447,8 @@ Update Groups
     # Delete a group (Set the thermostats parameter of the group to an empty list)
     group_response = ecobee_service.update_groups(
             selection=Selection(
-                selection_type=SelectionType.REGISTERED.value),
+                selection_type=SelectionType.REGISTERED,
+                selection_match=''),
             groups=[
                 Group(
                     group_ref='3d03a26fd80001',
@@ -621,7 +656,7 @@ Update Hierarchy Users
 
 .. code-block:: python
 
-    update_hierarchy_users_response = update_hierarchy_users_response = ecobee_service.update_hierarchy_users(
+    update_hierarchy_users_response = ecobee_service.update_hierarchy_users(
         users=[
             HierarchyUser(
                 user_name='user1@update.com',
@@ -758,7 +793,7 @@ Issue Demand Response
 
     issue_demand_response_response = ecobee_service.issue_demand_response(
         selection=Selection(
-            selection_type=SelectionType.MANAGEMENT_SET.value,
+            selection_type=SelectionType.MANAGEMENT_SET,
             selection_match='/'),
         demand_response=DemandResponse(
             name='myDR',
@@ -809,7 +844,7 @@ Issue Demand Management
 
     issue_demand_management_response = ecobee_service.issue_demand_managements(
         selection=Selection(
-            selection_type=SelectionType.MANAGEMENT_SET.value,
+            selection_type=SelectionType.MANAGEMENT_SET,
             selection_match='/'),
         demand_managements=[
             DemandManagement(
@@ -834,7 +869,7 @@ Create Runtime Report Job
 
     create_runtime_report_job_response = ecobee_service.create_runtime_report_job(
         selection=Selection(
-            selection_type=SelectionType.THERMOSTATS.value,
+            selection_type=SelectionType.THERMOSTATS,
             selection_match='123456789012'),
         start_date=date(2016, 7, 1),
         end_date=date(2016, 10, 1),
@@ -899,15 +934,15 @@ Send Message
 
     update_thermostat_response = ecobee_service.send_message('Hello World')
     logger.info(update_thermostat_response.pretty_format())
-    assert thermostat_response.status.code == 0, 'Failure while executing request_thermostats:\n{0}'.format(
-        thermostat_response.pretty_format())
+    assert update_thermostat_response.status.code == 0, 'Failure while executing send_message:\n{0}'.format(
+        update_thermostat_response.pretty_format())
 
 Acknowledge
 ^^^^^^^^^^^
 
 .. code-block:: python
 
-    selection = Selection(selection_type=SelectionType.REGISTERED.value, selection_match='', include_alerts=True)
+    selection = Selection(selection_type=SelectionType.REGISTERED, selection_match='', include_alerts=True)
     thermostat_response = ecobee_service.request_thermostats(selection)
     thermostat = thermostat_response.thermostat_list[0]
     alerts = [alert for alert in thermostat.alerts if alert.text == message]
@@ -1136,7 +1171,7 @@ how to refresh an expired access token
 
         try:
             thermostat_summary_response = ecobee_service.request_thermostats_summary(selection=Selection(
-            selection_type=SelectionType.REGISTERED.value,
+            selection_type=SelectionType.REGISTERED,
             selection_match='',
             include_equipment_status=True))
         except EcobeeApiException as e:
