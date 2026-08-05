@@ -2,6 +2,7 @@ import json
 import logging
 import numbers
 from datetime import datetime as DateTime
+from typing import Any
 
 from pyecobee.enumerations import (
     AckType,
@@ -67,9 +68,7 @@ class ThermostatsService(DomainComponent):
         if not isinstance(selection, Selection):
             raise TypeError(f"selection must be an instance of {Selection}")
 
-        dictionary = {
-            "selection": Utilities.object_to_dictionary(selection, type(selection))
-        }
+        dictionary = {"selection": Utilities.object_to_dictionary(selection)}
 
         response = self._context._transport.request(
             "get",
@@ -110,9 +109,7 @@ class ThermostatsService(DomainComponent):
         if not isinstance(selection, Selection):
             raise TypeError(f"selection must be an instance of {Selection}")
 
-        dictionary = {
-            "selection": Utilities.object_to_dictionary(selection, type(selection))
-        }
+        dictionary = {"selection": Utilities.object_to_dictionary(selection)}
 
         response = self._context._transport.request(
             "get",
@@ -183,18 +180,13 @@ class ThermostatsService(DomainComponent):
                         f"All members of functions must be a an instance of {Function}"
                     )
 
-        dictionary = {
-            "selection": Utilities.object_to_dictionary(selection, type(selection))
-        }
+        dictionary = {"selection": Utilities.object_to_dictionary(selection)}
 
         if thermostat is not None:
-            dictionary["thermostat"] = Utilities.object_to_dictionary(
-                thermostat, type(thermostat)
-            )
+            dictionary["thermostat"] = Utilities.object_to_dictionary(thermostat)
         if functions is not None:
             dictionary["functions"] = [
-                Utilities.object_to_dictionary(function_, type(function_))
-                for function_ in functions
+                Utilities.object_to_dictionary(function_) for function_ in functions
             ]
 
         response = self._context._transport.request(
@@ -263,7 +255,7 @@ class ThermostatsService(DomainComponent):
             thermostat=None,
             functions=[
                 Function(
-                    type_="acknowledge",
+                    type="acknowledge",
                     params={
                         "thermostatIdentifier": thermostat_identifier,
                         "ackRef": ack_ref,
@@ -394,7 +386,7 @@ class ThermostatsService(DomainComponent):
         if not isinstance(selection, Selection):
             raise TypeError(f"selection must be an instance of {Selection}")
 
-        control_plug_parameters = {
+        control_plug_parameters: dict[str, Any] = {
             "plugName": plug_name,
             "plugState": plug_state.value,
             "holdType": hold_type.value,
@@ -421,7 +413,7 @@ class ThermostatsService(DomainComponent):
         return self.update_thermostats(
             selection,
             thermostat=None,
-            functions=[Function(type_="controlPlug", params=control_plug_parameters)],
+            functions=[Function(type="controlPlug", params=control_plug_parameters)],
             timeout=timeout,
         )
 
@@ -564,8 +556,8 @@ class ThermostatsService(DomainComponent):
 
         create_vacation_parameters = {
             "name": name,
-            "coolHoldTemp": int(cool_hold_temp * 10),
-            "heatHoldTemp": int(heat_hold_temp * 10),
+            "coolHoldTemp": int(float(cool_hold_temp) * 10),
+            "heatHoldTemp": int(float(heat_hold_temp) * 10),
             "fan": fan_mode.value,
             "fanMinOnTime": str(fan_min_on_time),
         }
@@ -590,7 +582,7 @@ class ThermostatsService(DomainComponent):
             selection,
             thermostat=None,
             functions=[
-                Function(type_="createVacation", params=create_vacation_parameters)
+                Function(type="createVacation", params=create_vacation_parameters)
             ],
             timeout=timeout,
         )
@@ -631,7 +623,7 @@ class ThermostatsService(DomainComponent):
         return self.update_thermostats(
             selection,
             thermostat=None,
-            functions=[Function(type_="deleteVacation", params={"name": name})],
+            functions=[Function(type="deleteVacation", params={"name": name})],
             timeout=timeout,
         )
 
@@ -671,7 +663,7 @@ class ThermostatsService(DomainComponent):
         return self.update_thermostats(
             selection,
             thermostat=None,
-            functions=[Function(type_="resetPreferences")],
+            functions=[Function(type="resetPreferences")],
             timeout=timeout,
         )
 
@@ -716,7 +708,7 @@ class ThermostatsService(DomainComponent):
             selection,
             thermostat=None,
             functions=[
-                Function(type_="resumeProgram", params={"resumeAll": resume_all})
+                Function(type="resumeProgram", params={"resumeAll": resume_all})
             ],
             timeout=timeout,
         )
@@ -757,7 +749,7 @@ class ThermostatsService(DomainComponent):
         return self.update_thermostats(
             selection,
             thermostat=None,
-            functions=[Function(type_="sendMessage", params={"text": text})],
+            functions=[Function(type="sendMessage", params={"text": text})],
             timeout=timeout,
         )
 
@@ -939,13 +931,13 @@ class ThermostatsService(DomainComponent):
         if not isinstance(selection, Selection):
             raise TypeError(f"selection must be an instance of {Selection}")
 
-        set_hold_parameters = {"holdType": hold_type.value}
+        set_hold_parameters: dict[str, Any] = {"holdType": hold_type.value}
 
         if cool_hold_temp is not None:
-            set_hold_parameters["coolHoldTemp"] = int(cool_hold_temp * 10)
+            set_hold_parameters["coolHoldTemp"] = int(float(cool_hold_temp) * 10)
 
         if heat_hold_temp is not None:
-            set_hold_parameters["heatHoldTemp"] = int(heat_hold_temp * 10)
+            set_hold_parameters["heatHoldTemp"] = int(float(heat_hold_temp) * 10)
 
         if fan_mode is not None:
             set_hold_parameters["fan"] = fan_mode.value
@@ -975,7 +967,7 @@ class ThermostatsService(DomainComponent):
         return self.update_thermostats(
             selection,
             thermostat=None,
-            functions=[Function(type_="setHold", params=set_hold_parameters)],
+            functions=[Function(type="setHold", params=set_hold_parameters)],
             timeout=timeout,
         )
 
@@ -1100,7 +1092,10 @@ class ThermostatsService(DomainComponent):
         if not isinstance(selection, Selection):
             raise TypeError(f"selection must be an instance of {Selection}")
 
-        set_occupied_parameters = {"occupied": occupied, "holdType": hold_type.value}
+        set_occupied_parameters: dict[str, Any] = {
+            "occupied": occupied,
+            "holdType": hold_type.value,
+        }
 
         if start_date_time is not None:
             set_occupied_parameters["startDate"] = (
@@ -1124,7 +1119,7 @@ class ThermostatsService(DomainComponent):
         return self.update_thermostats(
             selection,
             thermostat=None,
-            functions=[Function(type_="setOccupied", params=set_occupied_parameters)],
+            functions=[Function(type="setOccupied", params=set_occupied_parameters)],
             timeout=timeout,
         )
 
@@ -1163,7 +1158,7 @@ class ThermostatsService(DomainComponent):
             selection,
             thermostat=None,
             functions=[
-                Function(type_="unlinkVoiceEngine", params={"engineName": engine_name})
+                Function(type="unlinkVoiceEngine", params={"engineName": engine_name})
             ],
             timeout=timeout,
         )
@@ -1225,7 +1220,7 @@ class ThermostatsService(DomainComponent):
             thermostat=None,
             functions=[
                 Function(
-                    type_="updateSensor",
+                    type="updateSensor",
                     params={"name": name, "deviceId": device_id, "sensorId": sensor_id},
                 )
             ],
