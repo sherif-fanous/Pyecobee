@@ -143,7 +143,7 @@ class ReportsService(DomainComponent):
         end_date_time = end_date_time.astimezone(utc)
 
         dictionary = {
-            "selection": Utilities.object_to_dictionary(selection, type(selection)),
+            "selection": Utilities.object_to_dictionary(selection),
             "startDate": f"{start_date_time.year}-{start_date_time.month:02}-{start_date_time.day:02}",
             "startInterval": (start_date_time.hour * 12)
             + (start_date_time.minute // 5),
@@ -279,7 +279,7 @@ class ReportsService(DomainComponent):
         end_date_time = end_date_time.astimezone(utc)
 
         dictionary = {
-            "selection": Utilities.object_to_dictionary(selection, type(selection)),
+            "selection": Utilities.object_to_dictionary(selection),
             "startDate": f"{start_date_time.year}-{start_date_time.month:02}-{start_date_time.day:02}",
             "startInterval": (start_date_time.hour * 12)
             + (start_date_time.minute // 5),
@@ -432,7 +432,7 @@ class ReportsService(DomainComponent):
             raise TypeError(f"include_sensors must be an instance of {bool}")
 
         dictionary = {
-            "selection": Utilities.object_to_dictionary(selection, type(selection)),
+            "selection": Utilities.object_to_dictionary(selection),
             "startDate": f"{start_date.year}-{start_date.month:02}-{start_date.day:02}",
             "endDate": f"{end_date.year}-{end_date.month:02}-{end_date.day:02}",
             "columns": columns,

@@ -87,11 +87,9 @@ class DemandService(DomainComponent):
             raise TypeError(f"demand_response must be an instance of {DemandResponse}")
 
         dictionary = {
-            "selection": Utilities.object_to_dictionary(selection, type(selection)),
+            "selection": Utilities.object_to_dictionary(selection),
             "operation": "create",
-            "demandResponse": Utilities.object_to_dictionary(
-                demand_response, type(demand_response)
-            ),
+            "demandResponse": Utilities.object_to_dictionary(demand_response),
         }
 
         response = self._context._transport.request(
@@ -186,11 +184,9 @@ class DemandService(DomainComponent):
                 )
 
         dictionary = {
-            "selection": Utilities.object_to_dictionary(selection, type(selection)),
+            "selection": Utilities.object_to_dictionary(selection),
             "dmList": [
-                Utilities.object_to_dictionary(
-                    demand_management, type(demand_management)
-                )
+                Utilities.object_to_dictionary(demand_management)
                 for demand_management in demand_managements
             ],
         }

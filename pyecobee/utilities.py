@@ -22,31 +22,6 @@ class Utilities:
     __slots__ = []
 
     @classmethod
-    def dictionary_to_object(
-        cls,
-        data,
-        property_type,
-        response_properties=None,
-        parent_classes=None,
-        indent=0,
-        is_top_level=False,
-    ):
-        """Convert the legacy top-level wrapper using safe construction.
-
-        ``response_properties``, ``parent_classes``, and ``indent`` remain accepted
-        for backward compatibility with callers of the former implementation.
-        """
-
-        if len(data) != 1:
-            raise ValueError("Expected a single top-level response object")
-        name, payload = next(iter(data.items()))
-        try:
-            model = property_type[name]
-        except KeyError as error:
-            raise ValueError(f"No model registered for {name}") from error
-        return deserialize(payload, model)
-
-    @classmethod
     def make_http_request(
         cls, requests_http_method, url, headers=None, params=None, json_=None, timeout=5
     ):
@@ -62,7 +37,7 @@ class Utilities:
         )
 
     @classmethod
-    def object_to_dictionary(cls, object_, class_):
+    def object_to_dictionary(cls, object_):
         """Serialize a Pydantic model using ecobee aliases."""
 
         return object_.model_dump(by_alias=True, exclude_none=True, mode="json")

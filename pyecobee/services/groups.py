@@ -53,9 +53,7 @@ class GroupsService(DomainComponent):
                 f"selection.selection_type must be set to {SelectionType.REGISTERED.value}"
             )
 
-        dictionary = {
-            "selection": Utilities.object_to_dictionary(selection, type(selection))
-        }
+        dictionary = {"selection": Utilities.object_to_dictionary(selection)}
 
         response = self._context._transport.request(
             "get",
@@ -104,10 +102,8 @@ class GroupsService(DomainComponent):
                 )
 
         dictionary = {
-            "selection": Utilities.object_to_dictionary(selection, type(selection)),
-            "groups": [
-                Utilities.object_to_dictionary(group, type(group)) for group in groups
-            ],
+            "selection": Utilities.object_to_dictionary(selection),
+            "groups": [Utilities.object_to_dictionary(group) for group in groups],
         }
 
         response = self._context._transport.request(
