@@ -80,9 +80,9 @@ def _known_fields(data: Any, model: type[EcobeeObject]) -> Any:
     return known
 
 
-def deserialize(
-    data: dict[str, Any], model: type[EcobeeObject], path: str | None = None
-) -> EcobeeObject:
+def deserialize[EcobeeObjectT: EcobeeObject](
+    data: dict[str, Any], model: type[EcobeeObjectT], path: str | None = None
+) -> EcobeeObjectT:
     """Construct *model* from an API object without evaluating source text."""
 
     path = path or model.__name__

@@ -1,5 +1,6 @@
 import json
 import logging
+from typing import Any
 
 from pyecobee.objects.hierarchy_privilege import HierarchyPrivilege
 from pyecobee.objects.hierarchy_user import HierarchyUser
@@ -349,15 +350,12 @@ class HierarchyService(DomainComponent):
 
         dictionary = {
             "operation": "add",
-            "users": [
-                Utilities.object_to_dictionary(user, type(user)) for user in users
-            ],
+            "users": [Utilities.object_to_dictionary(user) for user in users],
         }
 
         if privileges is not None:
             dictionary["privileges"] = [
-                Utilities.object_to_dictionary(privilege, type(privilege))
-                for privilege in privileges
+                Utilities.object_to_dictionary(privilege) for privilege in privileges
             ]
 
         response = self._context._transport.request(
@@ -407,9 +405,7 @@ class HierarchyService(DomainComponent):
         dictionary = {
             "operation": "remove",
             "setPath": set_path,
-            "users": [
-                Utilities.object_to_dictionary(user, type(user)) for user in users
-            ],
+            "users": [Utilities.object_to_dictionary(user) for user in users],
         }
 
         response = self._context._transport.request(
@@ -454,9 +450,7 @@ class HierarchyService(DomainComponent):
 
         dictionary = {
             "operation": "unregister",
-            "users": [
-                Utilities.object_to_dictionary(user, type(user)) for user in users
-            ],
+            "users": [Utilities.object_to_dictionary(user) for user in users],
         }
 
         response = self._context._transport.request(
@@ -517,16 +511,15 @@ class HierarchyService(DomainComponent):
                 "Either users must not be None or privileges must not be None"
             )
 
-        dictionary = {"operation": "update"}
+        dictionary: dict[str, Any] = {"operation": "update"}
 
         if users is not None:
             dictionary["users"] = [
-                Utilities.object_to_dictionary(user, type(user)) for user in users
+                Utilities.object_to_dictionary(user) for user in users
             ]
         if privileges is not None:
             dictionary["privileges"] = [
-                Utilities.object_to_dictionary(privilege, type(privilege))
-                for privilege in privileges
+                Utilities.object_to_dictionary(privilege) for privilege in privileges
             ]
         response = self._context._transport.request(
             "post",
