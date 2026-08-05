@@ -1,6 +1,5 @@
 import logging
 
-from pyecobee.ecobee_object import EcobeeObject
 from pyecobee.enumerations import (
     FanMode,
     HoldType,
@@ -21,7 +20,7 @@ from pyecobee.services.context import ClientContext
 logger = logging.getLogger(__name__)
 
 
-class EcobeeService(EcobeeObject):
+class EcobeeService:
     """Compatibility facade delegating API operations to domain components."""
 
     __slots__ = (
@@ -104,6 +103,7 @@ class EcobeeService(EcobeeObject):
         :param scope: Scope the application requests from the user.
         Valid values: Scope.SMART_READ, Scope.SMART_WRITE, and Scope.EMS
         """
+
         if not isinstance(application_key, str):
             raise TypeError(f"application_key must be an instance of {str}")
         if len(application_key) != 32:
@@ -166,7 +166,7 @@ class EcobeeService(EcobeeObject):
         ack_type,
         remind_me_later=False,
         selection=Selection(
-            selection_type=SelectionType.REGISTERED.value, selection_match=""
+            selection_type=SelectionType.REGISTERED, selection_match=""
         ),
         timeout=5,
     ):
@@ -188,7 +188,7 @@ class EcobeeService(EcobeeObject):
         hold_type=HoldType.INDEFINITE,
         hold_hours=None,
         selection=Selection(
-            selection_type=SelectionType.REGISTERED.value, selection_match=""
+            selection_type=SelectionType.REGISTERED, selection_match=""
         ),
         timeout=5,
     ):
@@ -213,7 +213,7 @@ class EcobeeService(EcobeeObject):
         fan_mode=FanMode.AUTO,
         fan_min_on_time=0,
         selection=Selection(
-            selection_type=SelectionType.REGISTERED.value, selection_match=""
+            selection_type=SelectionType.REGISTERED, selection_match=""
         ),
         timeout=5,
     ):
@@ -233,7 +233,7 @@ class EcobeeService(EcobeeObject):
         self,
         name,
         selection=Selection(
-            selection_type=SelectionType.REGISTERED.value, selection_match=""
+            selection_type=SelectionType.REGISTERED, selection_match=""
         ),
         timeout=5,
     ):
@@ -244,7 +244,7 @@ class EcobeeService(EcobeeObject):
     def reset_preferences(
         self,
         selection=Selection(
-            selection_type=SelectionType.REGISTERED.value, selection_match=""
+            selection_type=SelectionType.REGISTERED, selection_match=""
         ),
         timeout=5,
     ):
@@ -254,7 +254,7 @@ class EcobeeService(EcobeeObject):
         self,
         resume_all=False,
         selection=Selection(
-            selection_type=SelectionType.REGISTERED.value, selection_match=""
+            selection_type=SelectionType.REGISTERED, selection_match=""
         ),
         timeout=5,
     ):
@@ -266,7 +266,7 @@ class EcobeeService(EcobeeObject):
         self,
         text,
         selection=Selection(
-            selection_type=SelectionType.REGISTERED.value, selection_match=""
+            selection_type=SelectionType.REGISTERED, selection_match=""
         ),
         timeout=5,
     ):
@@ -285,7 +285,7 @@ class EcobeeService(EcobeeObject):
         hold_type=HoldType.INDEFINITE,
         hold_hours=None,
         selection=Selection(
-            selection_type=SelectionType.REGISTERED.value, selection_match=""
+            selection_type=SelectionType.REGISTERED, selection_match=""
         ),
         timeout=5,
     ):
@@ -310,7 +310,7 @@ class EcobeeService(EcobeeObject):
         hold_type=HoldType.INDEFINITE,
         hold_hours=None,
         selection=Selection(
-            selection_type=SelectionType.REGISTERED.value, selection_match=""
+            selection_type=SelectionType.REGISTERED, selection_match=""
         ),
         timeout=5,
     ):
@@ -328,7 +328,7 @@ class EcobeeService(EcobeeObject):
         self,
         engine_name,
         selection=Selection(
-            selection_type=SelectionType.REGISTERED.value, selection_match=""
+            selection_type=SelectionType.REGISTERED, selection_match=""
         ),
         timeout=5,
     ):
@@ -342,7 +342,7 @@ class EcobeeService(EcobeeObject):
         device_id,
         sensor_id,
         selection=Selection(
-            selection_type=SelectionType.REGISTERED.value, selection_match=""
+            selection_type=SelectionType.REGISTERED, selection_match=""
         ),
         timeout=5,
     ):

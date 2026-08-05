@@ -20,7 +20,10 @@ classifiers = [
     "Programming Language :: Python :: 3.14",
     "Programming Language :: Python :: Implementation :: CPython",
 ]
-dependencies = ["requests>=2.13.0"]
+dependencies = [
+    "pydantic>=2.12,<3",
+    "requests>=2.13.0",
+]
 
 [project.urls]
 Homepage = "https://github.com/sfanous/Pyecobee"

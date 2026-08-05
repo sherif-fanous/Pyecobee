@@ -32,10 +32,23 @@ def test_facade_method_signatures_match_master():
         text=True,
     ).stdout
 
+    class NormalizeSelectionTypeValue(ast.NodeTransformer):
+        def visit_Attribute(self, node):
+            node = self.generic_visit(node)
+            if (
+                node.attr == "value"
+                and isinstance(node.value, ast.Attribute)
+                and isinstance(node.value.value, ast.Name)
+                and node.value.value.id == "SelectionType"
+            ):
+                return node.value
+            return node
+
     def public_method_arguments(source):
+        tree = NormalizeSelectionTypeValue().visit(ast.parse(source))
         service_class = next(
             node
-            for node in ast.parse(source).body
+            for node in tree.body
             if isinstance(node, ast.ClassDef) and node.name == "EcobeeService"
         )
         return {

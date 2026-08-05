@@ -218,7 +218,7 @@ class ThermostatsService(DomainComponent):
         ack_type,
         remind_me_later=False,
         selection=Selection(
-            selection_type=SelectionType.REGISTERED.value, selection_match=""
+            selection_type=SelectionType.REGISTERED, selection_match=""
         ),
         timeout=5,
     ):
@@ -284,7 +284,7 @@ class ThermostatsService(DomainComponent):
         hold_type=HoldType.INDEFINITE,
         hold_hours=None,
         selection=Selection(
-            selection_type=SelectionType.REGISTERED.value, selection_match=""
+            selection_type=SelectionType.REGISTERED, selection_match=""
         ),
         timeout=5,
     ):
@@ -435,7 +435,7 @@ class ThermostatsService(DomainComponent):
         fan_mode=FanMode.AUTO,
         fan_min_on_time=0,
         selection=Selection(
-            selection_type=SelectionType.REGISTERED.value, selection_match=""
+            selection_type=SelectionType.REGISTERED, selection_match=""
         ),
         timeout=5,
     ):
@@ -599,7 +599,7 @@ class ThermostatsService(DomainComponent):
         self,
         name,
         selection=Selection(
-            selection_type=SelectionType.REGISTERED.value, selection_match=""
+            selection_type=SelectionType.REGISTERED, selection_match=""
         ),
         timeout=5,
     ):
@@ -638,7 +638,7 @@ class ThermostatsService(DomainComponent):
     def reset_preferences(
         self,
         selection=Selection(
-            selection_type=SelectionType.REGISTERED.value, selection_match=""
+            selection_type=SelectionType.REGISTERED, selection_match=""
         ),
         timeout=5,
     ):
@@ -679,7 +679,7 @@ class ThermostatsService(DomainComponent):
         self,
         resume_all=False,
         selection=Selection(
-            selection_type=SelectionType.REGISTERED.value, selection_match=""
+            selection_type=SelectionType.REGISTERED, selection_match=""
         ),
         timeout=5,
     ):
@@ -725,7 +725,7 @@ class ThermostatsService(DomainComponent):
         self,
         text,
         selection=Selection(
-            selection_type=SelectionType.REGISTERED.value, selection_match=""
+            selection_type=SelectionType.REGISTERED, selection_match=""
         ),
         timeout=5,
     ):
@@ -772,7 +772,7 @@ class ThermostatsService(DomainComponent):
         hold_type=HoldType.INDEFINITE,
         hold_hours=None,
         selection=Selection(
-            selection_type=SelectionType.REGISTERED.value, selection_match=""
+            selection_type=SelectionType.REGISTERED, selection_match=""
         ),
         timeout=5,
     ):
@@ -987,7 +987,7 @@ class ThermostatsService(DomainComponent):
         hold_type=HoldType.INDEFINITE,
         hold_hours=None,
         selection=Selection(
-            selection_type=SelectionType.REGISTERED.value, selection_match=""
+            selection_type=SelectionType.REGISTERED, selection_match=""
         ),
         timeout=5,
     ):
@@ -1132,7 +1132,7 @@ class ThermostatsService(DomainComponent):
         self,
         engine_name,
         selection=Selection(
-            selection_type=SelectionType.REGISTERED.value, selection_match=""
+            selection_type=SelectionType.REGISTERED, selection_match=""
         ),
         timeout=5,
     ):
@@ -1174,7 +1174,7 @@ class ThermostatsService(DomainComponent):
         device_id,
         sensor_id,
         selection=Selection(
-            selection_type=SelectionType.REGISTERED.value, selection_match=""
+            selection_type=SelectionType.REGISTERED, selection_match=""
         ),
         timeout=5,
     ):

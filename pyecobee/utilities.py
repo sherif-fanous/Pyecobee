@@ -36,6 +36,7 @@ class Utilities:
         ``response_properties``, ``parent_classes``, and ``indent`` remain accepted
         for backward compatibility with callers of the former implementation.
         """
+
         if len(data) != 1:
             raise ValueError("Expected a single top-level response object")
         name, payload = next(iter(data.items()))
@@ -50,6 +51,7 @@ class Utilities:
         cls, requests_http_method, url, headers=None, params=None, json_=None, timeout=5
     ):
         """Send a request through the shared session-backed transport."""
+
         return transport.request(
             requests_http_method.__name__,
             url,
@@ -61,31 +63,14 @@ class Utilities:
 
     @classmethod
     def object_to_dictionary(cls, object_, class_):
-        dictionary = {object_.__class__.__name__: {}}
+        """Serialize a Pydantic model using ecobee aliases."""
 
-        for attribute_name in object_.slots():
-            attribute_value = getattr(object_, attribute_name)
-            if attribute_value is None:
-                continue
-            api_name = class_.attribute_name_map[attribute_name[1:]]
-            if isinstance(attribute_value, list):
-                dictionary[object_.__class__.__name__][api_name] = [
-                    cls.object_to_dictionary(entry, type(entry))
-                    if hasattr(entry, "__slots__")
-                    else entry
-                    for entry in attribute_value
-                ]
-            elif hasattr(attribute_value, "__slots__"):
-                dictionary[object_.__class__.__name__][api_name] = (
-                    cls.object_to_dictionary(attribute_value, type(attribute_value))
-                )
-            else:
-                dictionary[object_.__class__.__name__][api_name] = attribute_value
-
-        return dictionary[object_.__class__.__name__]
+        return object_.model_dump(by_alias=True, exclude_none=True, mode="json")
 
     @classmethod
     def process_http_response(cls, response, response_class):
+        """Deserialize successful responses and translate API error payloads."""
+
         if response.status_code == requests.codes.ok:
             response_object = deserialize(response.json(), response_class)
             response_object.pretty_format()
@@ -108,6 +93,7 @@ class Utilities:
                     error_response.error_description,
                     error_response.error_uri,
                 )
+
             if "status" in response.json():
                 status = deserialize(response.json()["status"], Status)
                 raise EcobeeApiException(
@@ -122,6 +108,7 @@ class Utilities:
                 f"HTTP error encountered for URL => {response.request.url}\n"
                 f"HTTP error code => {response.status_code}"
             )
+
         except EcobeeException as ecobee_exception:
             logger.exception(
                 "%s raised:\n", type(ecobee_exception).__name__, exc_info=True
