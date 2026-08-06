@@ -32,7 +32,9 @@ def service(monkeypatch, mock_response):
 @pytest.mark.parametrize("method_name", ["request_tokens", "refresh_tokens"])
 def test_token_expiries_follow_the_documented_lifetimes(service, method_name):
     before = datetime.now(UTC)
+
     getattr(service, method_name)()
+
     after = datetime.now(UTC)
 
     assert before + timedelta(seconds=3599) <= service.access_token_expires_on
@@ -51,4 +53,4 @@ def test_refresh_replaces_the_stored_refresh_token(service):
 
 
 def test_documented_refresh_token_lifetime_is_thirty_days():
-    assert ClientContext.REFRESH_TOKEN_LIFETIME == timedelta(days=30)
+    assert timedelta(days=30) == ClientContext.REFRESH_TOKEN_LIFETIME

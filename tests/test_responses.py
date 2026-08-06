@@ -29,11 +29,12 @@ class Response:
 
 def response_from_fixture(name):
     path = Path(__file__).parent / "fixtures" / name
+
     return Response(200, json.loads(path.read_text()))
 
 
 @pytest.mark.parametrize(
-    "fixture_name,response_class,attribute",
+    ("fixture_name", "response_class", "attribute"),
     [
         ("add_hierarchy_set_response.json", EcobeeStatusResponse, "status"),
         (
@@ -150,7 +151,7 @@ def test_empty_lists_and_malformed_known_fields_are_handled():
     )
 
     assert response.thermostat_list == []
-    with pytest.raises(EcobeeDeserializationException, match="status.code"):
+    with pytest.raises(EcobeeDeserializationException, match=r"status\.code"):
         Utilities.process_http_response(
             Response(200, {"status": {"code": "not-a-number", "message": ""}}),
             EcobeeStatusResponse,

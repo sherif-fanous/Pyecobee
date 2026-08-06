@@ -30,7 +30,7 @@ def selection():
 def test_service_constructor_and_argument_validation():
     with pytest.raises(TypeError):
         EcobeeService("test", 1, Tokens(), discard_tokens)
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="application_key must be a 32"):
         EcobeeService("test", "short", Tokens(), discard_tokens)
     with pytest.raises(TypeError):
         EcobeeService("test", APPLICATION_KEY, "not tokens", discard_tokens)
@@ -38,7 +38,7 @@ def test_service_constructor_and_argument_validation():
         EcobeeService("test", APPLICATION_KEY, Tokens(), None)
     with pytest.raises(TypeError):
         service().request_thermostats_summary("not a selection")
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="response_type must be"):
         service().authorize(response_type="code")
 
 
@@ -59,8 +59,9 @@ def test_meter_report_validates_dates_before_request():
     ],
 )
 def test_report_requests_reject_naive_datetimes(method, kwargs):
-    start = DateTime(2020, 1, 2)
-    end = DateTime(2020, 1, 3)
+    # Naive on purpose: rejecting them is what this test asserts.
+    start = DateTime(2020, 1, 2)  # noqa: DTZ001
+    end = DateTime(2020, 1, 3)  # noqa: DTZ001
 
     with pytest.raises(ValueError, match="start_date_time must be timezone-aware"):
         getattr(service(), method)(selection(), start, end, **kwargs)
@@ -94,9 +95,11 @@ def test_meter_report_converts_aware_dates_to_utc(monkeypatch):
 
     def request(*args, **kwargs):
         captured.update(kwargs)
+
         return Response()
 
     monkeypatch.setattr(HttpTransport, "request", request)
+
     eastern = ZoneInfo("America/New_York")
     start = DateTime(2020, 1, 2, 0, 0, tzinfo=eastern)
     end = DateTime(2020, 1, 2, 1, 0, tzinfo=eastern)

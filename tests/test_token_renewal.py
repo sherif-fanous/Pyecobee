@@ -36,7 +36,6 @@ PROCESSING_ERROR_PAYLOAD = {"status": {"code": 3, "message": "Processing error."
 
 def is_error(payload):
     """Return whether the API would answer *payload* with a failing status."""
-
     return set(payload) == {"status"} and payload["status"]["code"] != 0
 
 
@@ -47,7 +46,6 @@ def selection():
 @pytest.fixture
 def exchange(monkeypatch, mock_response):
     """Record every request and reply with queued payloads."""
-
     sent = []
 
     def with_payloads(*payloads):
@@ -55,6 +53,7 @@ def exchange(monkeypatch, mock_response):
 
         def request(_transport, method, url, **kwargs):
             sent.append({"method": method, "url": url, **kwargs})
+
             payload = remaining.pop(0) if len(remaining) > 1 else remaining[0]
 
             return mock_response(
@@ -176,6 +175,7 @@ def test_a_request_is_retried_only_once(exchange):
 
 def test_renewed_credentials_are_announced_once_per_renewal(exchange):
     exchange(EXPIRED_TOKEN_PAYLOAD, TOKENS_PAYLOAD, THERMOSTAT_PAYLOAD)
+
     announced = []
     ecobee_service = build_service(
         announced.append,
@@ -204,7 +204,6 @@ def test_a_body_that_is_not_json_is_not_treated_as_expired_credentials(
     monkeypatch, mock_response
 ):
     """A proxy may answer with an error page rather than the ecobee API."""
-
     not_json = requests.Response()
     not_json.status_code = 502
     not_json._content = b"<html>502 Bad Gateway</html>"
@@ -217,6 +216,7 @@ def test_a_body_that_is_not_json_is_not_treated_as_expired_credentials(
         return not_json
 
     monkeypatch.setattr(HttpTransport, "request", request)
+
     ecobee_service = service(access_token="access", refresh_token="old-refresh")
 
     with pytest.raises(EcobeeHttpException):
@@ -226,12 +226,11 @@ def test_a_body_that_is_not_json_is_not_treated_as_expired_credentials(
 
 
 def test_documented_renewal_margin_is_two_minutes():
-    assert ClientContext.ACCESS_TOKEN_REFRESH_MARGIN == timedelta(seconds=120)
+    assert timedelta(seconds=120) == ClientContext.ACCESS_TOKEN_REFRESH_MARGIN
 
 
 def test_an_automatic_renewal_cannot_go_unstored(exchange):
     """Credentials cannot be renewed without somewhere to store them."""
-
     exchange(TOKENS_PAYLOAD, THERMOSTAT_PAYLOAD)
 
     with pytest.raises(TypeError, match="on_tokens_changed must be callable"):
