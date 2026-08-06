@@ -13,29 +13,13 @@ from pyecobee.exceptions import (
 )
 from pyecobee.objects.status import Status
 from pyecobee.responses import EcobeeErrorResponse
-from pyecobee.transport import HttpTransport, redact
+from pyecobee.transport import redact
 
 logger = logging.getLogger(__name__)
-transport = HttpTransport()
 
 
 class Utilities:
     __slots__ = []
-
-    @classmethod
-    def make_http_request(
-        cls, requests_http_method, url, headers=None, params=None, json_=None, timeout=5
-    ):
-        """Send a request through the shared session-backed transport."""
-
-        return transport.request(
-            requests_http_method.__name__,
-            url,
-            headers=headers,
-            params=params,
-            json_=json_,
-            timeout=timeout,
-        )
 
     @classmethod
     def object_to_dictionary(cls, object_):
