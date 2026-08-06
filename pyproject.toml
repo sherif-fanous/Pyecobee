@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "pyecobee"
 version = "2.0.0"
 description = "A Python implementation of the ecobee API"
-readme = { file = "README.rst", content-type = "text/x-rst" }
+readme = { file = "README.md", content-type = "text/markdown" }
 requires-python = ">=3.12"
 license = "MIT"
 authors = [{ name = "Sherif Fanous", email = "pyecobee_support@gmail.com" }]
@@ -26,7 +26,9 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/sfanous/Pyecobee"
+Homepage = "https://github.com/sherif-fanous/Pyecobee"
+Changelog = "https://github.com/sherif-fanous/Pyecobee/blob/master/CHANGELOG.md"
+Issues = "https://github.com/sherif-fanous/Pyecobee/issues"
 
 [dependency-groups]
 dev = [
