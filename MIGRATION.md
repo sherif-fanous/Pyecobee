@@ -1,10 +1,10 @@
 # Migrating to 2.0
 
 `EcobeeService` remains the supported client entry point, and the roughly forty API
-operations on it keep the names and signatures they had in 1.3.13. What changed is how
-the service is constructed, how credentials are held, and how they are stored. Work
-through the credentials section first, because a 1.x application will not start until
-it is done.
+operations on it keep the names and signatures they had in 1.3.13. What changed is
+credentials: how you hand them over, how they are stored, and when they are renewed.
+Start with the credentials section, because a 1.x application will not construct a
+service until that work is done.
 
 ## Credentials
 
@@ -16,8 +16,8 @@ EcobeeService(thermostat_name, application_key, tokens, on_tokens_changed)
 
 `tokens` is the credentials you already hold, as a `Tokens` or a mapping.
 `on_tokens_changed` is called with a new `Tokens` every time ecobee issues credentials.
-The ecobee API replaces the refresh token each time it issues one, so an application
-that does not store what the callback hands it will lose access.
+ecobee replaces the refresh token each time it issues one, so an application that
+discards what the callback hands it will lose access.
 
 These are gone:
 
@@ -32,8 +32,8 @@ These are gone:
 
 Renewal is automatic. Before each request the service renews an access token that is
 within two minutes of expiring, and if ecobee reports a token as already expired it
-renews once and retries. Delete the pro-active and reactive patterns the 1.x README
-taught: comparing expiries before every call, and catching status code 14.
+renews once and retries. You can delete the pro-active and reactive patterns the 1.x
+README taught, which compared expiries before every call and caught status code 14.
 
 `JsonFileTokenStore` is a ready-made pair of callables for the third and fourth
 arguments:
@@ -97,13 +97,12 @@ The package root now defines `__all__`. Names that were incidentally exposed
 through wildcard imports, such as the standard-library `logging` module, are no
 longer public API. Import those directly from their owning module.
 
-The domain components under `pyecobee.services` are implementation details;
-applications should continue to use `EcobeeService` unless a future release
-makes a domain component public.
+The domain components under `pyecobee.services` are implementation details. Keep
+using `EcobeeService` unless a later release makes one of them public.
 
 ## Object models
 
-Object and response classes are now Pydantic v2 models.  Their public Python
+Object and response classes are now Pydantic v2 models. Their public Python
 field names are unchanged, while their ecobee names are declared as Pydantic
 aliases in `pyecobee.models`.
 
@@ -123,6 +122,6 @@ selection = Selection(selection_type=SelectionType.THERMOSTATS, selection_match=
 payload = selection.model_dump(by_alias=True, exclude_none=True, mode="json")
 ```
 
-`Selection` is a strict request model. API responses remain tolerant of fields
-introduced by ecobee after this release. Existing response fields retain their
-Python names and enum-valued fields serialize as their ecobee string values.
+`Selection` is a strict request model. Responses stay tolerant of fields ecobee adds
+after this release. Existing response fields keep their Python names, and enum-valued
+fields serialize as their ecobee string values.

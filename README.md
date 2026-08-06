@@ -179,9 +179,9 @@ ecobee_service = EcobeeService(
 )
 ```
 
-Every parameter is required. `tokens` and `on_tokens_changed` are the two halves of the same obligation: the ecobee
-API requires an application to store the credentials it is issued, and it replaces the refresh token every time it
-issues one.
+Every parameter is required. You pass the credentials you hold as `tokens` and get back every new set through
+`on_tokens_changed`, because the ecobee API requires an application to store what it is issued and replaces the
+refresh token every time it issues one.
 
 ## Authorization and token requests
 
