@@ -19,7 +19,6 @@ from pyecobee.models import (
 )
 
 __all__ = [
-    "EcobeeStatusResponse",
     "EcobeeAuthorizeResponse",
     "EcobeeCreateRuntimeReportJobResponse",
     "EcobeeErrorResponse",
@@ -31,6 +30,7 @@ __all__ = [
     "EcobeeListRuntimeReportJobStatusResponse",
     "EcobeeMeterReportsResponse",
     "EcobeeRuntimeReportsResponse",
+    "EcobeeStatusResponse",
     "EcobeeThermostatResponse",
     "EcobeeThermostatsSummaryResponse",
     "EcobeeTokensResponse",

@@ -24,13 +24,13 @@ class EcobeeService:
     """Compatibility facade delegating API operations to domain components."""
 
     __slots__ = (
-        "_context",
         "_authorization",
-        "_thermostats",
+        "_context",
+        "_demand",
         "_groups",
         "_hierarchy",
-        "_demand",
         "_reports",
+        "_thermostats",
     )
 
     AUTHORIZE_URL = ClientContext.AUTHORIZE_URL
@@ -75,7 +75,6 @@ class EcobeeService:
         not callable
         :raises ValueError: If application_key is not 32 characters
         """
-
         if not isinstance(application_key, str):
             raise TypeError(f"application_key must be an instance of {str}")
         if len(application_key) != 32:
@@ -487,7 +486,6 @@ class EcobeeService:
     @property
     def tokens(self):
         """Return the credentials currently held."""
-
         return self._context.tokens
 
     @property

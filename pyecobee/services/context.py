@@ -18,7 +18,6 @@ EXPIRED_ACCESS_TOKEN_STATUS_CODE = 14
 
 def _reports_an_expired_access_token(response):
     """Return whether *response* is the ecobee "refresh your tokens" error."""
-
     if response.status_code == requests.codes.ok:
         return False
 
@@ -38,10 +37,10 @@ class ClientContext:
     """Transport and authentication state shared by domain components."""
 
     __slots__ = (
-        "_thermostat_name",
         "_application_key",
-        "_tokens",
         "_on_tokens_changed",
+        "_thermostat_name",
+        "_tokens",
         "_transport",
     )
 
@@ -94,13 +93,11 @@ class ClientContext:
     @property
     def tokens(self):
         """Return the credentials currently held."""
-
         return self._tokens
 
     @property
     def transport(self):
         """Return the transport, for requests that carry no access token."""
-
         return self._transport
 
     def store_tokens(self, tokens):
@@ -109,8 +106,8 @@ class ClientContext:
         Exceptions raised by the callback are deliberately not suppressed: a
         caller that cannot store its credentials must find out immediately.
         """
-
         self._tokens = tokens
+
         self._on_tokens_changed(tokens)
 
     def issue_tokens(self, grant_type, code, timeout=5):
@@ -124,7 +121,6 @@ class ClientContext:
         :return: A TokensResponse object
         :rtype: EcobeeTokensResponse
         """
-
         issued_on = DateTime.now(datetime.UTC)
         response = self._transport.request(
             "post",
@@ -160,7 +156,6 @@ class ClientContext:
         :attr:`ACCESS_TOKEN_REFRESH_MARGIN`. An access token of unknown expiry
         is left alone; an expired one is recognised from the response instead.
         """
-
         if self._tokens.refresh_token is None:
             return False
 
@@ -189,7 +184,6 @@ class ClientContext:
         connection and to receive a response
         :return: The HTTP response
         """
-
         if self.access_token_is_due_for_renewal():
             logger.debug("Renewing an access token that is due to expire")
             self.issue_tokens(
@@ -205,6 +199,7 @@ class ClientContext:
             self.issue_tokens(
                 "refresh_token", self._tokens.refresh_token, timeout=timeout
             )
+
             response = self._authenticated_request(method, url, params, json_, timeout)
 
         return response
