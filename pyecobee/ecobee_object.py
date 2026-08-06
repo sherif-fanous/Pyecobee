@@ -20,12 +20,10 @@ class EcobeeObject(BaseModel):
 
     def to_api_dict(self) -> dict[str, Any]:
         """Return a JSON-compatible ecobee payload without unset values."""
-
         return self.model_dump(by_alias=True, exclude_none=True, mode="json")
 
     def pretty_format(self, indent: int = 2, sort_attributes: bool = True) -> str:
         """Return a readable representation using ecobee field aliases."""
-
         return f"{type(self).__name__}({pformat(self.to_api_dict(), indent=indent, sort_dicts=sort_attributes)})"
 
 

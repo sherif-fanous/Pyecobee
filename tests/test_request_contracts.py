@@ -18,9 +18,11 @@ def capture_request(monkeypatch, mock_response, payload):
 
     def request(_transport, method, url, **kwargs):
         captured.update(method=method, url=url, **kwargs)
+
         return mock_response(payload=payload)
 
     monkeypatch.setattr(HttpTransport, "request", request)
+
     return captured
 
 

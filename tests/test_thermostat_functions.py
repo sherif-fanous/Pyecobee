@@ -38,6 +38,7 @@ def sent_functions(monkeypatch, mock_response):
 
     def request(_transport, method, url, **kwargs):
         captured.append(kwargs["json_"])
+
         return mock_response(payload=UPDATE_RESPONSE)
 
     monkeypatch.setattr(HttpTransport, "request", request)
@@ -46,9 +47,12 @@ def sent_functions(monkeypatch, mock_response):
         del captured[:]
         getattr(service(), method_name)(*args, selection=selection(), **kwargs)
         assert len(captured) == 1
+
         payload = captured[0]
+
         # The payload is passed to requests as json_, so it must be serializable.
         json.dumps(payload)
+
         return payload["functions"]
 
     return call

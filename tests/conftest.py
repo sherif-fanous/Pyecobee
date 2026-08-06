@@ -14,6 +14,7 @@ class MockResponse:
     def json(self):
         if isinstance(self._payload, Exception):
             raise self._payload
+
         return self._payload
 
 

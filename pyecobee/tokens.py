@@ -14,13 +14,11 @@ __all__ = ["Tokens"]
 
 def _to_text(value: DateTime | None) -> str | None:
     """Return an ISO 8601 representation of an expiry."""
-
     return None if value is None else value.isoformat()
 
 
 def _to_date_time(value: str | DateTime | None) -> DateTime | None:
     """Return a timezone aware expiry, assuming UTC when none is given."""
-
     if value is None:
         return None
 
@@ -60,7 +58,6 @@ class Tokens:
 
     def __repr__(self) -> str:
         """Return a representation that does not disclose the credentials."""
-
         present = ", ".join(
             name
             for name in ("authorization_token", "access_token", "refresh_token")
@@ -76,12 +73,10 @@ class Tokens:
 
     def replace(self, **changes: Any) -> Tokens:
         """Return a copy of these tokens with *changes* applied."""
-
         return replace(self, **changes)
 
     def to_dict(self) -> dict[str, Any]:
         """Return a JSON-compatible mapping of the credentials."""
-
         return {
             "authorization_token": self.authorization_token,
             "access_token": self.access_token,
@@ -94,7 +89,6 @@ class Tokens:
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> Tokens:
         """Construct credentials from a mapping produced by :meth:`to_dict`."""
-
         recognized = {
             name: data[name] for name in cls.__dataclass_fields__ if name in data
         }

@@ -12,7 +12,6 @@ def discard_tokens(_tokens):
 
 def build_service(on_tokens_changed=discard_tokens, **token_fields):
     """Return a service holding *token_fields* as its credentials."""
-
     return EcobeeService(
         THERMOSTAT_NAME,
         APPLICATION_KEY,

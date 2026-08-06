@@ -26,7 +26,6 @@ def test_facade_uses_a_component_for_each_api_domain():
 
 def test_api_operation_signatures_match_the_last_release():
     """Version 2 redesigns how credentials are held, not how requests are made."""
-
     baseline = subprocess.run(
         ["git", "show", "v1.3.13:pyecobee/service.py"],
         check=True,
@@ -44,6 +43,7 @@ def test_api_operation_signatures_match_the_last_release():
                 and node.value.value.id == "SelectionType"
             ):
                 return node.value
+
             return node
 
     def api_operation_arguments(source):
@@ -53,6 +53,7 @@ def test_api_operation_signatures_match_the_last_release():
             for node in tree.body
             if isinstance(node, ast.ClassDef) and node.name == "EcobeeService"
         )
+
         return {
             node.name: ast.dump(node.args)
             for node in service_class.body

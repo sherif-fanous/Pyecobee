@@ -128,6 +128,7 @@ def test_service_requires_somewhere_to_store_new_credentials():
 )
 def test_new_credentials_are_announced_to_the_callback(respond, method_name, payload):
     respond(payload)
+
     announced = []
     service = build_service(
         announced.append,
@@ -143,11 +144,14 @@ def test_new_credentials_are_announced_to_the_callback(respond, method_name, pay
 
 def test_announced_credentials_are_ready_to_store(respond):
     respond(TOKENS_PAYLOAD)
+
     announced = []
     service = build_service(announced.append, refresh_token="old-refresh")
 
     before = datetime.now(UTC)
+
     service.refresh_tokens()
+
     tokens = announced[-1]
 
     assert tokens.access_token == "new-access"

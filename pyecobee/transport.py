@@ -65,4 +65,5 @@ class HttpTransport:
             )
         except requests.exceptions.RequestException as exc:
             logger.exception("HTTP request failed")
+
             raise EcobeeRequestsException(str(exc)) from exc

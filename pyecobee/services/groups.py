@@ -45,7 +45,6 @@ class GroupsService(DomainComponent):
         :raises ValueError: If selection.selection_type is not
         "registered"
         """
-
         if not isinstance(selection, Selection):
             raise TypeError(f"selection must be an instance of {Selection}")
         if selection.selection_type != SelectionType.REGISTERED:
@@ -86,7 +85,6 @@ class GroupsService(DomainComponent):
         groups is not a list, or any member of groups is not an instance
         of Group
         """
-
         if not isinstance(selection, Selection):
             raise TypeError(f"selection must be an instance of {Selection}")
         if not isinstance(groups, list):

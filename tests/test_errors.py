@@ -22,6 +22,7 @@ class Response:
     def json(self):
         if isinstance(self._payload, Exception):
             raise self._payload
+
         return self._payload
 
 
@@ -80,7 +81,6 @@ def test_malformed_json_is_propagated():
 
 def not_json():
     """Return the failure requests raises for a body that is not JSON."""
-
     return requests.exceptions.JSONDecodeError("Expecting value", "<html>502</html>", 0)
 
 

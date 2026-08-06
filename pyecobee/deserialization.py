@@ -23,7 +23,6 @@ MODEL_REGISTRY = {
 
 def _nested_model(annotation: Any) -> type[EcobeeObject] | None:
     """Find a Pydantic model in a field annotation."""
-
     if isinstance(annotation, type) and issubclass(annotation, EcobeeObject):
         return annotation
 
@@ -38,7 +37,6 @@ def _nested_model(annotation: Any) -> type[EcobeeObject] | None:
 
 def _known_fields(data: Any, model: type[EcobeeObject]) -> Any:
     """Discard forward-compatible response fields before strict nested validation."""
-
     if not isinstance(data, dict):
         return data
 
@@ -80,7 +78,6 @@ def deserialize[EcobeeObjectT: EcobeeObject](
     data: dict[str, Any], model: type[EcobeeObjectT], path: str | None = None
 ) -> EcobeeObjectT:
     """Construct *model* from an API object without evaluating source text."""
-
     path = path or model.__name__
 
     if not isinstance(data, dict):

@@ -25,6 +25,7 @@ class Session:
 
 def test_request_and_response_logs_redact_credentials(caplog):
     caplog.set_level(logging.DEBUG)
+
     response = HttpTransport(Session()).request(
         "post",
         "https://example.test",
@@ -37,6 +38,7 @@ def test_request_and_response_logs_redact_credentials(caplog):
     Utilities.process_http_response(response, EcobeeTokensResponse)
 
     logs = caplog.text
+
     for secret in (
         "secret-token",
         "application-key",

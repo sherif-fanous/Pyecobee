@@ -28,6 +28,7 @@ def test_request_models_use_aliases_nested_values_and_enum_serialization():
     }
 
     event = Event(type="hold", fan="auto")
+
     assert event.type == "hold"
     assert event.fan == "auto"
     assert event.to_api_dict() == {"type": "hold", "fan": "auto"}
