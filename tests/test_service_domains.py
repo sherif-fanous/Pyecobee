@@ -2,7 +2,6 @@ import ast
 import subprocess
 from pathlib import Path
 
-from pyecobee import EcobeeService
 from pyecobee.services import (
     AuthorizationService,
     DemandService,
@@ -11,10 +10,11 @@ from pyecobee.services import (
     ReportsService,
     ThermostatsService,
 )
+from tests.support import build_service
 
 
 def test_facade_uses_a_component_for_each_api_domain():
-    service = EcobeeService("test", "a" * 32)
+    service = build_service()
 
     assert isinstance(service._authorization, AuthorizationService)
     assert isinstance(service._thermostats, ThermostatsService)
@@ -24,9 +24,11 @@ def test_facade_uses_a_component_for_each_api_domain():
     assert isinstance(service._reports, ReportsService)
 
 
-def test_facade_method_signatures_match_master():
+def test_api_operation_signatures_match_the_last_release():
+    """Version 2 redesigns how credentials are held, not how requests are made."""
+
     baseline = subprocess.run(
-        ["git", "show", "master:pyecobee/service.py"],
+        ["git", "show", "v1.3.13:pyecobee/service.py"],
         check=True,
         capture_output=True,
         text=True,
@@ -44,7 +46,7 @@ def test_facade_method_signatures_match_master():
                 return node.value
             return node
 
-    def public_method_arguments(source):
+    def api_operation_arguments(source):
         tree = NormalizeSelectionTypeValue().visit(ast.parse(source))
         service_class = next(
             node
@@ -54,16 +56,20 @@ def test_facade_method_signatures_match_master():
         return {
             node.name: ast.dump(node.args)
             for node in service_class.body
-            if isinstance(node, ast.FunctionDef) and not node.name.startswith("_")
+            if isinstance(node, ast.FunctionDef)
+            and not node.name.startswith("_")
+            # Properties are excluded: credentials are now a Tokens value
+            # object rather than a set of individually assignable attributes.
+            and not node.decorator_list
         }
 
-    current = public_method_arguments(Path("pyecobee/service.py").read_text())
-    baseline_methods = public_method_arguments(baseline)
+    current = api_operation_arguments(Path("pyecobee/service.py").read_text())
+    baseline_operations = api_operation_arguments(baseline)
 
-    # Methods may be added, but every method inherited from master must keep
+    # Operations may be added, but every operation released in 1.3.13 must keep
     # its signature so that existing callers continue to work.
     assert {
         name: arguments
         for name, arguments in current.items()
-        if name in baseline_methods
-    } == baseline_methods
+        if name in baseline_operations
+    } == baseline_operations

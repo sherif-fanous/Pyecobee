@@ -319,28 +319,29 @@ def celsius_to_fahrenheit(temperature):
     return (temperature * 1.8) + 32
 
 
-def persist_to_shelf(file_name, ecobee_service):
-    pyecobee_db = shelve.open(file_name, protocol=2)
-    pyecobee_db[ecobee_service.thermostat_name] = ecobee_service
-    pyecobee_db.close()
+def load_tokens(file_name, thermostat_name):
+    with shelve.open(file_name) as pyecobee_db:
+        return pyecobee_db.get(thermostat_name, {})
+
+
+def store_tokens(file_name, thermostat_name, tokens):
+    with shelve.open(file_name) as pyecobee_db:
+        pyecobee_db[thermostat_name] = tokens.to_dict()
 
 
 def refresh_tokens(ecobee_service):
     logger.info("Refreshing Tokens")
     ecobee_service.refresh_tokens()
-    persist_to_shelf("pyecobee_db", ecobee_service)
 
 
 def request_tokens(ecobee_service):
     logger.info("Requesting Tokens")
     ecobee_service.request_tokens()
-    persist_to_shelf("pyecobee_db", ecobee_service)
 
 
 def authorize(ecobee_service):
     logger.info("Authorizing App")
     authorize_response = ecobee_service.authorize()
-    persist_to_shelf("pyecobee_db", ecobee_service)
 
     logger.info(
         "Please goto ecobee.com, login to the web portal and click on the "
@@ -389,18 +390,16 @@ def main():
         thermostat_name = (
             f"ecobeeThermostat@Home_{python_version[0]}.{python_version[1]}"
         )
-        pyecobee_db = None
-        try:
-            pyecobee_db = shelve.open("pyecobee_db", protocol=2)
-            ecobee_service = pyecobee_db[thermostat_name]
-        except KeyError:
-            application_key = input("Please enter the API key of your ecobee App: ")
-            ecobee_service = EcobeeService(
-                thermostat_name=thermostat_name, application_key=application_key
-            )
-        finally:
-            if pyecobee_db is not None:
-                pyecobee_db.close()
+        stored_tokens = load_tokens("pyecobee_db", thermostat_name)
+        application_key = stored_tokens.pop("application_key", None) or input(
+            "Please enter the API key of your ecobee App: "
+        )
+        ecobee_service = EcobeeService(
+            thermostat_name,
+            application_key,
+            stored_tokens,
+            lambda tokens: store_tokens("pyecobee_db", thermostat_name, tokens),
+        )
 
         if not ecobee_service.authorization_token:
             authorize(ecobee_service)

@@ -6,8 +6,9 @@ from zoneinfo import ZoneInfo
 
 import pytest
 
-from pyecobee import EcobeeService, Selection, SelectionType
+from pyecobee import EcobeeService, Selection, SelectionType, Tokens
 from pyecobee.transport import HttpTransport
+from tests.support import APPLICATION_KEY, build_service, discard_tokens
 
 
 class Response:
@@ -19,7 +20,7 @@ class Response:
 
 
 def service():
-    return EcobeeService("test", "a" * 32)
+    return build_service()
 
 
 def selection():
@@ -28,9 +29,13 @@ def selection():
 
 def test_service_constructor_and_argument_validation():
     with pytest.raises(TypeError):
-        EcobeeService("test", 1)
+        EcobeeService("test", 1, Tokens(), discard_tokens)
     with pytest.raises(ValueError):
-        EcobeeService("test", "short")
+        EcobeeService("test", "short", Tokens(), discard_tokens)
+    with pytest.raises(TypeError):
+        EcobeeService("test", APPLICATION_KEY, "not tokens", discard_tokens)
+    with pytest.raises(TypeError):
+        EcobeeService("test", APPLICATION_KEY, Tokens(), None)
     with pytest.raises(TypeError):
         service().request_thermostats_summary("not a selection")
     with pytest.raises(ValueError):

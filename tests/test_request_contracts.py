@@ -2,12 +2,11 @@ import json
 
 from pyecobee import EcobeeService, Selection, SelectionType
 from pyecobee.transport import HttpTransport
+from tests.support import build_service
 
 
 def service():
-    return EcobeeService(
-        "test", "a" * 32, authorization_token="authorization", access_token="access"
-    )
+    return build_service(authorization_token="authorization", access_token="access")
 
 
 def selection():

@@ -4,9 +4,9 @@ from datetime import UTC, datetime, timedelta
 
 import pytest
 
-from pyecobee import EcobeeService
 from pyecobee.services.context import ClientContext
 from pyecobee.transport import HttpTransport
+from tests.support import build_service
 
 TOKENS_PAYLOAD = {
     "access_token": "new-access",
@@ -24,11 +24,8 @@ def service(monkeypatch, mock_response):
 
     monkeypatch.setattr(HttpTransport, "request", request)
 
-    return EcobeeService(
-        "test",
-        "a" * 32,
-        authorization_token="authorization",
-        refresh_token="old-refresh",
+    return build_service(
+        authorization_token="authorization", refresh_token="old-refresh"
     )
 
 

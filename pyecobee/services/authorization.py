@@ -1,12 +1,6 @@
-import datetime
 import logging
-from datetime import datetime as DateTime
-from datetime import timedelta
 
-from pyecobee.responses import (
-    EcobeeAuthorizeResponse,
-    EcobeeTokensResponse,
-)
+from pyecobee.responses import EcobeeAuthorizeResponse
 from pyecobee.services.context import ClientContext
 from pyecobee.utilities import Utilities
 
@@ -49,13 +43,13 @@ class AuthorizationService(DomainComponent):
         if response_type != "ecobeePin":
             raise ValueError('response_type must be "ecobeePin"')
 
-        response = self._context._transport.request(
+        response = self._context.transport.request(
             "get",
             ClientContext.AUTHORIZE_URL,
             params={
-                "client_id": self._context._application_key,
+                "client_id": self._context.application_key,
                 "response_type": response_type,
-                "scope": self._context._scope.value,
+                "scope": self._context.tokens.scope.value,
             },
             timeout=timeout,
         )
@@ -63,8 +57,9 @@ class AuthorizationService(DomainComponent):
             response, EcobeeAuthorizeResponse
         )
 
-        self._context._authorization_token = authorize_response.code
-        self._context.notify_tokens_changed()
+        self._context.store_tokens(
+            self._context.tokens.replace(authorization_token=authorize_response.code)
+        )
 
         return authorize_response
 
@@ -91,32 +86,9 @@ class AuthorizationService(DomainComponent):
         if grant_type != "ecobeePin":
             raise ValueError('grant_type must be "ecobeePin"')
 
-        now_utc = DateTime.now(datetime.UTC)
-        response = self._context._transport.request(
-            "post",
-            ClientContext.TOKENS_URL,
-            params={
-                "client_id": self._context._application_key,
-                "code": self._context._authorization_token,
-                "grant_type": grant_type,
-            },
-            timeout=timeout,
+        return self._context.issue_tokens(
+            grant_type, self._context.tokens.authorization_token, timeout=timeout
         )
-        tokens_response = Utilities.process_http_response(
-            response, EcobeeTokensResponse
-        )
-
-        self._context._access_token = tokens_response.access_token
-        self._context._access_token_expires_on = now_utc + timedelta(
-            seconds=tokens_response.expires_in
-        )
-        self._context._refresh_token = tokens_response.refresh_token
-        self._context._refresh_token_expires_on = (
-            now_utc + ClientContext.REFRESH_TOKEN_LIFETIME
-        )
-        self._context.notify_tokens_changed()
-
-        return tokens_response
 
     def refresh_tokens(self, grant_type="refresh_token", timeout=5):
         """
@@ -144,29 +116,6 @@ class AuthorizationService(DomainComponent):
         if grant_type != "refresh_token":
             raise ValueError('grant_type must be "refresh_token"')
 
-        now_utc = DateTime.now(datetime.UTC)
-        response = self._context._transport.request(
-            "post",
-            ClientContext.TOKENS_URL,
-            params={
-                "client_id": self._context._application_key,
-                "code": self._context._refresh_token,
-                "grant_type": grant_type,
-            },
-            timeout=timeout,
+        return self._context.issue_tokens(
+            grant_type, self._context.tokens.refresh_token, timeout=timeout
         )
-        tokens_response = Utilities.process_http_response(
-            response, EcobeeTokensResponse
-        )
-
-        self._context._access_token = tokens_response.access_token
-        self._context._access_token_expires_on = now_utc + timedelta(
-            seconds=tokens_response.expires_in
-        )
-        self._context._refresh_token = tokens_response.refresh_token
-        self._context._refresh_token_expires_on = (
-            now_utc + ClientContext.REFRESH_TOKEN_LIFETIME
-        )
-        self._context.notify_tokens_changed()
-
-        return tokens_response

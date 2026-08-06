@@ -10,7 +10,6 @@ import pytest
 
 from pyecobee import (
     AckType,
-    EcobeeService,
     FanMode,
     HoldType,
     PlugState,
@@ -18,6 +17,7 @@ from pyecobee import (
     SelectionType,
 )
 from pyecobee.transport import HttpTransport
+from tests.support import build_service
 
 UPDATE_RESPONSE = {"status": {"code": 0, "message": ""}}
 START = DateTime(2024, 1, 2, 3, 4, 5, tzinfo=UTC)
@@ -25,9 +25,7 @@ END = DateTime(2024, 1, 3, 6, 7, 8, tzinfo=UTC)
 
 
 def service():
-    return EcobeeService(
-        "test", "a" * 32, authorization_token="authorization", access_token="access"
-    )
+    return build_service(authorization_token="authorization", access_token="access")
 
 
 def selection():

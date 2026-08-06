@@ -3,7 +3,6 @@ import logging
 from pyecobee.enumerations import (
     FanMode,
     HoldType,
-    Scope,
     SelectionType,
 )
 from pyecobee.objects.selection import Selection
@@ -54,76 +53,42 @@ class EcobeeService:
     MINIMUM_HEATING_TEMPERATURE = ClientContext.MINIMUM_HEATING_TEMPERATURE
     MAXIMUM_HEATING_TEMPERATURE = ClientContext.MAXIMUM_HEATING_TEMPERATURE
 
-    attribute_name_map = {
-        "thermostat_name": "thermostat_name",
-        "application_key": "application_key",
-        "authorization_token": "authorization_token",
-        "access_token": "access_token",
-        "refresh_token": "refresh_token",
-        "access_token_expires_on": "access_token_expires_on",
-        "refresh_token_expires_on": "refresh_token_expires_on",
-        "scope": "scope",
-    }
-    attribute_type_map = {
-        "thermostat_name": "str",
-        "application_key": "str",
-        "authorization_token": "str",
-        "access_token": "str",
-        "refresh_token": "str",
-        "access_token_expires_on": "datetime",
-        "refresh_token_expires_on": "datetime",
-        "scope": "Scope",
-    }
-
-    def __init__(
-        self,
-        thermostat_name,
-        application_key,
-        authorization_token=None,
-        access_token=None,
-        refresh_token=None,
-        access_token_expires_on=None,
-        refresh_token_expires_on=None,
-        scope=Scope.SMART_WRITE,
-        on_tokens_changed=None,
-    ):
+    def __init__(self, thermostat_name, application_key, tokens, on_tokens_changed):
         """
         Construct an EcobeeService instance
 
         :param thermostat_name: Name of the thermostat
         :param application_key: The unique application key for your
         application
-        :param authorization_token: Credentials to be used to retrieve
-        the initial access_token and refresh_token
-        :param access_token: Credentials to be used in all requests
-        :param refresh_token: Credentials to be used to refresh
-        access_token and refresh_token
-        :param access_token_expires_on: When the access token expires on
-        in UTC time
-        :param refresh_token_expires_on: When the refresh token expires
-        on in UTC time
-        :param scope: Scope the application requests from the user.
-        Valid values: Scope.SMART_READ, Scope.SMART_WRITE, and Scope.EMS
-        :param on_tokens_changed: Callable invoked with a Tokens
-        instance whenever authorize, request_tokens or refresh_tokens
-        issues new credentials. Use it to store them
+        :param tokens: The credentials held for this application, as a
+        Tokens instance or a mapping produced by Tokens.to_dict(). Pass
+        Tokens() when authorizing for the first time, optionally with the
+        scope to request
+        :param on_tokens_changed: Callable invoked with a Tokens instance
+        whenever new credentials are issued, whether by authorize,
+        request_tokens, refresh_tokens or an automatic renewal. It is
+        required because ecobee replaces the refresh token every time it
+        issues one, so credentials that are not stored are lost. Pass a
+        callable that discards its argument to opt out
+        :raises TypeError: If application_key is not a string, tokens is
+        neither a Tokens instance nor a mapping, or on_tokens_changed is
+        not callable
+        :raises ValueError: If application_key is not 32 characters
         """
 
         if not isinstance(application_key, str):
             raise TypeError(f"application_key must be an instance of {str}")
         if len(application_key) != 32:
             raise ValueError("application_key must be a 32 alphanumeric string")
+        if isinstance(tokens, dict):
+            tokens = Tokens.from_dict(tokens)
+        if not isinstance(tokens, Tokens):
+            raise TypeError(f"tokens must be an instance of {Tokens} or {dict}")
+        if not callable(on_tokens_changed):
+            raise TypeError("on_tokens_changed must be callable")
 
         self._context = ClientContext(
-            thermostat_name,
-            application_key,
-            authorization_token,
-            access_token,
-            refresh_token,
-            access_token_expires_on,
-            refresh_token_expires_on,
-            scope,
-            on_tokens_changed,
+            thermostat_name, application_key, tokens, on_tokens_changed
         )
         self._authorization = AuthorizationService(self._context)
         self._thermostats = ThermostatsService(self._context)
@@ -131,47 +96,6 @@ class EcobeeService:
         self._hierarchy = HierarchyService(self._context)
         self._demand = DemandService(self._context)
         self._reports = ReportsService(self._context)
-
-    @classmethod
-    def from_tokens(
-        cls,
-        thermostat_name,
-        application_key,
-        tokens,
-        on_tokens_changed=None,
-    ):
-        """
-        Construct an EcobeeService instance from stored credentials
-
-        :param thermostat_name: Name of the thermostat
-        :param application_key: The unique application key for your
-        application
-        :param tokens: A Tokens instance, or a mapping produced by
-        Tokens.to_dict()
-        :param on_tokens_changed: Callable invoked with a Tokens
-        instance whenever new credentials are issued
-        :return: An EcobeeService instance
-        :rtype: EcobeeService
-        :raises TypeError: If tokens is neither a Tokens instance nor a
-        mapping
-        """
-
-        if isinstance(tokens, dict):
-            tokens = Tokens.from_dict(tokens)
-        if not isinstance(tokens, Tokens):
-            raise TypeError(f"tokens must be an instance of {Tokens} or {dict}")
-
-        return cls(
-            thermostat_name,
-            application_key,
-            authorization_token=tokens.authorization_token,
-            access_token=tokens.access_token,
-            refresh_token=tokens.refresh_token,
-            access_token_expires_on=tokens.access_token_expires_on,
-            refresh_token_expires_on=tokens.refresh_token_expires_on,
-            scope=tokens.scope,
-            on_tokens_changed=on_tokens_changed,
-        )
 
     def authorize(self, response_type="ecobeePin", timeout=5):
         return self._authorization.authorize(
@@ -562,70 +486,38 @@ class EcobeeService:
 
     @property
     def tokens(self):
-        """Return an immutable snapshot of the stored credentials."""
+        """Return the credentials currently held."""
 
         return self._context.tokens
 
     @property
-    def on_tokens_changed(self):
-        return self._context._on_tokens_changed
-
-    @on_tokens_changed.setter
-    def on_tokens_changed(self, on_tokens_changed):
-        self._context._on_tokens_changed = on_tokens_changed
-
-    @property
     def thermostat_name(self):
-        return self._context._thermostat_name
+        return self._context.thermostat_name
 
     @property
     def application_key(self):
-        return self._context._application_key
-
-    @application_key.setter
-    def application_key(self, application_key):
-        self._context._application_key = application_key
+        return self._context.application_key
 
     @property
     def authorization_token(self):
-        return self._context._authorization_token
-
-    @authorization_token.setter
-    def authorization_token(self, authorization_token):
-        self._context._authorization_token = authorization_token
+        return self._context.tokens.authorization_token
 
     @property
     def access_token(self):
-        return self._context._access_token
-
-    @access_token.setter
-    def access_token(self, access_token):
-        self._context._access_token = access_token
+        return self._context.tokens.access_token
 
     @property
     def refresh_token(self):
-        return self._context._refresh_token
-
-    @refresh_token.setter
-    def refresh_token(self, refresh_token):
-        self._context._refresh_token = refresh_token
+        return self._context.tokens.refresh_token
 
     @property
     def access_token_expires_on(self):
-        return self._context._access_token_expires_on
-
-    @access_token_expires_on.setter
-    def access_token_expires_on(self, access_token_expires_on):
-        self._context._access_token_expires_on = access_token_expires_on
+        return self._context.tokens.access_token_expires_on
 
     @property
     def refresh_token_expires_on(self):
-        return self._context._refresh_token_expires_on
-
-    @refresh_token_expires_on.setter
-    def refresh_token_expires_on(self, refresh_token_expires_on):
-        self._context._refresh_token_expires_on = refresh_token_expires_on
+        return self._context.tokens.refresh_token_expires_on
 
     @property
     def scope(self):
-        return self._context._scope
+        return self._context.tokens.scope

@@ -74,13 +74,9 @@ class HierarchyService(DomainComponent):
             "includeThermostats": include_thermostats,
         }
 
-        response = self._context._transport.request(
+        response = self._context.request(
             "get",
             ClientContext.HIERARCHY_SET_URL,
-            headers={
-                "Authorization": f"Bearer {self._context._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
             params={
                 "format": "json",
                 "body": json.dumps(dictionary, sort_keys=True, indent=2),
@@ -129,13 +125,9 @@ class HierarchyService(DomainComponent):
             "includePrivileges": include_privileges,
         }
 
-        response = self._context._transport.request(
+        response = self._context.request(
             "get",
             ClientContext.HIERARCHY_USER_URL,
-            headers={
-                "Authorization": f"Bearer {self._context._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
             params={
                 "format": "json",
                 "body": json.dumps(dictionary, sort_keys=True, indent=2),
@@ -175,13 +167,9 @@ class HierarchyService(DomainComponent):
             "parentPath": parent_path,
         }
 
-        response = self._context._transport.request(
+        response = self._context.request(
             "post",
             ClientContext.HIERARCHY_SET_URL,
-            headers={
-                "Authorization": f"Bearer {self._context._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
             params={"format": "json"},
             json_=dictionary,
             timeout=timeout,
@@ -210,13 +198,9 @@ class HierarchyService(DomainComponent):
 
         dictionary = {"operation": "remove", "setPath": set_path}
 
-        response = self._context._transport.request(
+        response = self._context.request(
             "post",
             ClientContext.HIERARCHY_SET_URL,
-            headers={
-                "Authorization": f"Bearer {self._context._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
             params={"format": "json"},
             json_=dictionary,
             timeout=timeout,
@@ -249,13 +233,9 @@ class HierarchyService(DomainComponent):
 
         dictionary = {"operation": "rename", "setPath": set_path, "newName": new_name}
 
-        response = self._context._transport.request(
+        response = self._context.request(
             "post",
             ClientContext.HIERARCHY_SET_URL,
-            headers={
-                "Authorization": f"Bearer {self._context._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
             params={"format": "json"},
             json_=dictionary,
             timeout=timeout,
@@ -289,13 +269,9 @@ class HierarchyService(DomainComponent):
 
         dictionary = {"operation": "move", "setPath": set_path, "toPath": to_path}
 
-        response = self._context._transport.request(
+        response = self._context.request(
             "post",
             ClientContext.HIERARCHY_SET_URL,
-            headers={
-                "Authorization": f"Bearer {self._context._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
             params={"format": "json"},
             json_=dictionary,
             timeout=timeout,
@@ -358,13 +334,9 @@ class HierarchyService(DomainComponent):
                 Utilities.object_to_dictionary(privilege) for privilege in privileges
             ]
 
-        response = self._context._transport.request(
+        response = self._context.request(
             "post",
             ClientContext.HIERARCHY_USER_URL,
-            headers={
-                "Authorization": f"Bearer {self._context._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
             params={"format": "json"},
             json_=dictionary,
             timeout=timeout,
@@ -408,13 +380,9 @@ class HierarchyService(DomainComponent):
             "users": [Utilities.object_to_dictionary(user) for user in users],
         }
 
-        response = self._context._transport.request(
+        response = self._context.request(
             "post",
             ClientContext.HIERARCHY_USER_URL,
-            headers={
-                "Authorization": f"Bearer {self._context._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
             params={"format": "json"},
             json_=dictionary,
             timeout=timeout,
@@ -453,13 +421,9 @@ class HierarchyService(DomainComponent):
             "users": [Utilities.object_to_dictionary(user) for user in users],
         }
 
-        response = self._context._transport.request(
+        response = self._context.request(
             "post",
             ClientContext.HIERARCHY_USER_URL,
-            headers={
-                "Authorization": f"Bearer {self._context._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
             params={"format": "json"},
             json_=dictionary,
             timeout=timeout,
@@ -521,13 +485,9 @@ class HierarchyService(DomainComponent):
             dictionary["privileges"] = [
                 Utilities.object_to_dictionary(privilege) for privilege in privileges
             ]
-        response = self._context._transport.request(
+        response = self._context.request(
             "post",
             ClientContext.HIERARCHY_USER_URL,
-            headers={
-                "Authorization": f"Bearer {self._context._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
             params={"format": "json"},
             json_=dictionary,
             timeout=timeout,
@@ -566,13 +526,9 @@ class HierarchyService(DomainComponent):
         if set_path is not None:
             dictionary["setPath"] = set_path
 
-        response = self._context._transport.request(
+        response = self._context.request(
             "post",
             ClientContext.HIERARCHY_THERMOSTAT_URL,
-            headers={
-                "Authorization": f"Bearer {self._context._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
             params={"format": "json"},
             json_=dictionary,
             timeout=timeout,
@@ -603,13 +559,9 @@ class HierarchyService(DomainComponent):
 
         dictionary = {"operation": "unregister", "thermostats": thermostats}
 
-        response = self._context._transport.request(
+        response = self._context.request(
             "post",
             ClientContext.HIERARCHY_THERMOSTAT_URL,
-            headers={
-                "Authorization": f"Bearer {self._context._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
             params={"format": "json"},
             json_=dictionary,
             timeout=timeout,
@@ -654,13 +606,9 @@ class HierarchyService(DomainComponent):
         if thermostats is not None:
             dictionary["thermostats"] = thermostats
 
-        response = self._context._transport.request(
+        response = self._context.request(
             "post",
             ClientContext.HIERARCHY_THERMOSTAT_URL,
-            headers={
-                "Authorization": f"Bearer {self._context._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
             params={"format": "json"},
             json_=dictionary,
             timeout=timeout,
@@ -700,13 +648,9 @@ class HierarchyService(DomainComponent):
             "thermostats": thermostats,
         }
 
-        response = self._context._transport.request(
+        response = self._context.request(
             "post",
             ClientContext.HIERARCHY_THERMOSTAT_URL,
-            headers={
-                "Authorization": f"Bearer {self._context._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
             params={"format": "json"},
             json_=dictionary,
             timeout=timeout,

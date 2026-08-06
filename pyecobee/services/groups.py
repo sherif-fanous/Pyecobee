@@ -55,13 +55,9 @@ class GroupsService(DomainComponent):
 
         dictionary = {"selection": Utilities.object_to_dictionary(selection)}
 
-        response = self._context._transport.request(
+        response = self._context.request(
             "get",
             ClientContext.GROUP_URL,
-            headers={
-                "Authorization": f"Bearer {self._context._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
             params={
                 "format": "json",
                 "body": json.dumps(dictionary, sort_keys=True, indent=2),
@@ -106,13 +102,9 @@ class GroupsService(DomainComponent):
             "groups": [Utilities.object_to_dictionary(group) for group in groups],
         }
 
-        response = self._context._transport.request(
+        response = self._context.request(
             "post",
             ClientContext.GROUP_URL,
-            headers={
-                "Authorization": f"Bearer {self._context._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
             params={"format": "json"},
             json_=dictionary,
             timeout=timeout,

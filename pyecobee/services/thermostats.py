@@ -70,13 +70,9 @@ class ThermostatsService(DomainComponent):
 
         dictionary = {"selection": Utilities.object_to_dictionary(selection)}
 
-        response = self._context._transport.request(
+        response = self._context.request(
             "get",
             ClientContext.THERMOSTAT_SUMMARY_URL,
-            headers={
-                "Authorization": f"Bearer {self._context._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
             params={"json": json.dumps(dictionary, sort_keys=True, indent=2)},
             timeout=timeout,
         )
@@ -111,13 +107,9 @@ class ThermostatsService(DomainComponent):
 
         dictionary = {"selection": Utilities.object_to_dictionary(selection)}
 
-        response = self._context._transport.request(
+        response = self._context.request(
             "get",
             ClientContext.THERMOSTAT_URL,
-            headers={
-                "Authorization": f"Bearer {self._context._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
             params={"json": json.dumps(dictionary, sort_keys=True, indent=2)},
             timeout=timeout,
         )
@@ -189,13 +181,9 @@ class ThermostatsService(DomainComponent):
                 Utilities.object_to_dictionary(function_) for function_ in functions
             ]
 
-        response = self._context._transport.request(
+        response = self._context.request(
             "post",
             ClientContext.THERMOSTAT_URL,
-            headers={
-                "Authorization": f"Bearer {self._context._access_token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            },
             params={"format": "json"},
             json_=dictionary,
             timeout=timeout,

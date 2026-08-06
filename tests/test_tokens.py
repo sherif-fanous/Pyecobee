@@ -6,6 +6,7 @@ import pytest
 
 from pyecobee import EcobeeService, Scope, Tokens
 from pyecobee.transport import HttpTransport
+from tests.support import APPLICATION_KEY, build_service, discard_tokens
 
 TOKENS_PAYLOAD = {
     "access_token": "new-access",
@@ -87,7 +88,7 @@ def test_service_restores_and_exposes_stored_credentials():
         scope=Scope.SMART_READ,
     )
 
-    service = EcobeeService.from_tokens("test", "a" * 32, stored)
+    service = EcobeeService("test", APPLICATION_KEY, stored, discard_tokens)
 
     assert service.access_token == "access"
     assert service.refresh_token == "refresh"
@@ -96,8 +97,11 @@ def test_service_restores_and_exposes_stored_credentials():
 
 
 def test_service_accepts_a_stored_mapping():
-    service = EcobeeService.from_tokens(
-        "test", "a" * 32, {"access_token": "access", "scope": "ems"}
+    service = EcobeeService(
+        "test",
+        APPLICATION_KEY,
+        {"access_token": "access", "scope": "ems"},
+        discard_tokens,
     )
 
     assert service.tokens.access_token == "access"
@@ -106,7 +110,12 @@ def test_service_accepts_a_stored_mapping():
 
 def test_service_rejects_credentials_that_are_not_tokens():
     with pytest.raises(TypeError, match="tokens must be an instance of"):
-        EcobeeService.from_tokens("test", "a" * 32, "access")
+        EcobeeService("test", APPLICATION_KEY, "access", discard_tokens)
+
+
+def test_service_requires_somewhere_to_store_new_credentials():
+    with pytest.raises(TypeError, match="on_tokens_changed must be callable"):
+        EcobeeService("test", APPLICATION_KEY, Tokens(), None)
 
 
 @pytest.mark.parametrize(
@@ -120,11 +129,10 @@ def test_service_rejects_credentials_that_are_not_tokens():
 def test_new_credentials_are_announced_to_the_callback(respond, method_name, payload):
     respond(payload)
     announced = []
-    service = EcobeeService.from_tokens(
-        "test",
-        "a" * 32,
-        Tokens(authorization_token="authorization", refresh_token="old-refresh"),
-        on_tokens_changed=announced.append,
+    service = build_service(
+        announced.append,
+        authorization_token="authorization",
+        refresh_token="old-refresh",
     )
 
     getattr(service, method_name)()
@@ -136,12 +144,7 @@ def test_new_credentials_are_announced_to_the_callback(respond, method_name, pay
 def test_announced_credentials_are_ready_to_store(respond):
     respond(TOKENS_PAYLOAD)
     announced = []
-    service = EcobeeService.from_tokens(
-        "test",
-        "a" * 32,
-        Tokens(refresh_token="old-refresh"),
-        on_tokens_changed=announced.append,
-    )
+    service = build_service(announced.append, refresh_token="old-refresh")
 
     before = datetime.now(UTC)
     service.refresh_tokens()
@@ -160,9 +163,7 @@ def test_a_failing_callback_is_not_suppressed(respond):
     def fail(_tokens):
         raise OSError("read-only file system")
 
-    service = EcobeeService.from_tokens(
-        "test", "a" * 32, Tokens(refresh_token="old-refresh"), on_tokens_changed=fail
-    )
+    service = build_service(fail, refresh_token="old-refresh")
 
     with pytest.raises(OSError, match="read-only file system"):
         service.refresh_tokens()
