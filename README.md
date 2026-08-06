@@ -992,7 +992,7 @@ uv run ruff check .
 uv run ruff format --check .
 ```
 
-Run the offline regression suite, which enforces a 60% coverage minimum:
+Run the offline regression suite, which enforces an 82% coverage minimum:
 
 ```bash
 uv run pytest
