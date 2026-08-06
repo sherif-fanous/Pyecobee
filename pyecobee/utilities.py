@@ -24,13 +24,11 @@ class Utilities:
     @classmethod
     def object_to_dictionary(cls, object_):
         """Serialize a Pydantic model using ecobee aliases."""
-
         return object_.model_dump(by_alias=True, exclude_none=True, mode="json")
 
     @classmethod
     def process_http_response(cls, response, response_class):
         """Deserialize successful responses and translate API error payloads."""
-
         try:
             payload = response.json()
         except requests.exceptions.JSONDecodeError:
@@ -47,15 +45,18 @@ class Utilities:
                 )
 
             response_object = deserialize(payload, response_class)
+
             logger.debug(
                 "EcobeeResponse:\n[JSON]\n======\n%s".strip(),
                 json.dumps(redact(payload), sort_keys=True, indent=2),
             )
+
             return response_object
 
         try:
             if isinstance(payload, dict) and "error" in payload:
                 error_response = deserialize(payload, EcobeeErrorResponse)
+
                 raise EcobeeAuthorizationException(
                     f"ecobee authorization error encountered for URL => {response.request.url}\n"
                     f"HTTP error code => {response.status_code}\n"
@@ -69,6 +70,7 @@ class Utilities:
 
             if isinstance(payload, dict) and "status" in payload:
                 status = deserialize(payload["status"], Status)
+
                 raise EcobeeApiException(
                     f"ecobee API error encountered for URL => {response.request.url}\n"
                     f"HTTP error code => {response.status_code}\n"
@@ -77,13 +79,13 @@ class Utilities:
                     status.code,
                     status.message,
                 )
+
             raise EcobeeHttpException(
                 f"HTTP error encountered for URL => {response.request.url}\n"
                 f"HTTP error code => {response.status_code}"
             )
 
         except EcobeeException as ecobee_exception:
-            logger.exception(
-                "%s raised:\n", type(ecobee_exception).__name__, exc_info=True
-            )
+            logger.exception("%s raised:\n", type(ecobee_exception).__name__)
+
             raise

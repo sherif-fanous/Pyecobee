@@ -159,12 +159,10 @@ class ThermostatsService(DomainComponent):
         """
         if not isinstance(selection, Selection):
             raise TypeError(f"selection must be an instance of {Selection}")
-        if thermostat is not None:
-            if not isinstance(thermostat, Thermostat):
-                raise TypeError(f"thermostat must be an instance of {Thermostat}")
-        if functions is not None:
-            if not isinstance(functions, list):
-                raise TypeError(f"functions must be an instance of {list}")
+        if thermostat is not None and not isinstance(thermostat, Thermostat):
+            raise TypeError(f"thermostat must be an instance of {Thermostat}")
+        if functions is not None and not isinstance(functions, list):
+            raise TypeError(f"functions must be an instance of {list}")
         if functions is not None:
             for function_ in functions:
                 if not isinstance(function_, Function):
@@ -537,7 +535,7 @@ class ThermostatsService(DomainComponent):
             raise TypeError(f"fan_mode must be an instance of {FanMode}")
         if not isinstance(fan_min_on_time, int):
             raise TypeError(f"fan_min_on_time must be an instance of {int}")
-        if fan_min_on_time not in range(0, 61):
+        if fan_min_on_time not in range(61):
             raise ValueError("fan_min_on_time must be between 0 and 60")
         if not isinstance(selection, Selection):
             raise TypeError(f"selection must be an instance of {Selection}")

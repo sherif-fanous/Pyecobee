@@ -4,10 +4,13 @@ from __future__ import annotations
 
 import json
 import logging
-import os
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 from pyecobee.tokens import Tokens
+
+if TYPE_CHECKING:
+    import os
 
 __all__ = ["JsonFileTokenStore"]
 
@@ -30,7 +33,6 @@ class JsonFileTokenStore:
 
     def load(self) -> Tokens:
         """Return the stored credentials, or empty ones when none are stored."""
-
         try:
             return Tokens.from_dict(json.loads(self._path.read_text()))
         except FileNotFoundError:
@@ -38,13 +40,13 @@ class JsonFileTokenStore:
 
     def save(self, tokens: Tokens) -> None:
         """Store *tokens*, replacing the file in a single step."""
-
         self._path.parent.mkdir(parents=True, exist_ok=True)
 
         temporary_path = self._path.with_suffix(".tmp")
+
         temporary_path.write_text(json.dumps(tokens.to_dict(), indent=2))
         temporary_path.chmod(0o600)
-        os.replace(temporary_path, self._path)
+        temporary_path.replace(self._path)
 
         logger.debug(
             "Stored credentials expiring on %s", tokens.access_token_expires_on

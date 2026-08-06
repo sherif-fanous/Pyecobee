@@ -77,7 +77,6 @@ class ReportsService(DomainComponent):
         meters is not a CSV string of "energy", or selection and meters
         don't have the same number of CSV entries
         """
-
         if not isinstance(selection, Selection):
             raise TypeError(f"selection must be an instance of {Selection}")
         if selection.selection_type != SelectionType.THERMOSTATS:
@@ -213,7 +212,6 @@ class ReportsService(DomainComponent):
         start_date_time is later than end_date_time, or the duration
         between start_date_time and end_date_time is more than 31 days
         """
-
         if not isinstance(selection, Selection):
             raise TypeError(f"selection must be an instance of {Selection}")
         if selection.selection_type != SelectionType.THERMOSTATS:
@@ -330,7 +328,6 @@ class ReportsService(DomainComponent):
         2008-01-02, start/end date_times are later than 2035-01-01, or
         start_date is later than end_date
         """
-
         if not isinstance(selection, Selection):
             raise TypeError(f"selection must be an instance of {Selection}")
         if (
@@ -460,10 +457,8 @@ class ReportsService(DomainComponent):
         the underlying requests module
         :raises TypeError: If job_id is not a string
         """
-
-        if job_id is not None:
-            if not isinstance(job_id, str):
-                raise TypeError(f"job_id must be an instance of {str}")
+        if job_id is not None and not isinstance(job_id, str):
+            raise TypeError(f"job_id must be an instance of {str}")
 
         dictionary = {}
 
@@ -502,7 +497,6 @@ class ReportsService(DomainComponent):
         the underlying requests module
         :raises TypeError: If job_id is not a string
         """
-
         if not isinstance(job_id, str):
             raise TypeError(f"job_id must be an instance of {str}")
 

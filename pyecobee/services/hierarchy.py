@@ -485,6 +485,7 @@ class HierarchyService(DomainComponent):
             dictionary["privileges"] = [
                 Utilities.object_to_dictionary(privilege) for privilege in privileges
             ]
+
         response = self._context.request(
             "post",
             ClientContext.HIERARCHY_USER_URL,
@@ -517,9 +518,8 @@ class HierarchyService(DomainComponent):
         """
         if not isinstance(thermostats, str):
             raise TypeError(f"thermostats must be an instance of {str}")
-        if set_path is not None:
-            if not isinstance(set_path, str):
-                raise TypeError(f"set_path must be an instance of {str}")
+        if set_path is not None and not isinstance(set_path, str):
+            raise TypeError(f"set_path must be an instance of {str}")
 
         dictionary = {"operation": "register", "thermostats": thermostats}
 
@@ -597,9 +597,8 @@ class HierarchyService(DomainComponent):
             raise TypeError(f"set_path must be an instance of {str}")
         if not isinstance(to_path, str):
             raise TypeError(f"to_path must be an instance of {str}")
-        if thermostats is not None:
-            if not isinstance(thermostats, str):
-                raise TypeError(f"thermostats must be an instance of {str}")
+        if thermostats is not None and not isinstance(thermostats, str):
+            raise TypeError(f"thermostats must be an instance of {str}")
 
         dictionary = {"operation": "move", "setPath": set_path, "toPath": to_path}
 
