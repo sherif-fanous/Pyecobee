@@ -7,6 +7,7 @@ from pyecobee.deserialization import deserialize
 from pyecobee.exceptions import (
     EcobeeApiException,
     EcobeeAuthorizationException,
+    EcobeeDeserializationException,
     EcobeeException,
     EcobeeHttpException,
 )
@@ -46,18 +47,31 @@ class Utilities:
     def process_http_response(cls, response, response_class):
         """Deserialize successful responses and translate API error payloads."""
 
+        try:
+            payload = response.json()
+        except requests.exceptions.JSONDecodeError:
+            # A body that is empty or is not JSON at all, such as a proxy error
+            # page.
+            payload = None
+
         if response.status_code == requests.codes.ok:
-            response_object = deserialize(response.json(), response_class)
-            response_object.pretty_format()
+            if payload is None:
+                raise EcobeeDeserializationException(
+                    f"ecobee response for URL => {response.request.url}\n"
+                    f"HTTP code => {response.status_code}\n"
+                    "The response body is empty or is not JSON"
+                )
+
+            response_object = deserialize(payload, response_class)
             logger.debug(
                 "EcobeeResponse:\n[JSON]\n======\n%s".strip(),
-                json.dumps(redact(response.json()), sort_keys=True, indent=2),
+                json.dumps(redact(payload), sort_keys=True, indent=2),
             )
             return response_object
 
         try:
-            if "error" in response.json():
-                error_response = deserialize(response.json(), EcobeeErrorResponse)
+            if isinstance(payload, dict) and "error" in payload:
+                error_response = deserialize(payload, EcobeeErrorResponse)
                 raise EcobeeAuthorizationException(
                     f"ecobee authorization error encountered for URL => {response.request.url}\n"
                     f"HTTP error code => {response.status_code}\n"
@@ -69,8 +83,8 @@ class Utilities:
                     error_response.error_uri,
                 )
 
-            if "status" in response.json():
-                status = deserialize(response.json()["status"], Status)
+            if isinstance(payload, dict) and "status" in payload:
+                status = deserialize(payload["status"], Status)
                 raise EcobeeApiException(
                     f"ecobee API error encountered for URL => {response.request.url}\n"
                     f"HTTP error code => {response.status_code}\n"

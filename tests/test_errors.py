@@ -4,6 +4,7 @@ import requests
 from pyecobee import (
     EcobeeApiException,
     EcobeeAuthorizationException,
+    EcobeeDeserializationException,
     EcobeeHttpException,
     EcobeeRequestsException,
     EcobeeStatusResponse,
@@ -75,3 +76,19 @@ def test_malformed_json_is_propagated():
         Utilities.process_http_response(
             Response(200, ValueError("invalid JSON")), EcobeeStatusResponse
         )
+
+
+def not_json():
+    """Return the failure requests raises for a body that is not JSON."""
+
+    return requests.exceptions.JSONDecodeError("Expecting value", "<html>502</html>", 0)
+
+
+def test_a_success_response_that_is_not_json_raises_a_typed_exception():
+    with pytest.raises(EcobeeDeserializationException, match="not JSON"):
+        Utilities.process_http_response(Response(200, not_json()), EcobeeStatusResponse)
+
+
+def test_an_error_response_that_is_not_json_raises_a_typed_exception():
+    with pytest.raises(EcobeeHttpException, match="HTTP error code => 502"):
+        Utilities.process_http_response(Response(502, not_json()), EcobeeStatusResponse)
