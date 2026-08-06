@@ -3,11 +3,6 @@ class EcobeeException(Exception):
 
 
 class EcobeeApiException(EcobeeException):
-    attribute_type_map = {
-        "status_code": "str",
-        "status_message": "str",
-    }
-
     def __init__(self, message, status_code, status_message):
         super().__init__(message)
 
@@ -24,12 +19,6 @@ class EcobeeApiException(EcobeeException):
 
 
 class EcobeeAuthorizationException(EcobeeException):
-    attribute_type_map = {
-        "error": "str",
-        "error_description": "str",
-        "error_uri": "str",
-    }
-
     def __init__(self, message, error, error_description, error_uri):
         super().__init__(message)
 
