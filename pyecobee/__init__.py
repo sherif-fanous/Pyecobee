@@ -109,6 +109,7 @@ from pyecobee.responses import (
     EcobeeTokensResponse,
 )
 from pyecobee.service import EcobeeService
+from pyecobee.tokens import Tokens
 from pyecobee.utilities import Utilities
 
 __all__ = [
@@ -193,6 +194,7 @@ __all__ = [
     "Technician",
     "Thermostat",
     "TimeOfUse",
+    "Tokens",
     "User",
     "Utility",
     "Version",

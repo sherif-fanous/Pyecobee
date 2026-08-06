@@ -57,6 +57,13 @@ def test_facade_method_signatures_match_master():
             if isinstance(node, ast.FunctionDef) and not node.name.startswith("_")
         }
 
-    assert public_method_arguments(Path("pyecobee/service.py").read_text()) == (
-        public_method_arguments(baseline)
-    )
+    current = public_method_arguments(Path("pyecobee/service.py").read_text())
+    baseline_methods = public_method_arguments(baseline)
+
+    # Methods may be added, but every method inherited from master must keep
+    # its signature so that existing callers continue to work.
+    assert {
+        name: arguments
+        for name, arguments in current.items()
+        if name in baseline_methods
+    } == baseline_methods

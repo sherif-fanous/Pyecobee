@@ -16,6 +16,7 @@ from pyecobee.services import (
     ThermostatsService,
 )
 from pyecobee.services.context import ClientContext
+from pyecobee.tokens import Tokens
 
 logger = logging.getLogger(__name__)
 
@@ -84,6 +85,7 @@ class EcobeeService:
         access_token_expires_on=None,
         refresh_token_expires_on=None,
         scope=Scope.SMART_WRITE,
+        on_tokens_changed=None,
     ):
         """
         Construct an EcobeeService instance
@@ -102,6 +104,9 @@ class EcobeeService:
         on in UTC time
         :param scope: Scope the application requests from the user.
         Valid values: Scope.SMART_READ, Scope.SMART_WRITE, and Scope.EMS
+        :param on_tokens_changed: Callable invoked with a Tokens
+        instance whenever authorize, request_tokens or refresh_tokens
+        issues new credentials. Use it to store them
         """
 
         if not isinstance(application_key, str):
@@ -118,6 +123,7 @@ class EcobeeService:
             access_token_expires_on,
             refresh_token_expires_on,
             scope,
+            on_tokens_changed,
         )
         self._authorization = AuthorizationService(self._context)
         self._thermostats = ThermostatsService(self._context)
@@ -125,6 +131,47 @@ class EcobeeService:
         self._hierarchy = HierarchyService(self._context)
         self._demand = DemandService(self._context)
         self._reports = ReportsService(self._context)
+
+    @classmethod
+    def from_tokens(
+        cls,
+        thermostat_name,
+        application_key,
+        tokens,
+        on_tokens_changed=None,
+    ):
+        """
+        Construct an EcobeeService instance from stored credentials
+
+        :param thermostat_name: Name of the thermostat
+        :param application_key: The unique application key for your
+        application
+        :param tokens: A Tokens instance, or a mapping produced by
+        Tokens.to_dict()
+        :param on_tokens_changed: Callable invoked with a Tokens
+        instance whenever new credentials are issued
+        :return: An EcobeeService instance
+        :rtype: EcobeeService
+        :raises TypeError: If tokens is neither a Tokens instance nor a
+        mapping
+        """
+
+        if isinstance(tokens, dict):
+            tokens = Tokens.from_dict(tokens)
+        if not isinstance(tokens, Tokens):
+            raise TypeError(f"tokens must be an instance of {Tokens} or {dict}")
+
+        return cls(
+            thermostat_name,
+            application_key,
+            authorization_token=tokens.authorization_token,
+            access_token=tokens.access_token,
+            refresh_token=tokens.refresh_token,
+            access_token_expires_on=tokens.access_token_expires_on,
+            refresh_token_expires_on=tokens.refresh_token_expires_on,
+            scope=tokens.scope,
+            on_tokens_changed=on_tokens_changed,
+        )
 
     def authorize(self, response_type="ecobeePin", timeout=5):
         return self._authorization.authorize(
@@ -512,6 +559,20 @@ class EcobeeService:
 
     def cancel_runtime_report_job(self, job_id, timeout=5):
         return self._reports.cancel_runtime_report_job(job_id=job_id, timeout=timeout)
+
+    @property
+    def tokens(self):
+        """Return an immutable snapshot of the stored credentials."""
+
+        return self._context.tokens
+
+    @property
+    def on_tokens_changed(self):
+        return self._context._on_tokens_changed
+
+    @on_tokens_changed.setter
+    def on_tokens_changed(self, on_tokens_changed):
+        self._context._on_tokens_changed = on_tokens_changed
 
     @property
     def thermostat_name(self):

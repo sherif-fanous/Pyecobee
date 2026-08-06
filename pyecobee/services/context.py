@@ -5,6 +5,7 @@ from datetime import datetime as DateTime
 from datetime import timedelta
 
 from pyecobee.enumerations import Scope
+from pyecobee.tokens import Tokens
 from pyecobee.transport import HttpTransport
 
 
@@ -21,6 +22,7 @@ class ClientContext:
         "_refresh_token_expires_on",
         "_scope",
         "_transport",
+        "_on_tokens_changed",
     )
 
     AUTHORIZE_URL = "https://api.ecobee.com/authorize"
@@ -56,6 +58,7 @@ class ClientContext:
         access_token_expires_on=None,
         refresh_token_expires_on=None,
         scope=Scope.SMART_WRITE,
+        on_tokens_changed=None,
     ):
         self._thermostat_name = thermostat_name
         self._application_key = application_key
@@ -66,3 +69,27 @@ class ClientContext:
         self._refresh_token_expires_on = refresh_token_expires_on
         self._scope = scope
         self._transport = HttpTransport()
+        self._on_tokens_changed = on_tokens_changed
+
+    @property
+    def tokens(self):
+        """Return an immutable snapshot of the stored credentials."""
+
+        return Tokens(
+            authorization_token=self._authorization_token,
+            access_token=self._access_token,
+            refresh_token=self._refresh_token,
+            access_token_expires_on=self._access_token_expires_on,
+            refresh_token_expires_on=self._refresh_token_expires_on,
+            scope=self._scope,
+        )
+
+    def notify_tokens_changed(self):
+        """Hand the current credentials to the registered callback.
+
+        Exceptions raised by the callback are deliberately not suppressed: a
+        caller that cannot store its credentials must find out immediately.
+        """
+
+        if self._on_tokens_changed is not None:
+            self._on_tokens_changed(self.tokens)

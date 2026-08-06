@@ -64,6 +64,7 @@ class AuthorizationService(DomainComponent):
         )
 
         self._context._authorization_token = authorize_response.code
+        self._context.notify_tokens_changed()
 
         return authorize_response
 
@@ -113,6 +114,7 @@ class AuthorizationService(DomainComponent):
         self._context._refresh_token_expires_on = (
             now_utc + ClientContext.REFRESH_TOKEN_LIFETIME
         )
+        self._context.notify_tokens_changed()
 
         return tokens_response
 
@@ -165,5 +167,6 @@ class AuthorizationService(DomainComponent):
         self._context._refresh_token_expires_on = (
             now_utc + ClientContext.REFRESH_TOKEN_LIFETIME
         )
+        self._context.notify_tokens_changed()
 
         return tokens_response
