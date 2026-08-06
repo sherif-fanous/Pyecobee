@@ -6,7 +6,6 @@ build/
 dist/
 Notes.txt
 openspec/changes/*
-plantuml/
 pyecobee_db*
 Pyecobee.code-workspace
 pyecobee.egg-info
