@@ -9,13 +9,9 @@ from pydantic import ValidationError
 
 from pyecobee import models
 from pyecobee.ecobee_object import EcobeeObject
-from pyecobee.exceptions import EcobeeException
+from pyecobee.exceptions import EcobeeDeserializationException
 
 logger = logging.getLogger(__name__)
-
-
-class EcobeeDeserializationException(EcobeeException):
-    """Raised when a known ecobee response field cannot be converted."""
 
 
 MODEL_REGISTRY = {

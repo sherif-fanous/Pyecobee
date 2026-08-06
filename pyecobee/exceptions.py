@@ -56,3 +56,7 @@ class EcobeeHttpException(EcobeeException):
 
 class EcobeeRequestsException(EcobeeException):
     pass
+
+
+class EcobeeDeserializationException(EcobeeException):
+    """Raised when a known ecobee response field cannot be converted."""
