@@ -1,8 +1,8 @@
 import logging.handlers
-import shelve
+import os
 import sys
 import traceback
-from datetime import UTC, datetime
+from datetime import datetime
 from zoneinfo import ZoneInfo
 
 from pyecobee import (
@@ -11,6 +11,7 @@ from pyecobee import (
     EcobeeService,
     FanMode,
     HoldType,
+    JsonFileTokenStore,
     Selection,
     SelectionType,
     Settings,
@@ -319,21 +320,6 @@ def celsius_to_fahrenheit(temperature):
     return (temperature * 1.8) + 32
 
 
-def load_tokens(file_name, thermostat_name):
-    with shelve.open(file_name) as pyecobee_db:
-        return pyecobee_db.get(thermostat_name, {})
-
-
-def store_tokens(file_name, thermostat_name, tokens):
-    with shelve.open(file_name) as pyecobee_db:
-        pyecobee_db[thermostat_name] = tokens.to_dict()
-
-
-def refresh_tokens(ecobee_service):
-    logger.info("Refreshing Tokens")
-    ecobee_service.refresh_tokens()
-
-
 def request_tokens(ecobee_service):
     logger.info("Requesting Tokens")
     ecobee_service.request_tokens()
@@ -390,30 +376,21 @@ def main():
         thermostat_name = (
             f"ecobeeThermostat@Home_{python_version[0]}.{python_version[1]}"
         )
-        stored_tokens = load_tokens("pyecobee_db", thermostat_name)
-        application_key = stored_tokens.pop("application_key", None) or input(
+        store = JsonFileTokenStore(f"~/.config/pyecobee/{thermostat_name}.json")
+        application_key = os.environ.get("ECOBEE_APPLICATION_KEY") or input(
             "Please enter the API key of your ecobee App: "
         )
         ecobee_service = EcobeeService(
             thermostat_name,
             application_key,
-            stored_tokens,
-            lambda tokens: store_tokens("pyecobee_db", thermostat_name, tokens),
+            store.load(),
+            store.save,
         )
 
         if not ecobee_service.authorization_token:
             authorize(ecobee_service)
         if not ecobee_service.access_token:
             request_tokens(ecobee_service)
-
-        now_utc = datetime.now(UTC)
-        refresh_token_expires_on = ecobee_service.refresh_token_expires_on
-        access_token_expires_on = ecobee_service.access_token_expires_on
-        if refresh_token_expires_on is None or now_utc > refresh_token_expires_on:
-            authorize(ecobee_service)
-            request_tokens(ecobee_service)
-        elif access_token_expires_on is None or now_utc > access_token_expires_on:
-            refresh_tokens(ecobee_service)
 
         logger.debug(
             "Access Token Expires On  => %s\nRefresh Token Expires On => %s",

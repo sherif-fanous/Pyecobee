@@ -857,40 +857,11 @@ The ecobee API requires that every credential it issues is stored by the applica
 token each time it issues one. Pyecobee therefore takes the credentials you hold and a callback to store the ones it
 receives.
 
-`Tokens` is an immutable snapshot that converts to and from a plain mapping, so a store is a few lines of JSON. Keep
-the file private to your user: it holds credentials, and anything that can read it can control the thermostat.
+`JsonFileTokenStore` writes the credentials as JSON in a file only your user can read, which is all most applications
+need. Its `load` and `save` are the two arguments the service asks for.
 
 ```python
-import json
-import logging
-import os
-from pathlib import Path
-
-from pyecobee import EcobeeService, Tokens
-
-logger = logging.getLogger(__name__)
-
-
-class JsonFileTokenStore:
-    """Store credentials as JSON in a file only the owner can read."""
-
-    def __init__(self, path):
-        self._path = Path(path).expanduser()
-
-    def load(self):
-        try:
-            return Tokens.from_dict(json.loads(self._path.read_text()))
-        except FileNotFoundError:
-            return Tokens()
-
-    def save(self, tokens):
-        self._path.parent.mkdir(parents=True, exist_ok=True)
-        temporary_path = self._path.with_suffix(".tmp")
-        temporary_path.write_text(json.dumps(tokens.to_dict(), indent=2))
-        temporary_path.chmod(0o600)
-        os.replace(temporary_path, self._path)
-        logger.debug("Stored credentials expiring on %s", tokens.access_token_expires_on)
-
+from pyecobee import EcobeeService, JsonFileTokenStore
 
 store = JsonFileTokenStore("~/.config/pyecobee/tokens.json")
 ecobee_service = EcobeeService(
@@ -901,9 +872,13 @@ ecobee_service = EcobeeService(
 )
 ```
 
-Writing to a temporary file and renaming it means an interrupted save cannot leave a half-written file where your
-credentials used to be. For a desktop application, consider [keyring](https://pypi.org/project/keyring/) instead of
-a file. For a server, take the application key and the initial credentials from the environment or a secret manager.
+The file is written under a temporary name and renamed into place, so an interrupted save cannot leave a half-written
+file where your credentials used to be.
+
+Anywhere else you want to keep them, supply your own pair. `Tokens` is an immutable snapshot that converts to and from
+a plain mapping through `to_dict` and `from_dict`, so a store is usually a few lines. For a desktop application,
+consider [keyring](https://pypi.org/project/keyring/). For a server, take the application key and the initial
+credentials from the environment or a secret manager.
 
 `Tokens` omits the credentials from its representation, so logging one discloses only the expiries and the scope:
 

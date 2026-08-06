@@ -109,6 +109,7 @@ from pyecobee.responses import (
     EcobeeTokensResponse,
 )
 from pyecobee.service import EcobeeService
+from pyecobee.store import JsonFileTokenStore
 from pyecobee.tokens import Tokens
 from pyecobee.utilities import Utilities
 
@@ -217,6 +218,7 @@ __all__ = [
     "EcobeeThermostatsSummaryResponse",
     "EcobeeTokensResponse",
     "EcobeeService",
+    "JsonFileTokenStore",
     "Utilities",
 ]
 
