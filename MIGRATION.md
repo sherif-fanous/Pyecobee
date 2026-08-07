@@ -28,7 +28,8 @@ These are gone:
 | `EcobeeService.from_tokens()`. | The one constructor. |
 | `EcobeeService.attribute_name_map` and `attribute_type_map`, and the same two attributes on `EcobeeApiException` and `EcobeeAuthorizationException`. | Nothing reads them. Credentials serialize through `Tokens.to_dict()`. |
 | `Utilities.make_http_request()` and `pyecobee.utilities.transport`. | The operations on `EcobeeService`, which sign and send requests for you. |
-| `Utilities.dictionary_to_object()`, and the class argument to `Utilities.object_to_dictionary()`. | Responses arrive as models already. Serialize one with `model_dump()` or `to_api_dict()`. |
+| `Utilities.dictionary_to_object()` and `Utilities.object_to_dictionary()`. | Responses arrive as models already. Serialize one with `to_api_dict()`. |
+| `Utilities.process_http_response()`. | Import `process_http_response()` from `pyecobee.utilities` if you process raw HTTP responses yourself. |
 
 Renewal is automatic. Before each request the service renews an access token that is
 within two minutes of expiring, and if ecobee reports a token as already expired it
@@ -86,12 +87,14 @@ time credentials are issued.
 
 ## Public imports
 
-Use explicit imports for application code:
+Use explicit package-root imports for application code:
 
 ```python
-from pyecobee import EcobeeService, Selection, SelectionType
-from pyecobee.objects.thermostat import Thermostat
+from pyecobee import EcobeeService, Selection, SelectionType, Thermostat
 ```
+
+The `pyecobee.objects.*` compatibility modules are gone; import models from the
+package root or `pyecobee.models` instead.
 
 The package root now defines `__all__`. Names that were incidentally exposed
 through wildcard imports, such as the standard-library `logging` module, are no
@@ -109,7 +112,7 @@ aliases in `pyecobee.models`.
 | Previous behavior | Version 2 behavior |
 | --- | --- |
 | Constructors accepted arbitrary keyword arguments or unchecked values. | Request-model constructors reject unknown fields and invalid enum values with `pydantic.ValidationError`. |
-| `Utilities.object_to_dictionary()` reflected `__slots__` and string field metadata, and took the class as its first argument. | It takes the object alone and serializes it with `model_dump(by_alias=True, exclude_none=True, mode="json")`. |
+| `Utilities.object_to_dictionary()` reflected `__slots__` and string field metadata. | Call the model's `to_api_dict()` method. |
 | `Function(type_=...)` took a trailing underscore its `type` property did not have. | Construct it as `Function(type="resumeProgram")`. The field and the argument now agree. |
 | Response conversion manually traversed string type metadata. | Response conversion uses typed Pydantic validation; unknown API fields are ignored for forward compatibility. |
 | Models exposed private slot-backed storage. | Fields are public Pydantic attributes; use `model_dump()` or `to_api_dict()` rather than private attributes. |

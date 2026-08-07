@@ -11,15 +11,13 @@ from pyecobee import (
     EcobeeStatusResponse,
     EcobeeThermostatResponse,
     EcobeeTokensResponse,
-    Utilities,
 )
 from pyecobee.enumerations import FanMode, Scope
+from pyecobee.utilities import process_http_response
 
 
 def process(payload, response_class, mock_response):
-    return Utilities.process_http_response(
-        mock_response(payload=payload), response_class
-    )
+    return process_http_response(mock_response(payload=payload), response_class)
 
 
 @pytest.mark.parametrize(

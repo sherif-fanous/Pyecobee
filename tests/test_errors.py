@@ -8,9 +8,9 @@ from pyecobee import (
     EcobeeHttpException,
     EcobeeRequestsException,
     EcobeeStatusResponse,
-    Utilities,
 )
 from pyecobee.transport import HttpTransport
+from pyecobee.utilities import process_http_response
 
 
 class Response(requests.Response):
@@ -30,7 +30,7 @@ class Response(requests.Response):
 
 def test_authorization_error_response_raises_typed_exception():
     with pytest.raises(EcobeeAuthorizationException) as raised:
-        Utilities.process_http_response(
+        process_http_response(
             Response(
                 400,
                 {
@@ -47,7 +47,7 @@ def test_authorization_error_response_raises_typed_exception():
 
 def test_api_error_response_raises_typed_exception():
     with pytest.raises(EcobeeApiException) as raised:
-        Utilities.process_http_response(
+        process_http_response(
             Response(
                 400,
                 {"status": {"code": 14, "message": "Authentication token has expired"}},
@@ -60,7 +60,7 @@ def test_api_error_response_raises_typed_exception():
 
 def test_unstructured_http_error_raises_typed_exception():
     with pytest.raises(EcobeeHttpException) as raised:
-        Utilities.process_http_response(
+        process_http_response(
             Response(500, {}, "https://example.test/path?access_token=secret"),
             EcobeeStatusResponse,
         )
@@ -84,7 +84,7 @@ def test_requests_error_chains_underlying_exception():
 
 def test_malformed_json_is_propagated():
     with pytest.raises(ValueError, match="invalid JSON"):
-        Utilities.process_http_response(
+        process_http_response(
             Response(200, ValueError("invalid JSON")), EcobeeStatusResponse
         )
 
@@ -96,9 +96,9 @@ def not_json():
 
 def test_a_success_response_that_is_not_json_raises_a_typed_exception():
     with pytest.raises(EcobeeDeserializationException, match="not JSON"):
-        Utilities.process_http_response(Response(200, not_json()), EcobeeStatusResponse)
+        process_http_response(Response(200, not_json()), EcobeeStatusResponse)
 
 
 def test_an_error_response_that_is_not_json_raises_a_typed_exception():
     with pytest.raises(EcobeeHttpException, match="HTTP error code => 502"):
-        Utilities.process_http_response(Response(502, not_json()), EcobeeStatusResponse)
+        process_http_response(Response(502, not_json()), EcobeeStatusResponse)

@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from pprint import pformat
-from typing import Any, ClassVar
+from typing import Any
 
 from pydantic import BaseModel, ConfigDict
 
@@ -16,7 +16,6 @@ class EcobeeObject(BaseModel):
         validate_by_alias=True,
         extra="forbid",
     )
-    _model_namespace: ClassVar[dict[str, type[EcobeeObject]]] = {}
 
     def to_api_dict(self) -> dict[str, Any]:
         """Return a JSON-compatible ecobee payload without unset values."""

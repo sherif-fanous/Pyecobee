@@ -10,16 +10,14 @@ from pyecobee.enumerations import (
     PlugState,
     SelectionType,
 )
-from pyecobee.objects.function import Function
-from pyecobee.objects.selection import Selection
-from pyecobee.objects.thermostat import Thermostat
+from pyecobee.models import Function, Selection, Thermostat
 from pyecobee.responses import (
     EcobeeStatusResponse,
     EcobeeThermostatResponse,
     EcobeeThermostatsSummaryResponse,
 )
 from pyecobee.services.context import ClientContext
-from pyecobee.utilities import Utilities
+from pyecobee.utilities import process_http_response
 
 
 class DomainComponent:
@@ -67,7 +65,7 @@ class ThermostatsService(DomainComponent):
         if not isinstance(selection, Selection):
             raise TypeError(f"selection must be an instance of {Selection}")
 
-        dictionary = {"selection": Utilities.object_to_dictionary(selection)}
+        dictionary = {"selection": selection.to_api_dict()}
 
         response = self._context.request(
             "get",
@@ -76,9 +74,7 @@ class ThermostatsService(DomainComponent):
             timeout=timeout,
         )
 
-        return Utilities.process_http_response(
-            response, EcobeeThermostatsSummaryResponse
-        )
+        return process_http_response(response, EcobeeThermostatsSummaryResponse)
 
     def request_thermostats(
         self, selection: Selection, timeout: float = 5
@@ -106,7 +102,7 @@ class ThermostatsService(DomainComponent):
         if not isinstance(selection, Selection):
             raise TypeError(f"selection must be an instance of {Selection}")
 
-        dictionary = {"selection": Utilities.object_to_dictionary(selection)}
+        dictionary = {"selection": selection.to_api_dict()}
 
         response = self._context.request(
             "get",
@@ -115,7 +111,7 @@ class ThermostatsService(DomainComponent):
             timeout=timeout,
         )
 
-        return Utilities.process_http_response(response, EcobeeThermostatResponse)
+        return process_http_response(response, EcobeeThermostatResponse)
 
     def update_thermostats(
         self,
@@ -177,13 +173,13 @@ class ThermostatsService(DomainComponent):
                         f"All members of functions must be a an instance of {Function}"
                     )
 
-        dictionary = {"selection": Utilities.object_to_dictionary(selection)}
+        dictionary = {"selection": selection.to_api_dict()}
 
         if thermostat is not None:
-            dictionary["thermostat"] = Utilities.object_to_dictionary(thermostat)
+            dictionary["thermostat"] = thermostat.to_api_dict()
         if functions is not None:
             dictionary["functions"] = [
-                Utilities.object_to_dictionary(function_) for function_ in functions
+                function_.to_api_dict() for function_ in functions
             ]
 
         response = self._context.request(
@@ -194,7 +190,7 @@ class ThermostatsService(DomainComponent):
             timeout=timeout,
         )
 
-        return Utilities.process_http_response(response, EcobeeStatusResponse)
+        return process_http_response(response, EcobeeStatusResponse)
 
     def acknowledge(
         self,

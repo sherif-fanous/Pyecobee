@@ -11,14 +11,16 @@ from pyecobee.enumerations import (
     Scope,
     SelectionType,
 )
-from pyecobee.objects.demand_management import DemandManagement
-from pyecobee.objects.demand_response import DemandResponse
-from pyecobee.objects.function import Function
-from pyecobee.objects.group import Group
-from pyecobee.objects.hierarchy_privilege import HierarchyPrivilege
-from pyecobee.objects.hierarchy_user import HierarchyUser
-from pyecobee.objects.selection import Selection
-from pyecobee.objects.thermostat import Thermostat
+from pyecobee.models import (
+    DemandManagement,
+    DemandResponse,
+    Function,
+    Group,
+    HierarchyPrivilege,
+    HierarchyUser,
+    Selection,
+    Thermostat,
+)
 from pyecobee.responses import (
     EcobeeAuthorizeResponse,
     EcobeeCreateRuntimeReportJobResponse,

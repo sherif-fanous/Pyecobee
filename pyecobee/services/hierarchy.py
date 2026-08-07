@@ -1,15 +1,14 @@
 import json
 from typing import Any
 
-from pyecobee.objects.hierarchy_privilege import HierarchyPrivilege
-from pyecobee.objects.hierarchy_user import HierarchyUser
+from pyecobee.models import HierarchyPrivilege, HierarchyUser
 from pyecobee.responses import (
     EcobeeListHierarchySetsResponse,
     EcobeeListHierarchyUsersResponse,
     EcobeeStatusResponse,
 )
 from pyecobee.services.context import ClientContext
-from pyecobee.utilities import Utilities
+from pyecobee.utilities import process_http_response
 
 
 class DomainComponent:
@@ -81,9 +80,7 @@ class HierarchyService(DomainComponent):
             timeout=timeout,
         )
 
-        return Utilities.process_http_response(
-            response, EcobeeListHierarchySetsResponse
-        )
+        return process_http_response(response, EcobeeListHierarchySetsResponse)
 
     def list_hierarchy_users(
         self,
@@ -136,9 +133,7 @@ class HierarchyService(DomainComponent):
             timeout=timeout,
         )
 
-        return Utilities.process_http_response(
-            response, EcobeeListHierarchyUsersResponse
-        )
+        return process_http_response(response, EcobeeListHierarchyUsersResponse)
 
     def add_hierarchy_set(
         self, set_name: str, parent_path: str, timeout: float = 5
@@ -178,7 +173,7 @@ class HierarchyService(DomainComponent):
             timeout=timeout,
         )
 
-        return Utilities.process_http_response(response, EcobeeStatusResponse)
+        return process_http_response(response, EcobeeStatusResponse)
 
     def remove_hierarchy_set(
         self, set_path: str, timeout: float = 5
@@ -211,7 +206,7 @@ class HierarchyService(DomainComponent):
             timeout=timeout,
         )
 
-        return Utilities.process_http_response(response, EcobeeStatusResponse)
+        return process_http_response(response, EcobeeStatusResponse)
 
     def rename_hierarchy_set(
         self, set_path: str, new_name: str, timeout: float = 5
@@ -248,7 +243,7 @@ class HierarchyService(DomainComponent):
             timeout=timeout,
         )
 
-        return Utilities.process_http_response(response, EcobeeStatusResponse)
+        return process_http_response(response, EcobeeStatusResponse)
 
     def move_hierarchy_set(
         self, set_path: str, to_path: str, timeout: float = 5
@@ -286,7 +281,7 @@ class HierarchyService(DomainComponent):
             timeout=timeout,
         )
 
-        return Utilities.process_http_response(response, EcobeeStatusResponse)
+        return process_http_response(response, EcobeeStatusResponse)
 
     def add_hierarchy_users(
         self,
@@ -340,12 +335,12 @@ class HierarchyService(DomainComponent):
 
         dictionary = {
             "operation": "add",
-            "users": [Utilities.object_to_dictionary(user) for user in users],
+            "users": [user.to_api_dict() for user in users],
         }
 
         if privileges is not None:
             dictionary["privileges"] = [
-                Utilities.object_to_dictionary(privilege) for privilege in privileges
+                privilege.to_api_dict() for privilege in privileges
             ]
 
         response = self._context.request(
@@ -356,7 +351,7 @@ class HierarchyService(DomainComponent):
             timeout=timeout,
         )
 
-        return Utilities.process_http_response(response, EcobeeStatusResponse)
+        return process_http_response(response, EcobeeStatusResponse)
 
     def remove_hierarchy_users(
         self, set_path: str, users: list[HierarchyUser], timeout: float = 5
@@ -393,7 +388,7 @@ class HierarchyService(DomainComponent):
         dictionary = {
             "operation": "remove",
             "setPath": set_path,
-            "users": [Utilities.object_to_dictionary(user) for user in users],
+            "users": [user.to_api_dict() for user in users],
         }
 
         response = self._context.request(
@@ -404,7 +399,7 @@ class HierarchyService(DomainComponent):
             timeout=timeout,
         )
 
-        return Utilities.process_http_response(response, EcobeeStatusResponse)
+        return process_http_response(response, EcobeeStatusResponse)
 
     def unregister_hierarchy_users(
         self, users: list[HierarchyUser], timeout: float = 5
@@ -436,7 +431,7 @@ class HierarchyService(DomainComponent):
 
         dictionary = {
             "operation": "unregister",
-            "users": [Utilities.object_to_dictionary(user) for user in users],
+            "users": [user.to_api_dict() for user in users],
         }
 
         response = self._context.request(
@@ -447,7 +442,7 @@ class HierarchyService(DomainComponent):
             timeout=timeout,
         )
 
-        return Utilities.process_http_response(response, EcobeeStatusResponse)
+        return process_http_response(response, EcobeeStatusResponse)
 
     def update_hierarchy_users(
         self,
@@ -501,12 +496,10 @@ class HierarchyService(DomainComponent):
         dictionary: dict[str, Any] = {"operation": "update"}
 
         if users is not None:
-            dictionary["users"] = [
-                Utilities.object_to_dictionary(user) for user in users
-            ]
+            dictionary["users"] = [user.to_api_dict() for user in users]
         if privileges is not None:
             dictionary["privileges"] = [
-                Utilities.object_to_dictionary(privilege) for privilege in privileges
+                privilege.to_api_dict() for privilege in privileges
             ]
 
         response = self._context.request(
@@ -517,7 +510,7 @@ class HierarchyService(DomainComponent):
             timeout=timeout,
         )
 
-        return Utilities.process_http_response(response, EcobeeStatusResponse)
+        return process_http_response(response, EcobeeStatusResponse)
 
     def register_hierarchy_thermostats(
         self, thermostats: str, set_path: str | None = None, timeout: float = 5
@@ -559,7 +552,7 @@ class HierarchyService(DomainComponent):
             timeout=timeout,
         )
 
-        return Utilities.process_http_response(response, EcobeeStatusResponse)
+        return process_http_response(response, EcobeeStatusResponse)
 
     def unregister_hierarchy_thermostats(
         self, thermostats: str, timeout: float = 5
@@ -594,7 +587,7 @@ class HierarchyService(DomainComponent):
             timeout=timeout,
         )
 
-        return Utilities.process_http_response(response, EcobeeStatusResponse)
+        return process_http_response(response, EcobeeStatusResponse)
 
     def move_hierarchy_thermostats(
         self,
@@ -644,7 +637,7 @@ class HierarchyService(DomainComponent):
             timeout=timeout,
         )
 
-        return Utilities.process_http_response(response, EcobeeStatusResponse)
+        return process_http_response(response, EcobeeStatusResponse)
 
     def assign_hierarchy_thermostats(
         self, set_path: str, thermostats: str, timeout: float = 5
@@ -688,4 +681,4 @@ class HierarchyService(DomainComponent):
             timeout=timeout,
         )
 
-        return Utilities.process_http_response(response, EcobeeStatusResponse)
+        return process_http_response(response, EcobeeStatusResponse)

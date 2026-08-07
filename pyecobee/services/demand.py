@@ -1,15 +1,13 @@
 import json
 
-from pyecobee.objects.demand_management import DemandManagement
-from pyecobee.objects.demand_response import DemandResponse
-from pyecobee.objects.selection import Selection
+from pyecobee.models import DemandManagement, DemandResponse, Selection
 from pyecobee.responses import (
     EcobeeIssueDemandResponsesResponse,
     EcobeeListDemandResponsesResponse,
     EcobeeStatusResponse,
 )
 from pyecobee.services.context import ClientContext
-from pyecobee.utilities import Utilities
+from pyecobee.utilities import process_http_response
 
 
 class DomainComponent:
@@ -50,9 +48,7 @@ class DemandService(DomainComponent):
             timeout=timeout,
         )
 
-        return Utilities.process_http_response(
-            response, EcobeeListDemandResponsesResponse
-        )
+        return process_http_response(response, EcobeeListDemandResponsesResponse)
 
     def issue_demand_response(
         self,
@@ -87,9 +83,9 @@ class DemandService(DomainComponent):
             raise TypeError(f"demand_response must be an instance of {DemandResponse}")
 
         dictionary = {
-            "selection": Utilities.object_to_dictionary(selection),
+            "selection": selection.to_api_dict(),
             "operation": "create",
-            "demandResponse": Utilities.object_to_dictionary(demand_response),
+            "demandResponse": demand_response.to_api_dict(),
         }
 
         response = self._context.request(
@@ -100,9 +96,7 @@ class DemandService(DomainComponent):
             timeout=timeout,
         )
 
-        return Utilities.process_http_response(
-            response, EcobeeIssueDemandResponsesResponse
-        )
+        return process_http_response(response, EcobeeIssueDemandResponsesResponse)
 
     def cancel_demand_response(
         self, demand_response_ref: str, timeout: float = 5
@@ -140,7 +134,7 @@ class DemandService(DomainComponent):
             timeout=timeout,
         )
 
-        return Utilities.process_http_response(response, EcobeeStatusResponse)
+        return process_http_response(response, EcobeeStatusResponse)
 
     def issue_demand_managements(
         self,
@@ -183,9 +177,9 @@ class DemandService(DomainComponent):
                 )
 
         dictionary = {
-            "selection": Utilities.object_to_dictionary(selection),
+            "selection": selection.to_api_dict(),
             "dmList": [
-                Utilities.object_to_dictionary(demand_management)
+                demand_management.to_api_dict()
                 for demand_management in demand_managements
             ],
         }
@@ -198,4 +192,4 @@ class DemandService(DomainComponent):
             timeout=timeout,
         )
 
-        return Utilities.process_http_response(response, EcobeeStatusResponse)
+        return process_http_response(response, EcobeeStatusResponse)

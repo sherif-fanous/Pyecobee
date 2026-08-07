@@ -32,7 +32,6 @@ Issues = "https://github.com/sherif-fanous/Pyecobee/issues"
 
 [dependency-groups]
 dev = [
-    "coverage[toml]>=7.15.2",
     "pytest>=9.1.1",
     "pytest-cov>=7.1.0",
     "ruff>=0.16.1",

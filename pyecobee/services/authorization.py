@@ -1,6 +1,6 @@
 from pyecobee.responses import EcobeeAuthorizeResponse, EcobeeTokensResponse
 from pyecobee.services.context import ClientContext
-from pyecobee.utilities import Utilities
+from pyecobee.utilities import process_http_response
 
 
 class DomainComponent:
@@ -51,9 +51,7 @@ class AuthorizationService(DomainComponent):
             },
             timeout=timeout,
         )
-        authorize_response = Utilities.process_http_response(
-            response, EcobeeAuthorizeResponse
-        )
+        authorize_response = process_http_response(response, EcobeeAuthorizeResponse)
 
         self._context.store_tokens(
             self._context.tokens.replace(authorization_token=authorize_response.code)

@@ -7,7 +7,6 @@ from pyecobee import (
     EcobeeThermostatResponse,
     Selection,
     SelectionType,
-    Utilities,
 )
 from pyecobee.deserialization import deserialize
 from pyecobee.models import Event, Status
@@ -21,7 +20,7 @@ def test_request_models_use_aliases_nested_values_and_enum_serialization():
     )
 
     assert selection.selection_type is SelectionType.THERMOSTATS
-    assert Utilities.object_to_dictionary(selection) == {
+    assert selection.to_api_dict() == {
         "selectionType": "thermostats",
         "selectionMatch": "123",
         "includeRuntime": True,

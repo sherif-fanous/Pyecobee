@@ -11,7 +11,7 @@ import requests
 from pyecobee.responses import EcobeeTokensResponse
 from pyecobee.tokens import Tokens
 from pyecobee.transport import HttpTransport
-from pyecobee.utilities import Utilities
+from pyecobee.utilities import process_http_response
 
 logger = logging.getLogger(__name__)
 
@@ -142,9 +142,7 @@ class ClientContext:
             },
             timeout=timeout,
         )
-        tokens_response = Utilities.process_http_response(
-            response, EcobeeTokensResponse
-        )
+        tokens_response = process_http_response(response, EcobeeTokensResponse)
 
         self.store_tokens(
             self._tokens.replace(

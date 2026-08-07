@@ -6,7 +6,7 @@ from datetime import datetime as DateTime
 from pyecobee.enumerations import (
     SelectionType,
 )
-from pyecobee.objects.selection import Selection
+from pyecobee.models import Selection
 from pyecobee.responses import (
     EcobeeCreateRuntimeReportJobResponse,
     EcobeeListRuntimeReportJobStatusResponse,
@@ -15,7 +15,7 @@ from pyecobee.responses import (
     EcobeeStatusResponse,
 )
 from pyecobee.services.context import ClientContext
-from pyecobee.utilities import Utilities
+from pyecobee.utilities import process_http_response
 
 
 class DomainComponent:
@@ -144,7 +144,7 @@ class ReportsService(DomainComponent):
         end_date_time = end_date_time.astimezone(utc)
 
         dictionary = {
-            "selection": Utilities.object_to_dictionary(selection),
+            "selection": selection.to_api_dict(),
             "startDate": f"{start_date_time.year}-{start_date_time.month:02}-{start_date_time.day:02}",
             "startInterval": (start_date_time.hour * 12)
             + (start_date_time.minute // 5),
@@ -163,7 +163,7 @@ class ReportsService(DomainComponent):
             timeout=timeout,
         )
 
-        return Utilities.process_http_response(response, EcobeeMeterReportsResponse)
+        return process_http_response(response, EcobeeMeterReportsResponse)
 
     def request_runtime_reports(
         self,
@@ -275,7 +275,7 @@ class ReportsService(DomainComponent):
         end_date_time = end_date_time.astimezone(utc)
 
         dictionary = {
-            "selection": Utilities.object_to_dictionary(selection),
+            "selection": selection.to_api_dict(),
             "startDate": f"{start_date_time.year}-{start_date_time.month:02}-{start_date_time.day:02}",
             "startInterval": (start_date_time.hour * 12)
             + (start_date_time.minute // 5),
@@ -295,7 +295,7 @@ class ReportsService(DomainComponent):
             timeout=timeout,
         )
 
-        return Utilities.process_http_response(response, EcobeeRuntimeReportsResponse)
+        return process_http_response(response, EcobeeRuntimeReportsResponse)
 
     def create_runtime_report_job(
         self,
@@ -429,7 +429,7 @@ class ReportsService(DomainComponent):
             raise TypeError(f"include_sensors must be an instance of {bool}")
 
         dictionary = {
-            "selection": Utilities.object_to_dictionary(selection),
+            "selection": selection.to_api_dict(),
             "startDate": f"{start_date.year}-{start_date.month:02}-{start_date.day:02}",
             "endDate": f"{end_date.year}-{end_date.month:02}-{end_date.day:02}",
             "columns": columns,
@@ -444,9 +444,7 @@ class ReportsService(DomainComponent):
             timeout=timeout,
         )
 
-        return Utilities.process_http_response(
-            response, EcobeeCreateRuntimeReportJobResponse
-        )
+        return process_http_response(response, EcobeeCreateRuntimeReportJobResponse)
 
     def list_runtime_report_job_status(
         self, job_id: str | None = None, timeout: float = 5
@@ -485,9 +483,7 @@ class ReportsService(DomainComponent):
             timeout=timeout,
         )
 
-        return Utilities.process_http_response(
-            response, EcobeeListRuntimeReportJobStatusResponse
-        )
+        return process_http_response(response, EcobeeListRuntimeReportJobStatusResponse)
 
     def cancel_runtime_report_job(
         self, job_id: str, timeout: float = 5
@@ -522,4 +518,4 @@ class ReportsService(DomainComponent):
             timeout=timeout,
         )
 
-        return Utilities.process_http_response(response, EcobeeStatusResponse)
+        return process_http_response(response, EcobeeStatusResponse)

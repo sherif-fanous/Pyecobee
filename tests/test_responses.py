@@ -15,8 +15,8 @@ from pyecobee import (
     EcobeeListRuntimeReportJobStatusResponse,
     EcobeeStatusResponse,
     EcobeeThermostatResponse,
-    Utilities,
 )
+from pyecobee.utilities import process_http_response
 
 
 class Response(requests.Response):
@@ -67,7 +67,7 @@ def response_from_fixture(name):
 def test_captured_response_fixtures_deserialize(
     fixture_name, response_class, attribute
 ):
-    response = Utilities.process_http_response(
+    response = process_http_response(
         response_from_fixture(fixture_name), response_class
     )
 
@@ -76,7 +76,7 @@ def test_captured_response_fixtures_deserialize(
 
 
 def test_authorization_and_thermostat_responses_deserialize():
-    authorization = Utilities.process_http_response(
+    authorization = process_http_response(
         Response(
             200,
             {
@@ -89,7 +89,7 @@ def test_authorization_and_thermostat_responses_deserialize():
         ),
         EcobeeAuthorizeResponse,
     )
-    thermostat = Utilities.process_http_response(
+    thermostat = process_http_response(
         Response(
             200,
             {
@@ -107,7 +107,7 @@ def test_authorization_and_thermostat_responses_deserialize():
 
 
 def test_unsupported_nested_object_is_ignored():
-    response = Utilities.process_http_response(
+    response = process_http_response(
         Response(
             200, {"status": {"code": 0, "message": "", "futureObject": {"value": 1}}}
         ),
@@ -119,13 +119,13 @@ def test_unsupported_nested_object_is_ignored():
 
 def test_malformed_success_shape_raises():
     with pytest.raises(EcobeeDeserializationException, match="EcobeeStatusResponse"):
-        Utilities.process_http_response(Response(200, []), EcobeeStatusResponse)
+        process_http_response(Response(200, []), EcobeeStatusResponse)
 
 
 def test_unknown_fields_and_unsupported_objects_do_not_block_siblings(caplog):
     caplog.set_level(logging.DEBUG)
 
-    response = Utilities.process_http_response(
+    response = process_http_response(
         Response(
             200,
             {
@@ -144,7 +144,7 @@ def test_unknown_fields_and_unsupported_objects_do_not_block_siblings(caplog):
 
 
 def test_empty_lists_and_malformed_known_fields_are_handled():
-    response = Utilities.process_http_response(
+    response = process_http_response(
         Response(
             200,
             {
@@ -158,7 +158,7 @@ def test_empty_lists_and_malformed_known_fields_are_handled():
 
     assert response.thermostat_list == []
     with pytest.raises(EcobeeDeserializationException, match=r"status\.code"):
-        Utilities.process_http_response(
+        process_http_response(
             Response(200, {"status": {"code": "not-a-number", "message": ""}}),
             EcobeeStatusResponse,
         )

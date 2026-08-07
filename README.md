@@ -162,8 +162,7 @@ Pyecobee ships with docstrings throughout. Use `dir()` and `help()` to explore:
 ### Import the models
 
 ```python
-from pyecobee import EcobeeService, Selection, SelectionType, Tokens
-from pyecobee.objects.thermostat import Thermostat
+from pyecobee import EcobeeService, Selection, SelectionType, Thermostat, Tokens
 
 # Import other models, enums, and exceptions by their explicit names.
 ```
@@ -964,7 +963,7 @@ uv run ruff check .
 uv run ruff format --check .
 ```
 
-Run the offline regression suite, which enforces an 82% coverage minimum:
+Run the offline regression suite, which enforces an 81% coverage minimum:
 
 ```bash
 uv run pytest

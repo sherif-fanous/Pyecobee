@@ -2,8 +2,9 @@ import logging
 
 import requests
 
-from pyecobee import EcobeeTokensResponse, Utilities
+from pyecobee import EcobeeTokensResponse
 from pyecobee.transport import HttpTransport
+from pyecobee.utilities import process_http_response
 
 
 class Response(requests.Response):
@@ -42,7 +43,7 @@ def test_request_and_response_logs_omit_sensitive_data(caplog):
         timeout=10,
     )
 
-    Utilities.process_http_response(response, EcobeeTokensResponse)
+    process_http_response(response, EcobeeTokensResponse)
 
     logs = caplog.text
 

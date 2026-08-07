@@ -3,13 +3,12 @@ import json
 from pyecobee.enumerations import (
     SelectionType,
 )
-from pyecobee.objects.group import Group
-from pyecobee.objects.selection import Selection
+from pyecobee.models import Group, Selection
 from pyecobee.responses import (
     EcobeeGroupsResponse,
 )
 from pyecobee.services.context import ClientContext
-from pyecobee.utilities import Utilities
+from pyecobee.utilities import process_http_response
 
 
 class DomainComponent:
@@ -51,7 +50,7 @@ class GroupsService(DomainComponent):
                 f"selection.selection_type must be set to {SelectionType.REGISTERED.value}"
             )
 
-        dictionary = {"selection": Utilities.object_to_dictionary(selection)}
+        dictionary = {"selection": selection.to_api_dict()}
 
         response = self._context.request(
             "get",
@@ -63,7 +62,7 @@ class GroupsService(DomainComponent):
             timeout=timeout,
         )
 
-        return Utilities.process_http_response(response, EcobeeGroupsResponse)
+        return process_http_response(response, EcobeeGroupsResponse)
 
     def update_groups(
         self, selection: Selection, groups: list[Group], timeout: float = 5
@@ -97,8 +96,8 @@ class GroupsService(DomainComponent):
                 )
 
         dictionary = {
-            "selection": Utilities.object_to_dictionary(selection),
-            "groups": [Utilities.object_to_dictionary(group) for group in groups],
+            "selection": selection.to_api_dict(),
+            "groups": [group.to_api_dict() for group in groups],
         }
 
         response = self._context.request(
@@ -109,4 +108,4 @@ class GroupsService(DomainComponent):
             timeout=timeout,
         )
 
-        return Utilities.process_http_response(response, EcobeeGroupsResponse)
+        return process_http_response(response, EcobeeGroupsResponse)
