@@ -998,6 +998,13 @@ Run the offline regression suite, which enforces an 82% coverage minimum:
 uv run pytest
 ```
 
+`tests/live_integration.py` is not collected by pytest. It contacts a real account, exercising only the requests
+that read data, and stores its credentials in `~/.config/pyecobee/live_integration.json`:
+
+```bash
+ECOBEE_APPLICATION_KEY=your_application_key uv run python tests/live_integration.py
+```
+
 Apply safe lint fixes, sort imports, and format the source tree:
 
 ```bash
