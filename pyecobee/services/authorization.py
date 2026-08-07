@@ -1,10 +1,6 @@
-import logging
-
 from pyecobee.responses import EcobeeAuthorizeResponse, EcobeeTokensResponse
 from pyecobee.services.context import ClientContext
 from pyecobee.utilities import Utilities
-
-logger = logging.getLogger(__name__)
 
 
 class DomainComponent:

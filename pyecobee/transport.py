@@ -1,8 +1,8 @@
 """Internal HTTP transport and safe diagnostic helpers."""
 
-import json
 import logging
 from typing import Any
+from urllib.parse import urlsplit, urlunsplit
 
 import requests
 
@@ -10,32 +10,12 @@ from pyecobee.exceptions import EcobeeRequestsException
 
 logger = logging.getLogger(__name__)
 
-_SECRET_FIELDS = {
-    "access_token",
-    "application_key",
-    "authorization",
-    "authorization_code",
-    "client_id",
-    "client_secret",
-    "code",
-    "password",
-    "refresh_token",
-    "token",
-}
 
+def sanitize_url(url: str) -> str:
+    """Remove query parameters and fragments from a URL before logging it."""
+    parts = urlsplit(url)
 
-def redact(value: Any) -> Any:
-    """Return a copy of headers or JSON-compatible data without credentials."""
-    if isinstance(value, dict):
-        return {
-            key: "[REDACTED]" if key.lower() in _SECRET_FIELDS else redact(item)
-            for key, item in value.items()
-        }
-
-    if isinstance(value, list):
-        return [redact(item) for item in value]
-
-    return value
+    return urlunsplit((parts.scheme, parts.netloc, parts.path, "", ""))
 
 
 class HttpTransport:
@@ -56,16 +36,10 @@ class HttpTransport:
         headers = headers or {}
 
         logger.debug(
-            "Request\n[Method]\n========\n%s\n\n[URL]\n=====\n%s\n%s%s%s".strip(),
+            "Sending %s request to %s (timeout: %ss)",
             method.upper(),
-            url,
-            f"\n[Query Parameters]\n==================\n{json.dumps(redact(params), sort_keys=True, indent=2)}\n"
-            if params is not None
-            else "",
-            f"\n[Headers]\n=========\n{json.dumps(redact(headers), sort_keys=True, indent=2)}\n",
-            f"\n[JSON]\n======\n{json.dumps(redact(json_), sort_keys=True, indent=2)}\n"
-            if json_ is not None
-            else "",
+            sanitize_url(url),
+            timeout,
         )
 
         try:
@@ -73,6 +47,6 @@ class HttpTransport:
                 method, url, headers=headers, params=params, json=json_, timeout=timeout
             )
         except requests.exceptions.RequestException as exc:
-            logger.exception("HTTP request failed")
-
-            raise EcobeeRequestsException(str(exc)) from exc
+            raise EcobeeRequestsException(
+                f"{method.upper()} request to {sanitize_url(url)} failed"
+            ) from exc

@@ -202,7 +202,7 @@ class ClientContext:
         :return: The HTTP response
         """
         if self.access_token_is_due_for_renewal():
-            logger.debug("Renewing an access token that is due to expire")
+            logger.debug("Renewing access token before it expires")
             self.issue_tokens(
                 "refresh_token", self._tokens.refresh_token, timeout=timeout
             )
@@ -212,7 +212,7 @@ class ClientContext:
         if self._tokens.refresh_token is not None and _reports_an_expired_access_token(
             response
         ):
-            logger.debug("Renewing an access token ecobee reported as expired")
+            logger.debug("Renewing access token after ecobee rejected it as expired")
             self.issue_tokens(
                 "refresh_token", self._tokens.refresh_token, timeout=timeout
             )

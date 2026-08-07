@@ -49,5 +49,7 @@ class JsonFileTokenStore:
         temporary_path.replace(self._path)
 
         logger.debug(
-            "Stored credentials expiring on %s", tokens.access_token_expires_on
+            "Stored tokens; access token expires at %s and refresh token expires at %s",
+            tokens.access_token_expires_on,
+            tokens.refresh_token_expires_on,
         )

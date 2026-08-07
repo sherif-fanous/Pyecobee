@@ -185,14 +185,11 @@ refresh token every time it issues one.
 
 ## Authorization and token requests
 
-Each snippet below assumes a module-level `logger = logging.getLogger(__name__)`.
-
 ### Authorize
 
 ```python
 authorize_response = ecobee_service.authorize()
-logger.info(authorize_response.pretty_format())
-logger.info(f"Authorization Token => {ecobee_service.authorization_token}")
+print(f'Enter PIN "{authorize_response.ecobee_pin}" at ecobee.com')
 ```
 
 A successful invocation of `authorize()` returns an `EcobeeAuthorizeResponse` instance.
@@ -201,13 +198,6 @@ A successful invocation of `authorize()` returns an `EcobeeAuthorizeResponse` in
 
 ```python
 token_response = ecobee_service.request_tokens()
-logger.info(token_response.pretty_format())
-logger.info(
-    f"Access Token => {ecobee_service.access_token}\n"
-    f"Access Token Expires On => {ecobee_service.access_token_expires_on}\n"
-    f"Refresh Token => {ecobee_service.refresh_token}\n"
-    f"Refresh Token Expires On => {ecobee_service.refresh_token_expires_on}"
-)
 ```
 
 A successful invocation of `request_tokens()` returns an `EcobeeTokensResponse` instance.
@@ -219,7 +209,6 @@ Renewal is automatic, so this is only needed to renew on your own schedule. See
 
 ```python
 token_response = ecobee_service.refresh_tokens()
-logger.info(token_response.pretty_format())
 ```
 
 A successful invocation of `refresh_tokens()` returns an `EcobeeTokensResponse` instance.
@@ -236,7 +225,6 @@ thermostat_summary_response = ecobee_service.request_thermostats_summary(
         include_equipment_status=True,
     )
 )
-logger.info(thermostat_summary_response.pretty_format())
 ```
 
 A successful invocation of `request_thermostats_summary()` returns an `EcobeeThermostatsSummaryResponse` instance.
@@ -274,7 +262,6 @@ selection = Selection(
     include_weather=True,
 )
 thermostat_response = ecobee_service.request_thermostats(selection)
-logger.info(thermostat_response.pretty_format())
 assert thermostat_response.status.code == 0, (
     f"Failure while executing request_thermostats:\n{thermostat_response.pretty_format()}"
 )
@@ -294,7 +281,6 @@ update_thermostat_response = ecobee_service.update_thermostats(
     ),
     functions=[Function(type="deleteVacation", params={"name": "My vacation"})],
 )
-logger.info(update_thermostat_response.pretty_format())
 assert update_thermostat_response.status.code == 0, (
     f"Failure while executing update_thermostats:\n{update_thermostat_response.pretty_format()}"
 )
@@ -319,7 +305,6 @@ meter_reports_response = ecobee_service.request_meter_reports(
     start_date_time=datetime(2013, 4, 4, 0, 0, 0, tzinfo=eastern),
     end_date_time=datetime(2013, 4, 4, 23, 59, 0, tzinfo=eastern),
 )
-logger.info(meter_reports_response.pretty_format())
 assert meter_reports_response.status.code == 0, (
     f"Failure while executing request_meter_reports:\n{meter_reports_response.pretty_format()}"
 )
@@ -345,7 +330,6 @@ runtime_reports_response = ecobee_service.request_runtime_reports(
         "zoneHumidityLow,zoneHvacMode,zoneOccupancy"
     ),
 )
-logger.info(runtime_reports_response.pretty_format())
 assert runtime_reports_response.status.code == 0, (
     f"Failure while executing request_runtime_reports:\n{runtime_reports_response.pretty_format()}"
 )
@@ -361,7 +345,6 @@ A successful invocation of `request_runtime_reports()` returns an `EcobeeRuntime
 group_response = ecobee_service.request_groups(
     selection=Selection(selection_type=SelectionType.REGISTERED, selection_match="")
 )
-logger.info(group_response.pretty_format())
 assert group_response.status.code == 0, (
     f"Failure while executing request_groups:\n{group_response.pretty_format()}"
 )
@@ -414,7 +397,6 @@ group_response = ecobee_service.update_groups(
         Group(group_name="ground_floor", group_ref="3d03a26fd80001", thermostats=[])
     ],
 )
-logger.info(group_response.pretty_format())
 assert group_response.status.code == 0, (
     f"Failure while executing update_groups:\n{group_response.pretty_format()}"
 )
@@ -433,7 +415,6 @@ list_hierarchy_sets_response = ecobee_service.list_hierarchy_sets(
     include_privileges=True,
     include_thermostats=True,
 )
-logger.info(list_hierarchy_sets_response.pretty_format())
 assert list_hierarchy_sets_response.status.code == 0, (
     f"Failure while executing list_hierarchy_sets:\n{list_hierarchy_sets_response.pretty_format()}"
 )
@@ -484,7 +465,6 @@ list_hierarchy_users_response = ecobee_service.list_hierarchy_users(
     recursive=True,
     include_privileges=True,
 )
-logger.info(list_hierarchy_users_response.pretty_format())
 assert list_hierarchy_users_response.status.code == 0, (
     f"Failure while executing list_hierarchy_users:\n{list_hierarchy_users_response.pretty_format()}"
 )
@@ -511,7 +491,6 @@ add_hierarchy_users_response = ecobee_service.add_hierarchy_users(
         ),
     ],
 )
-logger.info(add_hierarchy_users_response.pretty_format())
 assert add_hierarchy_users_response.status.code == 0, (
     f"Failure while executing add_hierarchy_users:\n{add_hierarchy_users_response.pretty_format()}"
 )
@@ -618,7 +597,6 @@ A successful invocation of any hierarchy thermostat request returns an `EcobeeSt
 
 ```python
 list_demand_responses_response = ecobee_service.list_demand_responses()
-logger.info(list_demand_responses_response.pretty_format())
 assert list_demand_responses_response.status.code == 0, (
     f"Failure while executing list_demand_responses:\n{list_demand_responses_response.pretty_format()}"
 )
@@ -651,7 +629,6 @@ issue_demand_response_response = ecobee_service.issue_demand_response(
         ),
     ),
 )
-logger.info(issue_demand_response_response.pretty_format())
 assert issue_demand_response_response.status.code == 0, (
     f"Failure while executing issue_demand_response:\n{issue_demand_response_response.pretty_format()}"
 )
@@ -710,7 +687,6 @@ create_runtime_report_job_response = ecobee_service.create_runtime_report_job(
     end_date=date(2016, 10, 1),
     columns="zoneCalendarEvent,zoneHvacMode,zoneHeatTemp,zoneCoolTemp,zoneAveTemp,dmOffset",
 )
-logger.info(create_runtime_report_job_response.pretty_format())
 assert create_runtime_report_job_response.status.code == 0, (
     f"Failure while executing create_runtime_report_job:\n{create_runtime_report_job_response.pretty_format()}"
 )
@@ -747,7 +723,6 @@ A successful invocation of any thermostat function returns an `EcobeeStatusRespo
 
 ```python
 update_thermostat_response = ecobee_service.send_message("Hello World")
-logger.info(update_thermostat_response.pretty_format())
 assert update_thermostat_response.status.code == 0, (
     f"Failure while executing send_message:\n{update_thermostat_response.pretty_format()}"
 )
@@ -894,14 +869,11 @@ Authorization is only needed when no credentials are held. The callback stores w
 ```python
 if ecobee_service.authorization_token is None:
     authorize_response = ecobee_service.authorize()
-    logger.info(
-        "Go to ecobee.com, log in to the web portal and click on the settings tab. Ensure the My Apps widget is "
-        "enabled. If it is not, click on the My Apps option in the menu on the left. In the My Apps widget paste "
-        f'"{authorize_response.ecobee_pin}" in the textbox labelled "Enter your 4 digit pin to install your third '
-        'party app" and then click "Install App". The next screen will display any permissions the app requires '
-        'and will ask you to click "Authorize" to add the application.'
+    input(
+        "Go to ecobee.com, enable My Apps in the settings tab, and install "
+        f'PIN "{authorize_response.ecobee_pin}". Press Enter here after ecobee '
+        "authorizes the app."
     )
-    input("Press Enter once the app is authorized...")
 
 if ecobee_service.access_token is None:
     ecobee_service.request_tokens()

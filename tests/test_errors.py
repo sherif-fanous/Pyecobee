@@ -13,13 +13,15 @@ from pyecobee import (
 from pyecobee.transport import HttpTransport
 
 
-class Response:
-    def __init__(self, status_code, payload):
+class Response(requests.Response):
+    def __init__(self, status_code, payload, url="https://example.test"):
+        super().__init__()
+
         self.status_code = status_code
         self._payload = payload
-        self.request = type("Request", (), {"url": "https://example.test"})()
+        self.request = requests.Request("GET", url).prepare()
 
-    def json(self):
+    def json(self, **kwargs):
         if isinstance(self._payload, Exception):
             raise self._payload
 
@@ -57,18 +59,26 @@ def test_api_error_response_raises_typed_exception():
 
 
 def test_unstructured_http_error_raises_typed_exception():
-    with pytest.raises(EcobeeHttpException):
-        Utilities.process_http_response(Response(500, {}), EcobeeStatusResponse)
+    with pytest.raises(EcobeeHttpException) as raised:
+        Utilities.process_http_response(
+            Response(500, {}, "https://example.test/path?access_token=secret"),
+            EcobeeStatusResponse,
+        )
+
+    assert "secret" not in str(raised.value)
 
 
 def test_requests_error_chains_underlying_exception():
-    class FailingSession:
+    class FailingSession(requests.Session):
         def request(self, *args, **kwargs):
             raise requests.exceptions.ConnectionError("offline")
 
     with pytest.raises(EcobeeRequestsException) as raised:
-        HttpTransport(FailingSession()).request("get", "https://example.test")
+        HttpTransport(FailingSession()).request(
+            "get", "https://example.test/path?access_token=secret"
+        )
 
+    assert str(raised.value) == "GET request to https://example.test/path failed"
     assert isinstance(raised.value.__cause__, requests.exceptions.ConnectionError)
 
 

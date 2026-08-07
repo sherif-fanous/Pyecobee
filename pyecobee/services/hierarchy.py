@@ -1,5 +1,4 @@
 import json
-import logging
 from typing import Any
 
 from pyecobee.objects.hierarchy_privilege import HierarchyPrivilege
@@ -11,8 +10,6 @@ from pyecobee.responses import (
 )
 from pyecobee.services.context import ClientContext
 from pyecobee.utilities import Utilities
-
-logger = logging.getLogger(__name__)
 
 
 class DomainComponent:

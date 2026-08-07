@@ -49,7 +49,7 @@ def _known_fields(data: Any, model: type[EcobeeObject]) -> Any:
     }
 
     for key in data.keys() - recognized_names:
-        logger.warning("Ignoring unknown field %s on %s", key, model.__name__)
+        logger.debug("Ignored unknown field %r in %s response", key, model.__name__)
 
     for name, field in model.model_fields.items():
         alias = field.alias or name

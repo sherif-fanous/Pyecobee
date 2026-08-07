@@ -1,7 +1,9 @@
 import json
+import logging
 from pathlib import Path
 
 import pytest
+import requests
 
 from pyecobee import (
     EcobeeAuthorizeResponse,
@@ -17,13 +19,15 @@ from pyecobee import (
 )
 
 
-class Response:
+class Response(requests.Response):
     def __init__(self, status_code, payload):
+        super().__init__()
+
         self.status_code = status_code
         self._payload = payload
-        self.request = type("Request", (), {"url": "https://example.test"})()
+        self.request = requests.Request("GET", "https://example.test").prepare()
 
-    def json(self):
+    def json(self, **kwargs):
         return self._payload
 
 
@@ -119,6 +123,8 @@ def test_malformed_success_shape_raises():
 
 
 def test_unknown_fields_and_unsupported_objects_do_not_block_siblings(caplog):
+    caplog.set_level(logging.DEBUG)
+
     response = Utilities.process_http_response(
         Response(
             200,
@@ -134,7 +140,7 @@ def test_unknown_fields_and_unsupported_objects_do_not_block_siblings(caplog):
 
     assert response.status.code == 0
     assert response.thermostat_list[0].identifier == "abc"
-    assert any("Ignoring" in message for message in caplog.messages)
+    assert any("Ignored unknown field" in message for message in caplog.messages)
 
 
 def test_empty_lists_and_malformed_known_fields_are_handled():

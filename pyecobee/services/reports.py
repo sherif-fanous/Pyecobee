@@ -1,6 +1,5 @@
 import datetime
 import json
-import logging
 from datetime import date
 from datetime import datetime as DateTime
 
@@ -17,8 +16,6 @@ from pyecobee.responses import (
 )
 from pyecobee.services.context import ClientContext
 from pyecobee.utilities import Utilities
-
-logger = logging.getLogger(__name__)
 
 
 class DomainComponent:

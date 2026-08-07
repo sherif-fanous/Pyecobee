@@ -43,13 +43,11 @@ def authorize(ecobee_service):
     """Walk the one-time PIN authorization and store the credentials."""
     authorize_response = ecobee_service.authorize()
 
-    logger.info(
-        "Go to ecobee.com, log in, and open the settings tab. Enable the My "
-        'Apps widget, paste "%s" into the PIN box, and click Install App. '
-        "Authorize the permissions on the next screen, then press Enter here.",
-        authorize_response.ecobee_pin,
+    input(
+        "Go to ecobee.com, enable My Apps in the settings tab, and install "
+        f'PIN "{authorize_response.ecobee_pin}". Press Enter here after ecobee '
+        "authorizes the app."
     )
-    input()
     ecobee_service.request_tokens()
 
 
@@ -65,7 +63,7 @@ def request_thermostats_summary(ecobee_service):
     )
 
     check(response, "request_thermostats_summary")
-    logger.info("%s", response.pretty_format())
+    logger.info("Received summary for %s thermostats", response.thermostat_count)
 
 
 def request_thermostats(ecobee_service):
@@ -88,7 +86,7 @@ def request_thermostats(ecobee_service):
     )
 
     check(response, "request_thermostats")
-    logger.info("%s", response.pretty_format())
+    logger.info("Received %s thermostats", len(response.thermostat_list))
 
     return response.thermostat_list[0]
 
@@ -116,7 +114,7 @@ def request_runtime_reports(ecobee_service, thermostat):
     )
 
     check(response, "request_runtime_reports")
-    logger.info("%s", response.pretty_format())
+    logger.info("Received %s runtime reports", len(response.report_list))
 
 
 def request_groups(ecobee_service):
@@ -127,7 +125,7 @@ def request_groups(ecobee_service):
     )
 
     check(response, "request_groups")
-    logger.info("%s", response.pretty_format())
+    logger.info("Received %s groups", len(response.groups))
 
 
 def main():
@@ -151,7 +149,7 @@ def main():
             authorize(ecobee_service)
 
         logger.info(
-            "Access token expires on %s, refresh token on %s",
+            "Access token expires at %s; refresh token expires at %s",
             ecobee_service.access_token_expires_on,
             ecobee_service.refresh_token_expires_on,
         )
@@ -164,8 +162,8 @@ def main():
         request_groups(ecobee_service)
 
         logger.info("All read requests succeeded")
-    except EcobeeException:
-        logger.exception("A request failed")
+    except EcobeeException as error:
+        logger.error("Live ecobee check failed (%s)", type(error).__name__)
 
         return 1
 

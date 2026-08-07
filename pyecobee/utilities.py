@@ -1,4 +1,3 @@
-import json
 import logging
 
 import requests
@@ -9,12 +8,11 @@ from pyecobee.exceptions import (
     EcobeeApiException,
     EcobeeAuthorizationException,
     EcobeeDeserializationException,
-    EcobeeException,
     EcobeeHttpException,
 )
 from pyecobee.objects.status import Status
 from pyecobee.responses import EcobeeErrorResponse
-from pyecobee.transport import redact
+from pyecobee.transport import sanitize_url
 
 logger = logging.getLogger(__name__)
 
@@ -34,6 +32,10 @@ class Utilities:
         response_class: type[EcobeeObjectT],
     ) -> EcobeeObjectT:
         """Deserialize successful responses and translate API error payloads."""
+        url = sanitize_url(response.request.url or "")
+
+        logger.debug("Received HTTP %s from %s", response.status_code, url)
+
         try:
             payload = response.json()
         except requests.exceptions.JSONDecodeError:
@@ -44,53 +46,40 @@ class Utilities:
         if response.status_code == requests.codes.ok:
             if payload is None:
                 raise EcobeeDeserializationException(
-                    f"ecobee response for URL => {response.request.url}\n"
+                    f"ecobee response for URL => {url}\n"
                     f"HTTP code => {response.status_code}\n"
                     "The response body is empty or is not JSON"
                 )
 
-            response_object = deserialize(payload, response_class)
+            return deserialize(payload, response_class)
 
-            logger.debug(
-                "EcobeeResponse:\n[JSON]\n======\n%s".strip(),
-                json.dumps(redact(payload), sort_keys=True, indent=2),
+        if isinstance(payload, dict) and "error" in payload:
+            error_response = deserialize(payload, EcobeeErrorResponse)
+
+            raise EcobeeAuthorizationException(
+                f"ecobee authorization error encountered for URL => {url}\n"
+                f"HTTP error code => {response.status_code}\n"
+                f"Error type => {error_response.error}\n"
+                f"Error description => {error_response.error_description}\n"
+                f"Error URI => {error_response.error_uri}",
+                error_response.error,
+                error_response.error_description,
+                error_response.error_uri,
             )
 
-            return response_object
+        if isinstance(payload, dict) and "status" in payload:
+            status = deserialize(payload["status"], Status)
 
-        try:
-            if isinstance(payload, dict) and "error" in payload:
-                error_response = deserialize(payload, EcobeeErrorResponse)
-
-                raise EcobeeAuthorizationException(
-                    f"ecobee authorization error encountered for URL => {response.request.url}\n"
-                    f"HTTP error code => {response.status_code}\n"
-                    f"Error type => {error_response.error}\n"
-                    f"Error description => {error_response.error_description}\n"
-                    f"Error URI => {error_response.error_uri}",
-                    error_response.error,
-                    error_response.error_description,
-                    error_response.error_uri,
-                )
-
-            if isinstance(payload, dict) and "status" in payload:
-                status = deserialize(payload["status"], Status)
-
-                raise EcobeeApiException(
-                    f"ecobee API error encountered for URL => {response.request.url}\n"
-                    f"HTTP error code => {response.status_code}\n"
-                    f"Status code => {status.code}\n"
-                    f"Status message => {status.message}",
-                    status.code,
-                    status.message,
-                )
-
-            raise EcobeeHttpException(
-                f"HTTP error encountered for URL => {response.request.url}\n"
-                f"HTTP error code => {response.status_code}"
+            raise EcobeeApiException(
+                f"ecobee API error encountered for URL => {url}\n"
+                f"HTTP error code => {response.status_code}\n"
+                f"Status code => {status.code}\n"
+                f"Status message => {status.message}",
+                status.code,
+                status.message,
             )
 
-        except EcobeeException as ecobee_exception:
-            logger.exception("%s raised:\n", type(ecobee_exception).__name__)
-
-            raise
+        raise EcobeeHttpException(
+            f"HTTP error encountered for URL => {url}\n"
+            f"HTTP error code => {response.status_code}"
+        )

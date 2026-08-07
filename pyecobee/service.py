@@ -1,4 +1,3 @@
-import logging
 from collections.abc import Callable
 from datetime import date
 from datetime import datetime as DateTime
@@ -46,8 +45,6 @@ from pyecobee.services import (
 )
 from pyecobee.services.context import ClientContext
 from pyecobee.tokens import Tokens
-
-logger = logging.getLogger(__name__)
 
 
 class EcobeeService:
