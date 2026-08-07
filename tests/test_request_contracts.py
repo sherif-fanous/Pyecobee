@@ -1,6 +1,6 @@
 import json
 
-from pyecobee import EcobeeService, Selection, SelectionType
+from pyecobee import DemandResponse, EcobeeService, Selection, SelectionType
 from pyecobee.transport import HttpTransport
 from tests.support import build_service
 
@@ -109,3 +109,69 @@ def test_thermostat_request_sends_headers_selection_payload_and_timeout(
         "selection": {"selectionType": "thermostats", "selectionMatch": "123"}
     }
     assert captured["timeout"] == 13
+
+
+def test_group_request_sends_registered_selection(monkeypatch, mock_response):
+    captured = capture_request(
+        monkeypatch,
+        mock_response,
+        {"groups": [], "status": {"code": 0, "message": ""}},
+    )
+    registered = Selection(selection_type=SelectionType.REGISTERED, selection_match="")
+
+    response = service().request_groups(registered, timeout=7)
+
+    assert response.groups == []
+    assert captured["method"] == "get"
+    assert captured["url"] == EcobeeService.GROUP_URL
+    assert json.loads(captured["params"]["body"]) == {
+        "selection": {"selectionType": "registered", "selectionMatch": ""}
+    }
+    assert captured["timeout"] == 7
+
+
+def test_add_hierarchy_set_sends_operation_payload(monkeypatch, mock_response):
+    captured = capture_request(
+        monkeypatch,
+        mock_response,
+        {"status": {"code": 0, "message": ""}},
+    )
+
+    response = service().add_hierarchy_set("Upstairs", "/Main", timeout=9)
+
+    assert response.status.code == 0
+    assert captured["method"] == "post"
+    assert captured["url"] == EcobeeService.HIERARCHY_SET_URL
+    assert captured["params"] == {"format": "json"}
+    assert captured["json_"] == {
+        "operation": "add",
+        "setName": "Upstairs",
+        "parentPath": "/Main",
+    }
+    assert captured["timeout"] == 9
+
+
+def test_issue_demand_response_sends_typed_payload(monkeypatch, mock_response):
+    captured = capture_request(
+        monkeypatch,
+        mock_response,
+        {
+            "demandResponseRef": "response-1",
+            "status": {"code": 0, "message": ""},
+        },
+    )
+
+    response = service().issue_demand_response(
+        selection(), DemandResponse(name="Peak event"), timeout=11
+    )
+
+    assert response.demand_response_ref == "response-1"
+    assert captured["method"] == "post"
+    assert captured["url"] == EcobeeService.DEMAND_RESPONSE_URL
+    assert captured["params"] == {"format": "json"}
+    assert captured["json_"] == {
+        "selection": {"selectionType": "thermostats", "selectionMatch": "123"},
+        "operation": "create",
+        "demandResponse": {"name": "Peak event"},
+    }
+    assert captured["timeout"] == 11
