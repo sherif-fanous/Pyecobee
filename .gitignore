@@ -6,13 +6,8 @@ build/
 dist/
 Notes.txt
 openspec/changes/*
-pyecobee_db*
 Pyecobee.code-workspace
 pyecobee.egg-info
-tests/__init__.py
-tests/*_response.txt
-tests/pyecobee_db*
-tests/pyecobee_log_*.txt*
 TODO
 !openspec/changes/archive/
 !openspec/changes/archive/**
