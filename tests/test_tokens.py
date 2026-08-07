@@ -171,3 +171,18 @@ def test_a_failing_callback_is_not_suppressed(respond):
 
     with pytest.raises(OSError, match="read-only file system"):
         service.refresh_tokens()
+
+
+def test_new_credentials_remain_available_after_callback_failure(respond):
+    respond(TOKENS_PAYLOAD)
+
+    def fail(_tokens):
+        raise OSError("read-only file system")
+
+    service = build_service(fail, refresh_token="old-refresh")
+
+    with pytest.raises(OSError, match="read-only file system"):
+        service.refresh_tokens()
+
+    assert service.access_token == "new-access"
+    assert service.refresh_token == "new-refresh"
