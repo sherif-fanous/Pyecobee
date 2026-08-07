@@ -2,3 +2,4 @@
 include LICENSE
 include CHANGELOG.md
 include MIGRATION.md
+recursive-include tests *.json *.md *.py

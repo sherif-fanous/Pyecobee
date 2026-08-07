@@ -8,6 +8,11 @@ have to build or parse JSON yourself.
 
 Requires Python 3.12 or newer.
 
+> [!IMPORTANT]
+> ecobee no longer accepts new developer registrations. Pyecobee can therefore only be used by people who already
+> have a valid ecobee application key. Version 2.0.0b1 has extensive offline test coverage but has not been tested
+> against the live ecobee API. Existing API users willing to test it are encouraged to report their results.
+
 - [Installation](#installation)
 - [Quick start](#quick-start)
 - [Requests and responses](#requests-and-responses)
@@ -29,7 +34,8 @@ Requires Python 3.12 or newer.
 - [Development](#development)
 
 > [!WARNING]
-> Pyecobee has been tested with an ecobee Smart Si. The following methods have not been tested, though they should
+> Earlier Pyecobee versions were tested with an ecobee Smart Si, but the version 2 modernization has not been tested
+> against a live account. The following methods were also outside the historical live testing, though they should
 > work. Please open an [issue](https://github.com/sherif-fanous/Pyecobee/issues), or better still a
 > [pull request](https://github.com/sherif-fanous/Pyecobee/pulls), if you hit a problem with any of them.
 >
@@ -971,8 +977,9 @@ Run the offline regression suite, which enforces an 82% coverage minimum:
 uv run pytest
 ```
 
-`tests/live_integration.py` is not collected by pytest. It contacts a real account, exercising only the requests
-that read data, and stores its credentials in `~/.config/pyecobee/live_integration.json`:
+`tests/live_integration.py` is not collected by pytest. It requires an existing valid ecobee application key,
+contacts a real account, exercises only requests that read data, and stores its credentials in
+`~/.config/pyecobee/live_integration.json`:
 
 ```bash
 ECOBEE_APPLICATION_KEY=your_application_key uv run python tests/live_integration.py
