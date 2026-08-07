@@ -97,8 +97,8 @@ Pyecobee hands every new set of credentials to the callback and renews expired a
 
 ### Building a request
 
-Request models accept Python field names and serialize to ecobee's camelCase field names. Use enum members for enum
-fields.
+Request models accept Python field names and serialize to ecobee's camelCase field names. Model construction rejects
+unknown fields, and enum fields require valid enum values.
 
 ```python
 from pyecobee import Selection, SelectionType
@@ -129,7 +129,7 @@ thermostat = response.thermostat_list[0]
 payload = response.model_dump(by_alias=True, exclude_none=True, mode="json")
 ```
 
-Response models ignore fields that ecobee adds after this release, including fields within nested objects.
+Response deserialization ignores fields that ecobee adds after this release, including fields within nested objects.
 
 Every model provides `pretty_format()` for alias-based diagnostic output, alongside the usual `repr()`:
 
@@ -148,8 +148,7 @@ The `EcobeeService` class provides the ecobee API implementation. To use Pyecobe
 1. Import the models you need.
 2. Instantiate an `EcobeeService` object.
 3. Complete the authorization sequence if required (`authorize` then `request_tokens`).
-4. Refresh the tokens when they expire (`refresh_tokens`).
-5. Invoke the ecobee API requests and functions you need.
+4. Invoke the ecobee API requests and functions you need. Access tokens renew automatically.
 
 Pyecobee ships with docstrings throughout. Use `dir()` and `help()` to explore:
 
@@ -776,15 +775,10 @@ update_thermostat_response = ecobee_service.set_hold(
     hold_hours=1,
 )
 
-# A specific cooling temperature, held indefinitely
+# Specific heating and cooling temperatures, held indefinitely
 update_thermostat_response = ecobee_service.set_hold(
-    cool_hold_temp=65,
-    hold_type=HoldType.INDEFINITE,
-)
-
-# A specific heating temperature, held indefinitely
-update_thermostat_response = ecobee_service.set_hold(
-    heat_hold_temp=72,
+    cool_hold_temp=75,
+    heat_hold_temp=68,
     hold_type=HoldType.INDEFINITE,
 )
 ```
@@ -848,6 +842,14 @@ ecobee_service = EcobeeService(
 
 The file is written under a temporary name and renamed into place, so an interrupted save cannot leave a half-written
 file where your credentials used to be.
+
+If the storage callback raises, Pyecobee does not suppress the exception. The newly issued credentials remain available
+through `ecobee_service.tokens` while the process is still running.
+
+> [!WARNING]
+> Catch storage callback exceptions and recover `ecobee_service.tokens` before the process exits. By the time the
+> callback runs, ecobee has already invalidated the previous refresh token. If the process exits before the new
+> credentials are stored, they are lost and the application must authorize again.
 
 Anywhere else you want to keep them, supply your own pair. `Tokens` is an immutable snapshot that converts to and from
 a plain mapping through `to_dict` and `from_dict`, so a store is usually a few lines. For a desktop application,
@@ -963,7 +965,7 @@ uv run ruff check .
 uv run ruff format --check .
 ```
 
-Run the offline regression suite, which enforces an 81% coverage minimum:
+Run the offline regression suite, which enforces an 82% coverage minimum:
 
 ```bash
 uv run pytest
