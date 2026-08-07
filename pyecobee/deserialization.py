@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import logging
-from typing import Any, get_args, get_origin
+from typing import Any, get_args
 
 from pydantic import ValidationError
 
@@ -61,10 +61,9 @@ def _known_fields(data: Any, model: type[EcobeeObject]) -> Any:
         value = data[key]
 
         nested = _nested_model(field.annotation)
-        origin = get_origin(field.annotation)
 
         if nested is not None:
-            if origin is list and isinstance(value, list):
+            if isinstance(value, list):
                 value = [_known_fields(item, nested) for item in value]
             elif isinstance(value, dict):
                 value = _known_fields(value, nested)

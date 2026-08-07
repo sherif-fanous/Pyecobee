@@ -27,10 +27,4 @@ class EcobeeObject(BaseModel):
 
 
 class EcobeeResponseObject(EcobeeObject):
-    """Tolerant model used for API responses, including future API fields."""
-
-    model_config = ConfigDict(
-        validate_by_name=True,
-        validate_by_alias=True,
-        extra="ignore",
-    )
+    """Model populated from API responses through the tolerant deserializer."""
