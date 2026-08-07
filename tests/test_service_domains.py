@@ -33,7 +33,12 @@ def test_api_operation_signatures_match_the_last_release():
         text=True,
     ).stdout
 
-    class NormalizeSelectionTypeValue(ast.NodeTransformer):
+    class NormalizeSignature(ast.NodeTransformer):
+        def visit_arg(self, node: ast.arg) -> ast.arg:
+            node.annotation = None
+
+            return node
+
         def visit_Attribute(self, node: ast.Attribute) -> ast.AST:
             self.generic_visit(node)
             if (
@@ -47,7 +52,7 @@ def test_api_operation_signatures_match_the_last_release():
             return node
 
     def api_operation_arguments(source):
-        tree = NormalizeSelectionTypeValue().visit(ast.parse(source))
+        tree = NormalizeSignature().visit(ast.parse(source))
         service_class = next(
             node
             for node in tree.body

@@ -20,12 +20,14 @@ class DomainComponent:
 
     __slots__ = ("_context",)
 
-    def __init__(self, context: ClientContext):
+    def __init__(self, context: ClientContext) -> None:
         self._context = context
 
 
 class DemandService(DomainComponent):
-    def list_demand_responses(self, timeout=5):
+    def list_demand_responses(
+        self, timeout: float = 5
+    ) -> EcobeeListDemandResponsesResponse:
         """
         The list_demand_responses method returns a list of all demand
         response event which have been issued and have not yet expired.
@@ -55,7 +57,12 @@ class DemandService(DomainComponent):
             response, EcobeeListDemandResponsesResponse
         )
 
-    def issue_demand_response(self, selection, demand_response, timeout=5):
+    def issue_demand_response(
+        self,
+        selection: Selection,
+        demand_response: DemandResponse,
+        timeout: float = 5,
+    ) -> EcobeeIssueDemandResponsesResponse:
         """
         The issue_demand_response method creates a demand response
         event. Demand EcobeeResponse events may be issued to a set of
@@ -100,7 +107,9 @@ class DemandService(DomainComponent):
             response, EcobeeIssueDemandResponsesResponse
         )
 
-    def cancel_demand_response(self, demand_response_ref, timeout=5):
+    def cancel_demand_response(
+        self, demand_response_ref: str, timeout: float = 5
+    ) -> EcobeeStatusResponse:
         """
         The cancel_demand_response method cancels a scheduled demand
         response event. When cancelled, the demand response event will
@@ -136,7 +145,12 @@ class DemandService(DomainComponent):
 
         return Utilities.process_http_response(response, EcobeeStatusResponse)
 
-    def issue_demand_managements(self, selection, demand_managements, timeout=5):
+    def issue_demand_managements(
+        self,
+        selection: Selection,
+        demand_managements: list[DemandManagement],
+        timeout: float = 5,
+    ) -> EcobeeStatusResponse:
         """
         The issue_demand_managements method creates demand management
         objects that permit a Utility to forecast and adjust the

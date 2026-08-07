@@ -20,12 +20,14 @@ class DomainComponent:
 
     __slots__ = ("_context",)
 
-    def __init__(self, context: ClientContext):
+    def __init__(self, context: ClientContext) -> None:
         self._context = context
 
 
 class GroupsService(DomainComponent):
-    def request_groups(self, selection, timeout=5):
+    def request_groups(
+        self, selection: Selection, timeout: float = 5
+    ) -> EcobeeGroupsResponse:
         """
         The request_groups method retrieves the Group and grouping data
         for the Thermostats registered to the particular User. The User
@@ -66,7 +68,9 @@ class GroupsService(DomainComponent):
 
         return Utilities.process_http_response(response, EcobeeGroupsResponse)
 
-    def update_groups(self, selection, groups, timeout=5):
+    def update_groups(
+        self, selection: Selection, groups: list[Group], timeout: float = 5
+    ) -> EcobeeGroupsResponse:
         """
         The update_groups method permits the modification of any
         writable Group object properties.

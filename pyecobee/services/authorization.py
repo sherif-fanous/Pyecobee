@@ -1,6 +1,6 @@
 import logging
 
-from pyecobee.responses import EcobeeAuthorizeResponse
+from pyecobee.responses import EcobeeAuthorizeResponse, EcobeeTokensResponse
 from pyecobee.services.context import ClientContext
 from pyecobee.utilities import Utilities
 
@@ -12,12 +12,14 @@ class DomainComponent:
 
     __slots__ = ("_context",)
 
-    def __init__(self, context: ClientContext):
+    def __init__(self, context: ClientContext) -> None:
         self._context = context
 
 
 class AuthorizationService(DomainComponent):
-    def authorize(self, response_type="ecobeePin", timeout=5):
+    def authorize(
+        self, response_type: str = "ecobeePin", timeout: float = 5
+    ) -> EcobeeAuthorizeResponse:
         """
         The authorize method allows a 3rd party application to obtain an
         authorization code and a 4 byte alphabetic string which can be
@@ -63,7 +65,9 @@ class AuthorizationService(DomainComponent):
 
         return authorize_response
 
-    def request_tokens(self, grant_type="ecobeePin", timeout=5):
+    def request_tokens(
+        self, grant_type: str = "ecobeePin", timeout: float = 5
+    ) -> EcobeeTokensResponse:
         """
         The request_tokens method is used to request the access and
         refresh tokens once the user has authorized the application
@@ -90,7 +94,9 @@ class AuthorizationService(DomainComponent):
             grant_type, self._context.tokens.authorization_token, timeout=timeout
         )
 
-    def refresh_tokens(self, grant_type="refresh_token", timeout=5):
+    def refresh_tokens(
+        self, grant_type: str = "refresh_token", timeout: float = 5
+    ) -> EcobeeTokensResponse:
         """
         All access tokens must be refreshed periodically. Token refresh
         reduces the potential and benefit of token theft. Since all

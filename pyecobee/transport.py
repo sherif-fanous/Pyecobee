@@ -2,6 +2,7 @@
 
 import json
 import logging
+from typing import Any
 
 import requests
 
@@ -23,7 +24,7 @@ _SECRET_FIELDS = {
 }
 
 
-def redact(value):
+def redact(value: Any) -> Any:
     """Return a copy of headers or JSON-compatible data without credentials."""
     if isinstance(value, dict):
         return {
@@ -40,10 +41,18 @@ def redact(value):
 class HttpTransport:
     """Small session-backed boundary for all Ecobee HTTP requests."""
 
-    def __init__(self, session=None):
+    def __init__(self, session: requests.Session | None = None) -> None:
         self._session = session or requests.Session()
 
-    def request(self, method, url, headers=None, params=None, json_=None, timeout=5):
+    def request(
+        self,
+        method: str,
+        url: str,
+        headers: dict[str, str] | None = None,
+        params: Any = None,
+        json_: Any = None,
+        timeout: float = 5,
+    ) -> requests.Response:
         headers = headers or {}
 
         logger.debug(

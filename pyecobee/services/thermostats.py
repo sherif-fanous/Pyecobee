@@ -30,12 +30,14 @@ class DomainComponent:
 
     __slots__ = ("_context",)
 
-    def __init__(self, context: ClientContext):
+    def __init__(self, context: ClientContext) -> None:
         self._context = context
 
 
 class ThermostatsService(DomainComponent):
-    def request_thermostats_summary(self, selection, timeout=5):
+    def request_thermostats_summary(
+        self, selection: Selection, timeout: float = 5
+    ) -> EcobeeThermostatsSummaryResponse:
         """
         The request_thermostats_summary method retrieves a list of
         thermostat configuration and state revisions. This is a light-
@@ -81,7 +83,9 @@ class ThermostatsService(DomainComponent):
             response, EcobeeThermostatsSummaryResponse
         )
 
-    def request_thermostats(self, selection, timeout=5):
+    def request_thermostats(
+        self, selection: Selection, timeout: float = 5
+    ) -> EcobeeThermostatResponse:
         """
         The request_thermostats method retrieves a selection of
         thermostat data for one or more thermostats. The type of data
@@ -116,7 +120,13 @@ class ThermostatsService(DomainComponent):
 
         return Utilities.process_http_response(response, EcobeeThermostatResponse)
 
-    def update_thermostats(self, selection, thermostat=None, functions=None, timeout=5):
+    def update_thermostats(
+        self,
+        selection: Selection,
+        thermostat: Thermostat | None = None,
+        functions: list[Function] | None = None,
+        timeout: float = 5,
+    ) -> EcobeeStatusResponse:
         """
         The update_thermostats method permits the modification of any
         writable Thermostat or sub-object property. Thermostats may be
@@ -191,15 +201,15 @@ class ThermostatsService(DomainComponent):
 
     def acknowledge(
         self,
-        thermostat_identifier,
-        ack_ref,
-        ack_type,
-        remind_me_later=False,
-        selection=Selection(
+        thermostat_identifier: str,
+        ack_ref: str,
+        ack_type: AckType,
+        remind_me_later: bool = False,
+        selection: Selection = Selection(
             selection_type=SelectionType.REGISTERED, selection_match=""
         ),
-        timeout=5,
-    ):
+        timeout: float = 5,
+    ) -> EcobeeStatusResponse:
         """
         The acknowledge method allows an alert to be acknowledged.
 
@@ -255,17 +265,17 @@ class ThermostatsService(DomainComponent):
 
     def control_plug(
         self,
-        plug_name,
-        plug_state,
-        start_date_time=None,
-        end_date_time=None,
-        hold_type=HoldType.INDEFINITE,
-        hold_hours=None,
-        selection=Selection(
+        plug_name: str,
+        plug_state: PlugState,
+        start_date_time: DateTime | None = None,
+        end_date_time: DateTime | None = None,
+        hold_type: HoldType = HoldType.INDEFINITE,
+        hold_hours: int | None = None,
+        selection: Selection = Selection(
             selection_type=SelectionType.REGISTERED, selection_match=""
         ),
-        timeout=5,
-    ):
+        timeout: float = 5,
+    ) -> EcobeeStatusResponse:
         """
         The control_plug method controls the on/off state of a plug by
         setting a hold on the plug, creating a hold for the on or off
@@ -405,18 +415,18 @@ class ThermostatsService(DomainComponent):
 
     def create_vacation(
         self,
-        name,
-        cool_hold_temp,
-        heat_hold_temp,
-        start_date_time=None,
-        end_date_time=None,
-        fan_mode=FanMode.AUTO,
-        fan_min_on_time=0,
-        selection=Selection(
+        name: str,
+        cool_hold_temp: float,
+        heat_hold_temp: float,
+        start_date_time: DateTime | None = None,
+        end_date_time: DateTime | None = None,
+        fan_mode: FanMode = FanMode.AUTO,
+        fan_min_on_time: int = 0,
+        selection: Selection = Selection(
             selection_type=SelectionType.REGISTERED, selection_match=""
         ),
-        timeout=5,
-    ):
+        timeout: float = 5,
+    ) -> EcobeeStatusResponse:
         """
         The create_vacation method creates a vacation event on the
         thermostat. If the start/end date_times are not provided for the
@@ -575,12 +585,12 @@ class ThermostatsService(DomainComponent):
 
     def delete_vacation(
         self,
-        name,
-        selection=Selection(
+        name: str,
+        selection: Selection = Selection(
             selection_type=SelectionType.REGISTERED, selection_match=""
         ),
-        timeout=5,
-    ):
+        timeout: float = 5,
+    ) -> EcobeeStatusResponse:
         """
         The delete_vacation method deletes a vacation event from a
         thermostat. This is the only way to cancel a vacation event.
@@ -615,11 +625,11 @@ class ThermostatsService(DomainComponent):
 
     def reset_preferences(
         self,
-        selection=Selection(
+        selection: Selection = Selection(
             selection_type=SelectionType.REGISTERED, selection_match=""
         ),
-        timeout=5,
-    ):
+        timeout: float = 5,
+    ) -> EcobeeStatusResponse:
         """
         The reset_preferences method sets all of the user configurable
         settings back to the factory default values. This method call
@@ -655,12 +665,12 @@ class ThermostatsService(DomainComponent):
 
     def resume_program(
         self,
-        resume_all=False,
-        selection=Selection(
+        resume_all: bool = False,
+        selection: Selection = Selection(
             selection_type=SelectionType.REGISTERED, selection_match=""
         ),
-        timeout=5,
-    ):
+        timeout: float = 5,
+    ) -> EcobeeStatusResponse:
         """
         The resume_program method removes the currently running event
         providing the event is not a mandatory demand response event. If
@@ -701,12 +711,12 @@ class ThermostatsService(DomainComponent):
 
     def send_message(
         self,
-        text,
-        selection=Selection(
+        text: str,
+        selection: Selection = Selection(
             selection_type=SelectionType.REGISTERED, selection_match=""
         ),
-        timeout=5,
-    ):
+        timeout: float = 5,
+    ) -> EcobeeStatusResponse:
         """
         The send_message method allows an alert message to be sent to
         the thermostat. The message properties are same as those of the
@@ -741,19 +751,19 @@ class ThermostatsService(DomainComponent):
 
     def set_hold(
         self,
-        cool_hold_temp=None,
-        heat_hold_temp=None,
-        fan_mode=None,
-        hold_climate_ref=None,
-        start_date_time=None,
-        end_date_time=None,
-        hold_type=HoldType.INDEFINITE,
-        hold_hours=None,
-        selection=Selection(
+        cool_hold_temp: float | None = None,
+        heat_hold_temp: float | None = None,
+        fan_mode: FanMode | None = None,
+        hold_climate_ref: str | None = None,
+        start_date_time: DateTime | None = None,
+        end_date_time: DateTime | None = None,
+        hold_type: HoldType = HoldType.INDEFINITE,
+        hold_hours: int | None = None,
+        selection: Selection = Selection(
             selection_type=SelectionType.REGISTERED, selection_match=""
         ),
-        timeout=5,
-    ):
+        timeout: float = 5,
+    ) -> EcobeeStatusResponse:
         """
         The set_hold method sets the thermostat into a hold with the
         specified temperature creating a hold for the specified
@@ -959,16 +969,16 @@ class ThermostatsService(DomainComponent):
 
     def set_occupied(
         self,
-        occupied,
-        start_date_time=None,
-        end_date_time=None,
-        hold_type=HoldType.INDEFINITE,
-        hold_hours=None,
-        selection=Selection(
+        occupied: bool,
+        start_date_time: DateTime | None = None,
+        end_date_time: DateTime | None = None,
+        hold_type: HoldType = HoldType.INDEFINITE,
+        hold_hours: int | None = None,
+        selection: Selection = Selection(
             selection_type=SelectionType.REGISTERED, selection_match=""
         ),
-        timeout=5,
-    ):
+        timeout: float = 5,
+    ) -> EcobeeStatusResponse:
         """
         The set_occupied method may only be used by EMS thermostats. The
         method switches a thermostat from occupied mode to unoccupied,
@@ -1111,12 +1121,12 @@ class ThermostatsService(DomainComponent):
 
     def unlink_voice_engine(
         self,
-        engine_name,
-        selection=Selection(
+        engine_name: str,
+        selection: Selection = Selection(
             selection_type=SelectionType.REGISTERED, selection_match=""
         ),
-        timeout=5,
-    ):
+        timeout: float = 5,
+    ) -> EcobeeStatusResponse:
         """
         The unlink voice engine function allows you to disable voice
         assistant for the selected thermostat.
@@ -1151,14 +1161,14 @@ class ThermostatsService(DomainComponent):
 
     def update_sensor(
         self,
-        name,
-        device_id,
-        sensor_id,
-        selection=Selection(
+        name: str,
+        device_id: str,
+        sensor_id: str,
+        selection: Selection = Selection(
             selection_type=SelectionType.REGISTERED, selection_match=""
         ),
-        timeout=5,
-    ):
+        timeout: float = 5,
+    ) -> EcobeeStatusResponse:
         """
         The update_sensor method allows the caller to update the name of
         an ecobee3 remote sensor. Each ecobee3 remote sensor "enclosure"

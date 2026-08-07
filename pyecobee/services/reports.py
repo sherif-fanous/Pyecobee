@@ -26,14 +26,19 @@ class DomainComponent:
 
     __slots__ = ("_context",)
 
-    def __init__(self, context: ClientContext):
+    def __init__(self, context: ClientContext) -> None:
         self._context = context
 
 
 class ReportsService(DomainComponent):
     def request_meter_reports(
-        self, selection, start_date_time, end_date_time, meters="energy", timeout=5
-    ):
+        self,
+        selection: Selection,
+        start_date_time: DateTime,
+        end_date_time: DateTime,
+        meters: str = "energy",
+        timeout: float = 5,
+    ) -> EcobeeMeterReportsResponse:
         """
         The request_meter_reports method retrieves the historical meter
         reading information for a selection of thermostats.
@@ -165,13 +170,13 @@ class ReportsService(DomainComponent):
 
     def request_runtime_reports(
         self,
-        selection,
-        start_date_time,
-        end_date_time,
-        columns,
-        include_sensors=False,
-        timeout=5,
-    ):
+        selection: Selection,
+        start_date_time: DateTime,
+        end_date_time: DateTime,
+        columns: str,
+        include_sensors: bool = False,
+        timeout: float = 5,
+    ) -> EcobeeRuntimeReportsResponse:
         """
         The request_runtime_reports request is limited to retrieving
         information for up to 25 thermostats with a maximum period of 31
@@ -296,8 +301,14 @@ class ReportsService(DomainComponent):
         return Utilities.process_http_response(response, EcobeeRuntimeReportsResponse)
 
     def create_runtime_report_job(
-        self, selection, start_date, end_date, columns, include_sensors=False, timeout=5
-    ):
+        self,
+        selection: Selection,
+        start_date: date,
+        end_date: date,
+        columns: str,
+        include_sensors: bool = False,
+        timeout: float = 5,
+    ) -> EcobeeCreateRuntimeReportJobResponse:
         """
         The create_runtime_report_job method creates a new runtime
         report job to be processed. Reports can only be processed for
@@ -440,7 +451,9 @@ class ReportsService(DomainComponent):
             response, EcobeeCreateRuntimeReportJobResponse
         )
 
-    def list_runtime_report_job_status(self, job_id=None, timeout=5):
+    def list_runtime_report_job_status(
+        self, job_id: str | None = None, timeout: float = 5
+    ) -> EcobeeListRuntimeReportJobStatusResponse:
         """
         The list_runtime_report_job_status method gets the status of the
         job for the given id or all current job statuses for the account
@@ -479,7 +492,9 @@ class ReportsService(DomainComponent):
             response, EcobeeListRuntimeReportJobStatusResponse
         )
 
-    def cancel_runtime_report_job(self, job_id, timeout=5):
+    def cancel_runtime_report_job(
+        self, job_id: str, timeout: float = 5
+    ) -> EcobeeStatusResponse:
         """
         The cancel_runtime_report_job method cancels any queued report
         job to avoid getting processed and to allow for queuing

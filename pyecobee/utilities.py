@@ -4,6 +4,7 @@ import logging
 import requests
 
 from pyecobee.deserialization import deserialize
+from pyecobee.ecobee_object import EcobeeObject
 from pyecobee.exceptions import (
     EcobeeApiException,
     EcobeeAuthorizationException,
@@ -22,12 +23,16 @@ class Utilities:
     __slots__ = []
 
     @classmethod
-    def object_to_dictionary(cls, object_):
+    def object_to_dictionary(cls, object_: EcobeeObject) -> dict[str, object]:
         """Serialize a Pydantic model using ecobee aliases."""
         return object_.model_dump(by_alias=True, exclude_none=True, mode="json")
 
     @classmethod
-    def process_http_response(cls, response, response_class):
+    def process_http_response[EcobeeObjectT: EcobeeObject](
+        cls,
+        response: requests.Response,
+        response_class: type[EcobeeObjectT],
+    ) -> EcobeeObjectT:
         """Deserialize successful responses and translate API error payloads."""
         try:
             payload = response.json()

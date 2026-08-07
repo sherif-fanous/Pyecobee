@@ -2,12 +2,14 @@
 
 import datetime
 import logging
+from collections.abc import Callable
 from datetime import datetime as DateTime
 from datetime import timedelta
 
 import requests
 
 from pyecobee.responses import EcobeeTokensResponse
+from pyecobee.tokens import Tokens
 from pyecobee.transport import HttpTransport
 from pyecobee.utilities import Utilities
 
@@ -16,7 +18,7 @@ logger = logging.getLogger(__name__)
 EXPIRED_ACCESS_TOKEN_STATUS_CODE = 14
 
 
-def _reports_an_expired_access_token(response):
+def _reports_an_expired_access_token(response: requests.Response) -> bool:
     """Return whether *response* is the ecobee "refresh your tokens" error."""
     if response.status_code == requests.codes.ok:
         return False
@@ -75,7 +77,13 @@ class ClientContext:
     MINIMUM_HEATING_TEMPERATURE = 45.0
     MAXIMUM_HEATING_TEMPERATURE = 120.0
 
-    def __init__(self, thermostat_name, application_key, tokens, on_tokens_changed):
+    def __init__(
+        self,
+        thermostat_name: str,
+        application_key: str,
+        tokens: Tokens,
+        on_tokens_changed: Callable[[Tokens], object],
+    ) -> None:
         self._thermostat_name = thermostat_name
         self._application_key = application_key
         self._tokens = tokens
@@ -83,24 +91,24 @@ class ClientContext:
         self._transport = HttpTransport()
 
     @property
-    def thermostat_name(self):
+    def thermostat_name(self) -> str:
         return self._thermostat_name
 
     @property
-    def application_key(self):
+    def application_key(self) -> str:
         return self._application_key
 
     @property
-    def tokens(self):
+    def tokens(self) -> Tokens:
         """Return the credentials currently held."""
         return self._tokens
 
     @property
-    def transport(self):
+    def transport(self) -> HttpTransport:
         """Return the transport, for requests that carry no access token."""
         return self._transport
 
-    def store_tokens(self, tokens):
+    def store_tokens(self, tokens: Tokens) -> None:
         """Replace the credentials and hand them to the registered callback.
 
         Exceptions raised by the callback are deliberately not suppressed: a
@@ -110,7 +118,9 @@ class ClientContext:
 
         self._on_tokens_changed(tokens)
 
-    def issue_tokens(self, grant_type, code, timeout=5):
+    def issue_tokens(
+        self, grant_type: str, code: str | None, timeout: float = 5
+    ) -> EcobeeTokensResponse:
         """Exchange *code* for credentials, then store and announce them.
 
         :param grant_type: "ecobeePin" for an initial request, otherwise
@@ -148,7 +158,7 @@ class ClientContext:
 
         return tokens_response
 
-    def access_token_is_due_for_renewal(self):
+    def access_token_is_due_for_renewal(self) -> bool:
         """Return whether the access token should be renewed before a request.
 
         Renewal requires a refresh token. It happens when no access token is
@@ -170,7 +180,14 @@ class ClientContext:
             >= self._tokens.access_token_expires_on - self.ACCESS_TOKEN_REFRESH_MARGIN
         )
 
-    def request(self, method, url, params=None, json_=None, timeout=5):
+    def request(
+        self,
+        method: str,
+        url: str,
+        params: dict[str, object] | None = None,
+        json_: object | None = None,
+        timeout: float = 5,
+    ) -> requests.Response:
         """Send an authenticated request, renewing credentials when needed.
 
         The access token is renewed before the request when it is about to
@@ -204,7 +221,14 @@ class ClientContext:
 
         return response
 
-    def _authenticated_request(self, method, url, params, json_, timeout):
+    def _authenticated_request(
+        self,
+        method: str,
+        url: str,
+        params: dict[str, object] | None,
+        json_: object | None,
+        timeout: float,
+    ) -> requests.Response:
         return self._transport.request(
             method,
             url,

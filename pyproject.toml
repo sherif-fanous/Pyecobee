@@ -49,6 +49,7 @@ exclude = ["build", "dist", ".venv"]
 select = [
     "E", "F", "I", "N", "UP", "B", "D202", "D204",
     "A",     # Shadowed builtins.
+    "ANN",   # Complete function annotations.
     "C4",    # Comprehension and literal construction.
     "DTZ",   # Naive datetimes, which this API cannot represent.
     "G",     # Logging call correctness.
@@ -67,6 +68,7 @@ ignore = [
     "E501",  # Ruff's formatter is the line-length authority.
     "N812",  # The DateTime alias is part of the documented public surface.
     "N818",  # Renaming EcobeeException and friends would break callers.
+    "ANN401", # Any remains appropriate at dynamic JSON/HTTP boundaries.
 ]
 
 [tool.ruff.lint.flake8-type-checking]
@@ -81,7 +83,10 @@ runtime-evaluated-base-classes = [
 [tool.ruff.lint.per-file-ignores]
 "pyecobee/service.py" = ["B008"]  # Preserve established request defaults.
 "pyecobee/services/thermostats.py" = ["B008"]  # Preserve facade-compatible request defaults.
-"tests/*" = ["S"]  # Bare asserts and dummy credentials are the point here.
+"tests/*" = ["ANN", "S"]  # Tests favor concise local helpers and bare asserts.
 
 [tool.setuptools.packages.find]
 include = ["pyecobee*"]
+
+[tool.setuptools.package-data]
+pyecobee = ["py.typed"]

@@ -20,19 +20,19 @@ class DomainComponent:
 
     __slots__ = ("_context",)
 
-    def __init__(self, context: ClientContext):
+    def __init__(self, context: ClientContext) -> None:
         self._context = context
 
 
 class HierarchyService(DomainComponent):
     def list_hierarchy_sets(
         self,
-        set_path,
-        recursive=False,
-        include_privileges=False,
-        include_thermostats=False,
-        timeout=5,
-    ):
+        set_path: str,
+        recursive: bool = False,
+        include_privileges: bool = False,
+        include_thermostats: bool = False,
+        timeout: float = 5,
+    ) -> EcobeeListHierarchySetsResponse:
         """
         The list_hierarchy_sets method returns the management set
         hierarchy either at a single node depth and its children or
@@ -89,8 +89,12 @@ class HierarchyService(DomainComponent):
         )
 
     def list_hierarchy_users(
-        self, set_path, recursive=False, include_privileges=False, timeout=5
-    ):
+        self,
+        set_path: str,
+        recursive: bool = False,
+        include_privileges: bool = False,
+        timeout: float = 5,
+    ) -> EcobeeListHierarchyUsersResponse:
         """
         The list_hierarchy_users method returns a list hierarchy users
         and privileges.
@@ -139,7 +143,9 @@ class HierarchyService(DomainComponent):
             response, EcobeeListHierarchyUsersResponse
         )
 
-    def add_hierarchy_set(self, set_name, parent_path, timeout=5):
+    def add_hierarchy_set(
+        self, set_name: str, parent_path: str, timeout: float = 5
+    ) -> EcobeeStatusResponse:
         """
         The add_hierarchy_set adds a new set to the hierarchy.
 
@@ -177,7 +183,9 @@ class HierarchyService(DomainComponent):
 
         return Utilities.process_http_response(response, EcobeeStatusResponse)
 
-    def remove_hierarchy_set(self, set_path, timeout=5):
+    def remove_hierarchy_set(
+        self, set_path: str, timeout: float = 5
+    ) -> EcobeeStatusResponse:
         """
         The remove_hierarchy_set method removes a set from the
         hierarchy.
@@ -208,7 +216,9 @@ class HierarchyService(DomainComponent):
 
         return Utilities.process_http_response(response, EcobeeStatusResponse)
 
-    def rename_hierarchy_set(self, set_path, new_name, timeout=5):
+    def rename_hierarchy_set(
+        self, set_path: str, new_name: str, timeout: float = 5
+    ) -> EcobeeStatusResponse:
         """
         The rename_hierarchy_set method renames a set in the hierarchy.
 
@@ -243,7 +253,9 @@ class HierarchyService(DomainComponent):
 
         return Utilities.process_http_response(response, EcobeeStatusResponse)
 
-    def move_hierarchy_set(self, set_path, to_path, timeout=5):
+    def move_hierarchy_set(
+        self, set_path: str, to_path: str, timeout: float = 5
+    ) -> EcobeeStatusResponse:
         """
         The move_hierarchy_set method moves a set to a new parent in the
         hierarchy. A parent may not be moved into its own child, nor can
@@ -279,7 +291,12 @@ class HierarchyService(DomainComponent):
 
         return Utilities.process_http_response(response, EcobeeStatusResponse)
 
-    def add_hierarchy_users(self, users, privileges=None, timeout=5):
+    def add_hierarchy_users(
+        self,
+        users: list[HierarchyUser],
+        privileges: list[HierarchyPrivilege] | None = None,
+        timeout: float = 5,
+    ) -> EcobeeStatusResponse:
         """
         The add_hierarchy_users method adds one or more new users to the
         hierarchy and optionally assigns privileges to the new users.
@@ -344,7 +361,9 @@ class HierarchyService(DomainComponent):
 
         return Utilities.process_http_response(response, EcobeeStatusResponse)
 
-    def remove_hierarchy_users(self, set_path, users, timeout=5):
+    def remove_hierarchy_users(
+        self, set_path: str, users: list[HierarchyUser], timeout: float = 5
+    ) -> EcobeeStatusResponse:
         """
         The remove_hierarchy_users method removes one or more user
         privileges from a set. Only the privileges are removed from the
@@ -390,7 +409,9 @@ class HierarchyService(DomainComponent):
 
         return Utilities.process_http_response(response, EcobeeStatusResponse)
 
-    def unregister_hierarchy_users(self, users, timeout=5):
+    def unregister_hierarchy_users(
+        self, users: list[HierarchyUser], timeout: float = 5
+    ) -> EcobeeStatusResponse:
         """
         The unregister_hierarchy_users method unregisters the user
         completely from the hierarchy and deletes the account. All set
@@ -431,7 +452,12 @@ class HierarchyService(DomainComponent):
 
         return Utilities.process_http_response(response, EcobeeStatusResponse)
 
-    def update_hierarchy_users(self, users=None, privileges=None, timeout=5):
+    def update_hierarchy_users(
+        self,
+        users: list[HierarchyUser] | None = None,
+        privileges: list[HierarchyPrivilege] | None = None,
+        timeout: float = 5,
+    ) -> EcobeeStatusResponse:
         """
         The update_hierarchy_users method updates hierarchy user
         information and may update or add privileges to existing
@@ -496,7 +522,9 @@ class HierarchyService(DomainComponent):
 
         return Utilities.process_http_response(response, EcobeeStatusResponse)
 
-    def register_hierarchy_thermostats(self, thermostats, set_path=None, timeout=5):
+    def register_hierarchy_thermostats(
+        self, thermostats: str, set_path: str | None = None, timeout: float = 5
+    ) -> EcobeeStatusResponse:
         """
         The register_hierarchy_thermostats method registers one or more
         thermostats with the hierarchy and optionally assigns them to a
@@ -536,7 +564,9 @@ class HierarchyService(DomainComponent):
 
         return Utilities.process_http_response(response, EcobeeStatusResponse)
 
-    def unregister_hierarchy_thermostats(self, thermostats, timeout=5):
+    def unregister_hierarchy_thermostats(
+        self, thermostats: str, timeout: float = 5
+    ) -> EcobeeStatusResponse:
         """
         The unregister_hierarchy_thermostats method unregisters one or
         more thermostat from the hierarchy. The thermostat is completely
@@ -570,8 +600,12 @@ class HierarchyService(DomainComponent):
         return Utilities.process_http_response(response, EcobeeStatusResponse)
 
     def move_hierarchy_thermostats(
-        self, set_path, to_path, thermostats=None, timeout=5
-    ):
+        self,
+        set_path: str,
+        to_path: str,
+        thermostats: str | None = None,
+        timeout: float = 5,
+    ) -> EcobeeStatusResponse:
         """
         The move_hierarchy_thermostats method moves thermostats between
         hierarchy sets. A thermostat may only reside inside a single
@@ -615,7 +649,9 @@ class HierarchyService(DomainComponent):
 
         return Utilities.process_http_response(response, EcobeeStatusResponse)
 
-    def assign_hierarchy_thermostats(self, set_path, thermostats, timeout=5):
+    def assign_hierarchy_thermostats(
+        self, set_path: str, thermostats: str, timeout: float = 5
+    ) -> EcobeeStatusResponse:
         """
         The assign_hierarchy_thermostats method forcefully moves one or
         more thermostats from their current set to the specified set. At
